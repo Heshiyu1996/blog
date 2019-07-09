@@ -29,19 +29,12 @@ const nav = [
 
     const sidebar = [
         {
-          title: 'Group 1',
+          title: '团队规范',
           collapsable: true,
           children: [
             '/standard/css/',
-            // '/standard/prettier/',
-          ]
-        },
-        {
-          title: 'Group 2',
-          collapsable: true,
-          children: [
-            // '/standard/css/',
             '/standard/prettier/',
+            '/standard/git/'
           ]
         }
     ]
@@ -54,22 +47,22 @@ module.exports = {
     head, // 注入到当前页面的 HTML <head> 中的标签
 
     serviceWorker: true, // 是否开启 PWA
-    base: '/blog/', // 这是部署到github相关的配置
+    base: '/', // 这是部署到github相关的配置
     markdown: {
         lineNumbers: true // 代码块显示行号
     },
     themeConfig: {
         nav,
         sidebar,
-        sidebarDepth: 2, // 侧边栏显示2级
+        sidebarDepth: 0, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 
-        repo: 'https://github.com/Heshiyu1996/Heshiyu1996.github.io/test',
+        repo: 'https://github.com/Heshiyu1996/blog',
 
         editLinks: true,
         editLinkText: '帮助我们改善此页面！',
-        displayAllHeaders: false // 展开所有页面的标题
+        displayAllHeaders: true // 展开所有页面的标题
     }
 };
 
