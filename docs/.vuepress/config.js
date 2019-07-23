@@ -1,4 +1,4 @@
-
+const head = require('./head')
 const nav = [
     { text: '主页', link: '/' },
     {
@@ -27,35 +27,52 @@ const nav = [
     }
 ]
 
-    const sidebar = [
-        {
-          title: '团队规范',
-          collapsable: true,
-          children: [
+const sidebar = [
+    {
+        title: '团队规范',
+        collapsable: true,
+        children: [
             '/standard/css/',
             '/standard/prettier/',
             '/standard/git/',
             '/standard/js/'
-          ]
-        }
-    ]
-
-let head = require('./head')
+        ]
+    },
+    {
+        title: '前端基础',
+        collapsable: true,
+        children: [
+            '/basic/html/',
+            '/basic/css/',
+            '/basic/js/'
+        ]
+    },
+    {
+        title: '前端周边',
+        collapsable: true,
+        children: [
+            '/advance/web/',
+            '/advance/browser/',
+            '/advance/other/'
+        ]
+    }
+]
 
 module.exports = {
     title: 'heshiyu\'s blog',
     description: '思而不学则殆',
     head, // 注入到当前页面的 HTML <head> 中的标签
 
-    serviceWorker: true, // 是否开启 PWA
+    // serviceWorker: true, // 是否开启 PWA
     base: '/', // 这是部署到github相关的配置
     markdown: {
-        lineNumbers: true // 代码块显示行号
+        lineNumbers: true, // 代码块显示行号
+        toc: { includeLevel: [2, 2] } // 自动生成的目录只显示到2级标题（包括）
     },
     themeConfig: {
         nav,
         sidebar,
-        sidebarDepth: 0, // 侧边栏显示2级
+        sidebarDepth: 1, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 
@@ -63,7 +80,7 @@ module.exports = {
 
         editLinks: true,
         editLinkText: '帮助我们改善此页面！',
-        displayAllHeaders: true // 展开所有页面的标题
+        displayAllHeaders: false // 展开所有页面的标题
     }
 };
 
