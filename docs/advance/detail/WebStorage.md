@@ -104,13 +104,16 @@ let getName = document.cookie.split(';').split('=')[1]
 
  http://my.test.com（不同源：主机名不同）
  ```
-<!-- 
-### 图示
-#### 同一浏览器、不同页面、只要同源，localStorage都可以共享
+
+## 图示
+#### 1、同一浏览器、不同页面、只要同源，localStorage都可以共享
 ![alt](./img/webStorage-1.png)
+
 ![alt](./img/webStorage-2.png)
 
-#### 同一浏览器、不同页面（或同源但处于不同标签页），sessionStorage无法共享
+#### 2、同一浏览器、不同页面（或同源但处于不同标签页），sessionStorage无法共享
 ![alt](./img/webStorage-3.png)
+
 ![alt](./img/webStorage-5.png)
-![alt](./img/webStorage-4.png) -->
+
+![alt](./img/webStorage-4.png)
