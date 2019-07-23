@@ -34,7 +34,8 @@ const nav = [
           children: [
             '/standard/css/',
             '/standard/prettier/',
-            '/standard/git/'
+            '/standard/git/',
+            '/standard/js/'
           ]
         }
     ]
