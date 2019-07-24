@@ -2,71 +2,88 @@ const head = require('./head')
 const nav = [
     { text: '主页', link: '/' },
     {
-        text: '规范', items: [
+        text: '前端积累', link: '/skill/'
+    },
+    // {
+    //     text: '团队规范', link: '/standard/'
+    // },
+    {
+        text: '团队规范', items: [
             { text: '基本类', items: [
-                    { text: 'CSS', link: '/standard/css/' }
+                    { text: 'CSS规范', link: '/standard/css/' },
+                    { text: 'JS规范', link: '/standard/js/' }
                 ]
             },
             { text: '工具类', items: [
-                    { text: 'Prettier', link: '/standard/prettier/' }
+                    { text: 'Prettier规范', link: '/standard/prettier/' },
+                    { text: 'Git规范', link: '/standard/git/' }
+                    // { text: 'ESLint规范', link: '/standard/eslint/' }
                 ]
             },
         ]
     },
     {
-        text: '效率工具', items: [
-            { text: '基本类', items: [
-                    { text: 'CSS', link: '/standard/css/' }
-                ]
-            },
-            { text: '工具类', items: [
-                    { text: 'Prettier', link: '/standard/prettier/' }
-                ]
-            },
-        ]
+        text: '前端算法', link: '/standard/css/'
     }
 ]
 
-const sidebar = [
-    {
-        title: '团队规范',
-        collapsable: true,
-        children: [
-            '/standard/css/',
-            '/standard/prettier/',
-            '/standard/git/',
-            '/standard/js/'
-        ]
-    },
-    {
-        title: '前端基础',
-        collapsable: true,
-        children: [
-            '/basic/html/',
-            '/basic/css/',
-            '/basic/js/'
-        ]
-    },
-    {
-        title: '前端周边',
-        collapsable: true,
-        children: [
-            '/advance/web/',
-            '/advance/browser/',
-            '/advance/other/'
-        ]
-    },
-    {
-        title: '项目经验',
-        collapsable: true,
-        children: [
-            '/project/mobile-adapter/',
-            '/project/performance-optimize/',
-            '/project/webpack/',
-            '/project/client-server-render/',
-        ]
-    }
-]
+const sidebar = {
+    '/standard/': [
+        '/standard/',
+        {
+            title: '基本类',
+            collapsable: false,
+            children: [
+                '/standard/css/',
+                '/standard/js/'
+            ]
+        },
+        {
+            title: '工具类',
+            collapsable: false,
+            children: [
+                '/standard/prettier/',
+                '/standard/git/',
+            ]
+        },
+    ],
+    '/skill/': [
+        '/skill/',
+        {
+            title: 'Web基础',
+            collapsable: true,
+            children: [
+                'basic/html/',
+                'basic/css/',
+                'basic/js/'
+            ]
+        },
+        {
+            title: 'Web进阶',
+            collapsable: true,
+            children: [
+                'advance/web/',
+                'advance/browser/',
+                'advance/nodejs/',
+                'advance/algorithm/',
+                'advance/other/',
+            ]
+        },
+        {
+            title: '项目经验记录',
+            collapsable: true,
+            children: [
+                'project/mobile-adapter/',
+                'project/performance-optimize/',
+                'project/webpack/',
+                'project/client-server-render/',
+            ]
+        }
+    ]
+    // '/algorithm/': [
+        
+    // ]
+}
 
 module.exports = {
     title: 'heshiyu\'s blog',
@@ -94,15 +111,15 @@ module.exports = {
     }
 };
 
-function getSidebar(barName) {
-    const sidebar = {
-        blog: [
-            '/blog/'
-        ],
-        standard: [
-            '/standard/css/',
-            '/standard/prettier/',
-        ]
-    }
-    return sidebar[barName]
-}
+// function getSidebar(barName) {
+//     const sidebar = {
+//         blog: [
+//             '/blog/'
+//         ],
+//         standard: [
+//             '/standard/css/',
+//             '/standard/prettier/',
+//         ]
+//     }
+//     return sidebar[barName]
+// }

@@ -1,8 +1,8 @@
 ---
 home: true
 heroImage: /favicon.png
-actionText: 进入! →
-actionLink: /blog/
+actionText: 进入 →
+actionLink: /skill/
 features:
 # - title: 框架
 #   details: Vue、React、Abgular、Flutter的学习和实践。
