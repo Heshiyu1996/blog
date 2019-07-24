@@ -55,6 +55,16 @@ const sidebar = [
             '/advance/browser/',
             '/advance/other/'
         ]
+    },
+    {
+        title: '项目经验',
+        collapsable: true,
+        children: [
+            '/project/mobile-adapter/',
+            '/project/performance-optimize/',
+            '/project/webpack/',
+            '/project/client-server-render/',
+        ]
     }
 ]
 

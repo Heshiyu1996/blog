@@ -1,9 +1,9 @@
-## HTTP
+# HTTP
 > 与HTTP协议相关：请求头、响应头、状态码、报文格式、请求方式、GET和POST的区别、完整的http过程
-> 
-> 更新时间：2019-03-17
 
- #### 请求头（常用）
+[[toc]]
+
+## 请求头（常用）
  - `Accept`：可接受的响应内容类型
     - application/json
     - text/plain
@@ -28,7 +28,7 @@
 
 ![alt](./img/HTTP-2.png)
 
- ##### Origin和Referer的区别
+### Origin和Referer的区别
   - Origin
     - 表明该请求从哪里发起（协议、域名）
     - 一般只存在于CORS跨域请求中
@@ -36,7 +36,7 @@
     - 请求的原始资源的URI（协议、域名、参数）
     - 可以用来预防`CSRF攻击`
 
- #### 响应头（常用）
+## 响应头（常用）
  - `Access-Control-Allow-Origin`：指定哪些网站可以跨域资源共享
  - `Access-Contol-Allow-Credentials`：指定请求可以携带Cookie
  - `Cache-Control`：浏览器缓存机制
@@ -52,7 +52,7 @@
 
 ![alt](./img/HTTP-3.png)
 
- #### 状态码
+## 状态码
  - 100：continue，让浏览器继续发送请求体
 ----
  - 200：ok，正常返回
@@ -71,7 +71,7 @@
  - 500：常见服务端错误
  - 503：服务端暂时无法处理请求
 
- #### 报文格式
+## 报文格式
  - 请求行
    - 请求方式、请求URL、HTTP协议/版本
  - 请求头
@@ -79,12 +79,12 @@
  - 请求体
 ![alt](./img/HTTP-1.png)
 
- #### 请求方式
+## 请求方式
  `HEAD`、`GET`、`POST`、`PUT`、`DELETE`、`OPTIONS`
 
  还有两种不常用：`TRACE`、`CONNECT`
 
- #### GET和POST区别
+## GET和POST区别
  在直观上：
    - GET：接在URL后，用`?`分割URL与参数，用`&`分割参数与参数
    - POST：放在请求体中
@@ -95,3 +95,28 @@
    - GET产生`一个TCP数据包`（浏览器会把`HTTP请求头`、`请求体`一并发出）
    - POST产生`两个TCP数据包`（浏览器先发`HTTP请求头`，服务器响应`100`，浏览器再发送`请求体`）
 
+## HTTP和HTTPS的区别
+ `http`是无状态的超文本传输协议，是明文传输的；**它是基于TCP/IP的**。
+  - 标准端口：80
+  - 不需要ca证书
+
+ `https`是由SSL + http协议构建的加密传输协议
+  - 标准端口：443
+  - 需要ca证书
+  - 增加cpu、带宽消耗
+  - 首次连接比较慢
+
+
+## HTTP2.0
+ HTTP2.0大幅度提高了web性能。
+
+ `HTTP2.0`和`HTTP1.1`的区别：
+  - 多路复用
+  - 二进制分帧
+  - 报文头压缩
+  - 服务器推送
+
+## HTTP1.0如何复用TCP连接
+ HTTP1.1默认连接是`持久连接`，客户端会在持久连接上连续发起请求。
+
+ HTTP1.1以前的版本默认都是`非持久连接`，需要在HTTP请求头指定`connection: Keep-Alive`

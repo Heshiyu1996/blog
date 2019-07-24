@@ -117,3 +117,18 @@ let getName = document.cookie.split(';').split('=')[1]
 ![alt](./img/webStorage-5.png)
 
 ![alt](./img/webStorage-4.png)
+
+## cookie和session的区别
+`cookie`
+ - `保存在客户端`的小文本
+ - 可保存sessionID
+ - 不安全
+ 
+`session`
+ - `保存在服务端`的有关浏览器会话的信息
+ - 运行依赖sessionID
+    - 创建前，服务端会先检查请求头里是否包含session id。若有，且未过期，则直接用旧的）
+ - 有失效时间
+ - 安全
+
+ 一句话：`session`的实现一般需要借助`cookie`来发送`sessionID`
