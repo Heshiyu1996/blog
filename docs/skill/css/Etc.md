@@ -1,4 +1,7 @@
-# CSS
+# 其他
+> 这里会搜集一些有关CSS的零碎知识
+
+[[toc]]
 
 ## display: none与visibility: hidden的区别
  - `display: none`的元素不**占据空间**，`visibility: hidden`的元素**占据空间**；

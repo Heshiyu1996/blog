@@ -1,9 +1,5 @@
-# HTML
-[[toc]]
-
-## WebWorker
-
-`Web Worker`是**HTML5**的新功能，用于实现JS的多线程操作。
+# WebWorker
+> `Web Worker`是**HTML5**的新功能，用于实现JS的多线程操作。
 
 *但Web Worker子线程`完全受主线程控制`，无法操作DOM，所以**本质上JS还是单线程的**。*
 
@@ -40,40 +36,3 @@ worker内部
  ```
 ### WebWorker 会用在哪些场景？
  - 完成轮询，以便第一时间得知状态改变
-
-## HTML5的新语法
-### 语法优化
- - DOCTYPE html 简化
-    - 字符编码更简洁
-    - 不区分大小写
-
-### 新增标签（语义化）
- - 结构标签
-    - header（头部信息、标题）
-    - nav（导航条）
-    - section（内容区块）
-    - article（核心内容）
-    - footer（底部信息）
-
- - 表单标签（input的type属性）
-    - email
-    - url
-    - number
-    - range
-    - Date
-    - search
-    - color
-
- - 媒体标签
-    - video
-    - audio
-    - embed（嵌入内容，包括各种媒体：PDF、MP3等）
-
-## 行内元素、块级元素有哪些
-### 行内元素
-`a`、`img`、`input`、`label`、`select`、`span`、`textarea`
-
-### 块级元素
-`div`、`form`、`h1`、`ol`、`ul`、`li`、`p`、`table`
-
- > 行内替换元素（例如`img`）。`height`、`width`、`padding`、`margin`均可用（效果等于块元素）

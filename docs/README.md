@@ -4,12 +4,12 @@ heroImage: /favicon.png
 actionText: 进入 →
 actionLink: /skill/
 features:
-# - title: 框架
-#   details: Vue、React、Abgular、Flutter的学习和实践。
-# - title: 工作笔记
-#   details: 好记性不如烂笔头，记录平时工作中遇到的一些问题和解决方法。
-# - title: 前端可视化
-#   details: 前端方面可视化的知识，包括webgl,canvas,glsl等。
+- title: 前端积累
+  details: JS、Vue、React等一些学习和实践。
+- title: 团队规范
+  details: JS、CSS、Git等规范总结。
+# - title: 前端算法
+#   details: 一些前端er需要了解的简单算法。
 # - title: 后端
 #   details: 前端怎么能不了解一些后端知识呢？ 一些个人对后端的学习和实践。
 # - title: 开发环境配置

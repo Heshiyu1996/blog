@@ -15,7 +15,7 @@
  - 每个`function`就对应每个`模块`的内容，会按照`require`的顺序排列，
  - 每个模块都有一个唯一的id（从0递增）
 
-[查看bundle.js](./../other/bundle.js)
+[查看bundle.js](.//bundle.js)
 
 ### Loader
 `Loader`是对加载的文件进行处理。

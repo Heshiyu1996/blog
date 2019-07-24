@@ -4,9 +4,6 @@ const nav = [
     {
         text: '前端积累', link: '/skill/'
     },
-    // {
-    //     text: '团队规范', link: '/standard/'
-    // },
     {
         text: '团队规范', items: [
             { text: '基本类', items: [
@@ -23,66 +20,115 @@ const nav = [
         ]
     },
     {
-        text: '前端算法', link: '/standard/css/'
+        text: '前端算法', link: '/algorithm/'
     }
 ]
 
 const sidebar = {
+    '/skill/': [
+        '/skill/',
+        // {
+        //     title: '你点不了我',
+        //     collapsable: false,
+        //     children: []
+        // },
+        {
+            title: 'JS',
+            collapsable: true,
+            children: [
+                'js/Etc'
+            ]
+        },
+        {
+            title: 'CSS',
+            collapsable: true,
+            children: [
+                'css/Etc'
+            ]
+        },
+        {
+            title: 'HTML',
+            collapsable: true,
+            children: [
+                'html/WebWorker',
+                'html/Etc'
+            ]
+        },
+        {
+            title: 'Node.js',
+            collapsable: true,
+            children: [
+                'nodejs/'
+            ]
+        },
+        {
+            title: 'Web/浏览器',
+            collapsable: true,
+            children: [
+                'web/HTTP',
+                'web/CDN',
+                'web/ClientServerRender',
+                'web/CORS',
+                'web/WebAttack',
+                'web/WebSocket',
+                'web/WebStorage',
+                'web/Optimize',
+                'web/Browser',
+                'web/Etc',
+                // '/web/browser/',
+                // '/web/nodejs/',
+                // '/web/algorithm/',
+            ]
+        },
+
+        {
+            title: '项目经验笔记',
+            collapsable: true,
+            children: [
+                'project/mobile-adapter/',
+                // 'project/performance-optimize/',
+                'project/webpack/',
+            ]
+        }
+    ],
     '/standard/': [
         '/standard/',
         {
             title: '基本类',
             collapsable: false,
             children: [
-                '/standard/css/',
-                '/standard/js/'
+                'css/',
+                'js/'
             ]
         },
         {
             title: '工具类',
             collapsable: false,
             children: [
-                '/standard/prettier/',
-                '/standard/git/',
+                'prettier/',
+                'git/',
             ]
         },
     ],
-    '/skill/': [
-        '/skill/',
+    
+    '/algorithm/': [
+        '/algorithm/',
         {
-            title: 'Web基础',
-            collapsable: true,
+            title: '八大排序',
+            collapsable: false,
             children: [
-                'basic/html/',
-                'basic/css/',
-                'basic/js/'
+                'sort/Selection',
+                'sort/Shell',
+                'sort/Quick',
+                'sort/Heap',
+                'sort/Bubble',
+                'sort/Insertion',
+                'sort/Merge',
+                'sort/Radix',
+                'sort/Etc',
             ]
         },
-        {
-            title: 'Web进阶',
-            collapsable: true,
-            children: [
-                'advance/web/',
-                'advance/browser/',
-                'advance/nodejs/',
-                'advance/algorithm/',
-                'advance/other/',
-            ]
-        },
-        {
-            title: '项目经验记录',
-            collapsable: true,
-            children: [
-                'project/mobile-adapter/',
-                'project/performance-optimize/',
-                'project/webpack/',
-                'project/client-server-render/',
-            ]
-        }
     ]
-    // '/algorithm/': [
-        
-    // ]
 }
 
 module.exports = {
@@ -90,7 +136,7 @@ module.exports = {
     description: '思而不学则殆',
     head, // 注入到当前页面的 HTML <head> 中的标签
 
-    // serviceWorker: true, // 是否开启 PWA
+    serviceWorker: true, // 是否开启 PWA
     base: '/', // 这是部署到github相关的配置
     markdown: {
         lineNumbers: true, // 代码块显示行号
@@ -99,7 +145,7 @@ module.exports = {
     themeConfig: {
         nav,
         sidebar,
-        sidebarDepth: 1, // 侧边栏显示2级
+        sidebarDepth: 0, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 
@@ -110,16 +156,3 @@ module.exports = {
         displayAllHeaders: false // 展开所有页面的标题
     }
 };
-
-// function getSidebar(barName) {
-//     const sidebar = {
-//         blog: [
-//             '/blog/'
-//         ],
-//         standard: [
-//             '/standard/css/',
-//             '/standard/prettier/',
-//         ]
-//     }
-//     return sidebar[barName]
-// }

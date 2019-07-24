@@ -1,9 +1,6 @@
 # 浏览器
 [[toc]]
 
-## WebStorage
-[WebStorage](./../detail/WebStorage.md)
-
 ## 浏览器内核
  - Trident （IE内核）
  - Gecko （Firefox内核）
