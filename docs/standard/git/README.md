@@ -24,6 +24,11 @@
     - 基于`master分支`检出
     - 修复完后，合并到`master`、`develop分支`
 
+ - refactor：代码优化分支
+    - 用于代码的优化（一般在提测之后），优化在开发阶段产生的冗余或不完善的代码
+    - 基于`release分支`检出
+    - 优化完后，合并到`release分支`
+
 ## Git分支Commit格式
 格式：`type: message`
 
