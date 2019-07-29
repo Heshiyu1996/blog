@@ -50,6 +50,8 @@ const sidebar = {
             title: 'CSS',
             collapsable: true,
             children: [
+                'css/FlexBox',
+                'css/BFC',
                 'css/Etc'
             ]
         },
