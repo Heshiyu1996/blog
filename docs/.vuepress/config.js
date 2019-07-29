@@ -28,7 +28,7 @@ const sidebar = {
     '/skill/': [
         '/skill/',
         // {
-        //     title: '你点不了我',
+        //     title: '你点不了我123',
         //     collapsable: false,
         //     children: []
         // },
@@ -37,6 +37,13 @@ const sidebar = {
             collapsable: true,
             children: [
                 'js/Etc'
+            ]
+        },
+        {
+            title: 'React',
+            collapsable: true,
+            children: [
+                'react/Optimize'
             ]
         },
         {
@@ -54,13 +61,13 @@ const sidebar = {
                 'html/Etc'
             ]
         },
-        {
-            title: 'Node.js',
-            collapsable: true,
-            children: [
-                'nodejs/'
-            ]
-        },
+        // {
+        //     title: 'Node.js',
+        //     collapsable: true,
+        //     children: [
+        //         'nodejs/'
+        //     ]
+        // },
         {
             title: 'Web/浏览器',
             collapsable: true,
@@ -74,10 +81,7 @@ const sidebar = {
                 'web/WebStorage',
                 'web/Optimize',
                 'web/Browser',
-                'web/Etc',
-                // '/web/browser/',
-                // '/web/nodejs/',
-                // '/web/algorithm/',
+                'web/Etc'
             ]
         },
 
@@ -86,8 +90,8 @@ const sidebar = {
             collapsable: true,
             children: [
                 'project/mobile-adapter/',
-                // 'project/performance-optimize/',
                 'project/webpack/',
+                'project/Trick.md',
             ]
         }
     ],
@@ -128,6 +132,20 @@ const sidebar = {
                 'sort/Etc',
             ]
         },
+        {
+            title: '查找算法',
+            collapsable: false,
+            children: [
+                'search/Binary',
+            ]
+        },
+        {
+            title: '算法基础',
+            collapsable: false,
+            children: [
+                'Basic',
+            ]
+        }
     ]
 }
 
