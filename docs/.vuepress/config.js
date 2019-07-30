@@ -36,6 +36,12 @@ const sidebar = {
             title: 'JS',
             collapsable: true,
             children: [
+                'js/JSModule.md',
+                'js/EventLoop.md',
+                'js/Regex.md',
+                'js/DOM.md',
+                'js/JSAsync.md',
+                'js/DesignPatterns.md',
                 'js/Etc'
             ]
         },
