@@ -101,6 +101,13 @@ const sidebar = {
                 'project/webpack/',
                 'project/Trick.md',
             ]
+        },
+        {
+            title: '读书笔记',
+            collapsable: true,
+            children: [
+                'note/webpack-experience/'
+            ]
         }
     ],
     '/standard/': [
