@@ -21,7 +21,10 @@ const nav = [
     },
     {
         text: '前端算法', link: '/algorithm/'
-    }
+    },
+    // {
+    //     text: 'sy-UI组件库', link: 'https://www.baidu.com'
+    // }
 ]
 
 const sidebar = {
@@ -92,7 +95,6 @@ const sidebar = {
                 'web/Etc'
             ]
         },
-
         {
             title: '项目经验笔记',
             collapsable: true,
