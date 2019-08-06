@@ -41,6 +41,7 @@ webpack打包时，会为每一个文件包装一层函数作用域来避免全�
 #### 对于webpack.config.js文件的一些配置：
 ```js
 module.export = {
+    // context: 
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
@@ -48,7 +49,12 @@ module.export = {
     }
 }
 ```
-其中，`output`里的path要求使用绝对路径（从系统的根路径开始）。
+其中，
+`entry`是资源入口，默认是相对于项目根目录下
+
+`context`是资源入口的路径前缀（主要目的是为了让entry编写更简洁，尤其是多入口），默认值是**当前项目的根目录**
+
+`output`里的path要求使用绝对路径（从系统的根路径开始）。
  > 解决方法：用Node.js的**路经拼装函数path.join**，将__dirname（Node.js的内置全局变量，值为当前文件的绝对路径）与**dist**（输出目录）连接起来。
 
 配置好webpack.config.js时，当我们运行webpack指令，就可以预先读取它，来进行打包了。
