@@ -13,7 +13,8 @@ const nav = [
             },
             { text: '工具类', items: [
                     { text: 'Prettier规范', link: '/standard/prettier/' },
-                    { text: 'Git规范', link: '/standard/git/' }
+                    { text: 'Git规范', link: '/standard/git/' },
+                    { text: 'Stylelint规范', link: '/standard/stylelint/' }
                     // { text: 'ESLint规范', link: '/standard/eslint/' }
                 ]
             },
@@ -128,6 +129,7 @@ const sidebar = {
             children: [
                 'prettier/',
                 'git/',
+                'stylelint/',
             ]
         },
     ],
