@@ -490,3 +490,154 @@ module: {
 import myPhoto from './photo.jpg'
 console.log(myPhoto) // data:image/jpeg;base64, /9j/2wCEAAgGBg...
 ```
+
+## 第五章 样式处理
+### 分离样式文件
+前面提到，通过`style-loader`可以把CSS文件**通过标签的形式**引到页面中，那如果要单独输出CSS文件呢（特别是在生产环境下，因为更有利于客户端缓存）
+
+提取样式到CSS文件的解决办法：
+ - **webpack4之前**，extract-text-webpack-plugin
+ - **webpack4之后**，mini-css-extract-plugin
+
+#### extract-text-webpack-plugin
+使用方法：
+```js
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+module.exports = {
+    // ...
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    use: 'css-loader' // 提取前，预先处理的loader
+                })
+            }
+        ]
+    },
+    plugins: [
+        new ExtraTextPlugin('bundle.css') // 提取后，CSS的文件名
+    ]
+}
+```
+其中，`plugins`表明：在Webpack打包过程的各个环节中添加的一些额外任务。
+
+#### 多样式文件的处理
+样式的提取是以资源入口（entry）开始的整个chunk为单位的，所以可能会出现重名
+> chunk是对一组有依赖关系的模块的封装
+
+解决办法：对插件提取的CSS文件使用类似模板的命名方式：
+```js
+plugins: [
+    new ExtraTextPlugin('[name].css') // 提取后，CSS的文件名
+]
+```
+其中，`[name]`指代的是chunk的名字
+
+#### mini-css-extract-plugin
+和`extract-text-webpack-plugin`最大的区别是支持**按需加载CSS**
+ - 支持通过配置publicPath来指定异步CSS的加载路径
+ - 需指定异步加载的CSS资源名（chunkFilename）
+
+### 样式预处理
+#### Sass与SCSS的关系
+Sass有两种语法：
+ - 缩排语法（不直观）
+ - SCSS语法（Sassy CSS，直观）
+
+所以说，虽然它的文件后缀是`.scss`，但实际上配置的是`sass-loader`（同时还要搭配`node-sass`）
+ - sass-loader（**编译核心库与Webpack的连接器**）
+ - node-sass（**编译核心库**）
+
+安装：
+```
+yarn add sass-loader node-sass
+```
+
+#### Less
+Less也是CSS的一种扩展，和SCSS类似，也需安装`loader`和其本身的`编译模块`
+
+安装：
+```
+yarn add less-loader less
+```
+
+#### PostCSS
+PostCSS并不能算是一个CSS预编译器，只是一个**编译插件的容器**（接收样式源代码，交给编译插件去处理）
+
+可以结合`css-loader`使用，也可以单独使用。
+
+安装：
+```
+yarn add postcss-loader
+```
+
+使用方法：
+
+在*项目的根目录*下创建一个`postcss.config.js`
+
+- autoprefixer
+```js
+// postcss.config.js
+const autoprefixer = require('autoprefixer');
+
+module.exports = {
+    plugins: [
+        autoprefixer({
+            browsers: [
+                '> 1%', // 全球统计有超过1%的使用率
+                'last 3 versions', // 主流浏览器的最新3个版本
+                'android 4.2',
+                'ie 8' // React不支持IE8（0.14以上）
+            ]
+        })
+    ]
+}
+```
+除了`autoprefixer`，还可以为**postcss容器**添加其它编译插件（例如：`stylelint`）等。
+
+### CSS Modules
+CSS Modules可以使CSS模块化，避免样式冲突
+
+特点：
+ - 每个CSS文件中的样式都拥有单独的作用域
+ - 对CSS进行依赖管理（可以通过相对路径引入CSS文件）
+ - 可以通过composes轻松复用其它CSS模块
+```js
+module: {
+    rules: [
+        {
+            test: /\.css/,
+            use: [
+                'style-loader',
+                {
+                    loader: 'css-loader',
+                    options: {
+                        // 表示打开CSS Module
+                        module: true,
+                        // 指定CSS代码中类名的生成规则
+                        // [name]：模块名
+                        // [local]：选择器标识符
+                        // [hash]：根据“模块名”+“选择器标识符”一起计算的
+                        localIdentName: '[name]__[local]__[hash:base64:5]'
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+使用方法：
+```css
+/* style.css */
+.title {
+    color: #f938ab;
+}
+```
+```js
+// app.js
+import styles from './style.css';
+document.write(`<h1 class="${styles.title}">My Webpack app.</h1>`)
+```
+使用CSS Modules时CSS文件会导出一个对象，`${styles.title}`这样才能和**编译后的CSS类名**匹配上。
