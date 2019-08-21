@@ -641,3 +641,118 @@ import styles from './style.css';
 document.write(`<h1 class="${styles.title}">My Webpack app.</h1>`)
 ```
 使用CSS Modules时CSS文件会导出一个对象，`${styles.title}`这样才能和**编译后的CSS类名**匹配上。
+
+## 第六章 代码分片
+为了提高首屏速度，一般会**尽可能地每次只加载必要的资源**，次要资源**采用延迟加载**，这就用到了**代码分片**。
+### 通过入口划分代码
+原理：每个入口（entry）都生成一个对应的资源文件，可以对一些**不常变动的库/工具**放到一个单独的入口中，可以**有效地利用客户端缓存**。
+
+缺点：
+ - 只适合那些将接口绑定在全局对象上的库
+ - 公共模块与业务模块处于不同依赖树
+
+### CommonsChunkPlugin（webpack4之前）
+原理：将多个chunk中公共的部分提取出来
+
+好处：
+ - 减少重复模块打包，提升开发速度
+ - 减小整体资源体积
+ - 有效地利用客户端缓存
+
+未使用前（**保留注释**）：
+```js
+// webpack.config.js
+// const webpack = require('webpack');
+
+module.exports = {
+    entry: {
+        foo: './foo.js',
+        bar: './bar.js'
+    },
+    output: {
+        filename: '[name].js'
+    },
+    // plugins: [
+    //     // 1、创建了一个插件实例
+    //     new webpack.optimize.CommonsChunkPlugin({
+    //         // 2、指定公共chunk名
+    //         name: 'commons',
+    //         // 3、指定提取后的资源名
+    //         filename: 'commons.js'
+    //     })
+    // ]
+}
+
+// foo.js
+import React from 'react'
+document.write('foo.js', React.version)
+
+// bar.js
+import React from 'react'
+document.write('bar.js', React.version)
+```
+上面是**没有使用CommonsChunkPlugin**的情况。
+
+最终打包的结果是：**react被分别打包到了foo.js和bar.js里**。
+
+> 若去掉注释，则最终打包的结果：**react及其依赖的模块都提到commons.js**。
+
+#### 提取vendor（取交集）
+```js
+// webpack.config.js
+// const webpack = require('webpack');
+
+module.exports = {
+    entry: {
+        app: './app.js',
+        vendor: ['react']
+    },
+    output: {
+        filename: '[name].js'
+    },
+    plugins: [
+        // 1、创建了一个插件实例
+        new webpack.optimize.CommonsChunkPlugin({
+            // 2、指定公共chunk名
+            name: 'vendor',
+            // 3、指定提取后的资源名
+            filename: 'vendor.js'
+        })
+    ]
+}
+
+// app.js
+import React from 'react'
+document.write('app.js', React.version)
+```
+1、配置了一个入口vendor，只包含react
+
+2、此时`react`就是两个入口（app、vendor）的公共模块
+
+3、在`CommonsChunkPlugin`配置中，`name: 'vendor'`，表明产生的资源将**覆盖**由**vendor入口**所产生的资源，达到提取**单个入口**的公共模块的效果
+
+#### 提取范围
+通过`chunks`配置项可以规定从哪些入口中提取公共模块
+```js
+// 1、创建了一个插件实例
+new webpack.optimize.CommonsChunkPlugin({
+    // 2、指定公共chunk名
+    name: 'vendor',
+    // 3、指定提取后的资源名
+    filename: 'vendor.js',
+    // 4、表明只从a.js和b.js中提取公共模块
+    chunks: ['a', 'b']
+})
+```
+还可以配置多个CommonsChunkPlugin，来规定不同的提取范围。
+
+#### 提取规则
+默认规则：只要一个模块被两个入口chunk共用，就会被提取。
+
+理由：有些公共模块可能经常修改，不应被提取，**否则影响客户端缓存**。
+
+通过`minChunks`配置项来实现。（支持数字、Infinity、函数）
+
+
+### optimization.SplitChunks（webpack4之后）
+
