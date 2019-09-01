@@ -109,7 +109,8 @@ const sidebar = {
             title: '读书笔记',
             collapsable: true,
             children: [
-                'note/webpack-experience/'
+                'note/webpack-experience/',
+                'note/react-deep-learning/'
             ]
         }
     ],
