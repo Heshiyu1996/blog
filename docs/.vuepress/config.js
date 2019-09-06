@@ -53,6 +53,7 @@ const sidebar = {
             title: 'React',
             collapsable: true,
             children: [
+                'react/Notes',
                 'react/Optimize'
             ]
         },
