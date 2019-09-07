@@ -54,6 +54,7 @@ const sidebar = {
             collapsable: true,
             children: [
                 'react/Notes',
+                'react/Standard',
                 'react/Optimize'
             ]
         },
