@@ -124,7 +124,7 @@ class HomeIndex extends Component {
 ```
 这种方法在每次组件渲染时，会创建一个新的函数，可能**会影响性能**
 
-## class Fields预发
+## class Fields语法
 React（包括Create React App）可以通过`class Fields语法`，使得函数能够绑定到组件实例上：
 ```js
   class Bork {
