@@ -31,11 +31,6 @@ const nav = [
 const sidebar = {
     '/skill/': [
         '/skill/',
-        // {
-        //     title: '你点不了我123',
-        //     collapsable: false,
-        //     children: []
-        // },
         {
             title: 'JS',
             collapsable: true,
@@ -54,7 +49,7 @@ const sidebar = {
             collapsable: true,
             children: [
                 'react/Notes',
-                'react/Standard',
+                // 'react/Standard',
                 'react/Optimize'
             ]
         },
@@ -75,13 +70,6 @@ const sidebar = {
                 'html/Etc'
             ]
         },
-        // {
-        //     title: 'Node.js',
-        //     collapsable: true,
-        //     children: [
-        //         'nodejs/'
-        //     ]
-        // },
         {
             title: 'Web/浏览器',
             collapsable: true,
@@ -99,9 +87,10 @@ const sidebar = {
             ]
         },
         {
-            title: '项目经验笔记',
+            title: '项目笔记',
             collapsable: true,
             children: [
+                'project/react-16.9-notice/',
                 'project/mobile-adapter/',
                 'project/webpack/',
                 'project/Trick.md',
