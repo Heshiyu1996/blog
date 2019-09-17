@@ -151,3 +151,72 @@ React（包括Create React App）可以通过`class Fields语法`，使得函数
   // 静态方法存在“类”上
   console.log(Bork.staticFunction()); // > "babelIsCool"
 ```
+
+## Render Prop
+通过`Render Prop`，可以**告诉组件需要渲染什么内容**（*经常会用来组件复用*）。
+
+```jsx
+// 子组件
+class Mouse extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            x: 0,
+            y: 0
+        }
+    }
+
+    handleMouseMove = event => {
+        this.setState({
+            x: event.clientX,
+            y: event.clientY
+        })
+    }
+
+    render() {
+        return (
+            <div style={{ height: '100%' }} onMouseMove={this.handleMouseMove}>
+                {this.props.render(this.state)}
+            </div>
+        )
+    }
+}
+
+// 父组件
+class MouseTracker extends React.Component {
+    handleMouse = mouse => {
+        return <Cat mouse={mouse} />
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>移动鼠标!</h1>
+                {/* 提供了`render`这个prop，让`<Mounse>`能够动态决定需要渲染什么。*/}
+                <Mouse render={this.handleMouse} />
+            </div>
+        )
+    }
+}
+```
+
+
+### 拓展：也可以将父组件MouseTracker写成HOC
+```jsx
+function withMouse(Component) {
+    return class extends React.Component {
+        handleMouse = mouse => {
+            return <Cat mouse={mouse} />
+        }
+
+        render() {
+            return (
+                <div>
+                    <h1>移动鼠标!</h1>
+                    <Mouse render={this.handleMouse} />
+                </div>
+            )
+        }
+    }
+}
+```
