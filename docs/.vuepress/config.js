@@ -101,7 +101,8 @@ const sidebar = {
             collapsable: true,
             children: [
                 'note/webpack-experience/',
-                'note/react-deep-learning/'
+                'note/react-deep-learning/',
+                'note/Links.md'
             ]
         }
     ],
