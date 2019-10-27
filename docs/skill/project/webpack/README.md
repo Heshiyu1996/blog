@@ -47,3 +47,63 @@
  - watch（）：用来监听事件
 
  IE8下最好用`gulp`，IE9用`webpack`
+
+### path.resolve(__dirname, './src)
+有两个知识点:
+ - path.resolve()
+ - __dirname
+
+#### path.resolve()
+> 作用：将路径片段解析成绝对路径；
+
+![alt](./img/pathresolve-1.png)
+
+参数：`String`（逗号分割）
+
+返回值：`String`（绝对路径）
+
+使用说明：
+ - **从右向左**解析，`一旦遇到绝对路径，就不继续`
+    - path.resolve('/foo', '/bar', 'baz') => '/bar/baz'
+
+#### __dirname
+> 指的是当前文件所在目录的路径
+
+![alt](./img/dirname-1.png)
+
+如图，`__dirname`的值为`C:\Users\GaoKai\Desktop\test`
+
+以上两个可以解决`“虽然各个文件所在目录不同，但可以访问某个指定目录下的文件更方便”`（可以不使用`../../`），如下例子：
+```js
+// 修改前：
+import foo from '../../../util/foo'
+```
+```js
+// 修改后：
+import foo from 'util/foo'
+
+// webpack.config.js
+resolve: {
+    extensions: ['.js', 'vue'],
+    alias: {
+        // 快捷访问入口
+        'util': path.resolve(__dirname, './src/util')
+    }
+}
+```
+
+### path.join()
+参数：`String`（逗号分割）
+
+返回值：`String`
+
+使用说明:
+ - **从左到右**解析，将`所有路径片段都`拼接起来
+ - 每个片段之间用`/`链接（片段之间最多只能存在1个`/`）
+ ```js
+ path.join('a', 'b', 'c') => 'a/b/c'
+ path.join('a', 'b', '/c') => 'a/b/c'
+
+ path.join('/a', 'b', '/c') => '/a/b/c'
+ path.join('/a', '/b', '/c') => '/a/b/c'
+ ```
