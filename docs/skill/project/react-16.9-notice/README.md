@@ -49,7 +49,7 @@ export default hot(App)
  ![alt](./img/notes-1.png)
 
 ### 解决方案：
-使用`React.forwardRef`。它会创建一个组件，并将其接受到的`ref`属性转发到其组件树下的另一个组件中。
+使用`React.forwardRef`。它会创建一个组件，并将其接受到的`ref`属性转发到其组件树下的另一个组件中。（提供支持ref）
 ```js
 import React, { forwardRef } from 'react';
 
@@ -125,4 +125,18 @@ module.exports = {
         })
     ]
 }
+```
+
+## warning ../../package.json: No license field
+### 产生原因
+`yarn`和`npm`默认行为是会进入父目录查找`package.json`
+
+### 解决方案：
+若是`MAC`，进入`~`文件夹，将`package.json`删除。
+
+## npm WARN lifecycle The node binary used for scripts is /var/folders/db/bc53rp1d2ks_2yxcgvb4kb2h0000gn/T/yarn--1569291634982-0.6225204723113884/node but npm is using /usr/local/bin/node itself. Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with.
+
+### 解决方案：
+```
+npm config set scripts-prepend-node-path true
 ```
