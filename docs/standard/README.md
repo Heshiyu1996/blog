@@ -153,3 +153,12 @@ module.exports = {
 ```js
 "eslint.autoFixOnSave": true
 ```
+
+### 5、设定package.json脚本
+```json
+// package.json
+"script": {
+    "format": "prettier --write \"./src/**/*.{js,jsx,json}\"",
+    "eslint": "eslint --fix --ext .js,.jsx src",
+}
+```
