@@ -1,4 +1,7 @@
 # 最近更新
+#### 2019年10月28日
+ - [vue-composition-api-rfc](./note/vue-composition-api-rfc.md)
+
 #### 2019年09月12日
  - [项目笔记/React 16.9注意事项](./project/react-16.9-notice/)
 
