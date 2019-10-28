@@ -4,7 +4,7 @@
 [[toc]]
 
 ## Summary
-将与组件逻辑相关的选项以API函数的形式重新设计。
+将**与组件逻辑相关的选项**以**API函数**的形式重新设计。
 
 ## 基本例子
 ```js
@@ -50,13 +50,13 @@ const App = {
 
  以上逻辑复用模式存在的缺点：
  
- 1、模板中的数据来源不清晰。（光看模板很难区分出一个属性是来自哪个mixin，HOC也有类似问题）
+ **1、模板中的数据来源不清晰。**（光看模板很难区分出一个属性是来自哪个mixin，HOC也有类似问题）
  
- 2、命名空间冲突。（属性名、方法名可能会冲突，HOC也有类似问题）
+ **2、命名空间冲突。**（属性名、方法名可能会冲突，HOC也有类似问题）
 
- 3、性能损耗。HOC和Renderless Components都需要额外的组件实例来嵌套逻辑。
+ **3、性能损耗。** HOC和Renderless Components都需要额外的组件实例来嵌套逻辑。
 :::
-针对“逻辑组合与复用”这个问题，可以使用[`Function-based API`](#function-basedapi例子)。
+针对“逻辑组合与复用”这个问题，可以使用[Function-based API](#function-basedapi例子)。
 
 ### 类型推导
  - 想在3.0增强对TS的支持，但Class API不是很好的方案
@@ -65,8 +65,6 @@ const App = {
 ### 打包尺寸
  - 每个函数都可以作为 named ES export 被单独引入，对tree-shaking友好`（最终打包时会移除那些未使用的代码）`
  - 所有函数名、setup函数内部的变量名可以被压缩，class的属性/方法名不行
-
-
 
 
 
@@ -86,7 +84,7 @@ const MyComponent = {
     }
 }
 ```
-可以把setup当成是2.x里的`data()`，因为它们返回的对象里面的属性都会被暴露给模板的渲染上下文：
+可以把setup当成是2.x里的`data()`，因为它们**返回的对象里的属性**都会被暴露给模板的渲染上下文：
 ```js
 const MyComponent = {
     props: {
@@ -101,8 +99,8 @@ const MyComponent = {
 }
 ```
 
-#### setup内部管理的值
-通过`value()`创建：
+#### setup内部管理的值：value()
+通过`value()`创建，返回的是一个包装对象：
 ```js
 import { value } from 'vue';
 
@@ -125,8 +123,145 @@ const MyComponent = {
 }
 ```
 
+#### 包装对象的原因
+提供了一个**能够在函数之间，以引用的方式传递任意类型值**的容器。
+ > 与React Hooks中的`useRef`的不同：Vue的包装对象同时也是响应式的数据源
 
+有了包装对象，我们就可以在封装了逻辑的组合函数中，将状态以引用的方式传回给组件。
 
+`组件负责展示（依赖跟踪），组合函数负责状态管理（触发更新）`
+
+#### 包装对象的好处
+对整个对象/数组的值进行替换，但**引用不变**：
+```js
+const numbers = value([1, 2, 3])
+
+numbers.value = numbers.value.filter(n => n > 1)
+```
+
+```js
+setup() {
+    const valueA = useLogicA() // valueA可以被useLogicA()内部的代码修改，从而触发更新
+    return {
+        valueA
+    }
+}
+```
+
+#### 创建一个没有包装的响应式对象
+可以使用`state()`：
+```js
+import { state } from 'vue'
+
+const obj = state({ count: 0 })
+
+object.count++
+```
+
+#### 包装对象的自动展开（Value Unwrapping）
+在以下两种情况时，包装对象会自动展开：
+ - 1、被暴露给模板的渲染上下文时
+ ```js
+ const MyComponent = {
+     setup() {
+         return {
+             count: value(0)
+         }
+     },
+     template: `<button @click="count++">{{ count }}</button>`
+ }
+ ```
+
+ - 2、被嵌套在另一个响应式对象中
+```js
+const count = value(0)
+const obj = state({
+    count // 嵌套在了另一个响应式对象中
+})
+
+console.log(obj.count) // 0
+
+obj.count++ // 当obj.count加1时
+console.log(count.value) // 1，包装对象count的value为1，可以理解
+console.log(obj.count) // 1。可见，两处值相同，是同一个count
+
+count.value++ // 当包装对象count的value加1时
+console.log(count.value) // 2
+console.log(obj.count) // 2。值相同
+```
+包装对象的一个基本规则：**只有需要`以变量的形式`（即：在setup()中，而不是在模板中）去引用一个包装对象时，才会需要用到`.value`去取它内部的值**
+> 在模板中，不需要知道`.value`的存在
+```js
+// 如，在setup()里需要改变包装对象中的值时：
+import { value } from 'vue'
+
+const MyComponent = () => {
+    setup(props) {
+        const msg = value('hello')
+        const appendName = () => {
+            msg.value = `heshiyu` // 需要以变量的形式去引用一个包装对象时
+        }
+
+        return {
+            msg,
+            appendName
+        }
+    },
+    // 在模板中不需要知道.value的存在
+    template: `<div @click="appendName">{{ msg }}</div>`
+}
+```
+以上等同于
+```js
+// 手写Render函数的写法
+import { value } from 'vue'
+
+const MyComponent = () => {
+    setup(props) {
+        const msg = value('hello')
+        const appendName = () => {
+            msg.value = `heshiyu` // 需要以变量的形式去引用一个包装对象时
+        }
+
+        return (props, slots, attrs, vnode) => (
+            h('div', {
+                onClick: appendName
+            }, msg.value)
+        )
+    },
+}
+```
+#### 计算值：Computed Value
+`value()`可以包装一个**可变的值**，那`computed()`就是可以包装一个**计算值**。
+```js
+import { value, computed } from 'vue'
+
+const count = value(0)
+const countPlusOne = computed(() => count.value + 1) // 依赖项为count.value【因为直接以（函数内）变量的形式引用count，所以需要声明.value】
+
+console.log(countPlusOne.value) // 1。可见countPlusOne也是个包装对象
+
+count.value++ // 当包装对象count的value加1
+console.log(countPlusOne.value) // 2。可见countPlusOne的依赖是count.value，所以countPlusOne里的value会重新计算
+```
+`computed()`返回的是一个**只读**的包装对象，它：
+ - 可以在`setup()`中被返回
+ - 可以在模板的渲染上下文中**自动展开**，（和`.value()`返回的包装对象一样）
+
+:::tip
+在computed()中声明setter函数：
+```js
+const count = value(0)
+const writableComputed = computed(
+    // read
+    () => count.value + 1,
+    // write
+    val => {
+        count.value = val - 1
+    }
+)
+```
+:::
 
 
 ## Function-basedAPI例子

@@ -102,7 +102,8 @@ const sidebar = {
             children: [
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
-                'note/Links.md'
+                'note/Links.md',
+                'note/vue-composition-api-rfc.md'
             ]
         }
     ],
@@ -175,7 +176,7 @@ module.exports = {
     themeConfig: {
         nav,
         sidebar,
-        sidebarDepth: 0, // 侧边栏显示2级
+        sidebarDepth: 1, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 
