@@ -189,7 +189,7 @@ count.value++ // 当包装对象count的value加1时
 console.log(count.value) // 2
 console.log(obj.count) // 2。值相同
 ```
-包装对象的一个基本规则：**只有需要`以变量的形式`（即：在setup()中，而不是在模板中）去引用一个包装对象时，才会需要用到`.value`去取它内部的值**
+包装对象的一个基本规则：**只有需要`以变量的形式`（即：在setup()里的函数中，而不是在模板中）去引用一个包装对象时，才会需要用到`.value`去取它内部的值**
 > 在模板中，不需要知道`.value`的存在
 ```js
 // 如，在setup()里需要改变包装对象中的值时：
@@ -262,6 +262,82 @@ const writableComputed = computed(
 )
 ```
 :::
+
+#### Watchers
+提供了一个**基于观察状态的变化，从而来执行副作用**的能力。
+
+> **watch(数据源, 回调函数 [, Watch选项])**
+> 
+> 返回值：一个停止观察的函数。const stop = watch(...)
+> 
+> watcher也会在当前组件被销毁时，自动停止
+
+ - 第一个参数：数据源
+    - 一个返回任意值的函数
+    - 一个包装对象
+    - 一个包含以上两种类型的数组
+
+ - 第二个参数：回调函数
+    - 与`2.x`的不同：默认自动`immediate: true`
+    - 默认**在当前DOM更新后**才被调用
+    - 参数分别为：(val, prevVal, onCleanup)
+```js
+// 第三个参数是清理函数
+// 触发时机：1、在回调被下次调用前；2、在watcher被停止前
+// 适用情况：当一个异步操作在完成之前，数据就已经发生了变化，需要撤销**正在等待的异步结果**
+watch(valueA, (val, oldVal, onCleanup) => {
+    const token = performAsyncOperation(val)
+
+    onCleanup(() => {
+        // 1、当val发生了变化，下次回调准备调用前
+        // 2、或是在watcher被停止前
+        // 可取消未完成的异步操作：
+        token.cancel()
+    })
+})
+```
+
+ - 第三个参数：Watch选项
+```ts
+interface WatchOptions {
+    lazy?: boolean
+    deep?: boolean
+    flush?: 'pre' | 'post' | 'sync'
+    onTrack?: (e: DebuggerEvent) => void
+    onTrigger?: (e: DebuggerEvent) => void
+}
+
+interface  DebuggerEvent {
+    effect: ReactiveEffect
+    target: any
+    key: string | symbol | undefined
+    type: 'set' | 'add' | 'delete' | 'clear' | 'get' | 'has' | 'iterate'
+}
+```
+ - lazy：和`immediate`相反
+ - deep：监听的深度
+ - onTrack：在watcher跟踪到依赖，被调用赋值的函数
+ - onTrigger：依赖发生变化时，被调用赋值的函数
+
+:::tip
+当要观察多个数据源时，可以：
+```js
+watch(
+    // 对于valueA是个包装对象
+    // 对于valueB是属于在setup()里的函数内直接使用，所以得声明`.value`
+    [valueA, () => valueB.value], 
+
+    // 回调函数里的参数，也是**按照依赖项的顺序**，各自放到(val, oldValue)的数组中
+    // （回调函数最多只有两个参数）
+    ([a, b], [prevA, prevB]) => {
+        console.log(`a is: ${a}`)
+        console.log(`b is: ${b}`)
+    }
+)
+```
+:::
+
+
 
 
 ## Function-basedAPI例子
