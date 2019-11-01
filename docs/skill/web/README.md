@@ -2,16 +2,16 @@
 [[toc]]
 
 ## HTTP协议
-[HTTP协议](./../detail/HTTP.md)
+[HTTP协议](./HTTP.md)
 
 ## XSS、CSRF、SQL注入
-[XSS、CSRF、SQL注入](./../detail/WebAttack.md)
+[XSS、CSRF、SQL注入](./WebAttack.md)
 
 ## 跨域和CORS
-[跨域和CORS](./../detail/CORS.md)
+[跨域和CORS](./CORS.md)
 
 ## CDN
-[CDN](./../detail/CDN.md)
+[CDN](./CDN.md)
 
 ## WebSocket
-[WebSocket](./../detail/WebSocket.md)
+[WebSocket](./WebSocket.md)
