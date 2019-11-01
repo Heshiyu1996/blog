@@ -4,7 +4,7 @@
 ## 在项目中引入ESLint & Prettier的方法
 ### 1、安装ESLint、Prettier、
 ```
-yarn add ESLint -D
+yarn add eslint -D
 
 yarn add prettier -D
 
@@ -147,6 +147,7 @@ module.exports = {
     proseWrap: 'preserve', // (v1.8.2+)
 
     jsxBracketSameLine: false, // jsx闭合标签在同一行
+}
 ```
 
 ### 4、配置VS Code保存时自动修复
