@@ -35,4 +35,19 @@ module.exports = {
  - 在业务层里可以继续通过import的方式使用lodash这个包
  - 将lodash从webpack的打包中剥离
  - 加快webpack的打包速度
+ 
+
+## 将一组下载URL打包成zip
+有一组数据，需要将其下载，并打包&另存为到zip中：
+```js
+const LINKS = ['www.baidu.com/a1.pdf', 'www.baidu.com/a2.pdf']
+```
+
+推荐npm包：
+```
+jszip
+jszip-utils
+file-saver
+```
+[使用demo](./SaveAsZip.md)
 
