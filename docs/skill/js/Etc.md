@@ -871,6 +871,22 @@ var map = new Map([
 | keys() | 变量.keys() | Object.keys(obj) |
 | 遍历顺序 | 插入顺序 | 对象散列结构，无顺序
 
+和**WeakMap**的区别：
+ - Map里的键可以是任何类型，但WeakMap里的键只能是对象引用
+ - WeakMap不能包含无引用对象，否则会被自动清除出集合（垃圾回收机制）
+ - WeakMap对象不可枚举
+```js
+const weakmap = new WeakMap();
+let keyObject = { id: 1 };
+const valObject = { score: 100 };
+
+weakmap.set(keyObject, valObject);
+console.log(weakmap.get(keyObject)); // { score: 100 }
+
+keyObject = null; // 将这个对象置为null，无人引用
+console.log(weakmap.has(keyObject)); // false
+```
+
 ## ==和===的区别
 `==`（相等）和`===`（恒等）的区别，前者`会进行类型转换（1）`再对`值进行比较（2）`，后者`不会进行类型转换（1）`，同时也对`值进行比较（2）`。
 
