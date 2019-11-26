@@ -90,11 +90,11 @@ const sidebar = {
             title: '项目笔记',
             collapsable: true,
             children: [
+                'project/notes/',
                 'project/react-16.9-notice/',
                 'project/mobile-adapter/',
                 'project/webpack/',
                 'project/Trick.md',
-                'project/notes/',
             ]
         },
         {
