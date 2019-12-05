@@ -67,7 +67,7 @@ function App(props) {
 ```js
 const refContainner = useRef(initialValue);
 ```
-`useRef`会返回一个可变的ref对象，其`.current`属性被初始化为传入的参数（`initialValue`）。返回的ref对象在组件的整个生命周期内保持不变。
+`useRef`会返回一个可变的ref对象（`refContainner`），其`.current`属性被初始化为传入的参数（`initialValue`）。返回的ref对象在组件的整个生命周期内保持不变。
 
 ----
 #### 项目中使用useRef的常见情况
@@ -162,11 +162,11 @@ useEffect(didUpdate);
 ```
 因为在React组件的**渲染阶段**，不应该有任何副作用（如：*改变DOM、添加订阅、设置定时器*等）。一般来说，在这里执行操作太早了，还可能会产生bug并破坏UI的一致性。
 
-但可以使用`useEffect`在**渲染结束后**进行一些副作用操作。
+若要进行一些副作用操作，可以使用`useEffect`在**渲染结束后**进行。
 > 传给`useEffect`的函数叫作`effect`，它会在浏览器完成布局与绘制后、在下一轮渲染前延迟执行。
 
 ----
-无论如何，`effect`**总是位于同步执行队列的最后面，在dom更新或者渲染函数返回后**才会执行。
+无论如何，`effect`**总是位于同步执行队列的最后面、在dom更新或者渲染函数返回后**才会执行。
 
 #### effect的执行时机
 `effect`的执行时机可概括为以下2种情况：
@@ -180,20 +180,21 @@ useEffect(didUpdate);
  - 传入依赖项时，更接近`componentDidMount`、`componentWillUnmount`和`componentDidUpdate`。
 
 :::tip
-- 挂载时，会执行**effect函数**（`componentDidMount`）
-- 浏览器下次渲染后（有依赖项时）/卸载时，会执行**清除函数**（`componentWillUnmount`）
-- 上一次effect清除执行后，会执行**effect函数**（`componentDidUpdate`）
+（以下都是对“同一处声明”的effect而言）
+- 本次渲染结束后，会执行**effect函数**（`componentDidMount`）
+- 下次渲染结束后、下次effect执行前，会执行**清除函数**（`componentWillUnmount`）
+
+- 当有依赖项时，浏览器在下次渲染前会先执行上一次`effect`的**清除函数**，随后执行**effect函数**（`componentDidUpdate`）
 :::
 
-由上可知，可向`useEffect`传入**不为空数组的依赖项**作为第二个参数时，可实现`componentDidUpdate`钩子的功能。
+由上可知，向`useEffect`第二个参数传入**不为空数组的依赖项**时，可实现`componentDidUpdate`。
 
-当渲染时，如果依赖项中的**有至少一个的元素**发生变化，React就会**在浏览器渲染结束后**执行`effect`。
-> 所以要确保数组中包含：**所有外部作用域中，会随时间变化的、并且在effect中使用到的变量**。
+> 也就是说，在渲染阶段，如果依赖项中的**有至少一个的元素**发生变化，React就会**在浏览器渲染结束后**执行`effect`。所以要确保数组中包含：**所有外部作用域中，会随时间变化的、并且在effect中有用到的变量**。
 >
 > [官方推荐插件：eslint-plugin-react-hooks](#eslint-plugin-react-hooks)
 
 
-#### effect都是独立的
+<!-- #### 每轮渲染的effect都是独立的
 上面提到，Hooks组件每次render都会拥有独立的函数作用域，所以传给`useEffect`的`effect`函数也是独立的。
 ```js
 // 代码1：
@@ -237,15 +238,86 @@ function Counter() {
 ```
 以上两段代码，在3s内点击N次按钮（间隔随意），输出的结果都是一样的。因为每次render都会重新执行setTimeout，生成一个独立全新的计时器。
 
-由上可知，每次render后的都会生成新的`effect`，并且都是独立的。
+由上可知，每次render后的都会生成新的`effect`，并且都是独立的。 -->
 
-#### effect的清除
-通常，组件卸载
+#### effect特点总结
+下面代码包含了3个effect。
+```jsx
+function App(props) {
+    const [counter, setCounter] = useState(0); // 数量
+    const [money, setMoney] = useState(0); // 总消费
+    const [integral, setIntegral] = useState(0); // 总积分
 
+    useEffect(() => {
+        console.log('我是第一个effect');
+        return () => console.log('我是第一个effect的清除函数');
+    });
 
-#### React将按照effect的声明顺序依次调用组件中的每一个effect
+    useEffect(() => {
+        console.log('我是第二个effect');
+        setIntegral(counter * 100);
 
-#### React会在调用一个新的effect之前对前一个effect进行清理
+        return () => console.log('我是第二个effect的清除函数');
+    }, [counter]);
+
+    useEffect(() => {
+        console.log('我是第三个effect');
+        setMoney(counter * 10);
+        setIntegral(counter * 200);
+
+        return () => console.log('我是第三个effect的清除函数');
+    }, [counter]);
+
+    console.log('render渲染');
+
+    return (
+        <div className="App">
+            <button onClick={() => setCounter(counter + 1)}>苹果+1</button>
+            <div>总消费：{money}</div>
+            <div>总积分：{integral}</div>
+        </div>
+    );
+}
+```
+输出结果如下：
+```js
+// 首次渲染
+render渲染
+我是第一个effect
+我是第二个effect
+我是第三个effect
+```
+可见，“首次渲染”会先执行render函数同步代码，随后从上往下依次执行`effect`。
+
+```js
+// 点击“+1”后
+render渲染
+我是第一个effect的清除函数
+我是第二个effect的清除函数
+我是第三个effect的清除函数
+我是第一个effect
+我是第二个effect
+我是第三个effect
+render渲染
+我是第一个effect的清除函数
+我是第一个effect
+```
+可见，“点击+1”后也会先执行render函数同步代码 -> 从上往下依次执行“有效的”effect的清除函数 -> 依次执行“有效的”effect。
+
+若各个effect执行后需触发render更新视图，则会紧接着触发下一次render。在下次render中再判断各个effect的“有效性”，以此类推。
+
+:::tip
+由以上代码，可知useEffect有以下特点：
+
+ - React将按照effect的声明顺序依次调用组件中的每一个effect
+
+ - React会在调用一个新的effect之前对前一个effect进行清理（若存在清理函数）
+
+ - 各个effect会把副作用累积，在下次渲染时体现。
+:::
+
+#### effect的执行时机总结
+![alt](./img/hooks-3.png)
 
 ## 一些常用的Hooks
 
