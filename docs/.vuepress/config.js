@@ -12,10 +12,9 @@ const nav = [
                 ]
             },
             { text: '工具类', items: [
-                    { text: 'Prettier规范', link: '/standard/prettier/' },
-                    { text: 'Git规范', link: '/standard/git/' },
-                    { text: 'Stylelint规范', link: '/standard/stylelint/' }
-                    // { text: 'ESLint规范', link: '/standard/eslint/' }
+                { text: 'ESLint规范', link: '/standard/eslint/' },
+                { text: 'Stylelint规范', link: '/standard/stylelint/' },
+                { text: 'Git规范', link: '/standard/git/' }
                 ]
             },
         ]
@@ -122,9 +121,9 @@ const sidebar = {
             title: '工具类',
             collapsable: false,
             children: [
-                'prettier/',
-                'git/',
+                'eslint/',
                 'stylelint/',
+                'git/',
             ]
         },
     ],

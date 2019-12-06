@@ -1,9 +1,9 @@
 # JS规范
 
 ## 变量
-命名方式：小驼峰
+命名方式：**小驼峰**
 
-命名规范：名词
+命名规范：**名词**
 ```js
 // bad
 let setCount = 10
@@ -13,28 +13,35 @@ let maxCount = 10
 ```
 
 ## 常量
-命名方式：全部大写
+### 基本类型的常量：
+命名方式：**全部大写（基本类型）**
 
-命名规范：多个单次时使用分隔符`_`
+命名规范：**多个单词时使用分隔符`_`**
 
+### 引用类型的常量：
+命名方式：**全部大写（基本类型）**
+
+命名规范：**大驼峰（枚举）**。枚举的元素按“基本类型”规则
 ```js
 // bad
-const serverErrorCode = {
-    success: 200,
-    repeat: 444
+const serverErrorCode = 402
+const statusMap = {
+    success: 1,
+    fail: 2
 }
 
 // good
-const SERVER_ERROR_CODE = {
-    SUCCESS: 200,
-    REPEAT: 444
+const SERVER_ERROR_CODE = 402
+const StatusMap = {
+    SUCCESS: 1,
+    FAIL: 2
 }
 ```
 
 ## 函数
-命名方式：小驼峰
+命名方式：**小驼峰**
 
-命名规范：动词前缀
+命名规范：**动词前缀**
 
 ```js
 // bad
@@ -49,9 +56,9 @@ function getUserInfo() {
 ```
 
 ## 类
-命名方式：大驼峰
+命名方式：**大驼峰**
 
-命名规范：名词
+命名规范：**名词**
 ```js
 // bad
 class person {}
@@ -100,7 +107,6 @@ const MODIFY_TYPE = {
     ADD: 1,
     EDIT: 2
 }
-
 type: MODIFY_TYPE.ADD
 ```
 
@@ -189,5 +195,15 @@ _updateVariable() {
 }
 ```
 
+### 解构默认值可能会失效
+如果解构出来的变量非undefined的话，该变量不会使用默认值。
+```js
+// bad
+const { list = [] } = data // data.list可能不是undefined
+let result = list.map(item => item * 2) // 可能报错：Uncaught TypeError: list.map is not a function
 
-如果变量是null类型的话，在解构赋值不会使用默认值
+// good
+const { list } = data
+let result = (list || []).map(item => item * 2)
+```
+虽然这种做法可以解决问题，但最好的做法是和后端同学约定好接口返回的数据类型（尤其为空时），避免在前端做过多的安全判断。
