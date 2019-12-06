@@ -1,11 +1,30 @@
 # React Hooks
-> Hook是React 16.8的新特性。它可以让你在不编写class的情况下使用state以及其他的React特性。以下是笔者在最近三个月使用React Hooks开发过程中的实践记录。
+> Hook是React 16.8的新特性。它可以让你在不编写class的情况下使用state以及其他的React特性（By React官网）。
 >
-> （本文部分内容也参考了各个大牛观点，可详见参考链接）
+> 以下是笔者在最近三个月使用React Hooks开发过程中的实践记录。（本文部分内容也参考了各个大牛观点，可详见参考链接）
 >
 > update: 2019-12-05
 
 [[toc]]
+
+## 【引言】Hooks组件、Class组件的渲染行为
+#### Hooks组件的渲染行为
+Hooks组件每次render都是调用不同的渲染函数，所以每次都会**拥有完全独立的函数作用域**。
+> 后续的render每次都会生成全新且独立的props、state
+
+![alt](./img/hooks-1.png)
+
+#### Class组件的渲染行为
+Class组件每次render都是调用同一个渲染函数。
+> 后续的渲染只会改变this.props、this.state的值，而不是引用地址（唯一的this.props、this.state只在初始化时的构造函数中生成）
+
+![alt](./img/hooks-2.png)
+
+## Hooks的使用规则
+> 目前Hooks包括useCallback、useContext、useEffect、useImperativeHandle、useLayoutEffect、useMemo、useReducer、useRef、useState和useDebugValue。
+
+ - 可以在函数组件、自定义Hooks中调用；
+ - 不能在Class组件、循环、条件判断或者子函数中调用；[为什么？](./HooksSourceCode.md)
 
 :::tip
 相对于Class组件
@@ -14,34 +33,20 @@
  - 没有类似于HOC、render props等复用模式
 :::
 
-## 【引言】React两种组件的渲染行为
-### Hooks组件
-Hooks组件每次render都是调用不同的渲染函数，所以每次都会**拥有完全独立的函数作用域**。
-> 后续的render每次都会生成全新且独立的props、state
-
-![alt](./img/hooks-1.png)
-
-### 类组件
-类组件每次render都是调用同一个渲染函数。
-> 后续的渲染只会改变this.props、this.state的值，而不是引用地址（唯一的this.props、this.state只在初始化时的构造函数中生成）
-
-![alt](./img/hooks-2.png)
-
-
-## Hooks组件内部的使用注意
-由上面的渲染行为可知，Hooks组件的**每次render都会拥有独立的作用域**。所以利用Hooks开发时，有一些需要我们注意的使用方式。他们分别是：
- - 函数、变量的声明位置
+因为Hooks组件**每次render都会拥有独立的作用域**，所以在开发中有一些我们**需要注意的常用技巧**。他们分别是：
+ - 函数组件内，变量/方法的声明位置
+ - useState —— Hooks里的状态的声明方式
  - useRef —— 不变常量的声明方式
  - useEffect —— 副作用的声明方式
  - useCallback —— 缓存函数的声明方式
  - useMemo —— 缓存值（计算值）的声明方式
 
-### 函数、变量的声明位置
-组件内部的函数、变量在每次render时都会**重新声明**，因此我们应该减少在Hooks组件内部声明函数、变量。
+### 函数组件内的变量/方法的声明位置
+函数组件内的变量/方法在每次render时都会**重新声明**，因此我们应该**减少在组件内部声明变量/方法**。
 
-#### 1、函数与组件内state、props无相关性
-这种函数的返回结果一般仅供展示：
+**判断条件：要声明的函数与组件内state、props是否存在相关性**。（注意“相关”二字）
 ```js
+// 类似这种函数的返回结果一般仅供展示，可以在组件外声明：
 function formatName(name) {
     return `Hello, your name is ${name}`
 }
@@ -58,7 +63,9 @@ function App(props) {
 }
 ```
 
-#### 2、函数与组件内state、props强相关性
+
+### useState 
+一般来说，在函数退出后变量就就会”消失”，而 state 中的变量会被 React 保留。React 会在重复渲染时记住它当前的值，并且提供最新的值给函数。可以通过调用setCount来更新当前的count。
 
 ### useRef —— 不变常量的声明方式
 如果我们需要一个对象，希望它**从一开始到之后的每次render**都是不变的。
@@ -71,28 +78,13 @@ function App(props) {
 ```js
 const refContainner = useRef(initialValue);
 ```
-`useRef`会返回一个可变的ref对象（`refContainner`），其`.current`属性被初始化为传入的参数（`initialValue`）。返回的ref对象在组件的整个生命周期内保持不变。
+`useRef`会返回一个可变的ref对象（`refContainner`），其`.current`属性会被初始化为传入的参数（`initialValue`）。**返回的ref对象在组件的整个生命周期内保持不变**。
 
 ----
 #### 项目中使用useRef的常见情况
-:::tip
- - 需给自定义hooks传入参数时
- - 引用某个指定的dom实例时
-:::
-
- - 需给自定义hooks传入参数时
-```js
-function App(props) {
-     // 使用useRef，返回一个稳定状态的引用值，避免死循环
-    let ref = useRef({ resumeAll: true });
-    // 此处useFetch是一个用于获取后端数据、且依赖于传入的请求参数的自定义Hooks（第二个参数表示接口请求参数）
-    const { data = {}, isLoading } = useFetch(getResumeInfo, ref.current);
-}
-```
-
  - 引用某个指定的dom实例时
 
-例子1（待补充）：
+例子1：
 ```jsx
 function App(props) {
     const videoRef = useRef();
@@ -142,6 +134,16 @@ function App(props) {
 }
 ```
 这样之后，`formRef.current`指向的就是CustomizedForm表单的实例了。
+
+ - 给自定义Hooks传入“被定义在依赖项的参数”时
+```js
+function App(props) {
+     // 使用useRef，返回一个稳定状态的引用值，避免死循环
+    let ref = useRef({ resumeAll: true });
+    // 此处useFetch是一个用于获取后端数据、且依赖于传入的请求参数的自定义Hooks（第二个参数表示接口请求参数）
+    const { data = {}, isLoading } = useFetch(getResumeInfo, ref.current);
+}
+```
 
 ### useEffect —— 副作用的声明方式
 虽然Hooks组件没有生命周期，但我们需要在某些指定时段执行一些事情。
@@ -414,6 +416,11 @@ render渲染
  - 若没有提供依赖项，`useMemo`在每次渲染时都会计算新的值；否则只会在依赖项发生改变时，会重新计算；
 :::
 
+## 依赖项“发生改变”是指改变了什么？
+`useEffect`、`useCallback`、`useMemo`都有用到依赖项，`useState`在。那什么情况下可以定义为“依赖项发生改变”呢？
+
+
+
 ## 依赖项检查插件：eslint-plugin-react-hooks
 上面提到的：`useEffect`、`useCallback`、`useMemo`都可以**通过传入依赖项**来达到条件渲染的效果。
 
@@ -444,6 +451,8 @@ module.exports = {
 [React Hooks工程实践总结](https://juejin.im/post/5de4e47f6fb9a07160543ebb)
 
 [React Hook](https://zh-hans.reactjs.org/docs/hooks-intro.html)
+
+[Object.is()——MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description)
 
 
 <!-- 一些常用的Hooks -->
