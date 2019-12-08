@@ -89,6 +89,7 @@ const sidebar = {
             title: '项目笔记',
             collapsable: true,
             children: [
+                'project/babel/',
                 'project/notes/',
                 'project/react-16.9-notice/',
                 'project/mobile-adapter/',
