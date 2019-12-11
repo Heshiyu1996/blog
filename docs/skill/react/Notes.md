@@ -1,5 +1,5 @@
-# React常用知识点
-> React 16.9的一些常用知识点：
+# React知识点整理（v16.8以前）
+> React v16.9（以前）的一些常用知识点：
 
 [[toc]]
 
@@ -105,32 +105,14 @@ class HomeIndex extends Component {
 ```
 这种方法在每次组件渲染时，会创建一个新的函数，可能**会影响性能**
 
-### 在render中
-```jsx
-class HomeIndex extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    addCount() {
-        console.log('hi');
-    }
-
-    render() {
-        // 方法4、绑定在render中，通过使用箭头函数
-        return <button onClick={() => this.addCount()}>Click</button>;
-    }
-}
-```
-这种方法在每次组件渲染时，会创建一个新的函数，可能**会影响性能**
-
 ## class Fields语法
-React（包括Create React App）可以通过`class Fields语法`，使得函数能够绑定到组件实例上：
+React可以通过`class Fields语法`，使得函数能够绑定到组件实例上：
 ```js
   class Bork {
     // 在类中有以下4种属性：
     // 属性初始化
     instanceProperty = "bork";
+    // class Fields
     boundFunction = () => this.instanceProperty;
 
     // 静态的类属性
@@ -220,3 +202,8 @@ function withMouse(Component) {
     }
 }
 ```
+
+## 问题集结
+### 为何useFetch里的param需要useRef才不会死循环？
+
+### intl.init异步，导致子组件无法读取子组件的包

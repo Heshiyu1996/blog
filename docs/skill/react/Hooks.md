@@ -3,7 +3,7 @@
 >
 > 以下是笔者在最近三个月使用React Hooks开发过程中的实践记录。（本文部分内容也参考了各个大牛观点，可详见参考链接）
 >
-> update: 2019-12-05
+> update: 2019-12-11
 
 [[toc]]
 
@@ -64,8 +64,55 @@ function App(props) {
 ```
 
 
-### useState 
-一般来说，在函数退出后变量就就会”消失”，而 state 中的变量会被 React 保留。React 会在重复渲染时记住它当前的值，并且提供最新的值给函数。可以通过调用setCount来更新当前的count。
+### useState —— Hooks中的state状态
+实现组件内部state状态（类似Class组件的state）。
+
+> 一般来说，在函数退出后变量就就会”消失”，而 state 中的变量会被 React “保留”。React 会在重复渲染时记住它当前的值，并且提供最新的值给函数。
+
+这时候，**useState**就派上用场了！
+
+:::warning
+#### 以下引自 React官方文档📚
+```js
+const [state, useState] = useState(initialState);
+```
+`useState`会返回一个`state`，以及`更新state的函数`*（笔者注：以下统称`setState`）*。
+
+在初始渲染期间，返回的状态 (state) 与传入的第一个参数 (initialState) 值相同。
+
+```js
+setState(newState)
+```
+在后续的重新渲染中，`useState`返回的第一个值将始终是**更新后、且最新的state**。
+:::
+
+#### setState的两种用法
+由文档可知，我们可以通过调用`setState`来更新当前的`state`。
+
+```js
+// 1、直接设置state
+setState(newState)
+
+// 2、基于之前的state来更新state
+setState(prevState => prevState + 1)
+```
+
+#### setState的特点
+ - 用于更新state。
+    - 它接收一个新的state值，并将**组件的一次重新渲染**加入队列。
+ - 具有稳定的标识
+    - 其引用地址不会在重新渲染时发生变化（即不必写入依赖项中）
+ - 如果`newState`和`prevState`相同，React将跳过子组件的渲染和effect的执行（？）
+    - If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects. (React uses the Object.is comparison algorithm.
+ - 和Class组件中的`setState`不同
+    - Class组件可以自动合并更新，但useState只能覆盖原有值（可通过`展开运算符`来实现合并更新）
+    ```js
+        setState(prevState => {
+            return {...prevState, ...newState}
+        })
+    ```
+
+
 
 ### useRef —— 不变常量的声明方式
 如果我们需要一个对象，希望它**从一开始到之后的每次render**都是不变的。
@@ -73,14 +120,14 @@ function App(props) {
 
 这时候，**useRef**就派上用场了！
 
-----
+:::warning
 #### 以下引自 React官方文档📚
 ```js
 const refContainner = useRef(initialValue);
 ```
 `useRef`会返回一个可变的ref对象（`refContainner`），其`.current`属性会被初始化为传入的参数（`initialValue`）。**返回的ref对象在组件的整个生命周期内保持不变**。
 
-----
+:::
 #### 项目中使用useRef的常见情况
  - 引用某个指定的dom实例时
 
@@ -152,7 +199,7 @@ function App(props) {
 
 这时候，**useEffect**就派上用场了！
 
-----
+:::warning
 #### 以下引自 React官方文档📚
 ```js
 useEffect(didUpdate);
@@ -162,13 +209,14 @@ useEffect(didUpdate);
 若要进行一些副作用操作，可以使用`useEffect`在**渲染结束后**进行。
 > 传给`useEffect`的函数叫作`effect`，它会在浏览器完成布局与绘制后、在下一轮渲染前延迟执行。
 
-----
+:::
 无论如何，`effect`总是**位于同步执行队列的最后面**执行（即在dom更新或者渲染函数返回之后）。
 
 #### effect的执行时机
 `effect`的执行时机可概括为以下2种情况：
- - 不传依赖项、或为空数组`（[]）`时，`effect`将在**每轮渲染结束后**执行
- - 传入依赖项时，`effect`将在**每轮渲染结束后，且“在依赖项中至少存在一个元素改变”时**才执行。
+ - 如果 dependencies 不存在或为空数组`（[]）`，那么 callback 每次 `render结束后` 都会执行
+
+ - 如果 dependencies 存在，只有当 每次 `render结束后` 且它`发生了变化`， callback 才会执行
 
 > 1、依赖项中应该包含：**所有外部作用域中，会随时间变化的、并且在effect中有用到的变量**。
 >
@@ -308,7 +356,7 @@ render渲染
 
 这时候，**useCallback**就派上用场了！
 
-----
+:::warning
 #### 以下引自 React官方文档📚
 ```js
 const memoizedCallback = useCallback(() => doSomething(a, b), [a, b]);
@@ -317,7 +365,7 @@ const memoizedCallback = useCallback(() => doSomething(a, b), [a, b]);
 
 把内联回调函数、依赖项数组作为参数传入`useCallback`，它将返回这个回调函数的`memoized`版本，该回调函数仅在某个依赖项改变时才会更新。
 
-----
+:::
 #### 例子
 ```js
 function Home(props) {
@@ -344,7 +392,7 @@ function Home(props) {
 
 这时候，**useMemo**就派上用场了！
 
-----
+:::warning
 #### 以下引自 React官方文档📚
 ```js
 const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
@@ -352,8 +400,7 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 `useMemo`会返回一个`memoized`值。
 
 把一个带有返回值的函数、依赖项数组作为参数传入`useMemo`，它仅会在某个依赖项改变时才重新计算`memoized`值。这种优化有助于避免在每次渲染时都进行高开销的计算。
-
-----
+:::
 
 #### useMemo的执行时机
 ```js
@@ -417,8 +464,55 @@ render渲染
 :::
 
 ## 依赖项“发生改变”是指改变了什么？
-`useEffect`、`useCallback`、`useMemo`都有用到依赖项，`useState`在。那什么情况下可以定义为“依赖项发生改变”呢？
+由上面的知识可知，
 
+1、`useEffect`、`useCallback`、`useMemo`都有用到依赖项；
+
+2、`useState`也只在两次state发生“变化”时才会触发组件重新渲染。
+
+那什么情况下可以定义为 **依赖项发生了改变** 呢？
+
+```js
+import is from 'shared/objectIs';
+function areHookInputsEqual(
+    nextDeps: Array<mixed>, // 本次渲染时的依赖项
+    prevDeps: Array<mixed> | null, // 上次渲染时的依赖项
+) {
+    // 注：返回true则表示：依赖项并未发生变化；
+
+    // 1、若上次渲染时的依赖项为null，表明发生了变化
+    if (prevDeps === null) {
+        return false;
+    }
+
+    // 2、若两次渲染时的依赖项的长度不一样，表明发生了变化
+    if (nextDeps.length !== prevDeps.length) {
+        return false
+    }
+ 
+    // 3、依次对比两次渲染时的依赖项中的各项，只要存在一项在`is方法`检验时返回了false，表明发生了变化
+    for (let i = 0; i < prevDeps.length && i < nextDeps.length; i++)   {
+        if (is(nextDeps[i], prevDeps[i])) {
+            continue;
+        }
+        return false;
+    }
+    // 4、以上都不符合，则表明未发生变化
+        return true;
+}
+```
+
+其中`is方法`是ES6中`Object.is`的兼容性写法：
+```js
+function is(x: any, y: any) {
+  return (
+    (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y) 
+  );
+}
+
+export default (typeof Object.is === 'function' ? Object.is : is);
+```
+可知，[Object.is 比较算法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description)属于**浅比较**（**即只要引用地址发生了变化，就表明发生了变化**）。
 
 
 ## 依赖项检查插件：eslint-plugin-react-hooks
@@ -453,6 +547,8 @@ module.exports = {
 [React Hook](https://zh-hans.reactjs.org/docs/hooks-intro.html)
 
 [Object.is()——MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description)
+
+[State Hook与Effect Hook解析](https://zhuanlan.zhihu.com/p/64881911)
 
 
 <!-- 一些常用的Hooks -->
