@@ -34,12 +34,12 @@ Class组件每次render都是调用同一个渲染函数。
 :::
 
 因为Hooks组件**每次render都会拥有独立的作用域**，所以在开发中有一些我们**需要注意的常用技巧**。他们分别是：
- - 函数组件内，变量/方法的声明位置
- - useState —— Hooks里的状态的声明方式
- - useRef —— 不变常量的声明方式
- - useEffect —— 副作用的声明方式
- - useCallback —— 缓存函数的声明方式
- - useMemo —— 缓存值（计算值）的声明方式
+ - **函数组件内，变量/方法的声明位置**
+ - **useState —— Hooks中的state状态**
+ - **useRef —— 不变常量的声明方式**
+ - **useEffect —— 副作用的声明方式**
+ - **useCallback —— 缓存函数的声明方式**
+ - **useMemo —— 缓存值（计算值）的声明方式**
 
 ### 函数组件内的变量/方法的声明位置
 函数组件内的变量/方法在每次render时都会**重新声明**，因此我们应该**减少在组件内部声明变量/方法**。
@@ -98,14 +98,14 @@ setState(prevState => prevState + 1)
 ```
 
 #### setState的特点
- - 用于更新state。
+ - **用于更新state。**
     - 它接收一个新的state值，并将**组件的一次重新渲染**加入队列。
- - 具有稳定的标识
+ - **引用地址不变**
     - 其引用地址不会在重新渲染时发生变化（即不必写入依赖项中）
- - 如果`newState`和`prevState`相同，React将跳过子组件的渲染和effect的执行（？）
+ - **如果`newState`和`prevState`相同，React将跳过子组件的渲染和effect的执行（？）**
     - If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects. (React uses the Object.is comparison algorithm.
- - 和Class组件中的`setState`不同
-    - Class组件可以自动合并更新，但useState只能覆盖原有值（可通过`展开运算符`来实现合并更新）
+ - **和Class组件中的`setState`不同**
+    - Class组件可以自动合并更新，但`useState返回的setState`只能覆盖原有值（可通过`展开运算符`来实现合并更新）
     ```js
         setState(prevState => {
             return {...prevState, ...newState}
@@ -213,12 +213,14 @@ useEffect(didUpdate);
 无论如何，`effect`总是**位于同步执行队列的最后面**执行（即在dom更新或者渲染函数返回之后）。
 
 #### effect的执行时机
-`effect`的执行时机可概括为以下2种情况：
- - 如果 dependencies 不存在或为空数组`（[]）`，那么 callback 每次 `render结束后` 都会执行
+`effect`的执行时机可概括为以下3种情况：
+ - 如果 dependencies 不存在（为`null`），那么 callback 每次 `render结束后` 都会执行
 
- - 如果 dependencies 存在，只有当 每次 `render结束后` 且它`发生了变化`， callback 才会执行
+ - 如果 dependencies 存在且为空数组`（[]）`，那么 callback 仅在 `初次render结束后` 会执行
 
-> 1、依赖项中应该包含：**所有外部作用域中，会随时间变化的、并且在effect中有用到的变量**。
+ - 如果 dependencies 存在且不为空数组，只有当 每次 `render结束后` 且`依赖项中的元素发生了变化`， callback 才会执行
+
+> 1、依赖项中应该包含：**所有外部作用域中，会随时间变化的、并且在effect中有用到的变量**（by 官方文档）。
 >
 > 2、官方推荐通过`eslint-plugin-react-hooks`来自动绑定依赖。 [eslint-plugin-react-hooks](#eslint-plugin-react-hooks)
 
@@ -275,27 +277,33 @@ function Counter() {
 function App(props) {
     const [counter, setCounter] = useState(0); // 数量
     const [money, setMoney] = useState(0); // 总消费
-    const [integral, setIntegral] = useState(0); // 总积分
+    // const [integral, setIntegral] = useState(0); // 总积分
 
     useEffect(() => {
-        console.log('我是第一个effect');
+        console.log('我是第一个【依赖项为null】的effect');
 
         return () => console.log('我是第一个effect的清除函数');
     });
 
     useEffect(() => {
-        console.log('我是第二个effect');
-        setIntegral(counter * 100);
+        console.log('我是第二个【依赖项为空数组】的effect');
 
         return () => console.log('我是第二个effect的清除函数');
+    }, []);
+
+    useEffect(() => {
+        console.log('我是第三个【依赖项为counter】的effect');
+        // setIntegral(counter * 100);
+
+        return () => console.log('我是第三个effect的清除函数');
     }, [counter]);
 
     useEffect(() => {
-        console.log('我是第三个effect');
+        console.log('我是第四个【依赖项为counter且带有setState】的effect');
         setMoney(counter * 10);
-        setIntegral(counter * 200);
+        // setIntegral(counter * 200);
 
-        return () => console.log('我是第三个effect的清除函数');
+        return () => console.log('我是第四个effect的清除函数');
     }, [counter]);
 
     console.log('render渲染');
@@ -304,7 +312,7 @@ function App(props) {
         <div className="App">
             <button onClick={() => setCounter(counter + 1)}>苹果+1</button>
             <div>总消费：{money}</div>
-            <div>总积分：{integral}</div>
+            {/* <div>总积分：{integral}</div> */}
         </div>
     );
 }
@@ -313,9 +321,10 @@ function App(props) {
 ```js
 // 首次渲染
 render渲染
-我是第一个effect
-我是第二个effect
-我是第三个effect
+我是第一个【依赖项为null】的effect
+我是第二个【依赖项为空数组】的effect
+我是第三个【依赖项为counter】的effect
+我是第四个【依赖项为counter且带有setState】的effect
 ```
 可见，“首次渲染”会先执行render函数同步代码，随后**从上往下依次执行**`effect`。
 
@@ -323,18 +332,25 @@ render渲染
 // 点击“+1”后
 render渲染
 我是第一个effect的清除函数
-我是第二个effect的清除函数
 我是第三个effect的清除函数
-我是第一个effect
-我是第二个effect
-我是第三个effect
+我是第四个effect的清除函数
+我是第一个【依赖项为null】的effect
+我是第三个【依赖项为counter】的effect
+我是第四个【依赖项为counter且带有setState】的effect
 render渲染
 我是第一个effect的清除函数
-我是第一个effect
+我是第一个【依赖项为null】的effect
 ```
-可见，“点击+1”后也会先执行render函数同步代码 -> 从上往下依次执行`“有效的”effect`的清除函数 -> 依次执行`“有效的”effect`。
+“点击+1”后：
+ - 1、**先执行render函数同步代码**
+ - 2、**从上往下依次执行`“依赖项发生变化了的”effect`的清除函数**
+ - 3、**再依次执行`“依赖项发生变化了的”effect`**。
 
-此处因为effect在执行后需触发render更新视图（`两个setState操作`），所以会紧接着触发下一次render。在下次render中再判断各个effect的“有效性”，以此类推。
+此处是因为`第四个effect`在执行后（`setMoney`）需触发render更新视图，所以会紧接着触发下一次render。React会在下次render中再判断各个effect“**依赖项是否发生变化**”，以此类推。
+
+[依赖项“发生改变”是指改变了什么？](#依赖项“发生改变”是指改变了什么？)
+
+> 若将代码中的注释去掉，得到的也会是同样的打印输出。因为setState会在下次渲染前合并执行（？）
 
 :::tip
 由以上代码，可知useEffect有以下特点：
@@ -343,7 +359,7 @@ render渲染
 
  - React会在调用一个新的effect之前对前一个effect进行**清理**（若存在清理函数）
 
- - 各个effect会把**副作用累积**，在下次render时渲染。
+ - 各个effect会把**副作用累积**（？），在下次render时渲染。
 :::
 
 #### effect总结图
@@ -352,7 +368,7 @@ render渲染
 
 ### useCallback —— 缓存函数的声明方式
 如果我们希望在Hook组件内定义函数，并不希望它因渲染而重新声明，而是能条件般地缓存下来。
-> “缓存”指的是当依赖项不发生改变时，useCallback会直接返回这个被缓存的函数（达到被赋值的变量的引用地址不变的效果）。
+> “缓存”指的是当依赖项未发生改变时，useCallback会直接返回这个被缓存的函数（达到被赋值的变量的引用地址不变的效果）。[依赖项“发生改变”是指改变了什么？](#依赖项“发生改变”是指改变了什么？)
 
 这时候，**useCallback**就派上用场了！
 
@@ -388,7 +404,7 @@ function Home(props) {
 
 ### useMemo —— 缓存值（计算值）的声明方式
 如果我们希望在Hooks组件内声明“计算值”（类似Vue.js的computed），并希望它只在依赖项改变时才重新计算，其它情况下保持“不变”。
-> “计算值”指的是当依赖项不发生改变时，useMemo直接返回上次的缓存值（以达到被赋值的变量的引用地址不变的效果）。相反，当依赖项发生改变时，能够重新计算新的值。
+> “计算值”指的是当依赖项未发生改变时，useMemo直接返回上次的缓存值（以达到被赋值的变量的引用地址不变的效果）。相反，当依赖项发生改变时，能够重新计算新的值。
 
 这时候，**useMemo**就派上用场了！
 
@@ -433,44 +449,50 @@ function Home(props) {
     );
 }
 ```
-上面的代码输出如下：
+上面的代码各情况的输出如下：
+
+首次渲染的`useMemo`都会执行，且执行时机是在**渲染过程中**：
 ```js
 // 首次渲染
 计算总消费
 计算总人气
 render渲染
 ```
-首次渲染的`useMemo`都会执行，且执行时机是在**渲染过程中**。
+
+点击“苹果+1”后，因为**在本次render过程中**，`counter`发生了变化而导致`money`重新计算，所以会打印“计算总消费”。又因为`popularity`的依赖项为`null`，表示**依赖项发生了改变**，所以会打印“计算总人气”。随后同步代码继续执行，输出“render渲染”：
 ```js
 // 点击“苹果+1”
 计算总消费
 计算总人气
 render渲染
 ```
-因为`money`的`useMemo`在本次render时，`counter`发生了变化而导致重新计算，所以会打印“计算总消费”。
 
+点击“赞+1”后，因为**在本次render过程中**，`counter`并未发生变化，所以`money`不会重新计算。又因为`popularity`的依赖项为`null`，表示**依赖项发生了改变**，所以会打印“计算总人气”。随后同步代码继续执行，输出“render渲染”：
 ```js
 // 点击“赞+1”
 计算总人气
 render渲染
 ```
-因为`popularity`的`useMemo`会在每次render都会重新计算，所以会打印“计算总人气”。
 
 可见，`useMemo`具有以下特点：
 :::tip
- - `useMemo`在**渲染过程中**进行；
+ - 在**渲染过程中**进行（相当于执行同步代码的顺序）；
     - 所以不要在useMemo中传入的函数内部进行与渲染无关的操作（通常称之为“**副作用**”）
- - 若没有提供依赖项，`useMemo`在每次渲染时都会计算新的值；否则只会在依赖项发生改变时，会重新计算；
+ - 若依赖项为`null`，`useMemo`在每次渲染时都会计算新的值；
+ - 若依赖项为`([])`，只会在`初次渲染时`重新计算；
+ - 否则只会在依赖项发生改变时，会重新计算；[依赖项“发生改变”是指改变了什么？](#依赖项“发生改变”是指改变了什么？)
 :::
 
 ## 依赖项“发生改变”是指改变了什么？
 由上面的知识可知，
 
 1、`useEffect`、`useCallback`、`useMemo`都有用到依赖项；
+> 通过areHookInputsEqual方法比较前后两次依赖项
 
 2、`useState`也只在两次state发生“变化”时才会触发组件重新渲染。
+> 通过Object.is方法比较前后两次state
 
-那什么情况下可以定义为 **依赖项发生了改变** 呢？
+那`areHookInputsEqual`是如何判断 **依赖项发生了改变** 呢？
 
 ```js
 import is from 'shared/objectIs';
@@ -501,6 +523,8 @@ function areHookInputsEqual(
         return true;
 }
 ```
+以上可知，当依赖项传递空数组`([])`，只在初次、末次渲染时发送变化。
+[ReactFiberHooks源码](https://github.com/facebook/react/blob/7bf40e1cfdb780788700a41bf30163fdb8d105a3/packages/react-reconciler/src/ReactFiberHooks.js)
 
 其中`is方法`是ES6中`Object.is`的兼容性写法：
 ```js
