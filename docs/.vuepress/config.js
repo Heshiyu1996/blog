@@ -5,6 +5,9 @@ const nav = [
         text: '前端积累', link: '/skill/'
     },
     {
+        text: '前端算法', link: '/algorithm/'
+    },
+    {
         text: '团队规范', items: [
             { text: '基本类', items: [
                     { text: 'CSS规范', link: '/standard/css/' },
@@ -18,9 +21,6 @@ const nav = [
                 ]
             },
         ]
-    },
-    {
-        text: '前端算法', link: '/algorithm/'
     },
     // {
     //     text: 'sy-UI组件库', link: 'https://www.baidu.com'
@@ -105,6 +105,13 @@ const sidebar = {
                 'note/react-deep-learning/',
                 'note/Links.md',
                 'note/vue-composition-api-rfc.md'
+            ]
+        },
+        {
+            title: '计算机知识',
+            collapsable: true,
+            children: [
+                'computeracy/scheduling-strategy/',
             ]
         }
     ],
