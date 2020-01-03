@@ -47,9 +47,10 @@ const sidebar = {
             title: 'React',
             collapsable: true,
             children: [
-                'react/Hooks',
-                'react/Notes',
-                'react/Optimize'
+                'react/hooks/',
+                'react/notes/',
+                'react/optimize/',
+                'react/question/'
             ]
         },
         {
@@ -91,7 +92,6 @@ const sidebar = {
             children: [
                 'project/babel/',
                 'project/notes/',
-                'project/react-16.9-notice/',
                 'project/mobile-adapter/',
                 'project/webpack/',
                 'project/Trick.md',
@@ -103,8 +103,8 @@ const sidebar = {
             children: [
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
-                'note/Links.md',
-                'note/vue-composition-api-rfc.md'
+                'note/vue-composition-api-rfc.md',
+                'note/Links.md'
             ]
         },
         {
