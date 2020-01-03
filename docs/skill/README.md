@@ -1,4 +1,7 @@
 # 最近更新
+#### 2019年12月29日
+ - [单处理器进程的调度策略](./computeracy/scheduling-strategy/)
+
 #### 2019年12月3日
  - [React Hooks](./react/Hooks.md)
 

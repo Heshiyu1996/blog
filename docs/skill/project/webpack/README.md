@@ -163,3 +163,20 @@ module.exports = {
 [webpack的配置模式mode](https://www.webpackjs.com/concepts/mode/)
 
 [理解webpack之process.env.NODE_ENV详解(十八)](https://www.cnblogs.com/tugenhua0707/p/9780621.html)
+
+## webpack中运用externals
+一些类似包体积比较大的包（如：lodash），可以通过CDN的形式在`index.html`引入后，再通过`webpack.config.js`里加一个`externals`配置。
+
+```html
+<!-- index.html -->
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+```
+
+```js
+// webpack.config.js
+module.exports = {
+    externals: {
+        lodash: '_'
+    }
+}
+```

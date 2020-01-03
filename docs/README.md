@@ -5,7 +5,9 @@ actionText: 进入 →
 actionLink: /skill/
 features:
 - title: 前端积累
-  details: JS、Vue、React等一些学习和实践。
+  details: JS、React、Web周边等一些的学习和实践笔记。
+- title: 基础算法
+  details: 一些基础的算法。
 - title: 团队规范
   details: JS、CSS、Git等规范总结。
 # - title: 前端算法

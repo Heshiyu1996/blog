@@ -47,73 +47,14 @@ file-saver
 解决方法：添加一个`muted`属性，值为`true`即可。
 > `muted`属性用来设置该段视频是否被静音
 
-## Promise在IE下undefined问题
-在IE下，不支持ES6的新语法。
+## 多页应用的Nginx配置
+比如，前端是个多入口应用。
 
- - 通过`babel`转译，可以将ES6的语法 **（比如：箭头函数、解构赋值、class）** 转译成浏览器能识别的语法；
- - 通过`babel-polyfill`可以将ES6的API **（比如：Array的includes、Promise）** 通过浏览器能使用的旧API来实现
-
-:::tip
-`polyfill`是垫片的意思。就比如桌子的桌脚有一边矮了一点，就需要拿一个东西把桌子垫平。所以会用来**修补浏览器的一些缺陷**。
-:::
-
-## polyfill的加载方式
-#### 全局加载
-直接在业务代码中，`import '@babel/polyfill`
-
-**效果：会无视browserlist，同时将所有polyfill加载进来。**
-
-#### 按需加载
-可以通过 Babel7 的`@babel/preset-env`的`useBuiltIns`选项。
-
- - 配置1（按“浏览器”需）：
+其中`test.html`是其中一个入口，那需要后端Nginx配置，**重定向回前端静态资源**去寻找对应资源。
 ```js
-// .babelrc
-{
-    "presets": [
-        ["@babel/preset-env", {
-            "useBuiltIns": "entry"
-        }]
-    ]
+location /test.html {
+    root /home/appops/my-static/myProject/build;
+    index test.html;
+    try_files $uri /test.html;
 }
 ```
-**效果：启用polyfill。但需要在业务代码里手动`import '@babel/polyfill'`，会*根据browserlist*把需要的polyfill加载进来。**
-
- - 配置2（按“浏览器” + “业务代码”需）：
-```js
-// .babelrc
-{
-    "presets": [
-        ["@babel/preset-env", {
-            "useBuiltIns": "usage"
-        }]
-    ]
-}
-```
-效果：启用polyfill。不需要手动`import '@babel/polyfill'`，会**根据browserlist**、**业务代码** 把需要的polyfill**按需**加载进来
- > 上面提到的`browserlist`可以通过插件的配置项（即同个数组下的第二个参数这个对象）配置`targets.browsers`，也可以提取到`.browserslistrc`
-
-### useBuiltIns: "usage"搭配corejs
-根据“浏览器” + “业务代码”，按需加载polyfill。
-
-这种写法一般需要**npm安装corejs**，并且**声明corejs的版本**。
-
-```node
-yarn add corejs -S
-```
-
-```js
-// .babelrc
-{
-    "presets": [
-        ["@babel/preset-env", {
-            "useBuiltIns": "usage",
-            "corejs": 3
-        }]
-    ]
-}
-```
-
-这种加载方式的原理：**会在每个需要polyfill的文件里，import指定的polyfills。（如果同一文件下出现相同的polyfills，只会引用一次）**
-
-> Adds specific imports for polyfills when they are used in each file. We take advantage of the fact that a bundler will load the same polyfill only once.

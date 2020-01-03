@@ -9,3 +9,6 @@
 :::tip
 **心得**：目前市面上有关Hooks的文章很多了，个人比较推荐大家读读这篇，有实践，有思考，也有自己的伪实现
 :::
+
+## 利用react-router4的react-router-config做路由鉴权
+[点击查看](https://segmentfault.com/a/1190000015282620)
