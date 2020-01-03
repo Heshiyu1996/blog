@@ -47,6 +47,7 @@ const sidebar = {
             title: 'React',
             collapsable: true,
             children: [
+                'react/fiber/',
                 'react/hooks/',
                 'react/notes/',
                 'react/optimize/',
