@@ -2,8 +2,11 @@
 #### 2020-01-03
  - [React Fiber](./react/fiber/)
 
+#### 2019-12-29
+ - [单处理器进程的调度策略](./computeracy/scheduling-strategy/)
+
 #### 2019-12-06
- - [React Hooks](https://heshiyu1996.github.io/skill/react/Hooks.html)
+ - [Scheduling Strategy](https://heshiyu1996.github.io/skill/react/Hooks.html)
 
 #### 2019-11-01
  - [XSS、CSRF、SQL注入](https://heshiyu1996.github.io/skill/react/web/WebAttack.html)
