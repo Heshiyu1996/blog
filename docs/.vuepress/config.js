@@ -8,6 +8,9 @@ const nav = [
         text: '前端算法', link: '/algorithm/'
     },
     {
+        text: 'CodeReview', link: '/code-review/'
+    },
+    {
         text: '团队规范', items: [
             { text: '基本类', items: [
                     { text: 'CSS规范', link: '/standard/css/' },
@@ -19,7 +22,7 @@ const nav = [
                 { text: 'Stylelint规范', link: '/standard/stylelint/' },
                 { text: 'Git规范', link: '/standard/git/' }
                 ]
-            },
+            }
         ]
     },
     // {

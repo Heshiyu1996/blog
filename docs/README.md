@@ -16,5 +16,5 @@ features:
 #   details: 前端怎么能不了解一些后端知识呢？ 一些个人对后端的学习和实践。
 # - title: 开发环境配置
 #   details: 有时候开发环境的配置也是很头疼的，windows和mac下面又各不一样，工具的熟练程度直接决定开发速度，所以留文待查吧。
-footer: MIT Licensed | Copyright © 2019-present heshiyu
+footer: MIT Licensed | Copyright © 2020-present heshiyu
 ---

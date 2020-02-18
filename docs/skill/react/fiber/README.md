@@ -90,32 +90,19 @@ Fiber的思想：**可以中断React的渲染过程。中断后React会主动将
 
 **React向浏览器申请一个“有期限的执行权”；（申请时间片）**
 
-➡️ **浏览器在每帧内执行完任务（一般是“绘制”）后，会执行“传过来的回调”，告诉React能借多长时间；**
+➡️ **浏览器在每帧内执行完任务（一般是“绘制”）后就会执行回调，告诉React能借多长时间；**
 
 ➡️ **借完后React要按照约定，“主动”归还控制权给浏览器**。
  > 当然超时不还，浏览器也是没办法的🤷‍♂️。全凭自律，互相信任。
-
-
-#### 2、什么时候归还？
-因为在浏览器中没办法判断后面是否有更高优先级的任务，所以要通过**超时检查的机制**来归还控制权。
-
-**超时检查的机制**的大致思想：
-
-**给React确定一个时间范围（见下文），然后React在每执行完一个小任务后检查是否超时。**
-
-➡️ **若超时就停止执行，将控制权归还给浏览器。**
-
-##### 那么问题来了，这个时间范围怎么确定呢？⏰
-因为浏览器（严格说是Renderer进程）在一帧（即一个时间片）内可能会执行下列任务（执行顺序基本固定）：
+```{2,3,4,5,6}
+因为浏览器（严格说是Renderer进程）在一帧内可能会执行下列任务（执行顺序基本固定）：
  - 处理用户输入事件（事件触发线程）
  - JS执行（JS引擎线程）
  - requestAnimation调用
  - 布局Layout（GUI渲染线程）
  - 绘制Paint（GUI渲染线程）
- 
- > 理想情况下，每个时间片应该划分为16ms，因为人类能感知到最低限度的频率是每秒60帧（1000ms / 60 = 16 ms）。
-
-在每个时间片内，如果浏览器在执行完上面的任务后还有剩余时间，就会调用往`requestIdleCallback`中传入的回调。
+```
+在每一帧内，如果浏览器在执行完上面的任务后还有剩余时间，就会执行`requestIdleCallback`中传入的回调，并传入“能借给React的时间长度”：
 
 ![alt](./img/fiber-2.png)
 
@@ -137,31 +124,27 @@ interface IdleDealine {
     timeRemaining(): DOMHighResTimeStamp // 任务可供执行的剩余时间
 }
 ```
+> 目前`requestIdCallback`只有Chrome支持。React自己实现了一个（利用`MessageChannel`将回调延迟到“绘制Paint”之后执行）[查看源码](https://github.com/facebook/react/blob/master/packages/scheduler/src/forks/SchedulerHostConfig.default.js)
 
-目前`requestIdCallback`只有Chrome支持。React自己实现了一个（利用`MessageChannel`将回调延迟到“绘制Paint”之后执行）[查看源码](https://github.com/facebook/react/blob/master/packages/scheduler/src/forks/SchedulerHostConfig.default.js)
-
-另外，对于`option`这个参数所定义的**超时时间并**不是固定**的。
-> 低优先级可以慢慢等待，高优先级应该先被执行
-```
-目前React预定义了5个优先级：
- - Immediate(-1)
- - UserBlocking(250ms)
- - Normal(5s)
- - Low(10s)
- - Idle(没有超时时间)
-```
+ > 另外，在理想情况下，每个时间片应该划分为16ms，因为人类能感知到最低限度的频率是每秒60帧（1000ms / 60 = 16 ms）。
 
 
 
+#### 2、什么时候归还？
+因为在浏览器中没办法判断后面是否有更高优先级的任务，所以要通过**超时检查的机制**来判断是否要归还控制权。
 
+**超时检查的机制**的大致思想：
 
+**给React一个时间范围（在requestIdleCallback中的回调传入的时间范围timeRemaining）**
 
+➡️ **React在每执行完一个小任务后检查是否超时；**
 
-
-
+➡️ **若超时就停止执行，将控制权归还给浏览器。**
 
 
 ## 参考链接
+
+- [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 
 - [Virtual DOM 及内核](https://zh-hans.reactjs.org/docs/faq-internals.html#what-is-react-fiber)
 
