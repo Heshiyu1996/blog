@@ -185,6 +185,7 @@ module.exports = {
         lineNumbers: true, // 代码块显示行号
         toc: { includeLevel: [2, 3] } // 自动生成的目录只显示到2级标题（包括）
     },
+    theme: 'reco',
     themeConfig: {
         nav,
         sidebar,
