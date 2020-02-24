@@ -1,7 +1,12 @@
 ---
 home: true
-heroImage: /favicon.png
-actionText: 进入 →
+heroImage: /bg.png
+heroImageStyle: {
+  display: block,
+  width: 100%
+}
+isShowTitleInHome: false
+actionText: Start
 actionLink: /skill/
 features:
 - title: 前端积累

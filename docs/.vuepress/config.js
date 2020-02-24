@@ -25,6 +25,8 @@ const nav = [
             }
         ]
     },
+
+    { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
     // {
     //     text: 'sy-UI组件库', link: 'https://www.baidu.com'
     // }
@@ -175,8 +177,8 @@ const sidebar = {
 }
 
 module.exports = {
-    title: 'heshiyu\'s blog',
-    description: '思而不学则殆',
+    title: 'Heshiyu\'s Blog',
+    description: ' ',
     head, // 注入到当前页面的 HTML <head> 中的标签
 
     serviceWorker: true, // 是否开启 PWA
