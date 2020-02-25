@@ -22,6 +22,10 @@ const nav = [
                 { text: 'Stylelint规范', link: '/standard/stylelint/' },
                 { text: 'Git规范', link: '/standard/git/' }
                 ]
+            },
+            { text: '工程类', items: [
+                { text: '前后端接口规范', link: '/standard/interface/' }
+                ]
             }
         ]
     },
@@ -140,6 +144,13 @@ const sidebar = {
                 'git/',
             ]
         },
+        {
+            title: '工程类',
+            collapsable: false,
+            children: [
+                'interface/'
+            ]
+        },
     ],
     
     '/algorithm/': [
@@ -189,6 +200,7 @@ module.exports = {
     },
     theme: 'reco',
     themeConfig: {
+        author: 'Heshiyu',
         nav,
         sidebar,
         sidebarDepth: 1, // 侧边栏显示2级
