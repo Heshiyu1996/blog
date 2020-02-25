@@ -20,22 +20,26 @@ tags:
 ![alt](./img/interface-1.png)
 
 ### 内容上
-每个接口只需定义4个部分：基本属性、请求、响应、接口状态。
+每个接口只需定义3个部分：**基本属性、请求/响应信息、接口状态**。（**后端主导，前端填写**）
+
  - 基本属性
-![alt](./img/interface-5.png)
+![alt](./img/interface-2.png)
 
- - 请求信息
-![alt](./img/interface-6.png)
-
- - 响应信息（待完善）
- - 响应参数、数量、类型、取值范围；
+ - 请求/响应信息
+![alt](./img/interface-3.png)
 
  - 接口状态
-![alt](./img/interface-7.png))
+![alt](./img/interface-4.png))
 
 
-### 接口更新
-如果后端接口发生变更，应该：
+### 注意事项
+#### 导入GoTest
+提测前，**前端**需将接口一键导入到GoTest，供**QA**进行接口测试。
+
+![alt](./img/interface-5.png))
+
+#### 接口更新
+提测前，如果后端接口发生变更，应该：
  - 通知相应的开发人员
  - 修改NEI上对应接口
  - 若已提测，需将该接口重新导入GoTest
@@ -90,11 +94,11 @@ export const RedirectMap = {
     [ServerCode.NO_LOGIN]: '#/login'
 };
 ```
-### 特别说明
+### 注意事项
 目前前端有2种提示形式：
  - `400`，可扩展至`400101`、`400102`等来表示业务上更多种可能的情况
  - `402`，一般需后端提供`msg`字段
-![alt](./img/interface-8.png)
+![alt](./img/interface-6.png)
 
 ## ④ [前端] 接口Mock <Badge type="error" text="New"/>
 <!-- 建议：NEI作为**接口编辑平台**（开发用），GoTest作为**接口提测平台**（QA用）。 -->
@@ -118,7 +122,7 @@ nei server
 nei update -w
 ```
 
-## ⑤ [后端] 接口自测
+## ⑤ [后端] 接口自测 <Badge type="error" text="New"/>
 三条准则：
  - `Controller层面`无明显错误
     - 例如请求方式正确，参数类型正确，返回字段齐全以及类型正确
@@ -142,10 +146,9 @@ nei update -w
  - 部分特殊情景无法模拟
 
 ## ⑦ 接口测试（待完善）
-提测前，**前端**需将接口一键导入到GoTest，供**QA**进行接口测试。
 
 ### 测试策略
 接口测试策略共分为3大方面：**测试分析、测试分类、测试工具**。
 
-![alt](./img/interface-4.png)
+![alt](./img/interface-7.png)
 
