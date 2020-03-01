@@ -5,7 +5,11 @@ description: 1
 tags:
  - 工程规范
 ---
-> 规范约定先行，尽量避免在联调过程中产生不必要的问题。
+:::warning
+前言：本规范的应用范围为EHR的新项目（从2020年Q1起）；大部分老项目的接口也将计划在Q3前逐步迁移至NEI，可先酌情参考。
+
+当规范约定先行时，可避免开发过程中产生不必要的问题，从而提高开发效率。
+:::
 
 大致流程：
 ![alt](./img/interface-0.png)
@@ -35,7 +39,7 @@ tags:
 
 
 ## ② RESTful API规范
-（待完善）
+
 
 ## ③ 状态码
 ### 常用状态码
@@ -141,6 +145,8 @@ https://nei.netease.com/api/apimock-v2/{projectId}
 #### 2、接口更新时，前端主动更新NEI接口
 若已提测，则需将该接口重新导入GoTest。
 
+*如果想了解更多NEI相关知识，可点击：*[NEI详细教程](https://github.com/x-orpheus/nei-toolkit/blob/master/doc/%E4%BD%BF%E7%94%A8NEI%E8%BF%9B%E8%A1%8C%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B9%B6%E8%A1%8C%E5%BC%80%E5%8F%91.md)
+
 ## ⑤ [后端] 接口自测
 三条准则：
  - `Controller层面`无明显错误
@@ -164,8 +170,7 @@ https://nei.netease.com/api/apimock-v2/{projectId}
  - 本地环境的不稳定性
  - 部分特殊情景无法模拟
 
-## ⑦ 接口测试（待完善）
-
+## ⑦ 接口测试
 ### 测试策略
 接口测试策略共分为3大方面：**测试分析、测试分类、测试工具**。
 
