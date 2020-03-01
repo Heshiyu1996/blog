@@ -1,6 +1,6 @@
 ---
 title: 接口规范
-date: 2020-02-24
+date: 2020-03-01
 description: 1
 tags:
  - 工程规范
@@ -34,21 +34,7 @@ tags:
 > 养成好习惯，及时更新接口状态
 
 
-### 注意事项
-#### 导入GoTest
-提测前，**前端**需将接口一键导入到GoTest，供**QA**进行接口测试。
-
-![alt](./img/interface-5.png))
-
-#### 接口更新
-提测前，如果后端接口发生变更，应该：
- - 通知相应的开发人员
- - 修改NEI上对应接口
- - 若已提测，需将该接口重新导入GoTest
-
-一句话概括：**所有操作都在NEI进行，GoTest仅供接口定稿、接口测试**
-
-## ② RESTful API规范 <Badge type="error" text="New"/>
+## ② RESTful API规范
 （待完善）
 
 ## ③ 状态码
@@ -102,29 +88,60 @@ export const RedirectMap = {
  - `402`，一般需后端提供`msg`字段
 ![alt](./img/interface-6.png)
 
-## ④ [前端] 接口Mock <Badge type="error" text="New"/>
-<!-- 建议：NEI作为**接口编辑平台**（开发用），GoTest作为**接口提测平台**（QA用）。 -->
+## ④ [前端] 接口Mock
+- **NEI**：**接口编辑平台**（开发人员使用）
+- **GoTest**：**接口测试平台**（QA人员使用）
 
 > NEI：[https://nei.netease.com/project?pid=51981](https://nei.netease.com/project?pid=51981)
 > 
 > GoTest：[https://gotest.hz.netease.com/web/#/home/project/api?projectId=175](https://gotest.hz.netease.com/web/#/home/project/api?projectId=175)
 
-
-
-### NEI中Mock使用说明
+### NEI安装
 ```
-# 1、构建Mock工程目录（仅初次需要）
-# （请将“key”替换成项目的key，可在"EHR项目组/设置/工程标识"中查看）
-nei build -k <key>
-
-# 2、启动Mock工程
-nei server
-
-# 3、接口更新时
-nei update -w
+npm install -g nei
 ```
 
-## ⑤ [后端] 接口自测 <Badge type="error" text="New"/>
+### NEI使用方式
+| 方式 | 优势 | 劣势 |
+| ----- |:---:|:---:|
+| 本地服务器 | 本地数据改起来更灵活 | 1、需本地启动服务器；2、遇到NEI接口更新，需手动update才能同步 |
+| 线上NEI平台 | 无需构建本地服务器，随时和NEI上的接口保持同步； | 有可能存在网络延迟（待商榷） |
+
+#### 本地Mock
+ - 通过CMD指令，进入项目文件夹。
+
+ - 构建Mock工程 **（仅首次需要）**
+    ```
+    nei build -k 项目标识
+    # “项目标识”可在"EHR项目组/设置/工具标识"中查看
+    ```
+
+    ![alt](./img/interface-8.png)
+
+ - 启动
+    ```
+    nei server
+    ```
+
+ - 接口有更新时
+    ```
+    nei update -w
+    ```
+
+#### 线上Mock
+直接修改：`src/config/webpack-dev-server.config.js` -> `proxy` -> `'/mock'.target`的值为：
+
+https://nei.netease.com/api/apimock-v2/{projectId}
+> “EHR项目组”的projectId为：ba3e753ea4e356a8b856fff749e8ce15
+
+### 注意事项
+#### 1、提测前，前端主开发应将接口一键导入到GoTest
+![alt](./img/interface-5.png))
+
+#### 2、接口更新时，前端主动更新NEI接口
+若已提测，则需将该接口重新导入GoTest。
+
+## ⑤ [后端] 接口自测
 三条准则：
  - `Controller层面`无明显错误
     - 例如请求方式正确，参数类型正确，返回字段齐全以及类型正确
