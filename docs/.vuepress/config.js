@@ -1,26 +1,29 @@
 const head = require('./head')
 const nav = [
-    { text: '主页', link: '/' },
     {
         text: '前端积累', link: '/skill/'
     },
+    { text: '实用工具', link: '/tool/' },
     {
         text: '工程产出', items: [
-            { text: '基本类', items: [
-                    { text: 'CSS规范', link: '/standard/css/' },
-                    { text: 'JS规范', link: '/standard/js/' }
+            { text: '前端规范', items: [
+                    { text: 'CSS规范', link: '/output/standard/css/' },
+                    { text: 'JS规范', link: '/output/standard/js/' },
+                    { text: 'ESLint & Prettier规范', link: '/output/standard/eslint/' },
+                    { text: 'Stylelint规范', link: '/output/standard/stylelint/' },
+                    { text: 'Git规范', link: '/output/standard/git/' },
+                    { text: '接口规范', link: '/output/standard/interface/' }
                 ]
             },
-            { text: '工具类', items: [
-                { text: 'ESLint规范', link: '/standard/eslint/' },
-                { text: 'Stylelint规范', link: '/standard/stylelint/' },
-                { text: 'Git规范', link: '/standard/git/' }
+            { text: '前端工程模板', items: [
+                    { text: '单页项目（react16.9 + webpack4）', link: 'https://github.com/Heshiyu1996/react-template-singlepage' },
+                    // { text: '单页项目（react16.9 + webpack4 + Typescript）', link: 'https://github.com/Heshiyu1996/react-template-multipages' },
+                    { text: '多页项目（react16.9 + webpack4）', link: 'https://github.com/Heshiyu1996/react-template-multipages' },
                 ]
             },
-            { text: '工程类', items: [
-                { text: '前后端接口规范', link: '/standard/interface/' }
-                ]
-            }
+            { text: '团队组件库', items: [
+                { text: 'sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
+            ] }
         ]
     },
 
@@ -125,32 +128,19 @@ const sidebar = {
             ]
         }
     ],
-    '/standard/': [
-        '/standard/',
+    '/output/': [
         {
-            title: '基本类',
+            title: '前端规范',
             collapsable: false,
             children: [
-                'css/',
-                'js/'
+                'standard/css/',
+                'standard/js/',
+                'standard/eslint/',
+                'standard/stylelint/',
+                'standard/git/',
+                'standard/interface/'
             ]
-        },
-        {
-            title: '工具类',
-            collapsable: false,
-            children: [
-                'eslint/',
-                'stylelint/',
-                'git/',
-            ]
-        },
-        {
-            title: '工程类',
-            collapsable: false,
-            children: [
-                'interface/'
-            ]
-        },
+        }
     ],
     
     '/algorithm/': [
