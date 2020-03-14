@@ -642,6 +642,8 @@ document.write(`<h1 class="${styles.title}">My Webpack app.</h1>`)
 ```
 使用CSS Modules时CSS文件会导出一个对象，`${styles.title}`这样才能和**编译后的CSS类名**匹配上。
 
+Css Modules的原理：将css文件中每个className按照一定的规则映射为另一个唯一字符串，以保证className在全局作用域内不会重复和冲突。
+
 ## 第六章 代码分片
 为了提高首屏速度，一般会**尽可能地每次只加载必要的资源**，次要资源**采用延迟加载**，这就用到了**代码分片**。
 ### 通过入口划分代码
