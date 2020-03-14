@@ -27,7 +27,7 @@ const nav = [
         ]
     },
 
-    { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
+    // { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
 ]
 
 const sidebar = {
