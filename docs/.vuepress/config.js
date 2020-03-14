@@ -5,10 +5,7 @@ const nav = [
         text: '前端积累', link: '/skill/'
     },
     {
-        text: '前端算法', link: '/algorithm/'
-    },
-    {
-        text: '团队规范', items: [
+        text: '工程产出', items: [
             { text: '基本类', items: [
                     { text: 'CSS规范', link: '/standard/css/' },
                     { text: 'JS规范', link: '/standard/js/' }
@@ -28,9 +25,6 @@ const nav = [
     },
 
     { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
-    // {
-    //     text: 'sy-UI组件库', link: 'https://www.baidu.com'
-    // }
 ]
 
 const sidebar = {
@@ -119,6 +113,15 @@ const sidebar = {
             collapsable: true,
             children: [
                 'computeracy/scheduling-strategy/',
+            ]
+        },
+        {
+            title: '算法',
+            collapsable: true,
+            children: [
+                'algorithm/sort/',
+                'algorithm/search/',
+                'algorithm/time-complexity/',
             ]
         }
     ],
