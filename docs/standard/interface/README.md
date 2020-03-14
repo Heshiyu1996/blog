@@ -23,6 +23,8 @@ tags:
 | 接口平台 | [NEI](https://nei.netease.com/project?pid=51981) | [GoTest](https://gotest.hz.netease.com/web/#/home/project/api?projectId=175)仅作接口测试使用 |
 | 约定内容 | 接口的基本属性、请求/响应信息 | 后端主导，前端填写 |
 
+**建议：从新项目（2020年Q1起）开始，需要产品明确此次迭代的版本号，而不仅仅是上线日期（供接口打标签使用）。**
+
 ### “约定内容”详细说明
 #### 接口的基本属性
 | 接口字段 | 说明 | 示例 |
@@ -30,7 +32,7 @@ tags:
 | 接口名称 | 必填。动词 + 名词 | 新增词库|
 | 请求方式、URL | 必填。符合RESTful风格（见下文） | POST /search/words |
 | 业务分组 | 必填。功能大模块 | 搜索管理 |
-| 标签 | 必填。功能小模块 | 词库配置 |
+| 标签 | 必填。迭代版本号 | v1.0 |
 | 负责人 | 必填。一般填“前端人员” | 贺世宇 |
 | 关注人 | 必填。一般填“后端人员” | 张少军 |
 
@@ -49,7 +51,44 @@ tags:
 ![alt](./img/interface-3.png)
 
 ## ② RESTful API规范
+### 基本特点
+前后端接口应当统一约定为**RESTful API**。
 
+> **REST（Representational State Transfer，表现层状态转化）**，是一种设计风格。
+>
+> 符合REST设计风格的Web API可称为RESTful API。
+>
+> Representational：“资源”的呈现形式
+> State Transfer：服务器中的数据（或状态）的变化
+ 
+
+综上，**RESTful API**的特点：
+
+    1、简短、层级关系直观的资源URI； 
+
+    2、资源呈现形式；（如：JSON、二进制、JPG、HTML等） 
+
+    3、对资源的操作（4种：GET、POST、PUT、DELETE）
+
+### 使用示例
+| 接口名称 | 请求方式 | URI |
+| ----- |:---:|:---:|
+| 以“班级”为资源 |  |  |
+| 获取班级列表 | GET | 分页：/class；不分页：/class/list |
+| 查询班级信息 | GET | /class/:id |
+| 新建班级	 | POST | /class |
+| 编辑班级 | PUT | /class/:id |
+| 删除班级 | DELETE | /class/:id |
+| 以“学生”为资源 |  |  |
+| 查询学生信息 | GET | /class/:classID/student/:studentID |
+
+如果觉得以上不够用，下面作为补充：
+| 接口名称 | 请求方式 | URI |
+| ----- |:---:|:---:|
+| 批量删除班级 | DELETE | /class（idList放请求参数） |
+| 批量修改班级状态 | PUT | /class/status（idList放请求参数） |
+
+注意：GET请求不能用body参数；POST/PUT/DELETE请求不能用param参数
 
 ## ③ [前端] 接口Mock
 在之后的新项目开发中，前端可直接通过NEI生成Mock数据，无需专门维护，更加方便快捷！
