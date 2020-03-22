@@ -1,7 +1,15 @@
 const head = require('./head')
 const nav = [
     {
-        text: '前端积累', link: '/skill/'
+        text: '前端积累', items: [
+            {
+                text: '基础', items: [
+                    { text: 'HTML', link: '/skill/html/' },
+                    { text: 'CSS', link: '/skill/css/' },
+                    { text: 'JS', link: '/skill/js/' },
+                ]
+            }
+        ]
     },
     { text: '实用工具', link: '/tool/' },
     {
@@ -25,107 +33,142 @@ const nav = [
                 { text: 'sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
             ] }
         ]
-    },
-
-    // { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
+    }
 ]
 
 const sidebar = {
-    '/skill/': [
-        '/skill/',
+    // '/skill/': [
+    //     '/skill/',
+    //     {
+    //         title: 'JS',
+    //         collapsable: true,
+    //         children: [
+    //             'js/JSModule.md',
+    //             'js/EventLoop.md',
+    //             'js/Regex.md',
+    //             'js/DOM.md',
+    //             'js/JSAsync.md',
+    //             'js/DesignPatterns.md',
+    //             'js/Etc'
+    //         ]
+    //     },
+    //     {
+    //         title: 'React',
+    //         collapsable: true,
+    //         children: [
+    //             'react/fiber/',
+    //             'react/hooks/',
+    //             'react/notes/',
+    //             'react/optimize/',
+    //             'react/question/'
+    //         ]
+    //     },
+    //     // {
+    //     //     title: 'CSS',
+    //     //     collapsable: true,
+    //     //     children: [
+    //     //         'css/FlexBox',
+    //     //         'css/BFC',
+    //     //         'css/Etc'
+    //     //     ]
+    //     // },
+    //     {
+    //         title: 'HTML',
+    //         collapsable: true,
+    //         children: [
+    //             'html/WebWorker',
+    //             'html/Etc'
+    //         ]
+    //     },
+    //     {
+    //         title: 'Web/浏览器',
+    //         collapsable: true,
+    //         children: [
+    //             'web/HTTP',
+    //             'web/CDN',
+    //             'web/ClientServerRender',
+    //             'web/CORS',
+    //             'web/WebAttack',
+    //             'web/WebSocket',
+    //             'web/WebStorage',
+    //             'web/Optimize',
+    //             'web/Browser',
+    //             'web/Etc'
+    //         ]
+    //     },
+    //     {
+    //         title: '项目笔记',
+    //         collapsable: true,
+    //         children: [
+    //             'project/babel/',
+    //             'project/notes/',
+    //             'project/mobile-adapter/',
+    //             'project/webpack/',
+    //             'project/Trick.md',
+    //             'project/package/',
+    //         ]
+    //     },
+    //     {
+    //         title: '读书笔记',
+    //         collapsable: true,
+    //         children: [
+    //             'note/webpack-experience/',
+    //             'note/react-deep-learning/',
+    //             'note/vue-composition-api-rfc.md',
+    //             'note/Links.md'
+    //         ]
+    //     },
+    //     {
+    //         title: '计算机知识',
+    //         collapsable: true,
+    //         children: [
+    //             'computeracy/scheduling-strategy/',
+    //         ]
+    //     },
+    //     {
+    //         title: '算法',
+    //         collapsable: true,
+    //         children: [
+    //             'algorithm/sort/',
+    //             'algorithm/search/',
+    //             'algorithm/time-complexity/',
+    //         ]
+    //     }
+    // ],
+    '/skill/html': [
         {
-            title: 'JS',
-            collapsable: true,
+            title: '《HTML》',
+            collapsable: false,
             children: [
-                'js/JSModule.md',
-                'js/EventLoop.md',
-                'js/Regex.md',
-                'js/DOM.md',
-                'js/JSAsync.md',
-                'js/DesignPatterns.md',
-                'js/Etc'
+                'html/web-worker/',
+                'html/other/'
             ]
-        },
+        }
+    ],
+    '/skill/css': [
         {
-            title: 'React',
-            collapsable: true,
+            title: '《CSS》',
+            collapsable: false,
             children: [
-                'react/fiber/',
-                'react/hooks/',
-                'react/notes/',
-                'react/optimize/',
-                'react/question/'
+                'css/bfc/',
+                'css/flex-box/',
+                'css/other/'
             ]
-        },
+        }
+    ],
+    '/skill/js': [
         {
-            title: 'CSS',
-            collapsable: true,
+            title: '《JS》',
+            collapsable: false,
             children: [
-                'css/FlexBox',
-                'css/BFC',
-                'css/Etc'
-            ]
-        },
-        {
-            title: 'HTML',
-            collapsable: true,
-            children: [
-                'html/WebWorker',
-                'html/Etc'
-            ]
-        },
-        {
-            title: 'Web/浏览器',
-            collapsable: true,
-            children: [
-                'web/HTTP',
-                'web/CDN',
-                'web/ClientServerRender',
-                'web/CORS',
-                'web/WebAttack',
-                'web/WebSocket',
-                'web/WebStorage',
-                'web/Optimize',
-                'web/Browser',
-                'web/Etc'
-            ]
-        },
-        {
-            title: '项目笔记',
-            collapsable: true,
-            children: [
-                'project/babel/',
-                'project/notes/',
-                'project/mobile-adapter/',
-                'project/webpack/',
-                'project/Trick.md',
-                'project/package',
-            ]
-        },
-        {
-            title: '读书笔记',
-            collapsable: true,
-            children: [
-                'note/webpack-experience/',
-                'note/react-deep-learning/',
-                'note/vue-composition-api-rfc.md',
-                'note/Links.md'
-            ]
-        },
-        {
-            title: '计算机知识',
-            collapsable: true,
-            children: [
-                'computeracy/scheduling-strategy/',
-            ]
-        },
-        {
-            title: '算法',
-            collapsable: true,
-            children: [
-                'algorithm/sort/',
-                'algorithm/search/',
-                'algorithm/time-complexity/',
+                'js/async-plan/',
+                'js/design-patterns/',
+                'js/dom/',
+                'js/event-loop/',
+                'js/modular/',
+                'js/regex/',
+                // 'js/amd-cmd/',
+                'js/other/'
             ]
         }
     ],
@@ -189,12 +232,12 @@ module.exports = {
         lineNumbers: true, // 代码块显示行号
         toc: { includeLevel: [1, 2] } // 自动生成的目录只显示到2级标题（包括）
     },
-    theme: 'reco',
+    // theme: 'reco',
     themeConfig: {
         author: 'Heshiyu',
         nav,
         sidebar,
-        sidebarDepth: 1, // 侧边栏显示2级
+        sidebarDepth: 0, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 

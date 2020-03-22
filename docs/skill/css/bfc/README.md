@@ -14,7 +14,7 @@
  
  例子：
  `div1`、`div2`都是浮动的，希望做到`div2`紧跟`div1`底部对齐
- ![alt](././img/BFC-1.png)
+ ![alt](./img/BFC-1.png)
 
  解决方法：
  ```css
@@ -22,7 +22,7 @@
     clear: left; /* 指定 div2元素左边 不允许出现浮动元素 */
  }
  ```
- ![alt](././img/BFC-2.png)
+ ![alt](./img/BFC-2.png)
  
 ### 浮动会带来什么问题？
   - 多个浮动元素可能导致父元素高度无法撑开
@@ -74,7 +74,7 @@
  
  上一个div的`margin-bottom: 100px;`，下一个div的`margin-top: 100px;`，可看出margin是重叠过的（即两个100px只算一个）
 
- ![alt](././img/BFC-3.png)
+ ![alt](./img/BFC-3.png)
 
  > 解决方法：为了 避免外边距（margin）重叠，可以将它们放到 `不同的BFC容器`中（每个div外包一个`overflow: hidden;`的父容器）
 
@@ -106,11 +106,11 @@
 
  - before
 
- ![alt](././img/BFC-4.png)
+ ![alt](./img/BFC-4.png)
  
  - after
 
- ![alt](././img/BFC-5.png)
+ ![alt](./img/BFC-5.png)
 
  - `BFC`可以包含浮动的元素（即通常说的`清除浮动`）
 ```html
@@ -137,11 +137,11 @@
 
  - before
 
- ![alt](././img/BFC-6.png)
+ ![alt](./img/BFC-6.png)
 
  - after
 
- ![alt](././img/BFC-7.png)
+ ![alt](./img/BFC-7.png)
  
 
 ## margin重叠问题

@@ -1,10 +1,6 @@
 ---
 home: true
 heroImage: /bg.png
-heroImageStyle: {
-  display: block,
-  width: 100%
-}
 isShowTitleInHome: false
 actionText: Start
 actionLink: /skill/
