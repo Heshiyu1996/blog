@@ -99,6 +99,7 @@ const sidebar = {
                 'project/mobile-adapter/',
                 'project/webpack/',
                 'project/Trick.md',
+                'project/package',
             ]
         },
         {
