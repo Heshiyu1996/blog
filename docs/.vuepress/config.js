@@ -1,5 +1,6 @@
 const head = require('./head')
 const nav = [
+    { text: '总览', link: '/overview/' },
     {
         text: '前端积累', items: [
             {
@@ -30,7 +31,6 @@ const nav = [
             }
         ]
     },
-    { text: '实用工具', link: '/tool/' },
     {
         text: '工程产出', items: [
             { text: '前端规范', items: [
@@ -52,10 +52,12 @@ const nav = [
                 { text: 'sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
             ] }
         ]
-    }
+    },
+    { text: '实用工具', link: '/tool/' },
 ]
 
 const sidebar = {
+    '/overview/': ['/overview/'],
     '/skill/html': [
         {
             title: '《HTML》',
@@ -212,7 +214,7 @@ module.exports = {
         author: 'Heshiyu',
         nav,
         sidebar,
-        sidebarDepth: 0, // 侧边栏显示2级
+        sidebarDepth: 1, // 侧边栏显示2级
 
         lastUpdated: '上次更新', // string | boolean
 

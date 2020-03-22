@@ -1,8 +1,4 @@
----
-title: package.json
-
----
-
+# package.json
 
 ## peerDependencies
 在`npm3`中，项目中不会自动安装某第三方库里的`peerDependencies`所指定得到依赖。

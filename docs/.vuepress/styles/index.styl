@@ -19,29 +19,62 @@ body, html {
 
 // 侧边栏
 .sidebar {
-    width: 18rem !important;
+    width: 19rem !important;
+
+    a.sidebar-link {
+        padding-left: 2rem;
+        font-weight: bold;
+        color: #999;
+        transition: all .2s ease;
+
+        &.active {
+            width: 15rem;
+            padding: .35rem 1rem .35rem .75rem;
+            margin: 0 1rem 0 1.5rem;
+            border-radius: .25rem;
+            color: white;
+            background: $accentColor;
+            transition: all .2s ease;
+        }
+    }
+}
+.sidebar-sub-headers {
+    a.sidebar-link {
+        color: #333;
+        font-weight: normal;
+        transition: all .2s ease;
+
+        &.active {
+            padding: .25rem 1rem .25rem 2rem;
+            margin: auto;
+            width: auto;
+            color: $accentColor;
+            background transparent;
+            transition: all .2s ease;
+        }
+    }
 }
 
 // 正文左内边距
 .page {
-    padding-left 18rem;
+    padding-left: 19rem;
 }
 
 // 导航样式
 .dropdown-wrapper .nav-dropdown {
     padding: 0 !important;
-}
+   
+    .dropdown-item {
+        padding-bottom: 0.45rem !important;
 
-.dropdown-wrapper .nav-dropdown .dropdown-item {
-    padding-bottom: 0.45rem !important;
-}
+        h4 {
+            margin: .45rem 0 !important;
+            padding: 0.45rem 1.5rem 0 0.8rem !important;
+            color: #999;
 
-.dropdown-wrapper .nav-dropdown .dropdown-item h4 {
-    margin: .45rem 0 !important;
-    padding: 0.45rem 1.5rem 0 0.8rem !important;
-    color: #999;
-}
-
-.dropdown-wrapper .nav-dropdown .dropdown-item h4:first-child {
-    margin-top: 0 !important;
+            &:first-child {
+                margin-top: 0 !important;
+            }
+        }
+    }
 }

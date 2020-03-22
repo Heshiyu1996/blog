@@ -1,5 +1,5 @@
 ---
-title: 时间复杂度度
+title: 时间复杂度
 date: 2020-03-14
 description: 1
 tags:
