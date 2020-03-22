@@ -7,6 +7,25 @@ const nav = [
                     { text: 'HTML', link: '/skill/html/' },
                     { text: 'CSS', link: '/skill/css/' },
                     { text: 'JS', link: '/skill/js/' },
+                    { text: 'Web/浏览器', link: '/skill/web/' },
+                ]
+            },
+            {
+                text: '框架', items: [
+                    { text: 'React', link: '/skill/react/' },
+                    { text: 'Vue', link: '/skill/vue/' }
+                ],
+            },
+            {
+                text: '笔记', items: [
+                    { text: '项目笔记', link: '/skill/project/' },
+                    { text: '读书心得', link: '/skill/note/' }
+                ]
+            },
+            {
+                text: '前端周边', items: [
+                    { text: '计算机', link: '/skill/computeracy/' },
+                    { text: '算法', link: '/skill/algorithm/' }
                 ]
             }
         ]
@@ -37,104 +56,6 @@ const nav = [
 ]
 
 const sidebar = {
-    // '/skill/': [
-    //     '/skill/',
-    //     {
-    //         title: 'JS',
-    //         collapsable: true,
-    //         children: [
-    //             'js/JSModule.md',
-    //             'js/EventLoop.md',
-    //             'js/Regex.md',
-    //             'js/DOM.md',
-    //             'js/JSAsync.md',
-    //             'js/DesignPatterns.md',
-    //             'js/Etc'
-    //         ]
-    //     },
-    //     {
-    //         title: 'React',
-    //         collapsable: true,
-    //         children: [
-    //             'react/fiber/',
-    //             'react/hooks/',
-    //             'react/notes/',
-    //             'react/optimize/',
-    //             'react/question/'
-    //         ]
-    //     },
-    //     // {
-    //     //     title: 'CSS',
-    //     //     collapsable: true,
-    //     //     children: [
-    //     //         'css/FlexBox',
-    //     //         'css/BFC',
-    //     //         'css/Etc'
-    //     //     ]
-    //     // },
-    //     {
-    //         title: 'HTML',
-    //         collapsable: true,
-    //         children: [
-    //             'html/WebWorker',
-    //             'html/Etc'
-    //         ]
-    //     },
-    //     {
-    //         title: 'Web/浏览器',
-    //         collapsable: true,
-    //         children: [
-    //             'web/HTTP',
-    //             'web/CDN',
-    //             'web/ClientServerRender',
-    //             'web/CORS',
-    //             'web/WebAttack',
-    //             'web/WebSocket',
-    //             'web/WebStorage',
-    //             'web/Optimize',
-    //             'web/Browser',
-    //             'web/Etc'
-    //         ]
-    //     },
-    //     {
-    //         title: '项目笔记',
-    //         collapsable: true,
-    //         children: [
-    //             'project/babel/',
-    //             'project/notes/',
-    //             'project/mobile-adapter/',
-    //             'project/webpack/',
-    //             'project/Trick.md',
-    //             'project/package/',
-    //         ]
-    //     },
-    //     {
-    //         title: '读书笔记',
-    //         collapsable: true,
-    //         children: [
-    //             'note/webpack-experience/',
-    //             'note/react-deep-learning/',
-    //             'note/vue-composition-api-rfc.md',
-    //             'note/Links.md'
-    //         ]
-    //     },
-    //     {
-    //         title: '计算机知识',
-    //         collapsable: true,
-    //         children: [
-    //             'computeracy/scheduling-strategy/',
-    //         ]
-    //     },
-    //     {
-    //         title: '算法',
-    //         collapsable: true,
-    //         children: [
-    //             'algorithm/sort/',
-    //             'algorithm/search/',
-    //             'algorithm/time-complexity/',
-    //         ]
-    //     }
-    // ],
     '/skill/html': [
         {
             title: '《HTML》',
@@ -172,6 +93,93 @@ const sidebar = {
             ]
         }
     ],
+    '/skill/web': [
+        {
+            title: 'Web/浏览器',
+            collapsable: true,
+            children: [
+                'web/browser/',
+                'web/cdn/',
+                'web/cors/',
+                'web/http/',
+                'web/optimize/',
+                'web/ssr/',
+                'web/web-attack/',
+                'web/web-storage/',
+                'web/websocket/',
+                'web/other/'
+            ]
+        },
+    ],
+
+    '/skill/react': [
+        {
+            title: '《React》',
+            collapsable: false,
+            children: [
+                'react/fiber/',
+                'react/hooks/',
+                'react/notes/',
+                'react/optimize/',
+                'react/question/'
+            ]
+        }
+    ],
+    '/skill/vue': [
+        {
+            title: '《Vue》',
+            collapsable: false,
+            children: [
+                'vue/vue-composition-api-rfc/'
+            ]
+        }
+    ],
+    '/skill/project': [
+        {
+            title: '《项目笔记》',
+            collapsable: false,
+            children: [
+                'project/babel/',
+                'project/notes/',
+                'project/mobile-adapter/',
+                'project/webpack/',
+                'project/package/',
+                'project/other/'
+            ]
+        }
+    ],
+    '/skill/note': [
+        {
+            title: '《读书心得》',
+            collapsable: false,
+            children: [
+                'note/webpack-experience/',
+                'note/react-deep-learning/',
+                'note/links/'
+            ]
+        }
+    ],
+    '/skill/computeracy': [
+        {
+            title: '《计算机知识》',
+            collapsable: false,
+            children: [
+                'computeracy/scheduling-strategy/',
+            ]
+        }
+    ],
+    '/skill/algorithm': [
+        {
+            title: '《算法》',
+            collapsable: false,
+            children: [
+                'algorithm/sort/',
+                'algorithm/search/',
+                'algorithm/time-complexity/',
+            ]
+        }
+    ],
+
     '/output/': [
         {
             title: '前端规范',
@@ -183,39 +191,6 @@ const sidebar = {
                 'standard/stylelint/',
                 'standard/git/',
                 'standard/interface/'
-            ]
-        }
-    ],
-    
-    '/algorithm/': [
-        '/algorithm/',
-        {
-            title: '八大排序',
-            collapsable: false,
-            children: [
-                'sort/Selection',
-                'sort/Shell',
-                'sort/Quick',
-                'sort/Heap',
-                'sort/Bubble',
-                'sort/Insertion',
-                'sort/Merge',
-                'sort/Radix',
-                'sort/Etc',
-            ]
-        },
-        {
-            title: '查找算法',
-            collapsable: false,
-            children: [
-                'search/Binary',
-            ]
-        },
-        {
-            title: '算法基础',
-            collapsable: false,
-            children: [
-                'Basic',
             ]
         }
     ]
