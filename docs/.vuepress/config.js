@@ -155,6 +155,7 @@ const sidebar = {
             title: '《读书心得》',
             collapsable: false,
             children: [
+                'note/complete-intro-react/',
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
                 'note/links/'

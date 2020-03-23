@@ -4,18 +4,29 @@ sidebarDepth: 2
 ---
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-03-23
+ - [Complete intro react](/skill/note/complete-intro-react/)
+<Badge text="笔记" type="error"/>
+
 #### 2020-01-03
  - [React Fiber](/skill/react/fiber/)
+<Badge text="框架" type="warning"/>
 
 #### 2019-12-29
- - [单处理器进程的调度策略](/skill/computeracy/scheduling-strategy/)
+ - [单处理器进程的调度策略](/skill/computeracy/scheduling-strategy/) 
+<Badge text="前端周边" type="normal"/>
 
 #### 2019-12-06
- - [Scheduling Strategy](/skill/react/hooks/)
-
-#### 2019-11-01
- - [XSS、CSRF、SQL注入](/skill/web/web-attack/)
+ - [Hooks](/skill/react/hooks/)
+<Badge text="框架" type="warning"/>
 :::
+
+<!-- 
+<Badge text="基础" type="success"/>
+<Badge text="框架" type="warning"/>
+<Badge text="笔记" type="error"/>
+<Badge text="前端周边" type="normal"/>
+ -->
 
 
 ## HTTP <Badge text="基础" type="success"/>
@@ -147,13 +158,13 @@ sidebarDepth: 2
 
 
 
-## 计算机 <Badge text="前端周边" type="error"/>
+## 计算机 <Badge text="前端周边" type="normal"/>
 ### 单处理器进程的调度策略
 [查看](/skill/computeracy/scheduling-strategy/)
 
 
 
-## 算法 <Badge text="前端周边" type="error"/>
+## 算法 <Badge text="前端周边" type="normal"/>
 ### 单处理器进程的调度策略
 [查看](/skill/algorithm/sort/)
 ### 查找算法
