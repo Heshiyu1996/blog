@@ -66,6 +66,24 @@ React takes this tree of objects and transforms it into a tree of DOM elements. 
 
 ![alt](./img/img-2.png)
 
+## 每当调用<Button>时，React会做什么事情？
+Every time we use the `Button` class-based component (by rendering a `<Button />`), React will instantiate an object from this class-based component and use that object's representation to create a DOM element
+
+> React会实例化一个 这个基于class的组件 的对象，然后使用对象的形式去创建一个DOM节点
+
+## Class-based组件的render方法不接受任何参数
+Unlike function components, the `render` function in class-based components does not receive any arguments.
+
+## Components vs Elements
+React learner needs to understand the important distinctions between `Components` and `Element`:
+ - A React Component is a template. A blueprint. A global definition. This can be either a function or a class (with a render method).
+
+ - A React Element is what gets returned from components. It's an object that virtually describes the DOM nodes that a component represents. With a function component, this element is the object that the function returns and with a class component the element is the objecct that component's render method returns. React elements are not what you see in the browser. They are just objects in memory and you can't change anything about them.
+
+ React internally creates, updates, and destroys objects to figure out the DOM elements tree that needs to be rendered to the browser. When working with class components, it's common to refer to their browser-rendered DOM elements as component instance. You can render many instances of the same component. The instance is the `this` keyword that you use inside class-based components. You would not need to create an instance from a class manually. You just need to remember that it's there somewhere in React's memory. For function components, React just uses the invocation of the function to determine what DOM element to render.
+
+ > 翻译...
+
 
 ## 原文链接
 [https://jscomplete.com/learn/complete-intro-react](https://jscomplete.com/learn/complete-intro-react)
