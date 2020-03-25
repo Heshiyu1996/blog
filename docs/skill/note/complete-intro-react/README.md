@@ -66,7 +66,7 @@ React takes this tree of objects and transforms it into a tree of DOM elements. 
 
 ![alt](./img/img-2.png)
 
-## 每当调用<Button>时，React会做什么事情？
+## 每当调用`<Button>`时，React会做什么事情？
 Every time we use the `Button` class-based component (by rendering a `<Button />`), React will instantiate an object from this class-based component and use that object's representation to create a DOM element
 
 > React会实例化一个 这个基于class的组件 的对象，然后使用对象的形式去创建一个DOM节点
@@ -87,6 +87,15 @@ React learner needs to understand the important distinctions between `Components
  > React Element是从React Component返回的。它是一个描述DOM节点的对象。对于函数式组件，element是函数式组件返回的对象；对于class组件，element是class组件返回的对象。React Element是你在浏览器中看不见的，他们只是存在内存中。同时，你也不能改变它们。
 
  > React可以通过在内部新增、修改以及删除对象，来判断出`需要被渲染到浏览器对的DOM树`。当使用class组件时，它通常指的是作为组件实例的DOM元素（？）。你可以用同一个component来渲染多个实例。这个实例就是你在class组件里用到的`this`所指的对象。你不需要手动地创建一个实例，你只需记得它存在React内存中。对于函数式组件，React通过函数对的调用来确定要渲染的DOM节点。
+
+## 纯函数（pure functions）的概念
+In functional programing, we have the concept of pure functons. These are basically protected against any outside state; if we give them the same input, we'll always get the same output.
+
+> 在函数式编程里，有个概念叫“纯函数”。它们不会受外部state的影响。如果我们给它们同样的输入，那我们就会获得相同的输出。
+
+If a React component does not depend on (or modify) anythin outside of its definition (for example, if it does not use a global variable) we can label that component pure as well. Pure components have a better chance at being reused without any problems.
+
+> 如果一个React组件不依赖（或修改）在它定义以外的任何内容（比如，如果他不使用全局变量），我们也可以将该组件标记为纯组件。纯组件有个好处就是被复用但不会出现其他问题。
 
 
 ## 原文链接
