@@ -51,11 +51,37 @@
 ### Git分支图
 ![alt](./img/git-branch.jpg)
 
-## Commit校验工具——Husky
-原理：在`git commit`提交代码前，利用Git钩子——`pre-commit`来实现代码规范检测。一旦发现检测结果带有`error`，则不允许提交到远程仓库。
+## Commit校验工具——husky
+原理：在`git commit`提交代码前，利用Git钩子（`pre-commit`、`commit-msg`）来实现代码规范检测、提交信息检测。
 
-### 安装Husky
-    yarn add husky -D
+### 安装husky & lint-staged
+    yarn add husky lint-staged -D
+
+`lint-staged`可以仅仅过滤出Git代码暂存区中**符合的文件**（即本次被committed的文件）。
+> 虽然如Eslint之类的也有文件过滤配置，但毕竟还是对于匹配文件的全量遍历，如全量的.js文件，基本达不到性能要求，有时还会误格式化其他同学的代码，因此我们引入Lint-staged。
+
+### 在新建脚本`verify-commit-msg.js`
+```js
+const chalk = require('chalk');
+
+const msgPath = process.env.HUSKY_GIT_PARAMS;
+const msg = require('fs').readFileSync(msgPath, 'utf-8').trim();
+
+const commitRE = /^(((feature|fix|docs|style|refactor|jira)?: .{1,50})|npm run format|merge|build)/;
+
+if (!commitRE.test(msg)) {
+    console.log();
+    console.error(
+        `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(`commit信息格式不正确，请遵循“前端Git规范”`)}\n\n` +
+            chalk.red(`  Examples: <type>: <message>\n\n`) +
+            `    ${chalk.green(`feature: add component Header`)}\n` +
+            `    ${chalk.green(`（以及：${chalk.cyan(`npm run format`)}、${chalk.cyan(`merge`)}、${chalk.cyan(`build`)}）`)}\n\n`
+    );
+    process.exit(1);
+}
+```
+这样就可以自由定制信息。
+> 也可以用已有的包[commitlint](https://github.com/conventional-changelog/commitlint)进行校验。
 
 ### package.json配置
 ```json
@@ -64,12 +90,29 @@
     "lint": "eslint --fix --ext .js,.jsx src"
 },
 
-"husky": {
-    "hooks": {
-        "pre-commit": "npm run format && npm run lint && git add ."
-    }
-}
+"gitHooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "node scripts/verify-commit-msg.ts"
+},
+"lint-staged": {
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "npm run lint",
+      "git add ."
+    ]
+},
 ```
+此处`lint-staged`的用处：对本次被committed的所有`packages`下的所有子孙目录的`js、jsx、ts、tsx`文件，执行`npm run format`、`npm run lint`、`git add .`命令。
+
+其中，
+ - `pre-commit`此阶段可指定某些操作（如：代码检查）
+> 执行时机：输入`git commit -m "xxx"`后、`commit-msg`前
+
+ - `commit-msg`此阶段可以“检查commit提交信息”
+> 执行时机：commit生效前
+
+
+以上配置后，如果代码检测不通过，或者不符合`<type>: <subject>`规则，Git 将放弃此次提交。
 
 ### 使用注意
  1、由于使用了`git add .`，会将`待定区`文件全部提交 *（尽量保证每次的“小功能提交”）*；
@@ -81,3 +124,7 @@
  4、跳过检测，强制提交（不推荐）
 
     git add . && git commit --no-verify -m "force commit"
+
+## 参考链接
+ - [前端代码风格自动化系列（三）之Lint-staged](https://segmentfault.com/a/1190000017790711?utm_source=tag-newest)
+ - [git commit 规范](https://www.jianshu.com/p/856bbb5ed9ec)

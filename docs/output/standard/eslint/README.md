@@ -39,9 +39,6 @@ module.exports = {
         'prettier/prettier': 'warn', // 对于prettier报错进行warn提醒
     }
 }
-
-}
-
 ```
 
 ### React版：
