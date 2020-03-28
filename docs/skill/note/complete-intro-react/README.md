@@ -97,6 +97,42 @@ If a React component does not depend on (or modify) anythin outside of its defin
 
 > 如果一个React组件不依赖（或修改）在它定义以外的任何内容（比如，如果他不使用全局变量），我们也可以将该组件标记为纯组件。纯组件有个好处就是被复用但不会出现其他问题。
 
+## 变量 与 状态的关系
+Every time you define a variable in you code you will beintroducing a state and every time you change the value of that variable you are mutating that state. Kepp that in mind.
+
+> 每当你在代码里定义了一个变量，就相当于引入了一个状态；每当你个改变这个变量的值，就相当于你改变了这个状态。常记于心。
+
+```js
+const Button = () => {
+  let count = 0;
+
+  return (
+    <button>{count}</button>
+  );
+};
+
+ReactDOM.render(<Button />, mountNode);
+```
+This `count` variable will be the state element that we need to introduce to the example. It's a piece of data that UI will depend on (because we're displaying it) and it is a state element because it is going to change over time.
+
+> 这个`count`变量会是一个状态元素，因为我们需要把它引入到我们的示例中。它是一条UI依赖的数据（因为我们正在展示它），同时它也是个状态变量，因为它会随着时间改变。
+
+## 为什么useState可以用const
+Note also how I used the const keyword to define `count` although it's a value that gets changed! Our code will not change that value. React will when it uses a fresh call of the `Button` function to render the UI of its new state. In that fresh call, the `useState` function call will give us a new fresh `count` value.
+
+> 也注意下我是如何用`const`来定义`count`的，虽然它的值会改变! 我们的代码是不会改变它的值，但React会在**当`Button`组件发生fresh call、导致新状态的UI渲染**后，改变`count`的值。
+>
+> 在它的fresh call时，`useState`会给我们新的`count`值
+
+## 管理副作用（side effects）
+Mounting, updating, and unmounting components might need to have a "sie effect". For example, a React TODOs app might need to display the number of active TODO items in the title of the browser page. This is not something you can do directly with the React API. You need to use the DOM API for it. Similarly, when rendering an input form you might want too auto-focus a text box. That too has to be done with the DOM API.
+
+> 我们在“挂载、更新以及卸载组件”时，都可能需要拥有一些“副作用”。比如，一个Todo程序需要在浏览器title里展示总数。对于这种情况你并不能直接操作React API。你需要使用DOM API。类似的，你可能希望渲染一个form时，可自动聚焦到某个输入框上。这些都需要用到DOM API。
+
+Side effects usually need to happen either before or after React's render task.
+
+> “副作用”经常需要发生在“React渲染任务的之前或之后”。
+
 
 ## 原文链接
 [https://jscomplete.com/learn/complete-intro-react](https://jscomplete.com/learn/complete-intro-react)
