@@ -90,6 +90,7 @@ const sidebar = {
                 'js/event-loop/',
                 'js/modular/',
                 'js/regex/',
+                'js/class/',
                 // 'js/amd-cmd/',
                 'js/other/'
             ]
