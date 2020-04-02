@@ -1,6 +1,9 @@
 详情请进: https://Heshiyu1996.github.io
 
 # 最近更新
+#### 2020-04-01
+ - [浏览器缓存机制](./skill/web/browser-cache/)
+
 #### 2020-03-23
  - [Complete intro react](./note/complete-intro-react/)
  

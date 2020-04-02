@@ -102,6 +102,7 @@ const sidebar = {
             collapsable: true,
             children: [
                 'web/browser/',
+                'web/browser-cache/',
                 'web/cdn/',
                 'web/cors/',
                 'web/http/',
