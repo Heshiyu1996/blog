@@ -11,6 +11,6 @@
 ```js
 const quickSort = arr => arr.length <= 1 ? arr :
       quickSort(arr.filter(x => x < arr[0]))
-      .concat(arr.filter(x => x == arr[0]))
+      .concat(arr.filter(x => x === arr[0]))
       .concat(quickSort(arr.filter(x => x > arr[0])))
 ```
