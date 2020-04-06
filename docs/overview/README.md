@@ -5,7 +5,7 @@ sidebarDepth: 2
 
 ::: tip -------------------------------最近更新-------------------------------
 #### 2020-04-01
- - [浏览器缓存机制](./skill/web/browser-cache/)
+ - [浏览器缓存机制](/skill/web/browser-cache/)
 <Badge text="基础" type="success"/>
 
 #### 2020-03-23

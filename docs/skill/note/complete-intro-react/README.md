@@ -86,7 +86,7 @@ React learner needs to understand the important distinctions between `Components
 
  > React Element是从React Component返回的。它是一个描述DOM节点的对象。对于函数式组件，element是函数式组件返回的对象；对于class组件，element是class组件返回的对象。React Element是你在浏览器中看不见的，他们只是存在内存中。同时，你也不能改变它们。
 
- > React可以通过在内部新增、修改以及删除对象，来判断出`需要被渲染到浏览器对的DOM树`。当使用class组件时，它通常指的是作为组件实例的DOM元素（？）。你可以用同一个component来渲染多个实例。这个实例就是你在class组件里用到的`this`所指的对象。你不需要手动地创建一个实例，你只需记得它存在React内存中。对于函数式组件，React通过函数对的调用来确定要渲染的DOM节点。
+ > React可以通过在内部新增、修改以及删除对象，来判断出`需要被渲染到浏览器的DOM树`。当使用class组件时，它通常指的是作为组件实例的DOM元素（？）。你可以用同一个component来渲染多个实例。这个实例就是你在class组件里用到的`this`所指的对象。你不需要手动地创建一个实例，你只需记得它存在React内存中。对于函数式组件，React通过函数对的调用来确定要渲染的DOM节点。
 
 ## 纯函数（pure functions）的概念
 In functional programing, we have the concept of pure functons. These are basically protected against any outside state; if we give them the same input, we'll always get the same output.
