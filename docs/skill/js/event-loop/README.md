@@ -44,13 +44,13 @@ JS运行时是单线程，但是浏览器不是。浏览器提供了一些api供
  - 例如setTimeout、ajax(XMLHttpRequest)、DOM等。
 
 ### 3、宏任务（Macro Task）、微任务（Micro Task）
-宏任务：当前**调用栈中、宏任务队列**中的任务。
+宏任务：**当前调用栈中、宏任务队列**中的任务。
  - 例如：主代码块（所有同步代码）、Ajax请求完毕后的回调函数、setTimeout、setInterval、setImmediate、I/O、
- - 宏任务由事件触发线程维护。
+ - 宏任务由**事件触发线程**维护。
 
 微任务：当前**微任务队列**中的任务。会在 **当前调用栈的所有任务执行完**、且在**下一个宏任务开始前**需要执行的任务。
  - 例如：Promise.then、catch、finally
- - 微任务队列由JS引擎线程维护。
+ - 微任务队列由**JS引擎线程**维护。
 
  ### EventLoop
 ![alt](./img/Eventloop-2.png)
@@ -67,8 +67,6 @@ JS运行时是单线程，但是浏览器不是。浏览器提供了一些api供
  - 6、`微任务队列中`的`微任务`全部执行完毕，本轮事件循环结束
  - 7、回到第2步，检查`宏任务队列`中是否有未执行的`宏任务`，继续下一轮循环
 
-注意：`Ajax请求完毕后`触发的回调函数会进入`宏任务队列`
-
-![alt](./img/Eventloop-3.png)
+> 注意：`Ajax请求完毕后`触发的回调函数会进入`宏任务队列`
 
 参考链接：[JavaScript的Event Loop机制](https://www.jianshu.com/p/87a9e0068dd8)

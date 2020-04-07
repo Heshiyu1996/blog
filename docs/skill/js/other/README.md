@@ -15,7 +15,7 @@
 
 当函数可以记住并访问所在的词法作用域时，就产生了闭包。
 
-原理：内部函数的作用域链包含这个函数的作用域
+原理：这个函数的内部函数作用域链，包含着这个函数的作用域
 
 特点：
  - 可以读取另外一个函数作用域里的变量
@@ -40,11 +40,13 @@ function outer() {
 }
 var inner = outer() // 获得：闭包函数inner
 inner() // 'heshiyu'
+
+// 原理：这个函数的内部函数（inner）作用域链，包含着这个函数的作用域（变量a）
 ```
 当程序执行完`var inner = outer()`，其实`outer`的执行环境并没有销毁。因为它里面的**变量a仍然被inner函数的作用域链所引用**，当程序执行完`inner()`，`inner`和`outer`的执行环境才被销毁。
 
 ## 事件委托
-事件委托（也称事件代理），指的是：指定一个事件处理程序，来管理某一类型的所有事件。
+事件委托（也称事件代理）：**指定一个事件处理程序，来管理某一类型的所有事件**。
 
 好处：
  - 性能的角度，减少DOM的交互次数
@@ -67,9 +69,6 @@ window.onload = function(){
 }
 ```
 
-### video里的子标签的track
-在不同的手机系统、不同的浏览器都不兼容
-
 ## 回调地狱
 `回调地狱`：
  - 嵌套了很多层回调函数，使得代码**不易阅读与维护**。
@@ -88,13 +87,15 @@ asyncFunc1(opt, (...args1) => {
 ```
 可以看到左侧明显出现了一个**三角形缩进**。
 
-（可：异步解决方案的发展历程）
+（相关：[JS异步解决方案的发展历程](/skill/js/async-plan)）
 
 
 ## 原型、构造函数、对象和原型链
- - `原型`（prototype）包含着：`某一种特定类型`（如Person类型）中**所有实例共享的属性**和**方法**。每个`原型`都有一个`.constructor`属性，它指向的是构造函数本身（constructor）
+ - `原型`（prototype）可以让我们预定义`某一种特定类型`（如Person类型）中、**所有实例共享的属性**和**方法**，然后它们会自动应用到新对象实例上。
+ > 每个原型都有一个`.constructor`属性，它指向的是构造函数本身（constructor）
 
- - `构造函数`都有一个`.prototype`属性，它指向的是该构造函数的原型（prototype）
+ - `构造函数`通过new操作符，可以创建该实例对象。
+ > 每个构造函数都有一个`.prototype`属性，它指向的是该构造函数的原型（prototype）
 
  - `对象`是通过`构造函数`实例化new出来的，每个对象都有`__proto__`属性，指向它的原型（prototype）
 
@@ -382,7 +383,8 @@ const uniqueList = [...new Set(list)];
         }
         // error
     ```
-因为`for...of`循环本质上是**调用Iterator接口产生的遍历器**，所以它只适用于`部署了Iterator接口`的数据（例如：数字、字符串、Map、Set、arguments、NodeList等），这是普通对象没有的
+因为`for...of`循环本质上是**调用Iterator接口产生的遍历器**，所以它只适用于`部署了Iterator接口`的数据（例如：数组、字符串、Set、Map、arguments、NodeList等）
+> 普通对象没有部署Iterator接口
  
 ## Math.floor、parseInt
  相同：都能实现数字的向下取整
@@ -491,7 +493,8 @@ arr.constructor === Array // true
 ```
 
 ## script标签的加载规则
- 默认情况下，浏览器**同步加载JavaScript脚本**，（即**渲染引擎**遇到`<script>`标签就会把控制权交给**JS引擎**去执行脚本，执行完毕再把控制权交给**渲染引擎**，继续向下渲染）
+ 默认情况下，浏览器**同步加载JavaScript脚本**。
+ > **渲染引擎**遇到`<script>`标签就会把控制权交给**JS引擎**去执行脚本，执行完毕再把控制权交给**渲染引擎**，继续向下渲染
 
  当然，浏览器也**允许脚本异步加载**，下面是两种 **异步加载** 的语法：
  ```js
@@ -505,9 +508,17 @@ arr.constructor === Array // true
 另外，`defer`会按照它在页面中出现的顺序加载，`async`不能保证按顺序。
 
 ## 扩展运算符（...）、Object.assign()
- `扩展运算符（...）`和`Object.assign()`可以对一个对象A进行`深拷贝`，但如果对象A里面还包含子对象/子数组，那么这部分就只是`浅拷贝`！！
+ `扩展运算符（...）`和`Object.assign()`可以对一个对象A进行`深拷贝`：
+ ```js
+ {...obj2}
  
- **(...)和Object.assign()这两个方法是等价的**
+ // 等价于
+ Object.assign({}, obj2)
+ ```
+
+ 
+ 但如果对象A里面还包含子对象/子数组，那么这部分就只是`浅拷贝`！！
+ 
 
  > 深拷贝：拷贝的是`值的副本`
  > 
@@ -526,19 +537,18 @@ let o4 = { ...o1 }
 o4.name = 'I am o4'
 console.log(o4)
 console.log(o1)
+// { name: 'I am o4', address: { province: 'gd', city: 'qy' } }
+// { name: 'I am o1', address: { province: 'gd', city: 'qy' } }
 
 o1.name = 'I am new o1'
 o1.address.province = 'hz'
 console.log(o4)
 console.log(o1)
-
-// { name: 'I am o4', address: { province: 'gd', city: 'qy' } }
-// { name: 'I am o1', address: { province: 'gd', city: 'qy' } }
 // { name: 'I am o4', address: { province: 'hz', city: 'qy' } }
 // { name: 'I am new o1', address: { province: 'hz', city: 'qy' } }
 ```
 
-### 项目中的实例
+### 项目中的错误示范
 利用`扩展运算符（...）`拷贝的对象里的`子对象/子数组`是`浅拷贝`。
 ```js
 // 有这么一个对象defaultStart
@@ -553,9 +563,9 @@ newData.children.push(cInfo)
 
 // 第二次对newData进行拷贝
 let newData = { ...defaultStart }
-newData.children.push(cInfo) // 这时的children还是上次的children
+newData.children.push(cInfo) // 注意！这时的children其实还是上次的children
 
-// 解决办法：
+// 清除children的解决办法：
 // ① newData.children = []
 // ② newData.children.length = 0
 ```
