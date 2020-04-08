@@ -101,6 +101,7 @@ const sidebar = {
             title: 'Web/浏览器',
             collapsable: true,
             children: [
+                'web/web-assembly/',
                 'web/browser/',
                 'web/browser-cache/',
                 'web/cdn/',
@@ -143,6 +144,12 @@ const sidebar = {
             title: '《项目笔记》',
             collapsable: false,
             children: [
+                'project/node-mysql/',
+                'project/nos/',
+                'project/npm/',
+                'project/chrome-extension/',
+                'project/prettier-vue-cli/',
+                'project/source-map/',
                 'project/babel/',
                 'project/notes/',
                 'project/mobile-adapter/',
@@ -157,6 +164,7 @@ const sidebar = {
             title: '《读书心得》',
             collapsable: false,
             children: [
+                'note/vue-conf-feeling/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
                 'note/react-deep-learning/',

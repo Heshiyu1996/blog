@@ -58,6 +58,11 @@
   - 对于请求头部，会有一个`Origin`字段
   - 对于响应头部，也会有`Access-Control-Allow-Origin`
   
+ 
+### CORS的特点：
+  - 支持所有请求类型
+  - 服务端只需将数据直接返回，**不需特殊处理**
+
 ## 解决跨域的一些方法
  - JSONP
  - CORS
@@ -68,14 +73,13 @@
 ### JSONP
  `JSONP`的特点：
   - 只支持`GET`，不支持`POST`（相当于下载一个js文件，相当于浏览器输入一个url一样）
-  - 服务端返回的数据不能是标准的json格式，而是通过callback包裹（需要客户端和服务端定制开发）
+  - 服务端返回的数据不能是标准的json格式，而是通过callback包裹（需要客户端和服务端提前约定）
   - 安全问题
-  - 要确定jsonp请求是否失败并不容易
+  - 要确定jsonp请求是否失败**并不容易**
 
 `JSONP`使用步骤：
 
-1、注册一个callback：
-
+1、定义一个callback：
 ```html
 <script>
     var myHandler = function(data) {
@@ -86,12 +90,12 @@
 
 2、发送请求给服务器
 
-客户端（js）写法一，利用script标签的src属性跨域：
+#### 写法一：利用script标签的src属性
 ```html
-  <script src="http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&callback=flightHandler"></script>
+  <script src="http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&callback=myHandler"></script>
 ```
 
-客户端（jquery）写法二，利用jquery的ajax：
+#### 写法二：利用jQuery的ajax方法
   ```html
   <script>
   $.ajax({
@@ -103,7 +107,7 @@
       },
 
       dataType: 'jsonp', // 1、指定服务器返回的数据类型
-      jsonpCallback: 'myHandler', // 2、指定回调函数名称，要与服务器响应包含的callback名称相同
+      jsonpCallback: 'myHandler', // 2、指定回调函数名称，要与服务器响应的文件里，调用的callback名称相同
 
       success: function(data) {
           alert(data)
@@ -115,7 +119,7 @@
   </script>
   
   ```
-3、服务端（flightResult.aspx）返回以下代码：
+3、服务端（flightResult.aspx）组装好数据，返回以下js代码：
 ```js
 myHandler({
     "code": "200",
@@ -125,10 +129,6 @@ myHandler({
 ```
 以上代码会用于调用`myHandler`这个回调函数。
 
- 
- `CORS`的特点：
-  - 支持所有请求类型
-  - 服务端只需将处理后的数据直接返回，不需特殊处理
 
 ### CORS
 见上面一个知识点
@@ -163,16 +163,16 @@ window.onmessage('fullScreen', () => { ... })
 ```
 
 ### Nginx
-利用Nginx通过反向代理来转发请求，来满足浏览器的同源策略，实现跨域。
+利用Nginx通过**反向代理**来转发请求，来满足浏览器的同源策略，实现跨域。
 
 例如：
 
-前端`http://localhost:8094`，想请求`http://localhost:1894/api/basic/login`这个接口
+前端`http://localhost:8080`，想请求`http://localhost:1234/api/basic/login`这个接口
 
 1、配置Nginx.conf，里面的定位规则：
 ```js
 server {
-    listen      8094;  #监听端口
+    listen      8080;  #监听端口
     server_name localhost;
 
     location / {
@@ -183,7 +183,7 @@ server {
     #新增以下location定位规则
     location /rest {
         rewrite ^.+rest/?(.*)$ /$1 break; #只取标志位$1，作为重定向地址
-        proxy_pass http://localhost:1894; #表明该请求要代理到的主机
+        proxy_pass http://localhost:1234; #表明该请求要代理到的主机
     }
 }
 
