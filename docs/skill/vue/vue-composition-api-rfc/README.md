@@ -1,4 +1,4 @@
-# Vue Composition API RFC
+# [vue 3] Vue Composition API RFC
 > 记录有关VueComposition API的一些RFC（Request For Comments）
 
 [[toc]]
