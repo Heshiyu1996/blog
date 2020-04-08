@@ -150,6 +150,7 @@ new Vue({
 ```
 
 ## [VueConf]Make Your Vue App Accessible
+[Make_Your_Vue-App_Accessible（演讲者：勾三股四）](/make-your-vue-app-accessible.pdf)
 
 ## [vuelidate]表单校验
  ### 调研思路：
@@ -190,6 +191,8 @@ new Vue({
  - `beforeDestroy`
  - 摧毁子组件、事件绑定、数据监听
  - `destroyed`（摧毁成功！）
+
+![alt](./img/img-2.png)
 
 
 ## vuex

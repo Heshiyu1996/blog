@@ -135,7 +135,12 @@ const sidebar = {
             title: '《Vue》',
             collapsable: false,
             children: [
-                'vue/vue-composition-api-rfc/'
+                'vue/vue-composition-api-rfc/',
+                'vue/key/',
+                'vue/keep-alive/',
+                'vue/build/',
+                'vue/data-driven/',
+                'vue/component/'
             ]
         }
     ],
