@@ -20,7 +20,7 @@ const nav = [
             {
                 text: '笔记', items: [
                     { text: '项目笔记', link: '/skill/project/' },
-                    { text: '读书心得', link: '/skill/note/' }
+                    { text: '读书/参会心得', link: '/skill/note/' }
                 ]
             },
             {
@@ -144,6 +144,7 @@ const sidebar = {
             title: '《项目笔记》',
             collapsable: false,
             children: [
+                'project/rollup/',
                 'project/node-mysql/',
                 'project/nos/',
                 'project/npm/',
@@ -161,10 +162,10 @@ const sidebar = {
     ],
     '/skill/note': [
         {
-            title: '《读书心得》',
+            title: '《读书/参会心得》',
             collapsable: false,
             children: [
-                'note/vue-conf-feeling/',
+                'note/vue-conf-2018/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
