@@ -404,7 +404,7 @@ const uniqueList = [...new Set(list)];
 
 ## this的指向
  `this`是运行时基于函数的执行环境所决定的。
-  - 在全局函数中，this为window
+  - 在全局函数中，this一般为window
   - 当函数被作为某个对象的方法调用时，this为那个对象
 
 
@@ -481,7 +481,7 @@ const uniqueList = [...new Set(list)];
 - 方法一：
  `Object.prototype.toString.call(obj)`
  
- 原因：`Array`、`function`是Object的实例，都重写了toString方法。根据原型链，调用的话，是对应的重写之后的toString方法，而不会去调用Object上原型的toString方法
+ 原因：`Array`、`function`是Object的实例，都重写了toString方法。根据原型链，直接调用的话，是对应的重写之后的toString方法，而不会去调用Object上原型的toString方法
 
  ```js
  Object.prototype.toString.call([]) // [object array]
@@ -508,7 +508,7 @@ arr.constructor === Array // true
 另外，`defer`会按照它在页面中出现的顺序加载，`async`不能保证按顺序。
 
 ## 扩展运算符（...）、Object.assign()
- `扩展运算符（...）`和`Object.assign()`可以对一个对象A进行`深拷贝`：
+ `扩展运算符（...）`和`Object.assign()`可以对一个对象A进行一层的拷贝：
  ```js
  {...obj2}
  
@@ -696,6 +696,8 @@ o.sayColor() // 'blue'，因为是在对象o的作用域
 ### 函数内部属性三：caller
 `caller`指向的是 **调用当前函数的父函数引用**（若在全局中调用当前函数，caller的值是`null`）
 
+> 使用：函数名.caller
+
 也可以通过`arguments.callee.caller`，是一样的效果
 
 ```js
@@ -711,13 +713,15 @@ outer()
 ## 事件处理函数和默认行为的执行顺序
 大多数情况下，是先执行**事件处理函数**，再执行**默认行为**。
 
+> 理由：可以通过事件处理函数中，去阻止默认行为
+
 也有例外：
  - checkbox的**事件默认行为会先执行**。如果一旦阻止了默认行为，就会**恢复到执行默认行为之前的状态**（用户无感知）
 
 ## for...in、Object.keys()、Object.getOwnPropertyNames()
 for...in是遍历对象中的`所有可枚举属性`（包括自有属性和继承属性）
 
-Object.keys()：返回一个数组，数组里是对象中`可枚举的自有属性`的名称
+Object.keys()：返回一个数组，数组里是对象中`所有可枚举的自有属性`的名称
 
 Object.getOwnPropertyNames()：返回一个数组，数组里是对象中`所有的自有属性`（不管是否可枚举）
 
@@ -803,7 +807,7 @@ Math.floor(Math.random() * 5 + 95) // [95, 100)之间的整数，向下取整
 
 ## this的各种情况
  - 作为函数调用，this指向window（非严格模式）；this指向undefined（严格模式）
- - 作为某对象方向调用，this指向该对象。
+ - 作为某对象方法调用，this指向该对象。
  - 使用call、apply、bind可以改变this指向
  - 在构造函数里调用，this指向新创建的对象
  - 箭头函数没有自己的this，都是最外层函数的this，它指向箭头函数定义时外层函数所在的对象
@@ -889,7 +893,7 @@ var map = new Map([
 | 遍历顺序 | 插入顺序 | 对象散列结构，无顺序
 
 和**WeakMap**的区别：
- - Map里的键可以是任何类型，但WeakMap里的键只能是对象引用
+ - Map里的键可以是任何类型，但WeakMap里的键**只能是对象引用**
  - WeakMap不能包含无引用对象，否则会被自动清除出集合（垃圾回收机制）
  - WeakMap对象不可枚举
 ```js
@@ -905,7 +909,7 @@ console.log(weakmap.has(keyObject)); // false
 ```
 
 ## ==和===的区别
-`==`（相等）和`===`（恒等）的区别，前者`会进行类型转换（1）`再对`值进行比较（2）`，后者`不会进行类型转换（1）`，同时也对`值进行比较（2）`。
+`==`（相等）和`===`（恒等）的区别，前者`会进行类型转换（1）`再对`值进行比较（2）`；后者`不会进行类型转换（1）`，只是`值进行比较（2）`。
 
 ## JS的继承
  - 原型链
@@ -987,6 +991,7 @@ let arrayLike = {
 // （1）使用扩展运算符
 let arr = [...arrayLike]
 // Error: Cannot spread non-iterable object.
+// 右边的写法[...arrayLike]就不正确
 
 // （2）使用Array.from()
 Array.from(arrayLike)
@@ -1025,8 +1030,6 @@ if (!Object.keys(obj).length) {
 ## Object.defineProperty
 > 详细定义对象
 
-[[toc]]
-
 ### 通过Object.defineProperty给对象添加属性
  对象里的属性并不只有`属性名`和`属性值`那么简单。
 
@@ -1039,13 +1042,13 @@ if (!Object.keys(obj).length) {
  | | configurable | enumerable | value | writable | get | set |
  | - | - | - | - | - | - | - |
  | 数据描述符 | √ | √ | √ | √ | × | × |
- | 存取描述符 | √ | √ | × | × | √ | √ |
+ | 访问器描述符 | √ | √ | × | × | √ | √ |
 
   - 如果一个描述符不具有`value、writable、get、set`任何一个关键字，那就默认是`数据描述符`。
-  - 当描述符省略了字段，若为布尔值（默认false）；value、get、set（默认为undefined）
+  - 当描述符省略了字段的规则：configurable、enumerable、writable（默认false）；value、get、set（默认为undefined）
   - 使用`直接赋值`的方式创建对象的属性，enumerable为true
 
-#### writable
+#### writable（可写）
 writable属性若为fasle，则不能修改对象的这个属性。（不会报错，但值也不会变）
 ```js
 var o = {} // Creates a new object
@@ -1058,22 +1061,22 @@ Object.defineProperty(o, 'a', {
 o.a = 25 // 不会报错，但值也不会变
 ```
 
-#### enumerable
+#### enumerable（可枚举）
 enumerable属性若为false,则不能再`for...in`或`Object.keys()`中被枚举。
 ```js
 var o = {}
 Object.defineProperty(o, "a", { value : 1, enumerable:true })
 Object.defineProperty(o, "b", { value : 2, enumerable:false })
 Object.defineProperty(o, "c", { value : 3 }) // 省略了指enumerable，默认false
-o.d = 4 // 如果使用直接赋值的方式创建对象的属性，则这个属性的enumerable为true
+o.e = 4 // 如果使用直接赋值的方式创建对象的属性，则这个属性的enumerable为true
 
 for (var i in o) {
     console.log(i)
 }
-// 'a' 'b'
+// 'a' 'e'
 ```
 
-#### configurable
+#### configurable（可删除/可修改）
 configurable属性若为false，则表示：1、该对象的这个属性不能被删除；2、除了`value`、`wratable`以外的其他特性能否被修改。
 ```js
 var o = {}
@@ -1085,7 +1088,5 @@ Object.defineProperty(o, 'a', {
 })
 delete o.a // 返回false,删除不成功
 ```
-
- `数据描述符`具有4个描述其行为的特征：
 
  [configurable、enumerable和writable](http://www.softwhy.com/article-9359-1.html)
