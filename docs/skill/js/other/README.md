@@ -979,8 +979,8 @@ f.valueOf() // ['test', 'example']
  - Array.from()
  - 扩展运算符（...)
 
-下面这个`类数组对象`，但它`没有部署Iterator接口`：
 ```js
+// arrayLike是个类数组对象，但它`没有部署Iterator接口`：
 let arrayLike = {
     '0': 'a',
     '1': 'b',
@@ -988,19 +988,19 @@ let arrayLike = {
     length: 3
 }
 
-// （1）使用扩展运算符
+// （1）对“类数组对象”使用扩展运算符会报错
 let arr = [...arrayLike]
 // Error: Cannot spread non-iterable object.
 // 右边的写法[...arrayLike]就不正确
 
-// （2）使用Array.from()
+// （2）对“类数组对象”使用Array.from()是ok的，但只能枚举出部分值
 Array.from(arrayLike)
 // ["a", "b", "c"]
 
 // Array.from()等价于
 Array.prototype.slice.call(arrayLike)
 // 也等价于
-[].slice.call(arrayLieke)
+[].slice.call(arrayLike)
 ```
 ## [ ].find()、[ ].findIndex()和[ ].filter()
 ```js

@@ -71,6 +71,9 @@
  - Nginx
 
 ### JSONP
+原理：利用`<script>`标签，远程调用 JSON 文件来实现数据传递。
+
+
  `JSONP`的特点：
   - 只支持`GET`，不支持`POST`（相当于下载一个js文件，相当于浏览器输入一个url一样）
   - 服务端返回的数据不能是标准的json格式，而是通过callback包裹（需要客户端和服务端提前约定）
@@ -128,6 +131,12 @@ myHandler({
 })
 ```
 以上代码会用于调用`myHandler`这个回调函数。
+
+#### 安全性考虑
+1、JSON劫持
+
+2、Callback可定义导致的安全问题
+[https://www.cnblogs.com/52php/p/5677775.html](https://www.cnblogs.com/52php/p/5677775.html)
 
 
 ### CORS
