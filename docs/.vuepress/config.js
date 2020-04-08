@@ -43,9 +43,9 @@ const nav = [
                 ]
             },
             { text: '前端工程模板', items: [
-                    { text: '单页项目（react16.9 + webpack4）', link: 'https://github.com/Heshiyu1996/react-template-singlepage' },
-                    // { text: '单页项目（react16.9 + webpack4 + Typescript）', link: 'https://github.com/Heshiyu1996/react-template-multipages' },
-                    { text: '多页项目（react16.9 + webpack4）', link: 'https://github.com/Heshiyu1996/react-template-multipages' },
+                    { text: '单页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js' },
+                    { text: '单页项目（react16.9 + webpack4 + Typescript）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts' },
+                    { text: '多页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js' },
                 ]
             },
             { text: '团队组件库', items: [

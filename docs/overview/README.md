@@ -72,6 +72,9 @@ sidebarDepth: 2
 ### JS正则表达式
 [查看](/skill/js/regex/)
 
+### Class（类）
+[查看](/skill/js/class/)
+
 ### 其他
 [查看](/skill/js/other)
 
@@ -80,10 +83,12 @@ sidebarDepth: 2
 
 
 ## Web/浏览器 <Badge text="基础" type="success"/>
-### 异步解决方案
-[查看](/skill/js/async-plan/)
+### WebAssembly
+[查看](/skill/web/web-assembly/)
 ### 浏览器
 [查看](/skill/web/browser/)
+### 浏览器缓存机制
+[查看](/skill/web/browser-cache/)
 ### CDN
 [查看](/skill/web/cdn/)
 ### 跨域资源共享（CORS）
@@ -94,7 +99,7 @@ sidebarDepth: 2
 [查看](/skill/web/optimize/)
 ### 浏览器/服务端渲染
 [查看](/skill/web/ssr/)
-### web攻击方式
+### XSS、CSRF、SQL注入
 [查看](/skill/web/web-attack/)
 ### WebStorage
 [查看](/skill/web/web-storage/)
@@ -127,6 +132,16 @@ sidebarDepth: 2
 ## Vue <Badge text="框架" type="warning"/>
 ### Vue Composition API RFC
 [查看](/skill/vue/vue-composition-api-rfc/)
+### key值的作用
+[查看](/skill/vue/key/)
+### KeepAlive
+[查看](/skill/vue/keep-alive/)
+### [vue源码] 基本知识
+[查看](/skill/vue/build/)
+### [vue源码] 数据驱动（Data Driven）
+[查看](/skill/vue/data-driven/)
+### [vue源码] 组件化（Component）
+[查看](/skill/vue/component/)
 
 
 
@@ -135,6 +150,20 @@ sidebarDepth: 2
 
 
 ## 项目笔记 <Badge text="笔记" type="error"/>
+### Rollup
+[查看](/skill/project/rollup/)
+### Node-MySQL
+[查看](/skill/project/node-mysql/)
+### NOS
+[查看](/skill/project/nos/)
+### NPM
+[查看](/skill/project/npm/)
+### Chrome插件开发经验
+[查看](/skill/project/chrome-extension/)
+### Prettier实践（vue-cli）
+[查看](/skill/project/prettier-vue-cli/)
+### SourceMap
+[查看](/skill/project/source-map/)
 ### Babel7使用实践
 [查看](/skill/project/babel/)
 ### 项目笔记
@@ -145,13 +174,17 @@ sidebarDepth: 2
 [查看](/skill/project/webpack/)
 ### package.json
 [查看](/skill/project/package/)
-### 开发小技巧
+### 其他
 [查看](/skill/project/other)
 
 
 
 
-## 读书心得 <Badge text="笔记" type="error"/>
+## 读书/参会心得 <Badge text="笔记" type="error"/>
+### vue-conf-2018
+[查看](/skill/note/vue-conf-2018)
+### Complete intro react
+[查看](/skill/note/complete-intro-react/)
 ### 《Webpack实战》-居玉浩
 [查看](/skill/note/webpack-experience/)
 ### 《深入React技术栈》-陈屹
@@ -169,9 +202,9 @@ sidebarDepth: 2
 
 
 ## 算法 <Badge text="前端周边" type="normal"/>
-### 单处理器进程的调度策略
+### 八大排序
 [查看](/skill/algorithm/sort/)
-### 查找算法
+### 二分查找
 [查看](/skill/algorithm/search/)
 ### 时间复杂度
 [查看](/skill/algorithm/time-complexity/)
