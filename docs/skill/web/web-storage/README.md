@@ -79,20 +79,19 @@ let getName = document.cookie.split(';').split('=')[1]
  - 均只能存储字符串类型
 
 #### 区别：
- - 【大小】cookie大小不超过4KB（只适合保存很小的数据，如会话标识）；sessionStorage和localStorage有5MB或更大；
- - 【发送方式】
+ - **【大小】** cookie大小不超过4KB（只适合保存很小的数据，如会话标识）；sessionStorage和localStorage有5MB或更大；
+ - **【发送方式】** 
     - cookie数据始终在同源的http请求中携带（即使用不到）；
     - sessionStorage和localStorage不会自动把数据发送给服务器；
- - 【指定路径】cookie有路径（path）概念，可以限制cookie只属于某个路径下
- - 【有效期】
+ - **【有效期】** 
     - localStorage：始终有效；
     - sessionStorage：尽在当前浏览器窗口关闭前有效；
     - cookie：在过期时间前都有效（即使浏览器窗口关闭也不影响）；
- - 【事件通知】支持事件通知机制，可以将数据更新的通知发送给监听者
- - 【作用域】（具体图示见下方）
-    - 同一浏览器、不同页面、只要同源，localStorage都可以共享；[图示](#图示)
-    - 同一浏览器、不同页面（或同源但处于不同标签页），sessionStorage无法共享；[图示](#图示)
+ - **【作用域】** （具体图示见下方）
+    - localStorage：同源、不同窗口，都可以共享；[图示](#图示)
+    - sessionStorage：仅单个窗口内，可以共享；[图示](#图示)
     - 同一标签页、带有多个属于同源页面iframe，这些iframe的sessionStorage可以共享
+ - **【指定路径】** cookie有路径（path）概念，可以限制cookie只属于某个路径下
 
  ## 同源的规则判断
  ```
@@ -106,17 +105,17 @@ let getName = document.cookie.split(';').split('=')[1]
  ```
 
 ## 图示
-#### 1、同一浏览器、不同页面、只要同源，localStorage都可以共享
+#### localStorage：同源、不同窗口，都可以共享
 ![alt](./img/webStorage-1.png)
 
 ![alt](./img/webStorage-2.png)
 
-#### 2、同一浏览器、不同页面（或同源但处于不同标签页），sessionStorage无法共享
+#### sessionStorage：仅单个窗口内，可以共享
 ![alt](./img/webStorage-3.png)
 
-![alt](./img/webStorage-5.png)
-
 ![alt](./img/webStorage-4.png)
+
+![alt](./img/webStorage-5.png)
 
 ## cookie和session的区别
 `cookie`
@@ -127,8 +126,8 @@ let getName = document.cookie.split(';').split('=')[1]
 `session`
  - `保存在服务端`的有关浏览器会话的信息
  - 运行依赖sessionID
-    - 创建前，服务端会先检查请求头里是否包含session id。若有，且未过期，则直接用旧的）
+    - 创建前，服务端会先检查请求头的cookie里是否包含 **sessionID**。若有，且未过期，则直接用旧的
  - 有失效时间
  - 安全
 
- 一句话：`session`的实现一般需要借助`cookie`来发送`sessionID`
+ 一句话：`session`的使用一般需要借助`cookie`来发送`sessionID`
