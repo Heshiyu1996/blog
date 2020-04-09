@@ -14,11 +14,23 @@ CSS3样式提纲：
  - 新增box-sizing：content-box（即标准盒模型）、border-box（即IE盒模型）
 
 ## 盒模型
- - 标准盒模型
- width、height、padding、border、margin 五个独立，所设及所得
+### 标准盒模型
+width、height、padding、border、margin 五个独立，所设及所得。
 
- - IE盒模型
- width（height）包括了padding、border，（`margin依旧独立`），故最终width会小一些
+![alt](./img/box-1.png)
+
+> 让浏览器只支持标准盒模型：`box-sizing: content-box`
+
+### IE盒模型
+width（height）包括了padding、border，（`margin依旧独立`），故**实际width可能会小一些**
+
+![alt](./img/box-2.png)
+
+> 让浏览器只支持IE盒模型：`box-sizing: border-box`
+
+### 弹性盒模型
+
+[查看详细](./../flex-box)
 
 ## 完美居中的方案
 ### 行内元素
@@ -102,9 +114,25 @@ CSS3样式提纲：
     - position: absolute | fixed（前者相对非static的父元素、后者相对浏览器的左上角）
  - 相对定位
     - position: relative（相对本身所在位置）
+ - 粘性定位
+    - position: sticky
+
+## 粘性定位（Sticky）
+ `Sticky`是position的粘性属性。它是在`relative`和`fixed`中切换，具体看是否要移出`viewPort`。
+ ```css
+ div.sticky {
+     position: sticky;
+     top: 10px;
+ }
+ ```
+ 也就是说：当滚动时，这个元素有移出的倾向，则切换为`fixed`（通过**阈值**来进行一些buff的作用）
+ - 阈值是：`top`、`bottom`、`left`、`right`，必须设置四者之一
+ - 若设定了阈值为`top: 10px`，则表示：当距离`viewPort的顶部`提前到`10px`的位置就切换`fixed`
+
+> 注：该元素遵循`标准文档流`，**仍然保留**元素原本在文档流中的位置
 
 ## rem
-`rem`是相对于（相对于`html`的字体大小）
+`rem`是相对于`html`的字体大小
 
 默认：1rem = 16px
 
@@ -117,7 +145,7 @@ html {
 ```
 
 ## Css-Hack
-`Css Hack`，指的是当不同浏览器对某些css属性做解析的时候，出现差异；然后去弥补这些差异的过程。
+`Css Hack`指的是：**当不同浏览器对某些css属性做解析，并出现差异的时候，去弥补这些差异的过程。**
 
 大致分为**3种**：
  - 条件hack
@@ -158,20 +186,6 @@ html {
  }
  ```
 
-## 粘性定位（Sticky）
- `Sticky`是position的粘性属性。它是在`relative`和`fixed`中切换，具体看是否要移出`viewPort`。
- ```css
- div.sticky {
-     position: sticky;
-     top: 10px;
- }
- ```
- 也就是说：当滚动时，这个元素有移出的倾向，则切换为`fixed`（通过阈值来进行一些buff的作用）
- - 阈值是：`top`、`bottom`、`left`、`right`，必须设置四者之一
- - 若设定了阈值为`top: 10px`，则表示：当距离`viewPort的顶部`提前到`10px`的位置就切换`fixed`
- - 该元素并`不脱离文档流`，**仍然保留**元素原本在文档流中的位置
-
-
 ## 设置元素不可见的方法
 ```css
 /* 1 */
@@ -197,10 +211,17 @@ html {
 ```
 
 ## display: none与visibility: hidden的区别
- - `display: none`的元素不**占据空间**，`visibility: hidden`的元素**占据空间**；
- - `display: none`会影响CSS的`transition`**过渡效果**，`visibility: hidden`不会
+
+| 区别 | `display: none` | `visibility: hidden` |
+| ----- |:---:|:---:|
+| 占据空间 | 不占据 | 占据 |
+| 重排、重绘 | 重排又重绘 | 仅重绘 |
+| 子孙元素 | 都不可见 | 可设置部分可见<br>（`visibility: visible`） |
+| 过渡效果 | 影响 | 不影响 |
+ <!-- - `display: none`的元素不**占据空间**，`visibility: hidden`的元素**占据空间**；
  - `display: none`会触发**重排（repain）和重绘（reflow）**，`visibility: hidden`只会触发重绘（reflow）
  - `display: none`的子、孙元素全都不可见，`visibility: hidden`的子孙元素可以设置`visibility: visible`来显示。
+ - `display: none`会影响CSS的`transition`**过渡效果**，`visibility: hidden`不会 -->
 
 ## CSS布局格式
  - 标准流
@@ -244,7 +265,7 @@ html {
   ```
  ![alt](./img/Triangle-2.png)
 
-  - 3、再去除一部分（例如：左边）
+  - 3、再去除一部分（例如：将左边颜色设置`transparent`）
   ```css
   .child {
     width: 0;
@@ -419,7 +440,8 @@ html {
         flex: 1;
     }
  ```
- - 2、浮动定位
+ 
+ - 2、浮动定位（待确认）
  ```css
     .left,.right {
         width: 200px;
@@ -435,13 +457,14 @@ html {
         height: 200px;
     }
  ```
+
  - 3、绝对定位
  ```css
     .left,
     .right {
         position: absolute;
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 400px;
     }
     .left {
         left: 0;
@@ -453,7 +476,7 @@ html {
         position: absolute;
         left: 300px;
         right: 300px;
-        height: 200px;
+        height: 400px;
     }
  ```
  - 4、表格布局（有父容器）
