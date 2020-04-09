@@ -573,9 +573,9 @@ newData.children.push(cInfo) // 注意！这时的children其实还是上次的c
 ## 深拷贝
 `若没有function`，可以使用：
 ```js
-JSON.parse(JSON.stringify(obj))
-
+// 将对象进行序列化后，再反序列化。
 // 缺点：会忽略函数function
+JSON.parse(JSON.stringify(obj))
 ```
 
 `若有function`，可以使用：
@@ -1016,7 +1016,7 @@ Array.prototype.slice.call(arrayLike)
 
 ## 判断对象是否为空对象
 ```js
-// way1:
+// way1: 将对象序列化成字符串
 if (JSON.stringify(obj) === '{}') {
 
 }
@@ -1048,8 +1048,9 @@ if (!Object.keys(obj).length) {
   - 当描述符省略了字段的规则：configurable、enumerable、writable（默认false）；value、get、set（默认为undefined）
   - 使用`直接赋值`的方式创建对象的属性，enumerable为true
 
-#### writable（可写）
-writable属性若为fasle，则不能修改对象的这个属性。（不会报错，但值也不会变）
+#### writable
+能否 **修改** 对象里的这个属性。
+> writable属性若为fasle，则不能修改对象里的这个属性。（不会报错，但值也不会变）
 ```js
 var o = {} // Creates a new object
 
@@ -1061,14 +1062,15 @@ Object.defineProperty(o, 'a', {
 o.a = 25 // 不会报错，但值也不会变
 ```
 
-#### enumerable（可枚举）
-enumerable属性若为false,则不能再`for...in`或`Object.keys()`中被枚举。
+#### enumerable
+能否 **枚举** 对象里的这个属性。
+> enumerable属性若为false,则不能再`for...in`或`Object.keys()`中被枚举。
 ```js
 var o = {}
 Object.defineProperty(o, "a", { value : 1, enumerable:true })
 Object.defineProperty(o, "b", { value : 2, enumerable:false })
 Object.defineProperty(o, "c", { value : 3 }) // 省略了指enumerable，默认false
-o.e = 4 // 如果使用直接赋值的方式创建对象的属性，则这个属性的enumerable为true
+o.e = 4 // 如果使用直接赋值的方式创建对象里的属性，则这个属性的enumerable为true
 
 for (var i in o) {
     console.log(i)
@@ -1076,8 +1078,9 @@ for (var i in o) {
 // 'a' 'e'
 ```
 
-#### configurable（可删除/可修改）
-configurable属性若为false，则表示：1、该对象的这个属性不能被删除；2、除了`value`、`wratable`以外的其他特性能否被修改。
+#### configurable
+能否 **删除** 对象里的这个属性。
+> configurable属性若为false，则表示：1、该对象里的这个属性不能被删除；2、除了`value`、`writable`以外的其他特性能否被修改。
 ```js
 var o = {}
 Object.defineProperty(o, 'a', {
