@@ -194,6 +194,7 @@ const sidebar = {
             children: [
                 'algorithm/sort/',
                 'algorithm/search/',
+                'algorithm/dp/',
                 'algorithm/time-complexity/',
             ]
         }

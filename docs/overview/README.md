@@ -206,5 +206,7 @@ sidebarDepth: 2
 [查看](/skill/algorithm/sort/)
 ### 二分查找
 [查看](/skill/algorithm/search/)
+### 动态规划
+[查看](/skill/algorithm/dp/)
 ### 时间复杂度
 [查看](/skill/algorithm/time-complexity/)
