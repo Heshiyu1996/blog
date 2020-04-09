@@ -170,10 +170,32 @@ myFunc('heshiyu') // 'hehsiyu'
    - `call`：只能一个参数一个参数传
    - `apply`：只支持传一个数组（`arguments`）
 
+### 用法
 ```js
-// 他们的用法
+var x = 2020
+var fn = function ()  {
+    return this.x
+}
+var obj = {
+    x: 1996
+}
 
+let resultA1 = fn.call(this, 1, 2)
+console.log(result1) // 2020
+let resultA2 = fn.call(obj, 1, 2)
+console.log(result2) // 1996
+
+let resultB1 = fn.apply(this, [1, 2])
+console.log(resultB1) // 2020
+let resultB2 = fn.apply(obj, [1, 2])
+console.log(resultB2) // 1996
+
+let newFunc1 = fn.bind(this, 1, 2)
+console.log(newFunc()) // 2020
+let newFunc2 = fn.bind(obj), 1, 2)
+console.log(newFunc()) // 1996
 ```
+> 注意： 箭头函数里的this，在定义时就会确定了（为外层的this）
 
 ### 实现call
  ```js
@@ -404,9 +426,12 @@ const uniqueList = [...new Set(list)];
 
 ## this的指向
  `this`是运行时基于函数的执行环境所决定的。
-  - 在全局函数中，this一般为window
-  - 当函数被作为某个对象的方法调用时，this为那个对象
 
+ - 作为 **函数调用**，this指向window（非严格模式）；this指向undefined（严格模式）
+ - 在 **构造函数里调用**，this指向新创建的对象
+ - 作为 **某对象方法调用**，this指向该对象。
+ - 使用call、apply、bind可以 **改变this指向**
+ - 箭头函数 **没有自己的this** ，它指向箭头函数 **定义时外层函数所在的对象**
 
  ### 闭包里this的作用域
 
@@ -804,13 +829,6 @@ Math.floor(Math.random() * 5 + 95) // [95, 100)之间的整数，向下取整
     })()
     ```
  - 延迟运行
-
-## this的各种情况
- - 作为函数调用，this指向window（非严格模式）；this指向undefined（严格模式）
- - 作为某对象方法调用，this指向该对象。
- - 使用call、apply、bind可以改变this指向
- - 在构造函数里调用，this指向新创建的对象
- - 箭头函数没有自己的this，都是最外层函数的this，它指向箭头函数定义时外层函数所在的对象
 
 
 ## ES6新数据结构Set、Map
