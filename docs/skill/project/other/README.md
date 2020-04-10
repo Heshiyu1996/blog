@@ -5,10 +5,10 @@
 
 ## [Vue.js]Vue.js的优势与不足：
  - 优势（特点）
-    - 从`React`那里借鉴了`组件化`、`prop`、`单向数据流`、`性能`、`虚拟DOM`、`状态管理`
+    - 从`React`那里借鉴了`组件化`、`prop`、`单向数据流`、`虚拟DOM`、`性能`、`状态管理`
     - 从`Angular`那里借鉴了`模板`、`双向数据绑定`
     - 单文件组件（.vue）
-        - 将html/js/css存在于一个文件内，然后得益于`webpack + vue-loader`来让浏览器识别
+        - 将html/js/css存在于一个文件内，然后通过`webpack + vue-loader`进行编译，让浏览器识别
         - 好处1：Style的作用域
         - 好处2：预加载器（在template、style中的lang属性）
  - 不足
@@ -25,10 +25,10 @@ Vue实例初始化的过程中，实现依赖管理。大致总结如下：
 `render`函数会返回一棵VNode树。在挂载之前，会通过`createElem`、`createChildren`的相互调用，遍历整棵VNode树，来生成真实DOM节点。
 
 ## [Vue.js]$attrs 和 $listeners
-$attrs是一个对象，存着由父组件传递给子组件、但是没有在子组件里prop的特性
+**$attrs** 是一个对象，存着由父组件传递给子组件、但是没有在子组件里prop的特性
 
-$listeners也是一个对象，存着在`父作用域中的v-on事件监听器`
- - 通过`$listeners`可以向孙组件去传递那些emit事件，由孙组件去触发“爷组件”的方法
+**$listeners** 也是一个对象，存着在`父作用域中的v-on事件监听器`
+ - 通过`$listeners`，子组件可以向孙组件去传递那些emit事件，由孙组件去触发“爷组件”的方法
 ```html
 <!-- u-search-type.vue -->
 <u-input @keypress.enter="goSearch"></u-input>
@@ -46,10 +46,13 @@ $listeners也是一个对象，存着在`父作用域中的v-on事件监听器`
 
 ### 改变父组件（.sync）
  - .sync（当子组件改变了prop值，这个变化也同步到父组件中）
+ 
  ```js
  // parent.vue
- <child :inputValue="name"></child>
+ <child :inputValue.sync="name"></child>
+```
 
+```js
  // child.vue
  props: {
      inputValue: { type: 'String', default: '' }
@@ -117,9 +120,9 @@ $listeners也是一个对象，存着在`父作用域中的v-on事件监听器`
 
  ### 继承的合并规则
   - 对象（只覆盖掉冲突的属性，`不冲突的属性会保留下来，且合并`）
-    - 覆盖顺序：组件内部 > 混入对象（数组最右最优） > Extend对象
+    - 优先级：组件内部 > 混入对象（数组最右最优） > Extend对象
 
-  - 钩子函数
+  - 钩子函数（先调用 -> 后调用）
     - 调用顺序：Extend对象 > 混入对象（数组最右最优） > 组件内部
 
 ```js
@@ -168,15 +171,15 @@ new Vue({
  
 ## [Vue.js]生命周期
 首先，从`new Vue()`开始
- - 初始化生命周期、初始化事件系统
+ - 初始化生命周期、事件系统
  - `beforeCreate`
  - 初始化State（props、data、computed...）、watcher
  - `Created`
  - 有el选项吗？
-    - 没有的话，等待 **vm.$mount(el)** 被执行时，才开始编辑
+    - 没有的话，等待 **vm.$mount(el)** 被执行时，才开始编译
  - 有template选项吗？
-    - 有，将template里的内容编译为render函数
-    - 没有，将el的outerHTML整个内容编译为render函数
+    - 有，将template编译到render函数
+    - 没有，将el的outerHTML整个内容作为template，编译到render函数
  - `beforeMount`（此时已准备好render函数了）
  - 将render函数返回的VNode树渲染到真实DOM上
  - `mounted`（挂载成功！）
@@ -184,10 +187,10 @@ new Vue({
 ----
  - 当data发生变化（未重绘）
  - `beforeUpdate`
- - 执行diff算法，并将变化的部分patch到真实DOM
+ - 执行diff算法，更新虚拟DOM，并将变化的部分patch到真实DOM
  - `updated`
 ----
- - 当this.$destroy()被执行
+ - 当调用vm.$destroy()时
  - `beforeDestroy`
  - 摧毁子组件、事件绑定、数据监听
  - `destroyed`（摧毁成功！）
@@ -199,11 +202,11 @@ new Vue({
 
 ## [jQuery]源码
  - 首先，是从`闭包` + `立即执行函数`开始的（传入了window对象）
-    - 目的：避免变量冲突
+    - 目的：将`$`变量保存在内存中（单例模式）
  - 然后，`重载`很常用
     - 原因：单单为了实例化一个jQuery对象，就有9种不同的方法
  - 最后，`链式调用`实现原理
-    - 原因：实现很简单。只需在实现链式调用的方法的返回结果里，返回this即可解决
+    - 原因：实现很简单。只需**在实现链式调用的方法的返回结果里，返回this即可**
 
 ## [js]Babel将ES6转换成ES5的原理
  `Babel`是一个转译器，它是将`JavaScript的高版本规则`转移成`低版本规则`的一个工具。
@@ -394,12 +397,11 @@ new Vue({
   - destroyed
 
 ## [小程序]跳转区别
- `redirectTo`，跳转到指定页，并关闭当前页
+ `navigateTo`，跳转到指定页，**并将原页面加入堆栈，可回退**
 
- `navigateTo`，跳转到指定页，并保留当前页
+ `redirectTo`，直接重定向到指定页，**不能回退到原页面**
  
- `switchTab`，跳转到tab bar页面，并关闭其他非tab bar页
-
+ `switchTab`，只能用于跳转到tab页面，并关闭其他非tab bar页
 
 
 ## [Axios] 源码解析
@@ -413,7 +415,9 @@ new Vue({
      }
  }
  ```
- 每个axios实例都有一个`interceptors`实例属性，同时这个`interceptors`对象上有两个属性`request`、`response`，它们都是`InterceptorManager`的实例。`InterceptorManager`构造函数时用来实现拦截器的，且这个构造函数原型上有3个方法：`use`、`eject`、`forEach`。
+ 每个axios实例都有一个`interceptors`实例属性，同时这个`interceptors`对象上有两个属性`request`、`response`，它们都是`InterceptorManager`的实例。
+ 
+ `InterceptorManager`构造函数是用来实现拦截器的，且这个构造函数原型上有3个方法：`use`、`eject`、`forEach`。
 
  一般我们最常用的是`use`，
   - 对于`request`，我们就在`use`里对`config`进行修改，随后会覆盖掉默认配置
@@ -442,17 +446,13 @@ new Vue({
    - 将Model层的数据`同步`到View层，进行呈现
    - 将View层的修改`同步`到Model层，进行存储
 
-## 移动端touch事件和web端click的区别
+## 移动端touch事件 和 web端click事件 的区别
 在移动端，在手指点击一个元素，会经过：**touchstart -> touchmove -> touchend -> click**
 
 `touchstart`，手指一触碰就能触发
 
 `click`，则需要：
- - 手指触碰
- - 手指未在屏幕上移动
- - 手指在这个dom节点上离开屏幕
- - 触摸和离开的时间间隔短
- - 如果不想触发click，可以执行`ev.preventDefault()`
+ 手指触碰 -> 未在屏幕上移动 -> 离开屏幕 -> 从“触摸到离开”的时间间隔短
 
  ### 两端在事件对象上的区别（TouchEvent、Touch、TouchList）
  对于`TouchEvent`（触摸事件对象），它会比`MouseEvent`（鼠标事件对象）多出一些属性值：
@@ -475,7 +475,7 @@ new Vue({
     - 缺点：会发生`点透事件`
  
  ### “点透事件”
- 原理：因为`tap`是通过`touch`事件模拟的，故`tap`要冒泡到`document`才触发
+ 原理：因为Zepto.js的`tap`事件是通过`touch`事件模拟的，故`tap`要冒泡到`document`才触发
  原因：
   - 有两层A、B（A盖在上面）
   - 在`touchstart`阶段就隐藏了A；当`click`被触发时，能够使下面的B“被点击”
@@ -530,7 +530,7 @@ new Vue({
 ## 对前后端分离的理解？
 ![alt](./img/img-1.png)
 
-部署方式：前后端分开部署，利用中间件（如Nginx）进行代理转发
+**部署方式：前后端分开部署，利用中间件（如Nginx）进行代理转发**
 
 各端职责：
   - 前端
@@ -538,7 +538,8 @@ new Vue({
     - 存放css、js等静态资源，并使用CDN加速；
 
   - 后端
-    - 返回数据
+    - 判断/接收请求
+    - 组装并返回数据
 
 优势：
   - 提升开发效率
@@ -547,7 +548,7 @@ new Vue({
 
 缺点：
   - 部署顺序（后端先部署）
-  - 文档重要性
+  - 文档的重要性
 
 ## [H5]兼容性
 
@@ -740,7 +741,7 @@ elem.addEventListener('touchstart', fn, { passive: true })
 ```
 
 ## [移动端]click延时问题
-原因：移动端双击会放大，在第一次点击后需等待200ms左右来判断是否会进行下次双击
+原因：移动端双击默认会放大，在第一次点击后**需等待200ms左右**来判断是否会进行下次双击
 
 解决：
  - 1、利用zepto.js
@@ -749,7 +750,7 @@ elem.addEventListener('touchstart', fn, { passive: true })
  - 2、原生js实现
     - 思路：监听touchstart事件。若无移动，且在离开屏幕时，触发touchend时计算时间差，若很短，则主动进行click事件，并preventDefault在touchend上的冒泡。
 
-## [pc]keep-alive不能正常销毁
+## [PC] keep-alive不能正常销毁
 问题：设置了`<keep-alive>`组件的include属性后，keep-alive组件不能正常销毁，且会占用内存。
 
 解决：
@@ -762,14 +763,15 @@ elem.addEventListener('touchstart', fn, { passive: true })
     this.keys = []
   },
 
-  // destroyed时，遍历cache对象，并删除
+  // destroyed时，遍历cache对象
   destroyed () {
     for (const key in this.cache) {
+      // pruneCacheEntry函数：将那些被缓存了的、但当前没有处于被渲染状态的组件都销毁掉
       pruneCacheEntry(this.cache, key, this.keys)
     }
   },
   
-  // mounted时，会监听include、exclude这两个字段
+  // mounted时，会监听include、exclude这两个字段，然后实时地更新（删除）this.cache对象
   mounted () {
     this.$watch('include', val => {
       pruneCache(this, name => matches(val, name))
@@ -778,22 +780,36 @@ elem.addEventListener('touchstart', fn, { passive: true })
       pruneCache(this, name => !matches(val, name))
     })
   }
-
-  // pruneCache函数用于判断缓存规则，若不符合，则去除该keep-alive组件
  ```
- 通过断点，发现destroyed没有进入。查看该组件，发现是手动触发了this.$destroy方法，使得缓存组件无法正常摧毁。
+ 通过断点，发现`destroyed`没有进入。查看该组件，发现是手动重写了this.$destroy方法，使得缓存组件无法正常摧毁。
+ ```js
+ // 错误示范
+created() {
+    let query = this.$route.query
+    this.searchParams = { ...this.searchParams, ...query }
+
+    window.parent.postMessage('fullscreen', '*')
+    // 不要这样重写destroy
+    this.$destroy = () => window.parent.postMessage('cancelfullscreen', '*')
+}
+ ```
 
  ## [pc]庞大数据的渲染、校验、保存问题
- 问题：庞大的数据导致前端的渲染、保存卡顿
+ 问题：庞大的数据导致前端的渲染、保存，出现卡顿
  
- 解决：
-  - 1、后端真分页、后端校验、单条保存
-    - 缺点：HTTP请求增多
-  - 2、前端假分页、前端校验、整体保存
-    - 优点：减少HTTP请求、校验快
-  - 3、利用vue-virtual-scroller
-    - 优点：懒加载
-    - 原理：将加载事件绑定在scroll事件上，并记录上次渲染item的startIndex、endIndex，利用一个buffer进行存储。
+ ### 解决方法
+ #### 后端真分页、后端校验、单条保存
+ 缺点：HTTP请求增多；交互不友好
+  
+ #### 前端假分页、前端校验、整体保存
+ 优点：减少HTTP请求、校验快
+ 
+ #### 利用vue-virtual-scroller
+ 优点：懒加载
+ 
+ 原理：将加载事件绑定在scroll事件上，并记录上次渲染item的startIndex、endIndex，利用一个buffer进行存储。
+
+ 目前方案：**前端假分页、前端校验、整体保存**
  
 
 
