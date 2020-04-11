@@ -127,6 +127,7 @@ const sidebar = {
                 'react/notes/',
                 'react/optimize/',
                 'react/question/'
+                'react/other/',
             ]
         }
     ],
