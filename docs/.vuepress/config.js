@@ -123,6 +123,7 @@ const sidebar = {
             collapsable: false,
             children: [
                 'react/fiber/',
+                'react/set-state/',
                 'react/hooks/',
                 'react/notes/',
                 'react/optimize/',
