@@ -123,11 +123,11 @@ const sidebar = {
             collapsable: false,
             children: [
                 'react/fiber/',
+                'react/life-cycle/',
                 'react/set-state/',
                 'react/hooks/',
-                'react/notes/',
                 'react/optimize/',
-                'react/question/'
+                'react/question/',
                 'react/other/',
             ]
         }

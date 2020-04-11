@@ -116,14 +116,16 @@ sidebarDepth: 2
 ## React <Badge text="框架" type="warning"/>
 ### React Fiber
 [查看](/skill/react/fiber/)
-### Hooks（v16.8以后）
+### 生命周期
+[查看](/skill/react/life-cycle/)
+### Hooks
 [查看](/skill/react/hooks/)
-### 知识点整理（v16.8以前）
-[查看](/skill/react/notes/)
 ### 性能优化
 [查看](/skill/react/optimize/)
 ### 踩坑记录
 [查看](/skill/react/question)'
+### 其他
+[查看](/skill/react/other/)
 
 
 
