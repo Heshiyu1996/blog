@@ -150,6 +150,8 @@ sidebarDepth: 2
 
 
 ## 项目笔记 <Badge text="笔记" type="error"/>
+### 移动端问题汇总
+[查看](/skill/project/h5/)
 ### Rollup
 [查看](/skill/project/rollup/)
 ### Node-MySQL
@@ -168,8 +170,6 @@ sidebarDepth: 2
 [查看](/skill/project/babel/)
 ### 项目笔记
 [查看](/skill/project/notes/)
-### 移动端H5适配
-[查看](/skill/project/mobile-adapter/)
 ### webpack
 [查看](/skill/project/webpack/)
 ### package.json

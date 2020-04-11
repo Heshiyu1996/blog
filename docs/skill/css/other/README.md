@@ -503,3 +503,11 @@ html {
         grid-template-columns: 300px auto 300px;
     }
  ```
+
+## 媒体查询
+```css
+ /* 分辨率大于960px且小于1280px */
+ @media screen and (min-width: 960px) and (max-width: 1280px) {
+
+ }
+```
