@@ -1,11 +1,85 @@
 # React Fiber
-> Fiber是React16中新的协调引擎。
+> `React Fiber`是React16中新的协调引擎。
+> 它可以实现任务分割，让调度算法（reconciliation）能够暂停、恢复
 >
-> 它的主要目的是使Vitrual DOM可以进行增量式的渲染（来自React官方文档）。
->
-> update: 2020-1-3
+> update: 2020-04-11
 
 [[toc]]
+
+
+## Fiber的原因
+:::tip
+React的核心流程分为两部分：
+ - reconciliation（调度算法）
+    - 更新state和props
+    - 调用生命周期钩子
+    - 生成virtual dom
+    - 通过diff算法，对比新旧virtual dom
+    - 确定是否需要重新渲染
+ - commit（操作dom节点更新）
+
+:::
+
+原因：大量的组件渲染会导致主进程长时间被占用，导致出现卡顿和掉帧的情况。因为在之前的调度算法中，React对组件树是通过**同步递归、遍历渲染**，并且无法暂停和恢复。
+
+## 原理
+`React Fiber`可以实现任务分割，让调度算法（reconciliation）能够暂停、恢复。
+
+主要原理是**将任务分割成一个个独立的小任务。根据不同的优先级，将这些小任务分散到浏览器的各个空闲期间执行，充分利用主进程的事件循环机制。**
+
+### 大致数据结构
+```js
+class Fiber {
+    constructor (instance) {
+        this.instance = instance;
+        // 指向第一个 child 节点
+        this.child = child
+        // 指向父节点
+        this.return = parent;
+        // 指向第一个兄弟节点
+        this.sibling = previous.
+    }
+}
+```
+
+## 具体实现机制
+### 暂停和恢复
+React V16将`reconciliation`进行了重构（`stack reconciler` -> `fiber reconciler`），变成了具有链表、指针的 **单链表树遍历算法**。通过指针映射，每个单元都记录着上一步、下一步，从而变得可以被暂停和恢复。
+
+### 分散执行
+通过两个新API：`requestIdleCallback`、`requestAnimationFrame`
+
+#### requestIdleCallback
+浏览器提供的事件循环空闲期的回调函数。低优先级的任务交给`requestIdleCallback`
+
+`requestIdleCallback`API：
+```js
+window.requestIdleCallback(
+    // 浏览器在空闲时，会执行这个回调，同时会给回调传入一个dealine对象
+    // 在dealine对象中包含着浏览器目前有多少时间供我们执行
+    callback: (dealine: IdleDeadline) => void,
+    // 为了避免浏览器因繁忙且无剩余时间导致的饿死，可传入一个超时时间来强制让浏览器执行回调。
+    option?: { timeout: number }
+)
+```
+
+#### requestAnimationFrame
+高优先级的任务交给`requestAnimationFrame`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 
 ## 浏览器里的“单处理器调度”
 [复习单处理器调度策略](./../../computeracy/scheduling-strategy/)
@@ -148,4 +222,4 @@ interface IdleDealine {
 
 - [Virtual DOM 及内核](https://zh-hans.reactjs.org/docs/faq-internals.html#what-is-react-fiber)
 
-- [这可能是最通俗的 React Fiber(时间分片) 打开方式](https://juejin.im/post/5dadc6045188255a270a0f85#heading-2)
+- [这可能是最通俗的 React Fiber(时间分片) 打开方式](https://juejin.im/post/5dadc6045188255a270a0f85#heading-2) -->
