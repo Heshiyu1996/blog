@@ -8,6 +8,7 @@ const nav = [
                     { text: 'HTML', link: '/skill/html/' },
                     { text: 'CSS', link: '/skill/css/' },
                     { text: 'JS', link: '/skill/js/' },
+                    { text: 'NodeJS', link: '/skill/nodejs/' },
                     { text: 'Web/浏览器', link: '/skill/web/' },
                 ]
             },
@@ -75,6 +76,7 @@ const sidebar = {
             children: [
                 'css/bfc/',
                 'css/flex-box/',
+                'css/sass-less/',
                 'css/other/'
             ]
         }
@@ -93,6 +95,16 @@ const sidebar = {
                 'js/class/',
                 // 'js/amd-cmd/',
                 'js/other/'
+            ]
+        }
+    ],
+    '/skill/nodejs': [
+        {
+            title: '《NodeJS》',
+            collapsable: false,
+            children: [
+                'nodejs/multi-process/',
+                'nodejs/other/',
             ]
         }
     ],

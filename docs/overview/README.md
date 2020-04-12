@@ -79,6 +79,13 @@ sidebarDepth: 2
 [查看](/skill/js/other)
 
 
+## NodeJS <Badge text="基础" type="success"/>
+### 异步解决方案
+[查看](/skill/nodejs/multi-process/)
+
+### 其他
+[查看](/skill/nodejs/other)
+
 
 
 
