@@ -12,8 +12,11 @@
  - `Accept-Encoding`：声明浏览器支持的压缩方式（可以提高前端性能）
     - `gzip`（支持更广，对**document、css、js**效果最佳）
     - （响应头）`Content-Encoding`指的是`服务端`最终采用的压缩方式
- - `Cache-Control`：用来指定当前的请求是否会使用到缓存机制
+ 
+ - `Cache-Control`：用来指定当前的请求会使用到缓存机制
  - `Connection`：浏览器想要优先使用的连接类型（例：keep-alive、Upgrade）
+    - `keep-alive`表示复用TCP连接（1.1默认，1.0需指定）
+    - `Upgrade`表示希望升级到websocket协议
  - `Cookie`：由之前服务器通过Set-Cookie设置的Cookie
  - `Content-Type`：请求的MIME（互联网媒体类型）类型
     - 【text】text/html（HTML格式）、text/plain（纯文本格式）、text/xml（XML格式）
@@ -64,8 +67,8 @@
  - 304：Not Modified，响应内容没有改变（在协商缓存 - 有效后触发）
 ----
  - 400：Bad Request，服务器无法理解请求格式
- - 401：Unauthorized，请求未授权
- - 403：Forbidden，禁止访问
+ - 401：Unauthorized，请求的身份未验证
+ - 403：Forbidden，拒绝访问
  - 404：Not Found，找不到匹配资源
 ----
  - 500：常见服务端错误
@@ -81,6 +84,13 @@
 
 ## 请求方式
  `HEAD`、`GET`、`POST`、`PUT`、`DELETE`、`OPTIONS`
+
+ - `HEAD`: 只请求页面的首部
+ - `GET`: 请求服务器上的某一资源
+ - `POST`: 向服务器提交数据
+ - `PUT`: 修改某一个资源
+ - `DELETE`: 删除某一个资源
+ - `OPTIONS`: CORS的预检请求
 
  还有两种不常用：`TRACE`、`CONNECT`
 
@@ -117,6 +127,6 @@
   - 服务器推送
 
 ## HTTP1.0如何复用TCP连接
- HTTP1.1默认连接是`持久连接`，客户端会在持久连接上连续发起请求。
+ HTTP1.1默认连接是`持久连接`，客户端会在一个TCP连接中发起多个HTTP请求。
 
  HTTP1.1以前的版本默认都是`非持久连接`，需要在HTTP请求头指定`connection: Keep-Alive`

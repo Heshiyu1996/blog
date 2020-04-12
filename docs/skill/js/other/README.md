@@ -1112,3 +1112,11 @@ delete o.a // 返回false,删除不成功
 ```
 
  [configurable、enumerable和writable](http://www.softwhy.com/article-9359-1.html)
+
+
+## var和const的区别
+**var** 是函数作用域。
+ > 值可以修改，允许变量提升，允许多次定义；
+
+**const** 是块级作用域。
+ > 值不可以修改，存在暂时性死区，不允许多次定义；
