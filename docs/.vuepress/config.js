@@ -163,7 +163,6 @@ const sidebar = {
             title: '《项目笔记》',
             collapsable: false,
             children: [
-                'project/h5/',
                 'project/rollup/',
                 'project/node-mysql/',
                 'project/nos/',
@@ -172,9 +171,10 @@ const sidebar = {
                 'project/prettier-vue-cli/',
                 'project/source-map/',
                 'project/babel/',
-                'project/notes/',
                 'project/webpack/',
                 'project/package/',
+                'project/h5/',
+                'project/notes/',
                 'project/other/'
             ]
         }
