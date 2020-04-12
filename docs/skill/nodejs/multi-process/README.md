@@ -196,3 +196,5 @@ NodeJS下的JS执行环境是单线程的，只是通过`cluster`/`child_process
 [NodeJS中的多进程、集群](https://juejin.im/post/5bbd83f5e51d450e894e4f3a#heading-7)
 
 [Nodejs 进阶：解答 Cluster 模块的几个疑问](https://zhuanlan.zhihu.com/p/112597848)
+
+[10道Nodejs进程相关](https://mp.weixin.qq.com/s/dKN95zcRI7qkwGYKhPXrcg)
