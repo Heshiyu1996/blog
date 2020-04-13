@@ -304,19 +304,19 @@ function spawn(genF) {
 因为立即resolved的Promise是在`本轮事件循环的末尾执行`，所以最好前面加个`return`
 
 #### async的错误处理机制
-由`async函数的实现原理`可知，函数内部await 后面跟的Promise只要有一个reject了，那就会使得async函数所返回的Promise对象也被reject。
+由`async函数的实现原理`可知，函数内部await 后面跟的Promise只要有一个reject了，那就会使得 **async函数所返回的Promise对象** 也被reject。
 
 如果不想整个async函数中断，有两个方法
 ```js
 async function f () {
-    // 方法一：用try-catch捕获可能会抛出异常的await
+    // 方法一：用try-catch捕获：“可能会抛出异常的await”
     try {
         await Promise.reject('error')
     } catch(e) {
         console.log(e)
     }
 
-    // 方法二：对可能会抛出异常的await声明catch
+    // 方法二：对“可能会抛出异常的await”声明catch
     await Promise.reject('error').catch(e => console.log(e))
 
     return await Promise.resolve('Hello world')
@@ -326,24 +326,25 @@ async function f () {
 ### await
 await后面跟的是一个Promise对象（如果不是，他会被转成一个立即resolve的Promise对象）
 
-#### 多个await并发执行
-若两个异步操作是互不依赖的，那可以并发执行
-```js
-let [foo, bar] = await Promise.all([getFoo(), getBar()])
-```
+#### 多个await并发、继发执行
+**并发执行：**
+> 常见场景：一组异步操作的按顺序输出
 
-注意：
+原理：每次迭代会生成新的async。（原理上只能保证同一个async内部的await是继发）
 ```js
-// forEach、map也可以使这些await是并发执行
-// 原因：每次迭代会生成新的async。只能保证同一个async内部的await是继发
-// 可使用场景：一组异步操作的按顺序输出
+// ① forEach、map
 arr.forEach(async (doc) => {
     await fetchUrl(doc)
 })
+// ② Promise.all
+let [foo, bar] = await Promise.all([getFoo(), getBar()])
 
-// 使用for循环可以保证是继发执行
+```
+
+继发执行：
+```js
+// for ... of
 for (let doc of arr) {
     await fetchUrl(doc)
 }
-
 ```

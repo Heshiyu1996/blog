@@ -131,3 +131,16 @@ let getName = document.cookie.split(';').split('=')[1]
  - 安全
 
  一句话：`session`的使用一般需要借助`cookie`来发送`sessionID`
+
+## cookie的属性
+| 属性 | 作用 |
+|:----|:-----|
+| name | 名称 |
+| value | 值 |
+| Domain | 可以访问此cookie的域名 |
+| path | 可以访问此cookie的路径 |
+| Size | 大小 |
+| Http Only | 不能通过document.cookie来访问此cookie |
+| secure | 是否只能通过https来传递此cookie |
+| Expires / Max-Age | 超时时间 |
+| SameSite | 跨站点时，能否传递此cookie **（预防CSRF）** |

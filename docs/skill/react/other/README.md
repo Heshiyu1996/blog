@@ -202,6 +202,11 @@ function withMouse(Component) {
     }
 }
 ```
+## 为什么React要用className？
+因为`class`在JavaScript里是关键字，而JSX是JavaScript的扩展。
+
+
+
 
 ## 问题集结
 ### 为何useFetch里的param需要useRef才不会死循环？

@@ -154,7 +154,9 @@ const sidebar = {
                 'vue/keep-alive/',
                 'vue/build/',
                 'vue/data-driven/',
-                'vue/component/'
+                'vue/component/',
+                'vue/vue-router/',
+                'vue/component-lib/'
             ]
         }
     ],
