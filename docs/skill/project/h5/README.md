@@ -103,7 +103,7 @@ elem.addEventListener('touchstart', fn, { passive: false })
     - **设备独立像素**：设置的css像素
 
  解决：
- - 1、媒体查询、小数（不推荐）
+ - 1、媒体查询、小数 **（不推荐）**
     - 安卓、低版本IOS（8以下）不兼容小数。
         ```css
         .border {

@@ -17,9 +17,9 @@
 ## [Vue.js]如何实现Vue.js的响应式数据绑定？
 Vue实例初始化的过程中，实现依赖管理。大致总结如下：
 
- - `initState`过程中，把`props、data、computed`等属性通过`Object.defineProperty`来改造其`getter/setter`属性，并为每一个响应式属性去实例化一个`observer`观察者；
- - `observer`观察者内部的`dep`对象会记录这个响应式属性的所有依赖；
- - 当响应式属性调用`setter`函数时，通过`dep.notify()`方法去通知所有依赖进行改变，然后会通过diff算法来计算出更新了的虚拟节点，最后patch到真实dom上
+ - `initState`过程中，把`props、data、computed`等属性通过`Object.defineProperty`来改造其`getter/setter`属性，并为每一个响应式属性去实例化一个`observer`对象；
+ - `observer`对象内部的`dep`对象会记录这个响应式属性的所有依赖；
+ - 当响应式属性调用`setter`函数时，通过`dep.notify()`方法去通知所有依赖进行改变，调用`watcher.update()`去完成数据的动态响应。
 
 ## [Vue.js]render做了什么？
 `render`函数会返回一棵VNode树。在挂载之前，会通过`createElem`、`createChildren`的相互调用，遍历整棵VNode树，来生成真实DOM节点。

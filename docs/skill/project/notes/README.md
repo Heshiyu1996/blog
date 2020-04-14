@@ -73,7 +73,7 @@ Video标签兼容：
         - 原理：通过HOC，来向当前组件包裹注入intl属性
         - 优点：从根组件注入
         - 缺点：1、只能应用于`React.Component`（无法用于纯JS的工具方法文件）；2、组件实例的ref会改变；3、因为组件被HOC包裹，组件的属性不会被子类继承；
-    - reacct-intl-universal
+    - react-intl-universal
         - 优点：1、对于`React.Component`、`JS工具方法`都能应用；2、组件实例不会改变；3、使用简单（3个API和一些可选属性）；3、可以按需注入
 
  - **语言方案**
