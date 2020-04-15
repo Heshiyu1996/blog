@@ -158,7 +158,8 @@ const sidebar = {
                 'vue/data-driven/',
                 'vue/component/',
                 'vue/vue-router/',
-                'vue/component-lib/'
+                'vue/component-lib/',
+                'vue/feature-v3/',
             ]
         }
     ],
