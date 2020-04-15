@@ -43,6 +43,20 @@ react v17会推出`Async Rendering`（即生命周期可被打断）。其中被
  - 原因二：错误使用。
 很多react用户都存在出错误地使用这三个生命周期，导致之后的异步渲染产生极大的性能损耗。（如：在`componentWillMount`时请求接口，因为会立即触发render，导致首屏数据为空）
 
+## 取代的两个生命周期
+### getDerivedStateFromProps
+执行时机：首次挂载、每次更新都会执行
+
+使用：返回一个对象来更新当前state值，不更新时返回null
+
+> 注意：因为是静态方法，所以不能用this
+
+### getSnapshotBeforeUpdate
+执行时机：每次DOM真正渲染前
+
+
+
+
 ## 参考链接
 [React新生命周期图谱（官方文档）](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 

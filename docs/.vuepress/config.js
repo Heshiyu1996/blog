@@ -103,6 +103,7 @@ const sidebar = {
             title: '《NodeJS》',
             collapsable: false,
             children: [
+                'nodejs/koa/',
                 'nodejs/multi-process/',
                 'nodejs/other/',
             ]
@@ -139,6 +140,7 @@ const sidebar = {
                 'react/set-state/',
                 'react/hooks/',
                 'react/optimize/',
+                'react/feature-v16/',
                 'react/question/',
                 'react/other/',
             ]

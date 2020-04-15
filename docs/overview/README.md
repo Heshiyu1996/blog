@@ -47,6 +47,8 @@ sidebarDepth: 2
 [查看](/skill/css/bfc/)
 ### 弹性盒模型（FlexBox）
 [查看](/skill/css/flex-box/)
+### Sass和Less的作用、区别
+[查看](/skill/css/sass-less/)
 ### 其他
 [查看](/skill/css/other/)
 
@@ -54,7 +56,7 @@ sidebarDepth: 2
 
 
 ## JS <Badge text="基础" type="success"/>
-### 异步解决方案
+### JS异步解决方案的发展历程
 [查看](/skill/js/async-plan/)
 
 ### JS设计模式
@@ -80,9 +82,10 @@ sidebarDepth: 2
 
 
 ## NodeJS <Badge text="基础" type="success"/>
-### 异步解决方案
+### NodeJS中的多进程、集群
 [查看](/skill/nodejs/multi-process/)
-
+### koa2
+[查看](/skill/nodejs/koa/)
 ### 其他
 [查看](/skill/nodejs/other)
 
@@ -125,10 +128,14 @@ sidebarDepth: 2
 [查看](/skill/react/fiber/)
 ### 生命周期
 [查看](/skill/react/life-cycle/)
+### setState
+[查看](/skill/react/set-state/)
 ### Hooks
 [查看](/skill/react/hooks/)
 ### 性能优化
 [查看](/skill/react/optimize/)
+### React16新特性
+[查看](/skill/react/feature-v16/)
 ### 踩坑记录
 [查看](/skill/react/question)'
 ### 其他
@@ -150,7 +157,9 @@ sidebarDepth: 2
 ### [vue源码] 数据驱动（Data Driven）
 [查看](/skill/vue/data-driven/)
 ### [vue源码] 组件化（Component）
-[查看](/skill/vue/component/)
+[查看](/skill/vue/vue-router/)
+### [组件库] 组件开发思路
+[查看](/skill/vue/component-lib/)
 
 
 
@@ -159,8 +168,6 @@ sidebarDepth: 2
 
 
 ## 项目笔记 <Badge text="笔记" type="error"/>
-### 移动端问题汇总
-[查看](/skill/project/h5/)
 ### Rollup
 [查看](/skill/project/rollup/)
 ### Node-MySQL
@@ -171,18 +178,22 @@ sidebarDepth: 2
 [查看](/skill/project/npm/)
 ### Chrome插件开发经验
 [查看](/skill/project/chrome-extension/)
+### 在Vue里用Prettier为什么这么难！
+[查看](/skill/project/npm/)
 ### Prettier实践（vue-cli）
 [查看](/skill/project/prettier-vue-cli/)
 ### SourceMap
 [查看](/skill/project/source-map/)
 ### Babel7使用实践
 [查看](/skill/project/babel/)
-### 项目笔记
-[查看](/skill/project/notes/)
 ### webpack
 [查看](/skill/project/webpack/)
 ### package.json
 [查看](/skill/project/package/)
+### 移动端问题汇总
+[查看](/skill/project/h5/)
+### 项目笔记
+[查看](/skill/project/notes/)
 ### 其他
 [查看](/skill/project/other)
 
