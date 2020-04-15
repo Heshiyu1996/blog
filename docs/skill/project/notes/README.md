@@ -25,30 +25,52 @@
  - [国际化处理](#国际化处理)
 
 #### 多页应用配置
-Nginx配置：
+ - webpack配置（代码分割）：
+    - 按照“页面功能的体验性”划分（方案一）
+        - 方案一：分：“baseReact”、“async-commons”、“commons”三个缓存组。将`baseReact`优先级最高。
+    - 按照“代码”
+        - 方案二：分：“commons”、“chunk-antd”、“styles”三个缓存组。将styles优先级最高。
 
-比如，前端是个多入口应用。其中`test.html`是其中一个入口，那需要后端Nginx配置，**重定向回前端静态资源**去寻找对应资源。
-```js
-location /test.html {
-    root /home/appops/my-static/myProject/build;
-    index test.html;
-    try_files $uri /test.html;
-}
-```
+ - Babel配置：
+    - Babel（`@babel/preset-env`）将ES6新语法（class、箭头函数）转译；
+    - 引入`@babel/polyfill`将ES6新API（Promise）进行实现
+    - 指定`useBuiltIns`（false、entry、usage）
+    - `@babel/polyfill`在**入口文件前**加载
+    ![alt](./img/img-10.png)
+
+ - Nginx配置：
+     - 因为是个多页应用（BrowserRouter）。**手动刷新**浏览器会尝试从服务器取资源。
+     - 需通过以下Nginx配置将资源 **重定向到前端静态资源** 去寻找。
+        ```js
+        location /test.html {
+            root /home/appops/my-static/myProject/build;
+            index test.html;
+            try_files $uri /test.html;
+        }
+        ```
+
+ - 其他：
+    - 单入口启动
+    - DLL动态链接库（没有指定`devtool`: `cheap-module-eval-source-map`）
+    - ts的类型检查（【开发时监听】`tsc --noEmit -w`；【打包时】`tsc --noEmit`）
 
 #### 兼容性处理
-Video标签兼容：
+**【浏览器兼容性】**
+ - IE下Promise为undefined
+    - 原因：在IE下，不支持ES6的新API（Promise）
+    - 解决方法：使用Babel、@babel/polyfill，并指定corejs版本为3，实现按需加载polyfills。
 
-在`FireFox`上无法通过`<video>`标签播放视频：
-```html
-<!-- before -->
-<video data-id="2" data-prime="true" data-time="5000" loop preload="none" playsInline autoPlay>
+ - Video标签兼容：
+    在`FireFox`上无法通过`<video>`标签播放视频：
+    ```html
+    <!-- before -->
+    <video data-id="2" data-prime="true" data-time="5000" loop preload="none" playsInline autoPlay>
 
-<!-- after -->
-<video data-id="2" data-prime="true" data-time="5000" loop preload="none" playsInline autoPlay muted={true}>
-```
-解决方法：添加一个`muted`属性，值为`true`即可。
-> `muted`属性用来设置该段视频是否被静音
+    <!-- after -->
+    <video data-id="2" data-prime="true" data-time="5000" loop preload="none" playsInline autoPlay muted={true}>
+    ```
+    解决方法：添加一个`muted`属性，值为`true`即可。
+    > `muted`属性用来设置该段视频是否被静音
 
 
 响应式：
@@ -58,6 +80,8 @@ Video标签兼容：
 **自适应**：同一页面在不同设备上，**布局和内容基本一样，只是尺寸略不同**
 
 
+【移动端兼容性】
+ - 点击搜索框，页面放大
 
 
 #### 国际化处理
@@ -119,42 +143,90 @@ Video标签兼容：
 ![alt](./img/img-3.png)
 
 ### 难点
- - [无分页列表数据庞大，无法正常显示](#无分页列表数据庞大，无法正常显示)
- - [资源模块化](#资源模块化)
+ - [列表数据庞大下，渲染卡顿体验性差](#列表数据庞大，渲染卡顿体验性差)
+ - [列表数据庞大下，查找指定数据](#列表数据庞大，查找指定数据)
 
-#### 无分页列表数据庞大，无法正常显示
-主要问题：
- - 数据加载慢
- - 校验（去重、字符规则）
- - 全量保存
+#### 列表数据庞大，渲染卡顿体验性差
+主要问题：列表数据庞大（10w），渲染卡顿体验性差。（分页不可取）时间分片
 
 解决方案：
- - 真分页 + 增量保存
-    - 将校验交给后台。劣势：1、后台工作量增多；2、请求频繁，且耗时；
- - 假分页 + 全量保存
-    - 将校验交给前端。
- - vue-virtual-scroller
-    - 第三方库分页工具。
-    - 两种模式：
-        - RecycleScroller
-            - 只加载当前可视窗口的图片
-            - 复用组件、DOM元素
-        - DynamicScroller
-            - 利用RecycleScroller
-            - 外加了一个：动态尺寸管理
-    - 大致思路：把刷新`可视区域的item`这个事件，放到用户滚动时触发；通过记录上次加载的startIndex、以及endIndex来记住buffer（？）
+ - **方案一：一次性渲染**
+    - 现象：有3~5秒白屏时间
+    - 在`js执行完且渲染前`、`setTimeout内`分别输出`Date.now`，发现：JS执行并不是瓶颈，而是渲染阶段
+    - 方案不可用原因：白屏时间过长，体验性极差
 
-#### 资源模块化
-主要问题：**体现 “重components，轻pages” 的特点；资源模块化；可维护性**
+ - **方案二：使用`setTimeout`分批渲染**
+    - 现象：出现白屏或闪屏
+    - `FPS`表示每秒钟画面更新次数，大多数显示器刷新频率60Hz（即每秒钟重绘60次，FPS = 60 frame/s）
+    - `帧率小于40 FPS`时，人会开始感觉卡顿
+    - 不可用原因：1、`setTimeout`执行时间不确定（由于主线程执行完才会去检查事件队列）；2、不同显示器FPS不同，但`setTimeout`设定固定间隔；3、可能出现丢帧
 
-解决方案：**按照模块的功能，将资源划分为5块：视图组件、业务组件、数据管理、工具类、数据请求**
- - 视图组件：负责数据呈现、向业务组件传递属性、处理从业务组件发射的事件
- - 业务组件：负责数据处理：请求发起/响应处理、Store里数据的获取/变更、工具类的调用
- - 数据请求：负责接口请求、响应的统一拦截配置、接口文件管理
- - 数据管理：全局Store的管理：按模块去管理vuex实例配置，引入命名空间
- - 工具类：提供处理数据的公用方法。
+ - **方案三：使用`requestAnimationFrame`**
+    - 不会丢帧。保证回调函数 **在屏幕每次更新的间隔里** 只被执行一次
+    - 不兼容 **IE10以下**
 
-![alt](./img/img-9.png)
+ - **更优方案：使用`requestAnimationFrame`+`DoccumentFragment`**
+    - `DocumentFragment`内容变化不会触发DOM树重新渲染，不会导致性能问题
+    - `document.createDocumentFragment`方法或者构造函数来创建一个空的DocumentFragment
+
+
+#### 列表数据庞大下，查找指定数据
+主要问题：列表数据庞大（10w），根据关键字（实体词）精确查找数据（同义词）
+
+解决方案：
+ - **方案一**：后端查找，接口返回
+    - 增加http请求
+    - 
+ - **方案一：for、while、forEach循环**
+    - 根据关键字，进行for循环（while差不多）
+    - forEach性能更差
+    - 时间复杂度：`O(n)`
+ - **方案三**：哈希查找
+    - 在首次读取时，顺带放入js实现的哈希表中存储
+    - 下次直接key-value形式读取
+    - 时间复杂度：`O(1)`
+![alt](./img/img-11.png)
+
+```js
+// 数据结构：
+// const entityList = [
+//     {
+//         entity : '番茄',
+//         similarity : '西红柿、圣女果'
+//     },
+//     {
+//         entity : '土豆',
+//         similarity : '马铃薯、薯仔'
+//     }
+// ];
+
+function Hashtable() {
+    this._hashValue = {};
+}
+
+Hashtable.prototype.add = function (inputArray) { //处理接口数据
+    for(let i = 0; i < inputArray.length; i++) {
+      this._hashValue[inputArray[i]['key']] = inputArray[i]['value'];
+    }
+    return this._hashValue;
+}
+
+
+Hashtable.prototype.get = function (key) { //根据id获得src
+    if(typeof key === 'string' && this._hashValue[key]) {
+        return this._hashValue[key];
+    }
+}
+
+const createHash = new Hashtable();
+
+createHash.add(picArray);
+console.log(createHash._hashValue);
+console.log(createHash.get('123')); // hhh
+```
+
+    
+
 
 
 
@@ -176,6 +248,7 @@ Video标签兼容：
 ### 难点
  - [登录态、userInfo的获取与存储](#登录态、userinfo的获取与存储)
  - [登录态的统一拦截判断](#登录态的统一拦截判断)
+ - [资源模块化](#资源模块化)
 
  
 #### 登录态、userInfo的获取与存储
@@ -223,6 +296,18 @@ Video标签兼容：
             - 2 - `登录态`失效、发起`wx.login()`，**完成自动登录**后重新再次发起这个请求；（设定session无效、重新尝试的最大次数）
             - 1 - 服务端异常，统一出现报错提示
             - 0 - 请求正常，返回响应结果
+
+#### 资源模块化
+主要问题：**体现 “重components，轻pages” 的特点；资源模块化；可维护性**
+
+解决方案：**按照模块的功能，将资源划分为5块：视图组件、业务组件、数据管理、工具类、数据请求**
+ - 视图组件：负责数据呈现、向业务组件传递属性、处理从业务组件发射的事件
+ - 业务组件：负责数据处理：请求发起/响应处理、Store里数据的获取/变更、工具类的调用
+ - 数据请求：负责接口请求、响应的统一拦截配置、接口文件管理
+ - 数据管理：全局Store的管理：按模块去管理vuex实例配置，引入命名空间
+ - 工具类：提供处理数据的公用方法。
+
+![alt](./img/img-9.png)
 
 
 

@@ -35,15 +35,10 @@
     ]
 }
 ```
-`modules`：指定将es6 modules转换为哪种模块规范。
+**modules**：指定将es6 modules转换为哪种模块规范。
 > 一般在webpack 项目中，我们会将此参数设置为false，表示将module交由webpack处理，而不是babel。
 
-`useBuiltIns`：
-
-
-
-### @babel/polyfill
-`polyfill`是垫片的意思。就比如桌子的桌脚有一边矮了一点，就需要拿一个东西把桌子垫平。所以会用来**修补浏览器的一些API缺陷**。
+**useBuiltIns**：
 - `false`：对`@babel/polyfill`不作任何处理
 > 在入口文件手动`import '@babel/polyfill`的话，会加载所有polyfills
 - `"entry"`：使得`@babel/polyfill`按照browserlist来加载
@@ -53,6 +48,8 @@
 
 
 
+### @babel/polyfill
+`polyfill`是垫片的意思。就比如桌子的桌脚有一边矮了一点，就需要拿一个东西把桌子垫平。所以会用来**修补浏览器的一些API缺陷**。
 
 
 
