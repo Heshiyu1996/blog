@@ -563,3 +563,25 @@ jszip-utils
 file-saver
 ```
 [使用demo](./SaveAsZip.md)
+
+## Nginx配置
+```js
+server {
+    server_name www.baidu.com;
+    listen 80;
+
+    location /api/auth {
+        proxy_pass http://10.1.2.3:8800;
+    }
+
+    // 定位规则
+    location /product.html {
+        // 静态资源根目录
+        root /home/static/baidu/build;
+        // 首页
+        index product.html
+        // 重定向
+        try_files $uri /product.html
+    }
+}
+```

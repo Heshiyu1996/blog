@@ -23,6 +23,8 @@
  - [多页应用配置](#多页应用配置)
  - [兼容性处理](#兼容性处理)
  - [国际化处理](#国际化处理)
+ - [react-router封装](#react-router封装)
+ - [跑马灯思路](#跑马灯思路)
 
 #### 多页应用配置
  - webpack配置（代码分割）：
@@ -59,8 +61,14 @@
  - IE下Promise为undefined
     - 原因：在IE下，不支持ES6的新API（Promise）
     - 解决方法：使用Babel、@babel/polyfill，并指定corejs版本为3，实现按需加载polyfills。
+ 
+ - IE9及以下不兼容`requestAnimationFrame`
+    ```js
+        window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a, 1000/60)};//时间刻自行设置
+        window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
+    ```
 
- - Video标签兼容：
+ - FireFox不兼容Video标签：
     在`FireFox`上无法通过`<video>`标签播放视频：
     ```html
     <!-- before -->
@@ -71,17 +79,15 @@
     ```
     解决方法：添加一个`muted`属性，值为`true`即可。
     > `muted`属性用来设置该段视频是否被静音
+    
 
 
-响应式：
+**【移动端兼容性】**
+ - 在微信IOS下，不支持自动播放视频
+    - 原因：Apple解释是为了节省流量。
+    - 解决办法：页面加载后，获取Video的dom节点，模拟`play()`
 
-**响应式**：同一页面在不同设备上，布局和内容 **有很大不同**；
-
-**自适应**：同一页面在不同设备上，**布局和内容基本一样，只是尺寸略不同**
-
-
-【移动端兼容性】
- - 点击搜索框，页面放大
+[查看](/skill/project/h5/)
 
 
 #### 国际化处理
@@ -113,13 +119,50 @@
         - 接口响应。统一拦截响应：code（402001）、msg
         - 字典接口。与后端约定好，同一字段在不同语言下的命名格式（`name`、`en_name`），前端根据`lang`取相应语言的变量
 
-
-
 ![alt](./img/img-7.png)
 
-![alt](./img/img-8.png)
+#### react-router封装
+特点：
+ - 实现路由配置化
+ - 统一管理路由表
+ - 避免组件命名冲突
+ - 自动实现组件懒加载
 
+**内部方法**：
+ - **SuspenseComponent**
+    - 实现组件懒加载
 
+**暴露方法**：
+ - **getRouteInfo**：获取当前路由信息、上级路由信息
+    - 根据路由表、当前路径，获取当前路由信息，以及上级路由信息
+
+ - **getRouteLine**：获取路由的渲染路径（常用于`面包屑`）
+    - 根据路由表、当前路径，利用递归查找
+
+ - **Routes**：渲染出口（类似`<router-view>`）
+    - 根据当前渲染路由，自动生成`<Switch>`组
+
+#### 跑马灯思路
+**使用：**
+
+【业务层】
+ - 引用两组一样的图片，后者设置offset
+ - 分别用`<MarqueeWrapper>`包裹
+ - `useMarquee`内封装了`_move`方法，用来改变特定的dom节点的`transform`属性
+ - 利用定时器，执行两组图片的`move`
+
+```js
+// _move代码
+const _move = (dom, order, { speed, offset }) => {
+    const width = dom.clientWidth; // 每一组的宽度
+    // 计算该节点translateX坐标
+    let coord = document.defaultView.getComputedStyle(dom, null).transform.split(',');
+    let x = coord[coord.length - 2] || 0;
+    let newX = x <= -width * (order + 1) ? -width * (order - 1) : x;
+    // 设置该节点的translateX坐标
+    dom.style.transform = `translate(${newX - speed - offset}px, 0)`;
+};
+```
 
 ## 网易智能客服机器人——网易波特（PC）
 ![alt](./img/img-5.png)
