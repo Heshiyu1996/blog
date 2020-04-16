@@ -1,26 +1,18 @@
 # 性能优化
 > 这里会记录下一些有关React的性能优化知识
 
-[React性能优化小贴士](https://juejin.im/post/5d36c40ff265da1b9570997a)
+## Key
+`key`能让组件保持结构对的稳定性
 
-## ant-design-icon打包体积过大
-解决方法：
-```js
-module.exports = {
-   configureWebpack: {
-      resolve: {
-         alias: {
-        '@ant-design/icons/lib/dist$': path.resolve(__dirname, '../src/utils/antdIcon.js')
-    }
-}
-```
+## shouldComponentUpdate
+相当关于`React.Memo`（是一个高阶组件，内置了useMemo方法来缓存）
 
-效果：
+## 避免使用匿名函数
+每次渲染都会重新生成该函数
 
-优化前：
-![alt](./img/optimize-1.png)
+## 延迟加载不是立即需要的组件
+`React.lazy(() => import('...'))`;
 
-优化后：
-![alt](./img/optimize-2.png)
+## 使用React.Fragment避免添加额外DOM
 
 缺点：需手动引入所有Icon

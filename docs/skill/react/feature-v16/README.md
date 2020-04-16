@@ -30,3 +30,13 @@ Hooks 主要是解决`状态逻辑复用问题`，将组件的UI与状态分离�
 
 ## 错误处理机制
 新增生命周期`componentDidCatch`
+
+## Hooks和Class的区别及优劣
+ - 渲染行为不一样
+    - Hooks每次render都是执行不同的渲染函数，每次都会 **拥有独立的函数作用域**
+    - Class每次render都是调用同一个渲染函数，后续渲染 **只会改变this.props、this.state的值**
+
+Hooks没有：
+ - 复杂的生命周期
+ - this指向
+ - 类似HOC、render props等复用模式
