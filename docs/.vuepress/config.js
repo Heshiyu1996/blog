@@ -114,6 +114,7 @@ const sidebar = {
             title: 'Web/浏览器',
             collapsable: true,
             children: [
+                'web/diff/',
                 'web/web-assembly/',
                 'web/browser/',
                 'web/browser-cache/',
