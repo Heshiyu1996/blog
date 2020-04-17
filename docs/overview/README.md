@@ -4,6 +4,10 @@ sidebarDepth: 2
 ---
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-04-17
+ - [Diff、React Diff、Vue Diff](/skill/web/diff/)
+<Badge text="基础" type="success"/>
+
 #### 2020-04-01
  - [浏览器缓存机制](/skill/web/browser-cache/)
 <Badge text="基础" type="success"/>
@@ -93,6 +97,8 @@ sidebarDepth: 2
 
 
 ## Web/浏览器 <Badge text="基础" type="success"/>
+### Diff、React Diff、Vue Diff
+[查看](/skill/web/diff/)
 ### WebAssembly
 [查看](/skill/web/web-assembly/)
 ### 浏览器
