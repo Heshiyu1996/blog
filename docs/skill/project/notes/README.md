@@ -20,51 +20,21 @@
  - 语言切换支持静默刷新
 
 ### 难点
- - [多页应用配置](#多页应用配置)
+ <!-- - [多页应用配置](#多页应用配置) -->
  - [兼容性处理](#兼容性处理)
  - [国际化处理](#国际化处理)
  - [react-router封装](#react-router封装)
  - [跑马灯思路](#跑马灯思路)
 
-#### 多页应用配置
- - webpack配置（代码分割）：
-    - 按照“页面功能的体验性”划分（方案一）
-        - 方案一：分：“baseReact”、“async-commons”、“commons”三个缓存组。将`baseReact`优先级最高。
-    - 按照“代码”
-        - 方案二：分：“commons”、“chunk-antd”、“styles”三个缓存组。将styles优先级最高。
-
- - Babel配置：
-    - Babel（`@babel/preset-env`）将ES6新语法（class、箭头函数）转译；
-    - 引入`@babel/polyfill`将ES6新API（Promise）进行实现
-    - 指定`useBuiltIns`（false、entry、usage）
-    - `@babel/polyfill`在**入口文件前**加载
-    ![alt](./img/img-10.png)
-
- - Nginx配置：
-     - 因为是个多页应用（BrowserRouter）。**手动刷新**浏览器会尝试从服务器取资源。
-     - 需通过以下Nginx配置将资源 **重定向到前端静态资源** 去寻找。
-        ```js
-        location /test.html {
-            root /home/appops/my-static/myProject/build;
-            index test.html;
-            try_files $uri /test.html;
-        }
-        ```
-
- - 其他：
-    - 单入口启动
-    - DLL动态链接库（没有指定`devtool`: `cheap-module-eval-source-map`）
-    - ts的类型检查（【开发时监听】`tsc --noEmit -w`；【打包时】`tsc --noEmit`）
-
 #### 兼容性处理
 **【浏览器兼容性】**
  - IE下Promise为undefined
     - 原因：在IE下，不支持ES6的新API（Promise）
-    - 解决方法：使用Babel、@babel/polyfill，并指定corejs版本为3，实现按需加载polyfills。
+    - 解决方法：使用`Babel`、`@babel/polyfill`，并指定 **corejs版本为3** ，实现按需加载`polyfills`。
  
  - IE9及以下不兼容`requestAnimationFrame`
     ```js
-        window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a, 1000/60)};//时间刻自行设置
+        window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a, 1000 / 60)};//时间刻自行设置
         window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
     ```
 
@@ -80,14 +50,12 @@
     解决方法：添加一个`muted`属性，值为`true`即可。
     > `muted`属性用来设置该段视频是否被静音
     
-
-
 **【移动端兼容性】**
  - 在微信IOS下，不支持自动播放视频
     - 原因：Apple解释是为了节省流量。
     - 解决办法：页面加载后，获取Video的dom节点，模拟`play()`
 
-[查看](/skill/project/h5/)
+[查看](/skill/project/compatibility/h5/)
 
 
 #### 国际化处理
@@ -146,8 +114,8 @@
 **使用：**
 
 【业务层】
- - 引用两组一样的图片，后者设置offset
- - 分别用`<MarqueeWrapper>`包裹
+ - 编写`useMarquee`，暴露`startTime`、`stopTime`、`<MarqueeWrapper>`
+ - 分别用`<MarqueeWrapper>`包裹两组一样的图片，后者设置offset
  - `useMarquee`内封装了`_move`方法，用来改变特定的dom节点的`transform`属性
  - 利用定时器，执行两组图片的`move`
 
@@ -163,6 +131,22 @@ const _move = (dom, order, { speed, offset }) => {
     dom.style.transform = `translate(${newX - speed - offset}px, 0)`;
 };
 ```
+
+#### 多页应用配置
+ - 其他：
+    - 单入口启动
+    - DLL动态链接库（没有指定`devtool`: `cheap-module-eval-source-map`）
+    - ts的类型检查（【开发时监听】`tsc --noEmit -w`；【打包时】`tsc --noEmit`）
+    - Nginx配置：
+        - 因为是个多页应用（BrowserRouter）。**手动刷新**浏览器会尝试从服务器取资源。
+        - 需通过以下Nginx配置将资源 **重定向到前端静态资源** 去寻找。
+            ```js
+            location /test.html {
+                root /home/appops/my-static/myProject/build;
+                index test.html;
+                try_files $uri /test.html;
+            }
+            ```
 
 ## 网易智能客服机器人——网易波特（PC）
 ![alt](./img/img-5.png)

@@ -179,7 +179,8 @@ const sidebar = {
                 'project/babel/',
                 'project/webpack/',
                 'project/package/',
-                'project/h5/',
+                'project/compatibility/pc/',
+                'project/compatibility/h5/',
                 'project/notes/',
                 'project/other/'
             ]

@@ -1,4 +1,4 @@
-# 移动端问题汇总
+# [移动端] 兼容性方案
 
 ## 判断是否为Retina屏
 ```js
@@ -191,3 +191,8 @@ elem.addEventListener('touchstart', fn, { passive: false })
 通过给第三个参数传递`passive`为`false`（被动为假，即主动。）来明确告诉浏览器：**事件处理程序**自己会调用`preventDefault`来阻止默认行为，你不用等了。
 
 如果能提前告诉浏览器：**“我不调用preventDefault来阻止默认行为”**，那么浏览器就能快速生成事件，从而提升页面性能。
+
+## 响应式方案
+### 媒体查询
+
+### Rem
