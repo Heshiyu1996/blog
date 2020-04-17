@@ -14,7 +14,7 @@
 
 React**采用Virtual DOM来实现对真实DOM的映射**，所以React Diff算法的实质是 **对两个JavaScript对象的差异查找**。
 
-它基于三个优化策略：
+React ddiff基于三个策略：
  - 忽略DOM节点的跨层级操作（因为特别少）
  - 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构
  - 同一层级的一组子节点，通过`key`值进行区分
@@ -25,7 +25,7 @@ React**采用Virtual DOM来实现对真实DOM的映射**，所以React Diff算�
 ### tree diff
 **比较范围：** 树之间。
 
-**步骤：** 对树的每一层遍历，如果组件不存在了则会直接销毁。
+**步骤：** 对树进行分层比较，两棵树只会对同一层次的节点进行比较。如果组件不存在了则会直接销毁。不会进一步比较。所以只需对树进行一次遍历，便能完成整个DOM树的比较。
 
 ![alt](./img/img-1.png)
 > React只会对相同颜色方框内的DOM节点进行比较（即同一个父节点下的所有子节点）。
@@ -44,8 +44,8 @@ React**采用Virtual DOM来实现对真实DOM的映射**，所以React Diff算�
 **比较范围：** 组件之间。
 
 **步骤：**
- - 同一类型的组件，继续比较Virtual DOM tree（按照 策略一；也可以`shouldComponentUpdate`指定无需比较）
- - 如果不是，则将该组件判断为`dirty component`，从而替换整个组件
+ - 同一类型的组件，继续比较Virtual DOM tree（按照 策略一）也可以`shouldComponentUpdate`指定无需比较
+ - 如果不是，则将该组件判断为`dirty component`，从而替换整个组件（因为React认为不同类型的组件，DOM树相同的情况非常少）
 
 ![alt](./img/img-3.png)
 > 当component D改变为component G时，即使这两个component结构相似。但React会认为**D和G是不同类型的组件**，就不会比较二者的结构：直接删除component D，重新创建component G以及其子节点。
@@ -58,12 +58,14 @@ React**采用Virtual DOM来实现对真实DOM的映射**，所以React Diff算�
 ### element diff
 **比较范围：** 同一层级的节点之间。
 
-**步骤：**
- - 紧接着上述同一类型的组件，继续比较下去（常见类型：列表）
- - 比较节点的`key`值
- - 全部遍历一遍，先确定要`插入`、`删除`的节点，再确定需`移动`的节点
-
 React diff提供了三种“同层级节点”的操作：`插入`、`删除`、`移动`。
+
+**步骤：**
+ - 对新集合中的节点进行循环遍历`for (name in nextChildren)`
+ - 先判断 **新旧集合中是否存在相同的节点**（通过唯一的`key`值）`if(prevChild === nextChild)`，如果不存在，则进行 `插入`；
+ - 如果旧集合中存在，则比较 `当前节点在旧集合中的位置（child._mountIndex）` 与 `访问过的节点，在旧集合中最右的位置（lastInddex）`
+ - `if(child._mountIndex > lastIndex)`，说明**当前访问节点在旧集合中的位置就比上一个节点位置靠后，则该节点不会影响其他节点的位置，不需执行移动操作**；否则进行移动
+
 
 ![alt](./img/img-4.png)
 > React diff 的执行情况：B、D不作任何操作，A、C进行移动即可。
