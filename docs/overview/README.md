@@ -190,8 +190,10 @@ sidebarDepth: 2
 [查看](/skill/project/webpack/)
 ### package.json
 [查看](/skill/project/package/)
-### 移动端问题汇总
-[查看](/skill/project/h5/)
+### [pc] 兼容性方案
+[查看](/skill/project/compatibility/pc/)
+### [移动端] 兼容性方案
+[查看](/skill/project/compatibility/h5/)
 ### 项目笔记
 [查看](/skill/project/notes/)
 ### 其他
