@@ -23,11 +23,10 @@ sidebarDepth: 2
 #### 2019-12-29
  - [单处理器进程的调度策略](/skill/computeracy/scheduling-strategy/) 
 <Badge text="前端周边" type="normal"/>
-
-#### 2019-12-06
- - [Hooks](/skill/react/hooks/)
-<Badge text="框架" type="warning"/>
 :::
+
+#### 前端知识掌握图（2020-04-18）
+![alt](./img/FE.png)
 
 <!-- 
 <Badge text="基础" type="success"/>

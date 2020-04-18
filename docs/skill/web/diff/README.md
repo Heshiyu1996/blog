@@ -5,11 +5,9 @@
 ## 传统diff算法
 > 算法复杂度O(n3)
 
-通过**递归**，对节点进行依次对比。
+通过**递归**，对 HTML DOM树里的节点 进行依次对比。
 
-对于HTML DOM结构，为tree的差异查找算法。
-
-## Virtual DOM
+## 什么是Virtual DOM
 渲染真实DOM的开销很大，直接渲染到真实DOM会引起整个DOM树的**重排**和**重绘**。
 
 React、Vue都**采用Virtual DOM来实现对真实DOM的映射**，所以React Diff、Vue Diff算法的实质是 **对两个JavaScript对象的差异查找**。
@@ -48,10 +46,10 @@ React、Vue都**采用Virtual DOM来实现对真实DOM的映射**，所以React 
 }
 ```
 
-## React的Diff算法（旧）
+## [React] Virtual DOM Diff
 > 算法复杂度为O(n)
 
-React diff基于三个策略：
+React diff（v16前）基于三个策略：
  - 忽略DOM节点的跨层级操作（因为特别少）
  - 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构
  - 同一层级的一组子节点，通过`key`值进行区分
@@ -62,7 +60,8 @@ React diff基于三个策略：
 ### tree diff
 **比较范围：** 树之间。
 
-**步骤：** 对树进行分层比较，两棵树只会对同一层次的节点进行比较。如果组件不存在了则会直接销毁。不会进一步比较。所以只需对树进行一次遍历，便能完成整个DOM树的比较。
+**步骤：** 对树进行分层比较，两棵树只会对同一层次的节点进行比较。如果节点不存在了则会直接销毁。不会进一步比较。
+> 所以只需对树进行一次遍历，便能完成整个DOM树的比较。
 
 ![alt](./img/img-1.png)
 > React只会对相同颜色方框内的DOM节点进行比较（即同一个父节点下的所有子节点）。
@@ -81,8 +80,8 @@ React diff基于三个策略：
 **比较范围：** 组件之间。
 
 **步骤：**
- - 同一类型的组件，继续比较Virtual DOM tree（按照 策略一）也可以`shouldComponentUpdate`指定无需比较
- - 如果不是，则将该组件判断为`dirty component`，从而替换整个组件（因为React认为不同类型的组件，DOM树相同的情况非常少）
+ - 同一类型的组件（即：两节点是同一个组件类的两个不同实例），按照 `同层比较策略` 继续比较Virtual DOM tree（也可以指定`shouldComponentUpdate`无需比较）
+ - 如果不是，则将该组件判断为`dirty component`，从而替换整个组件（因为React认为：不同类型的组件，DOM树相同的情况非常少）
 
 ![alt](./img/img-3.png)
 > 当component D改变为component G时，即使这两个component结构相似。但React会认为**D和G是不同类型的组件**，就不会比较二者的结构：直接删除component D，重新创建component G以及其子节点。
@@ -131,28 +130,158 @@ React更新阶段会对ReactElement类型（Text节点、组件、DOM）判断�
 
 
 
-## React的Diff算法（新）
-React16 的diff策略采用 **从链表头部开始比较** 的算法，属于 **层次遍历**。算法是建立在 **一个节点的插入、删除、移动等操作都是在节点树的同一层级中** 进行的。
+## [React] Fiber Diff
+React16改造了Virtal DOM的结构，引入了`Fiber`的链表结构。
+> 因为以前的Virtual DOM Diff可能比较耗时，导致浏览器FPS降低。
 
-对于Diff，新老节点的对比，是以新节点为标准，然后构建整个`currentInWorkProgress`。
+### React Fiber
+`Fiber节点`就相当于以前的 Virtual DOM节点 ，结构如下：
+```js
+const Fiber = {
+  tag: HOST_COMPONENT,
+  type: "div",
+  return: parentFiber, // 当前节点的父节点
+  child: childFiber, // 第一个子节点
+  sibling: null, // 右边的第一个兄弟节点
+  alternate: currentFiber, // 当前节点对应的新Fiber节点（带有新的props和state）
+  stateNode: document.createElement("div")| instance,
+  props: { children: [], className: "foo"},
+  partialState: null,
+  effectTag: PLACEMENT,
+  effects: []
+};
+```
 
-对于新的 children 会有**4种情况**：
+假设有这么一个DOM结构：
+```html
+<div>
+    <div></div>
+    <ul>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+```
+通过 **链表的形式** 去描述整棵树：
+
+![alt](./img/img-10.png)
+
+**Fiber数据结构选用链表**的好处：在遍历Diff时，即使中断了，但只需记住中断时的那个节点，就可在下一个时间片空闲时，继续Diff。
+
+### Fiber Diff的大致过程
+**从链表头开始遍历，碰到一个节点就和它自己的 `alternate` 比较，并记录下需要更新的东西（作为`commit`），并把这些更新通过 `return` 提交到当前节点的父节点。当遍历完整个链表时，再通过 `return` 回溯到根节点。这样就能把所有的更新全部带到根节点，最后更新到真实的DOM中。**
+
+> Fiber Diff算法是基于 **节点的“插入、删除、移动”等操作都是在同一层级中进行** 这个前提的。
+
+![alt](./img/img-12.png)
+:::tip
+从根节点开始：
+ - div1通过 child 到div2
+ - div2 和自己的 alternate 比较完，把更新 commit1 通过return 提交到 div1
+ - div2 通过 sibling 到ul 1
+ - ul1 和自己的 alternate 比较完，把更新 commit2 通过return 提交到 div1
+ - ul1 通过 child 到 li1
+ - li1 和自己的 alternate 比较完，把更新 commit3 通过return 提交到 ul1
+ - li1 通过 sibling 到 li2
+ - li2 和自己的 alternate 比较完，把更新 commit4 通过return 提交到 ul1
+ - **遍历完成，开始回溯。li2 通过 return 回到 ul1**（注意是到 li2 才 return）
+ - ul1 把 commit3 和 commit4 通过 return 提交到 div
+ - ul1 通过 return 到 div1
+ - div1 获取到所有更新 commit1、commit2、commit3、commit4，一次性更新到真实的DOM中
+:::
+
+<!-- 对于Diff，新老节点的对比，我们以新节点为标准，然后构建整个`currentInWorkProgress`。 -->
+
+### Fiber Diff的入口函数
+Fiber Diff是从 `reconcileChildren` 开始的 *（非首次渲染时）*
+```js
+export function reconcileChildren(
+  current: Fiber | null,
+  workInProgress: Fiber,
+  nextChildren: any,
+  renderExpirationTime: ExpirationTime,
+) {
+  // 如果首次渲染，通过mountChildFibers创建子节点的Fiber实例
+  if (current === null) {
+    workInProgress.child = mountChildFibers(
+      workInProgress,
+      null,
+      nextChildren,
+      renderExpirationTime,
+    );
+  } else {
+  // 否则，通过reconcileChildFibers进行Diff
+    workInProgress.child = reconcileChildFibers(
+      workInProgress,
+      current.child,
+      nextChildren,
+      renderExpirationTime,
+    );
+  }
+}
+```
+
+`reconcileChildFibers`函数的作用：**构建`currentInWorkProgress`，然后得出`effect list`，为下一个阶段（commit）做准备**
+
+```js
+function reconcileChildFibers(
+  returnFiber: Fiber, // 即将Diff的这层的父节点
+  currentFirstChild: Fiber | null, // 当前层的第一个Fiber节点
+  newChild: any, // 即将更新的vdom节点（可能是个TextNode、可能是ReactElement、可能是数组），不是Fiber节点
+  expirationTime: ExpirationTime, // 过期时间（与diff无关）
+): Fiber | null {
+  // 主要的 Diff 逻辑
+}
+```
+
+对于 `currentFirstChild` 会有 **4 种情况**：
  - TextNode
- - 单个React Element（通过该节点是否有 `$$typeof` 区分）
+ - React Element（通过该节点是否有 `$$typeof` 区分）
  - 数组
- - 可迭代的children，跟数组的处理方式差不多
+ - 可迭代的children（跟数组的处理方式差不多）
 
-### Diff TextNode
-Diff TextNode主要是判断：**currentFirstNode是否为TextNode**。
-> currentFirstNode是当前该层的第一个节点。
+> 注意：currentFirstNode是当前层的第一个Fiber节点。
 
-#### currentFirstNode是TextNoded
+### TextNode【待更新】
+如果`currentFirstChild` 是 `TextNode`
+ - `xxx` 也是 `TextNode`，那就代表这个节点可以复用
+ - `xxx` 不是 `TextNode`
 
-思路：先找有没有可以复用的节点，如果没有就另外创建一个。
+Demo：
+```js
+// before：当前 UI 对应的节点的 jsx
+return (
+  <div>
+  // ...
+      <div>
+          <xxx></xxx>
+          <xxx></xxx>
+      </div>
+  //...
+    </div>
+)
+
+// after：更新成功后的节点对应的 jsx
+return (
+  <div>
+  // ...
+      <div>
+          前端桃园
+      </div>
+  //...
+    </div>
+)
+```
 
 
-### Diff React Element
-判断这个节点是否可以复用：
+
+![alt](./img/img-10.png)
+
+若`currentFirstNode`不是TextNode，就代表这个节点不能复用。会从`currentFirstNode`开始，**删除剩余的节点**。
+
+
+### React Element【待更新】
+对于`React Element`判断这个节点是否可以复用：
  - key相同
  - 节点的类型相同
 
@@ -160,16 +289,14 @@ Diff TextNode主要是判断：**currentFirstNode是否为TextNode**。
 
 如果节点类型不相同，就将节点从当前节点开始，把剩余的都删除。
 
-### Diff Array
-
-
+### Array【待更新】
 建议：在开发组件时，保持稳定的DOM结构有助于性能提升。
 
 
-## Vue的Diff算法
+## [Vue] Virtual DOM Diff
 Vue和React一样，只进行**同层比较，忽略跨级操作**。
 
-Vue Diff会执行`patch`，比较新、旧节点，一边比较一边给`真实DOM`打补丁。
+当响应式属性`setter`执行`Dep.notify()`时，就会开始执行`patch`，一边比较新、旧节点，一边给`真实DOM`打补丁。
 
 ```js
 function patch (oldVnode, vnode) {
@@ -250,6 +377,9 @@ patchVnode (oldVnode, vnode) {
  - `newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`和`oldEndIdx`之间的vnode在新的节点里已经不存在了，调用`removeVnodes`将它们从DOM里删除。
 
 ### 总结Vue Diff流程
+![alt](./img/img-13.png)
+
+#### Demo
 假设现在有个父节点`<div class="parent"></div>`，下面有`a、b、c、d`这四个不同的子节点。突然发生一次`patch`，改变了子节点的内容。
 
 ### 没有设置key
@@ -393,8 +523,47 @@ updateChildren (parentElm, oldCh, newCh) {
 ```
 
 
+## 四种Diff算法总结
+ - **传统Diff**：
+    - 通过**递归**，对 HTML DOM树里的节点 进行依次对比。
+
+ - **React Virtual DOM Diff**：
+    - 基于三个策略
+        - 忽略DOM节点的跨层级操作（因为特别少）
+        - 同一类型的两个组件会生成相似的树形结构，不同类型的两个组件会生成不同的树形结构
+        - 同一层级的子节点，通过`key`值进行区分
+    - 根据不同细粒度（tree、component、element）进行Diff
+        - tree diff：对树进行 **同层比较**。
+            - 【做法：如果节点不存在则会直接销毁，不会进一步比较】
+        - component diff：根据组件 **“是否为同一类型”**，采取不同做法。
+            - 【做法：同一类型的组件：按照 `同层比较策略` 继续比较（也可通过`shouldComponentUpdate()`来判断是否需要diff）；若为不同类型的组件，则替换整个组件】
+        - element diff：根据新节点的`key`值以及`在旧集合位置`，采取不同做法。
+            - 【做法：遍历新集合中的节点；通过`key`判断 `“旧集合中是否存在相同节点”`，若不存在，则插入；否则，比较 `当前节点在旧集合中的位置` 与 `访问过的节点，在旧集合中最右的位置`：若当前节点在旧集合中的位置靠后，则不需移动；否则移动。】
+
+ - **Fiber Diff**：
+    - 从链表头开始遍历，碰到一个节点就和它自己的 `alternate` 比较，并记录下需要更新的东西（作为`commit`），并把这些更新通过 `return` 提交到当前节点的父节点。当遍历完整个链表时，再通过 `return` 回溯到根节点。这样就能把所有的更新全部带到根节点，最后更新到真实的DOM中。
+
+ - **Vue Virtual DOM Diff**：
+    - Vue只作 **同层比较**，且对于 **不同类型的节点** 会直接用新节点替换
+    - 先让`vnode.el`引用真实dom（为了同步变化）后，开始比较`oldVnode`、`vnode`
+    - 依次判断 **5类情况**：
+        - 1、引用是否一致；【做法：不需改变】
+        - 2、新旧都为文本节点【做法：只需修改text】
+        - 3、新旧节点都有子节点，而且它们不一样【做法：执行`updateChildren`】**（Vue Diff核心）**；
+        - 4、只有新节点有子节点；【做法：在老节点上添加新节点】
+        - 5、只有旧节点有子节点，新节点没有子节点。【做法：直接删除老节点】
+    - 在`updateChildren`的过程中，`oldCh`、`newCh`会进行 **头尾两端的相互比较** （即：旧头新头、旧尾新尾、旧头新尾、旧尾新头）。若设置`key`，会多了一步“查找匹配节点”
+    - 最后指针会往中间靠拢，直到结束
+
+:::tip
+ - 对于“同一类型”这个说法，React会认为“两节点是同一个组件类的不同实例”是属于同一类型；Vue会认为“两节点的key && sel相同”时是属于同一类型。
+
+ - 另外，vue中在使用相同标签名元素的 **过渡切换** 时，**需用不同key值作区分**。否则vue只会替换其内部属性而不会触发过渡效果。
+:::
 
 ## 参考链接
  - [React 源码剖析系列 － 不可思议的 react diff](https://zhuanlan.zhihu.com/p/20346379)
  - [谈谈React中Diff算法的策略及实现](https://cloud.tencent.com/developer/article/1402610)
  - [React diff 策略](http://www.ptbird.cn/react-diff-from-code.html)
+ - [详解 React 16 的 Diff 策略](https://cloud.tencent.com/developer/article/1477707)
+ - [React16性能改善的原理（二）](https://segmentfault.com/a/1190000018488975)
