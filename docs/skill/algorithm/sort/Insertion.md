@@ -1,34 +1,37 @@
 # 插入排序（不稳定）
+> 时间复杂度：O(n²)
 
-时间复杂度：O(n²)
-
-思路：依次将`无序序列`中的一个记录，按它的大小在`已排序列`中**从后向前扫描**，插入到相应位置。直到所有的记录都插入为止。
-
+## 思路
+ - 定义两个指针`preIndex`（已排队列的尾指针）、`curValue`（当前待排值）。
+ - 遍历`待排队列`，根据`preIndex`（从后向前）、`curValue` 与 `当前preIndex对应值` 大小比较
+ - 根据情况不断调整`已排队列的尾部`的值
+ - 最后将`curValue`放到`已排队列的尾部`。
 ```js
- function insertionSort(arr) {
-   let preIndex, curValue
+const insertSort = arr => {
+    let prevIdx,
+        curVal,
+        len = arr.length;
+    
+    for (let i = 1; i < len; i++) {
+        prevIdx = i - 1;
+        curVal = arr[i];
 
-   for (let i = 1; i < arr.length; i++) {
-     preIndex = i - 1
-     curValue = arr[i]
-     while (preIndex >=0 && arr[preIndex] > curValue) {
-       arr[preIndex + 1] = arr[preIndex]
-       preIndex--
-     }
-     arr[preIndex + 1] = curValue
-   }
+        while (prevIdx >= 0 && curVal < arr[prevIdx]) {
+            arr[prevIdx + 1] = arr[prevIdx];
+            prevIdx--;
+        }
 
-   return arr
- }
+        arr[prevIdx + 1] = curVal; // 注意此处为 prevIdx + 1，因为就算不移动，也是要插入到 prevIdx 的后一位
+    }
+
+    return arr;
+}
 ```
 
-大致思想：
-  - 一共比较`length - 1`轮，从下标为`1`开始
-  - 将数组分为`有序组`、`无序组`（以index=1为“分界线”）
-  - 每轮取`无序组`的第一位，赋值temp，开始进行排序
-  - 取`有序组`中最后一位的下标，赋值j，记录其下标
-  - 将j开始一直递减，为temp找到合适的位置，并将其插入
+## 大致步骤
+从`无序序列`中依次选择一个元素，按它的大小在`已排序列`中**从后向前扫描**，插入到相应位置。直到所有的记录都插入为止。
 
+## 具体步骤
 例子：[1, 9, 7, 6]
   - 一共进行`3`轮，当前`第1轮`
   - 有序组是[1]，无序组是[9, 7, 6]（不是真实数组）

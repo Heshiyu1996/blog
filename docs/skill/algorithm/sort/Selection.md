@@ -1,25 +1,32 @@
 # 选择排序（稳定）
-时间复杂度：O(n²)
- 
-思想：在待排序列中找到最小元素，存放到已排序序列的起始位置；然后再从剩余未排序元素中，继续寻找最小元素，放到已排序列的末尾。
+> 时间复杂度：O(n²)
+
+## 思想
+经过 `第 i 次` 后，能将新数组 `下标为 i 的元素` **选择** 出来。（0 < i < len - 1）
 
 ```js
-function selectionSort(arr) {
-    let len = arr.length
-    for(let i=0; i<len; i++) {
-        let min = arr[i]
-        for(let j=i + 1; j<len; j++) {
-            if(min > arr[j]) {
+const selectSort = arr => {
+    let len = arr.length;
+
+    for (let i = 0; i < len - 1; i++) { // 注意此处为 i < len - 1
+        let min = arr[i];
+
+        for (let j = i + 1; j < len; j++) {
+            if (arr[j] < min) {
                 [min, arr[j]] = [arr[j], min]
             }
         }
-        arr[i] = min
+
+        arr[i] = min;
     }
-    return arr
+    return arr;
 }
 ```
+ 
+## 大致步骤
+在待排序列中找到最小元素，存放到已排序序列的起始位置；然后再从剩余未排序元素中，继续寻找最小元素，放到已排序列的末尾。
 
-大致思想：
+## 具体步骤
   - 一共比较`length - 1`轮，当前`第i轮`（i代表的是第i个位置应该放什么数）
   - 每轮会把`第i个`位置的数拷贝到min
   - 将`第i个`位置后面的每个数都和这个min比较
