@@ -169,21 +169,21 @@ sidebarDepth: 2
 
 
 ## 项目笔记 <Badge text="笔记" type="error"/>
+<!-- ### SourceMap
+[查看](/skill/project/source-map/) -->
+### [工具] webpack
+[查看](/skill/project/webpack/)
+### [工具] Babel7使用实践
+[查看](/skill/project/babel/)
+### [工具] 其它工具
+[查看](/skill/project/tools/)
 ### [开发笔记] Chrome插件
 [查看](/skill/project/chrome-extension/)
 ### [踩坑记录] vue-cli + Prettier
 [查看](/skill/project/prettier-vue-cli/)
-<!-- ### SourceMap
-[查看](/skill/project/source-map/) -->
-### Babel7使用实践
-[查看](/skill/project/babel/)
-### webpack
-[查看](/skill/project/tools/webpack/)
-### package.json
-[查看](/skill/project/package/)
-### [pc] 兼容性方案
+### [踩坑记录] PC兼容性方案
 [查看](/skill/project/compatibility/pc/)
-### [移动端] 兼容性方案
+### [踩坑记录] H5兼容性方案
 [查看](/skill/project/compatibility/h5/)
 ### 项目笔记
 [查看](/skill/project/notes/)
