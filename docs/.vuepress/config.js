@@ -115,7 +115,6 @@ const sidebar = {
             collapsable: true,
             children: [
                 'web/diff/',
-                'web/web-assembly/',
                 'web/browser/',
                 'web/browser-cache/',
                 'web/cdn/',
@@ -140,7 +139,6 @@ const sidebar = {
                 'react/life-cycle/',
                 'react/set-state/',
                 'react/hooks/',
-                'react/optimize/',
                 'react/feature-v16/',
                 'react/question/',
                 'react/other/',

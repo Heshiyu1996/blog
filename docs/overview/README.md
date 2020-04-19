@@ -4,6 +4,10 @@ sidebarDepth: 2
 ---
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-04-18
+ - [Web性能优化](/skill/web/optimize/)
+<Badge text="基础" type="success"/>
+
 #### 2020-04-17
  - [Diff、React Diff、Vue Diff](/skill/web/diff/)
 <Badge text="基础" type="success"/>
@@ -19,10 +23,6 @@ sidebarDepth: 2
 #### 2020-01-03
  - [React Fiber](/skill/react/fiber/)
 <Badge text="框架" type="warning"/>
-
-#### 2019-12-29
- - [单处理器进程的调度策略](/skill/computeracy/scheduling-strategy/) 
-<Badge text="前端周边" type="normal"/>
 :::
 
 #### 前端知识掌握图（2020-04-18）
@@ -98,8 +98,6 @@ sidebarDepth: 2
 ## Web/浏览器 <Badge text="基础" type="success"/>
 ### Diff、React Diff、Vue Diff
 [查看](/skill/web/diff/)
-### WebAssembly
-[查看](/skill/web/web-assembly/)
 ### 浏览器
 [查看](/skill/web/browser/)
 ### 浏览器缓存机制
@@ -137,8 +135,6 @@ sidebarDepth: 2
 [查看](/skill/react/set-state/)
 ### Hooks
 [查看](/skill/react/hooks/)
-### 性能优化
-[查看](/skill/react/optimize/)
 ### React16新特性
 [查看](/skill/react/feature-v16/)
 ### 踩坑记录
