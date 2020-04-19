@@ -1,4 +1,4 @@
-# KeepAlive
+# [开发笔记] KeepAlive
 > 做小功科技的时候就用过KeepAlive，当时是缓存组件的状态觉得挺新颖，但是一直没有写成文字记录下来
 > 
 > 更新时间：2019-01-30
@@ -100,9 +100,6 @@ new VueRouter({
     },
 })
 ```
-
-### Vue实例生命周期
-![alt](./img/keepAlive-1.png)
 
 ### 参考链接
 [用 vue-route 的 beforeEach 实现导航守卫（路由跳转前验证登录）](https://blog.csdn.net/latency_cheng/article/details/78580161)

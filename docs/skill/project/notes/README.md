@@ -252,7 +252,20 @@ console.log(createHash._hashValue);
 console.log(createHash.get('123')); // hhh
 ```
 
-    
+#### [vuelidate]表单校验
+调研思路：
+  - 基于数据模型
+  - 支持自定义函数
+  - 支持嵌套
+  - 支持Promise
+  - 引入方式（可全局、可局部）
+ 
+源码实现（数据响应）
+  - 当实例化一个vue时，会通过`this.$options`获取该vue实例选项里的`validations`
+  - 再把选项里的`配置规则`转化为`$v`属性
+  - 将`$v`的代理通过`mixin`的方式，加入到Vue实例中的`computed`选项
+  - 默认是通过`input`事件进行校验。作者也推荐开发者可以通过给`v-model`定义`.lazy`修饰符，使得校验器可以进行懒校验
+ 
 
 
 

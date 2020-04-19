@@ -1120,3 +1120,22 @@ delete o.a // 返回false,删除不成功
 
 **const** 是块级作用域。
  > 值不可以修改，存在暂时性死区，不允许多次定义；
+
+## with函数
+`with`函数可以将某个对象添加到作用域链的顶部
+
+```js
+var obj = {
+    name: 'heshiyu',
+    age: 24
+}
+
+function fn1() {
+    with(obj) {
+        console.log(name, age)
+    }
+}
+
+fn1() // 'heshiyu', 24
+```
+

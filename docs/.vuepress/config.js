@@ -150,15 +150,18 @@ const sidebar = {
             title: '《Vue》',
             collapsable: false,
             children: [
-                'vue/vue-composition-api-rfc/',
-                'vue/key/',
+                'vue/basic/',
+                'vue/life-cycle/',
+                'vue/question/',
+                // 'vue/key/',
                 'vue/keep-alive/',
                 'vue/build/',
                 'vue/data-driven/',
                 'vue/component/',
-                'vue/vue-router/',
                 'vue/component-lib/',
+                'vue/vue-router/',
                 'vue/feature-v3/',
+                'vue/vue-composition-api-rfc/'
             ]
         }
     ],
