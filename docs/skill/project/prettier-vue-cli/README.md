@@ -1,4 +1,4 @@
-# 在Vue里用Prettier为什么这么难！
+# [踩坑记录] vue-cli + Prettier
 > Prettier
 ## 使用vue-cli 3.0内置的prettier
 ```json

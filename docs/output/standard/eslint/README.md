@@ -160,3 +160,5 @@ module.exports = {
     "eslint": "eslint --fix --ext .js,.jsx src",
 }
 ```
+
+[[踩坑记录] vue-cli + Prettier](/skill/project/npm/)

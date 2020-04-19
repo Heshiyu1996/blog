@@ -169,26 +169,16 @@ sidebarDepth: 2
 
 
 ## 项目笔记 <Badge text="笔记" type="error"/>
-### Rollup
-[查看](/skill/project/rollup/)
-### Node-MySQL
-[查看](/skill/project/node-mysql/)
-### NOS
-[查看](/skill/project/nos/)
-### NPM
-[查看](/skill/project/npm/)
-### Chrome插件开发经验
+### [开发笔记] Chrome插件
 [查看](/skill/project/chrome-extension/)
-### 在Vue里用Prettier为什么这么难！
-[查看](/skill/project/npm/)
-### Prettier实践（vue-cli）
+### [踩坑记录] vue-cli + Prettier
 [查看](/skill/project/prettier-vue-cli/)
-### SourceMap
-[查看](/skill/project/source-map/)
+<!-- ### SourceMap
+[查看](/skill/project/source-map/) -->
 ### Babel7使用实践
 [查看](/skill/project/babel/)
 ### webpack
-[查看](/skill/project/webpack/)
+[查看](/skill/project/tools/webpack/)
 ### package.json
 [查看](/skill/project/package/)
 ### [pc] 兼容性方案

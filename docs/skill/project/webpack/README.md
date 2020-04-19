@@ -1,4 +1,4 @@
-# webpack
+# [工具] webpack
 `webpack`是模块打包的机制，它是通过`loader`、`plugins`对资源进行处理，最后打包成浏览器成识别的js等文件。
 
 原理：
