@@ -1,4 +1,5 @@
 # Vue基础知识
+[[toc]]
 
 ## 什么是MVVM？
  `M`：Model层，代表 **模型、数据**。负责数据修改、操作的业务逻辑
@@ -82,6 +83,24 @@ Vue在更新 DOM 时是 **异步** 执行的。只要监听到数据变化，Vue
 
 `Vue.nextTick(callback)`的回调函数，会 **在 `Vue` 完成DOM更新后** 立即执行。
 
+## Vue VS React
+**相同：**
+ - **Virtual DOM**
+ - **组件化**
+    - 组件内部执行`render` -> VNode树 -> Diff -> 真实DOM
+ - **推崇“单向数据流”**
+    - 父组件传入数据给子组件，子组件不能直接修改父组件传过来的props
+
+**不同：**
+ - **核心思想**
+    - React：函数式编程、推崇JSX、组件复用HOC/Hooks
+    - Vue：双向绑定、推崇template、组件复用Mixin、单文件.vue
+ - **组件的实现方式**
+    - React：React.Component类、函数式组件返回的React元素；传入`ReactDOM.render()`去渲染
+    - Vue：options对象声明，实例化`new Vue()`，内部方法`initState`等
+ - **Diff算法**
+    - React：三个策略、三种细粒度Diff；从根组件重新渲染整棵树
+    - Vue：五种情况、四次比较、根据Key值查找匹配对象；更细粒度更新
 
 
 ## 参考链接
