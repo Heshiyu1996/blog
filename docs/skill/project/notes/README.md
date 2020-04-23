@@ -27,17 +27,9 @@
  - [跑马灯思路](#跑马灯思路)
 
 #### 兼容性处理
-**【浏览器兼容性】**
- - IE下Promise为undefined
-    - 原因：在IE下，不支持ES6的新API（Promise）
-    - 解决方法：使用`Babel`、`@babel/polyfill`，并指定 **corejs版本为3** ，实现按需加载`polyfills`。
- 
- - IE9及以下不兼容`requestAnimationFrame`
-    ```js
-        window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a, 1000 / 60)};//时间刻自行设置
-        window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
-    ```
+**PC**
 
+【HTML方面】
  - FireFox不兼容Video标签：
     在`FireFox`上无法通过`<video>`标签播放视频：
     ```html
@@ -49,11 +41,46 @@
     ```
     解决方法：添加一个`muted`属性，值为`true`即可。
     > `muted`属性用来设置该段视频是否被静音
+
+【CSS方面】
+ - 不同浏览器下，默认margin、padding、列表缩进不同
+    - 引入 `全局css reset` 文件
+
+ - IE浏览器不兼容filter滤镜
+    - 解决：设置`filter:progid:DXImageTransform.Microsoft.`（.后面是紧跟各种滤镜，约十几种）
+
+【JS方面】
+ - IE9及以下不兼容`requestAnimationFrame`
+    ```js
+        window.requestAnimationFrame = window.requestAnimationFrame || function(a){return setTimeout(a, 1000 / 60)};//时间刻自行设置
+        window.cancelAnimationFrame = window.cancelAnimationFrame || clearTimeout;
+    ```
+ - IE9以下的事件绑定
+    - 解决：判断是否支持`window.addEventListener`（用柯里化可提前返回`window.addEventListener`）
     
-**【移动端兼容性】**
- - 在微信IOS下，不支持自动播放视频
+**H5**
+
+【HTML方面】
+ - 在微信IOS下，**不支持自动播放视频**
     - 原因：Apple解释是为了节省流量。
     - 解决办法：页面加载后，获取Video的dom节点，模拟`play()`
+
+【CSS方面】
+ - 安卓低版本（4.4）**line-height**不居中
+    - 初步怀疑：字体大小为奇数、使用 `rem` 单位造成（由于根元素会动态改变）
+    - 解决：把用到 `line-height` 设置垂直居中的标签都换成`button`
+ 
+ - 点击元素时出现**背景色**
+    - 解决：`-webkit-tap-hightlight-color: rbga(0, 0, 0, 0)`；换成`<div>`
+
+【JS方面】
+ - 安卓低版本（4.4）页面空白
+    - 初步怀疑：css属性漏掉autoprefixer前缀的兼容问题
+    - 进一步怀疑：（VConsole控制台显示**Promise is undefined**）
+    - 解决：引入全局polyfill -> babel对polyfill的按需引入（`useBuiltIns: usage`）
+ 
+ - 微信内置浏览器的**键盘遮住**输入框
+    - 解决：对输入框绑定click事件，再通过一个setTimeout，取得DOM节点，用它执行`Element.scrollIntoView()`
 
 [查看](/skill/project/compatibility/h5/)
 
@@ -178,25 +205,32 @@ const _move = (dom, order, { speed, offset }) => {
 
 解决方案：
  - **方案一：一次性渲染**
-    - 现象：有3~5秒白屏时间
+    - 现象：白屏时间长**9s（白屏6s Script、3s Rendering）**
     - 在`js执行完且渲染前`、`setTimeout内`分别输出`Date.now`，发现：JS执行并不是瓶颈，而是渲染阶段
     - 方案不可用原因：白屏时间过长，体验性极差
 
  - **方案二：使用`setTimeout`分批渲染**
-    - 现象：出现白屏或闪屏
+    - 现象：白屏缓解，但会出现闪屏（白屏1.5s，0.5s Script、1s Rendering）
     - `FPS`表示每秒钟画面更新次数，大多数显示器刷新频率60Hz（即每秒钟重绘60次，FPS = 60 frame/s）
     - `帧率小于40 FPS`时，人会开始感觉卡顿
     - 不可用原因：1、`setTimeout`执行时间不确定（由于主线程执行完才会去检查事件队列）；2、不同显示器FPS不同，但`setTimeout`设定固定间隔；3、可能出现丢帧
 
  - **方案三：使用`requestAnimationFrame`**
+    - 现象：白屏缓解，不会出现闪屏（白屏1.2s，0.2s Script、1s Rendering）
     - 不会丢帧。保证回调函数 **在屏幕每次更新的间隔里** 只被执行一次
     - 不兼容 **IE10以下**
 
- - **更优方案：使用`requestAnimationFrame`+`DoccumentFragment`**
+ - **方案四：使用`requestAnimationFrame`+`DoccumentFragment`**
+    - 现象：与 方案三 没有明显变化，但滑动更流畅
     - `DocumentFragment`内容变化不会触发DOM树重新渲染，不会导致性能问题
     - `document.createDocumentFragment`方法或者构造函数来创建一个空的DocumentFragment
+ 
+ - **更优方案：使用`vue-virtual-scroller`**
+    - 现象：性能好
+    - 原理：将 **加载事件** 绑定在 `scroll事件` 上，并记录上次渲染的`startIndex`、`endIndex`，利用一个buffer进行存储。局部渲染、自动回收DOM
+    - 缺点：设置固定高度
 
-
+<!-- 
 #### 列表数据庞大下，查找指定数据
 主要问题：列表数据庞大（10w），根据关键字（实体词）精确查找数据（同义词）
 
@@ -250,7 +284,7 @@ const createHash = new Hashtable();
 createHash.add(picArray);
 console.log(createHash._hashValue);
 console.log(createHash.get('123')); // hhh
-```
+``` -->
 
 #### [vuelidate]表单校验
 调研思路：
