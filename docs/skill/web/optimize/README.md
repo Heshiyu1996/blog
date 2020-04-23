@@ -136,10 +136,12 @@
 ### React
  - Key：使用Key值可在 `Element Diff阶段` 尽可能复用旧节点
  - shouldComponentUpdate：使用`shouldComponentUpdate()`可在`Component Diff阶段`，尽可能节省 **对于同一类型组件的Diff时间损耗**
+ - PureComponent、useMemo
  - 避免使用匿名函数：尽量避免每次渲染都声明不同引用
  - 减少DOM数量：使用`<></>`或`React.Fragment`
- - 懒加载：使用`React.lazy()`、`React.Suspense`或第三方包`react-loadable`
+ - 异步加载/懒加载：使用`React.lazy()`、`React.Suspense`或第三方包`react-loadable`
  - SSR
+ - 通过时间分片Fiber
 
 ### Vue
  - Key：使用过Key值可在`Vue Diff阶段` 尽可能复用旧节点
