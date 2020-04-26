@@ -55,7 +55,7 @@ React diff（v16前）基于三个策略：
  - 同一层级的一组子节点，通过`key`值进行区分
 
 基于以上三个策略，React分别对`tree diff`、`component diff`、`element diff`进行了算法优化。
-
+> 即：不同层级不比、不同组件类型不比、不同key值不比
 
 ### tree diff
 **比较范围：** 树之间。
@@ -100,7 +100,7 @@ React diff提供了三种“同层级节点”的操作：`插入`、`删除`、
  - 对新集合中的节点进行循环遍历`for (name in nextChildren)`
  - 先判断 **新旧集合中是否存在相同的节点**（通过唯一的`key`值）`if(prevChild === nextChild)`，如果不存在，则进行 `插入`；
  - 如果旧集合中存在，则比较 `当前节点在旧集合中的位置（child._mountIndex）` 与 `访问过的节点，在旧集合中最右的位置（lastInddex）`
- - `if(child._mountIndex > lastIndex)`，说明**当前访问节点在旧集合中的位置就比上一个节点位置靠后，则该节点不会影响其他节点的位置，不需执行移动操作**；否则进行移动
+ - `if(child._mountIndex > lastIndex)`，说明**当前访问节点在旧集合中的位置 就比 上一个节点位置 靠后，则该节点不会影响其他节点的位置，不需执行移动操作**；否则进行移动
 
 
 ![alt](./img/img-4.png)
@@ -303,6 +303,7 @@ function patch (oldVnode, vnode) {
     if (sameVnode(oldVnode, vnode)) {
         patchVnode(oldVnode, vnode)
     } else {
+        // 不同类型节点，直接用新节点替换整个老节点
         const oEl = oldVnode.el
         let parentEle = api.parentNode(oEl)
         createEle(vnode)
@@ -528,7 +529,7 @@ updateChildren (parentElm, oldCh, newCh) {
     - 通过**递归**，对 HTML DOM树里的节点 进行依次对比。
 
  - **React Virtual DOM Diff**：
-    - 基于三个策略
+    - 基于三个策略 **（不同层级不比、不同组件类型不比、不同key值不比）**
         - 忽略DOM节点的跨层级操作（因为特别少）
         - 同一类型的两个组件会生成相似的树形结构，不同类型的两个组件会生成不同的树形结构
         - 同一层级的子节点，通过`key`值进行区分
