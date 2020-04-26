@@ -990,36 +990,55 @@ f.valueOf() // ['test', 'example']
 ```
 
 ## 类数组对象、可遍历对象
-`类数组对象`：具有length属性的对象
- - Array.from()
+从`普通数组`开始说起：
+```js
+// 当我们对一个普通数组进行 扩展运算符 展开时，可正常展开
+console.log(...[1, 2]); // 1 2
+```
 
-`可遍历对象`：具有Iterator接口的对象（**Array、Map、Set、String、函数的arguments对象、NodeList对象**）
- - Array.from()
- - 扩展运算符（...)
+但 `对象` 是不行的：
+```js
+console.log(...{ name: 'heshiyu', age: 21 }); // Uncaught TypeError: Found non-callable @@iterator
+```
+因为对象没有部署`Iterator`接口。
+
+### 类数组对象
+**类数组对象** 指的是：
+ - 具有 `length属性`
+ - 除了`length`，**其余key值都为“下标”**
+> 之所以提到 `length` ，是因为让人容易联想到 `array.length`
 
 ```js
-// arrayLike是个类数组对象，但它`没有部署Iterator接口`：
-let arrayLike = {
-    '0': 'a',
-    '1': 'b',
-    '2': 'c',
-    length: 3
+var objLikeArr = {
+    0: 1,
+    1: 2,
+    length: 2
 }
 
-// （1）对“类数组对象”使用扩展运算符会报错
-let arr = [...arrayLike]
-// Error: Cannot spread non-iterable object.
-// 右边的写法[...arrayLike]就不正确
-
-// （2）对“类数组对象”使用Array.from()是ok的，但只能枚举出部分值
-Array.from(arrayLike)
-// ["a", "b", "c"]
-
-// Array.from()等价于
-Array.prototype.slice.call(arrayLike)
-// 也等价于
-[].slice.call(arrayLike)
+// 对象没有部署Iterator接口，无法展开
+console.log(...objLikeArr) // Uncaught TypeError: Found non-callable @@iterator
 ```
+
+#### 如何展开类数组对象？
+思想：**先转换成可遍历对象，再展开**。
+```js
+// 方法一：通过 `Array.from()` 对它转换后，再进行展开：
+console.log(...Array.from(objLikeArr)) // 1 2
+
+// 方法二：通过 `Array.prototype.slice.call()` 对它转换后，再进行展开：
+console.log(...Array.prototype.slice.call(objLikeArr)) // 1 2
+```
+
+### 可遍历对象
+**可遍历对象** 指的是：
+ - 部署了 `Iterator` 接口
+> 如：Array、Map、Set、String、函数的arguments对象、NodeList对象
+
+也就是普通的情况，展开可遍历对象的方式：
+ - 扩展运算符（...)
+ - Array.from()
+
+
 ## [ ].find()、[ ].findIndex()和[ ].filter()
 ```js
 [1, 3, 5, 8].find(x => x > 3)
