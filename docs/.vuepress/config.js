@@ -210,6 +210,7 @@ const sidebar = {
             title: '《算法》',
             collapsable: false,
             children: [
+                'algorithm/leetcode/',
                 'algorithm/sort/',
                 'algorithm/search/',
                 'algorithm/dp/',
