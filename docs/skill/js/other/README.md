@@ -432,7 +432,68 @@ const uniqueList = [...new Set(list)];
  - 使用call、apply、bind可以 **改变this指向**
  - 箭头函数 **没有自己的this** ，它指向箭头函数 **定义时外层函数所在的对象**
 
- ### 闭包里this的作用域
+
+## this绑定规则的优先级
+优先级：**new绑定 > 显式绑定 > 隐式绑定 > 默认绑定**
+
+```js
+var name = 'hehe'
+
+function fn() {
+    console.log(this.name);
+}
+
+var obj1 = {
+    name: 'heshiyu',
+    fn: fn
+}
+
+var obj2 = {
+    name: 'huangxiaoming',
+    fn: fn
+}
+
+fn(); // 'hehe'，属于“默认绑定”。此时this指向全局对象（若在严格模式下，this指向undefind）
+obj1.fn(); // 'heshiyu'，属于“隐式绑定”。此时this指向obj1对象
+obj1.fn.call(obj2); // 'huangxiaoming'，属于“显式绑定”。此时this指向obj2对象
+```
+
+### 4种绑定
+ - **默认绑定**：此时this指向全局对象（若在严格模式下，this指向undefind）
+ - **隐式绑定**：此时this指向当前对象
+ - **显式绑定**：此时this指向`call`、`apply`、`bind`指定的对象
+ - **new绑定**：此时this指向新对象
+
+### 练一练
+```js
+const obj1 = {
+ name: "obj1",
+ say() {
+   console.log(this.name);
+ }
+};
+const obj2 = { name: "obj2" };
+const obj3 = { name: "obj3" };
+obj1.say();
+obj2.say = obj1.say;
+obj2.say(); 
+obj3.say = obj1.say.bind(obj2);
+obj3.say(); 
+const func = obj1.say;
+func();
+```
+
+答案：
+```js
+obj1.say() // 'obj1'。隐式绑定。this指向obj1
+
+obj2.say() // 'obj2'。同样隐式指定。this指向obj2
+
+obj3.say() // 'obj2'。显示指定。bind改变了this指向为obj2，最后返回新函数
+
+func() // 'undefined'。默认指定。this指向全局。（若为严格模式，this指向undefined，会报错找不到name属性）
+```
+
 
  ## Ajax
  原理：
