@@ -3,7 +3,7 @@
 > 
 > 更新时间：2019-04-24
 
-下面这道题，会输出什么？
+下面这两道题，会输出什么？
 ```js
 console.log(1)
 
@@ -32,6 +32,39 @@ console.log(9)
 
 // 1 9 3 7 4 6 8 5 2
 ```
+
+```js
+async function async1() {
+  console.log('a')
+  await async2()
+  console.log('b')
+}
+async function async2() {
+  console.log('c')
+}
+console.log('d')
+setTimeout(function () {
+  console.log('e')
+}, 0)
+async1()
+new Promise(function (resolve) {
+  console.log('f')
+  resolve()
+}).then(function () {
+  console.log('g')
+})
+console.log('h')
+
+// d a c f h b g e
+```
+
+总结：
+ - `await紧跟`的Promise相当于new Promise，会**立即执行**
+ - `await下面`的代码，相当于promise.then(代码)，视作**微任务**
+ - `Promise内代码执行完`、`Promise.resolve()`，都会开始执行promise.then，视作**微任务**
+ - setTimeout属于**宏任务**
+ - 要注意Promise的**状态变更时机**
+
 
 ### 1、执行栈（call stack）
 当JS调用一个函数时，会产生这个函数对应的**执行上下文**（context），并把这个函数作为一个 *栈帧* 压入**执行栈**里。
