@@ -42,22 +42,22 @@
 ```
 
 ### 数据劫持
-在 **初始化Vue实例** 时，会实例化 `Observer` 对象，会对传入的 `data` 进行所有属性的遍历。为每个属性，都通过 `Object.defineProperty` 改造它们的 `getter`、 `setter` 方法。
+在 **初始化Vue实例** 的 `initState`过程中，会对传入的 `data` 进行属性遍历。为每个属性，都通过 `Object.defineProperty` 改造它们的 `getter`、 `setter` 方法。
 
 > （如果 `data[key]` 是对象，进行深度劫持）。
 
 ### 发布订阅
-同时，对于 每一个属性值 都会绑定一个 `dep` 订阅器对象，负责：
+对于每一个响应式属性，会实例化 `Observer` 对象、以及绑定一个 `dep` 订阅器，负责：
  - 在 `getter` 时的 **依赖收集**
  - 在 `setter` 时的 **发布通知**
 
 
-其中的 **订阅者** 指的是一个个 `watcher` 实例。
+> 其中的 **订阅者** 指的是一个个 `watcher` 实例。
 
 #### 订阅者watcher
-模板中每个指令（`v-model="name"`）、数据绑定（`{ { name } }`）都会对应一个 `watcher` 对象。在计算过程中，它把属性（这里为 `name` ）记录为依赖。
+模板中每个指令（`v-model="name"`）、数据绑定（`{ { name } }`）都会对应一个 `watcher` 对象。在模板的编译计算过程中，响应式属性（这里为 `name` ）会通过 **getter依赖收集** 将它（这里为`watcher`）记录为依赖。
 
-当依赖的 `setter` 被调用时，会触发 `watcher` 的重新计算，也就会导致它的关联指令去更新DOM。
+当响应式属性（这里为`name`）的 **setter发布更新** 被调用时，会触发它依赖列表中的 `watcher` 的重新计算，也就会导致它的关联指令去更新DOM。
 
 ![alt](./img/img-5.png)
 
