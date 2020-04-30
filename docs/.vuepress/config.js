@@ -135,6 +135,7 @@ const sidebar = {
             title: '《React》',
             collapsable: false,
             children: [
+                'react/basic/',
                 'react/fiber/',
                 'react/life-cycle/',
                 'react/set-state/',
