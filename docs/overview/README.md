@@ -25,7 +25,7 @@ sidebarDepth: 2
 <Badge text="框架" type="warning"/>
 :::
 
-#### 前端知识掌握图（2020-04-18）
+#### 前端知识掌握图（2020-05-04）
 ![alt](./img/FE.png)
 
 <!-- 
