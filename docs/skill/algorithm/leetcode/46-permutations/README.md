@@ -15,8 +15,30 @@
   [3,2,1]
 ]
 ```
+## 思路1
+利用 **回溯** 实现。
+```js
+function backtrack (list, tempList, nums) {
+    if (tempList.length === nums.length) return list.push([...tempList]);
 
-## 思路
+    for (let i = 0; i < nums.length; i++) {
+        if (tempList.includes(nums[i])) continue;
+
+        tempList.push(nums[i]);
+        backtrack(list, tempList, nums);
+        tempList.pop();
+    }
+}
+
+var permute = function (nums) {
+    let list = [];
+    backtrack(list, [], nums);
+
+    return list;
+}
+```
+
+## 思路2
 通过 **递归 + 回溯** 实现。
  - 通过for循环来选出“当前数组”中的“领头”
     - 方式是将当前下标，与“当前数组”的“领头”进行swap交换；（当前数组的每个元素都会和“领头”交换）

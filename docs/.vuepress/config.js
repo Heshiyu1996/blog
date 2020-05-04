@@ -211,6 +211,7 @@ const sidebar = {
             title: '《算法》',
             collapsable: false,
             children: [
+                'algorithm/basic/',
                 'algorithm/leetcode/',
                 'algorithm/sort/',
                 'algorithm/search/',
