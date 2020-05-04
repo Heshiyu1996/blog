@@ -74,6 +74,7 @@ const sidebar = {
             title: '《CSS》',
             collapsable: false,
             children: [
+                'css/layout/',
                 'css/bfc/',
                 'css/flex-box/',
                 'css/sass-less/',
@@ -212,10 +213,10 @@ const sidebar = {
             collapsable: false,
             children: [
                 'algorithm/basic/',
-                'algorithm/leetcode/',
                 'algorithm/sort/',
                 'algorithm/search/',
                 'algorithm/dp/',
+                'algorithm/leetcode/',
                 'algorithm/time-complexity/',
             ]
         }

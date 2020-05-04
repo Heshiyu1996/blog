@@ -114,16 +114,9 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
     }
  ```
 
-## CSS定位
- - 绝对定位
-    - position: absolute | fixed（前者相对非static的父元素、后者相对浏览器的左上角）
- - 相对定位
-    - position: relative（相对本身所在位置）
- - 粘性定位
-    - position: sticky
 
 ## 粘性定位（Sticky）
- `Sticky`是position的粘性属性。它是在`relative`和`fixed`中切换，具体看是否要移出`viewPort`。
+ `Sticky`是position的粘性属性。它是在`static`和`fixed`中切换，具体看是否要移出`viewPort`。
  ```css
  div.sticky {
      position: sticky;
@@ -135,45 +128,6 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
  - 若设定了阈值为`top: 10px`，则表示：当距离`viewPort的顶部`提前到`10px`的位置就切换`fixed`
 
 > 注：该元素遵循`标准文档流`，**仍然保留**元素原本在文档流中的位置
-
-## rem
-`rem`是相对于`html`的字体大小
-
-默认：1rem = 16px
-
-要设置成：1rem = 10px，则需要：
-
-```css
-html {
-    font-size: 62.5% /* 10 / 16 * 100% */
-}
-```
-
-### 计算html节点字体大小：1rem = 100px
-```js
-(function() {
-    function _setRootSize() {
-        // a、获取根元素
-        let rootHTML = document.documentElement;
-        let rootFontSize;
-        // b、获取当前设备宽度
-        let deviceWidth = rootHTML.getBoundingClientRect().width || rootHTML.clientWidth;
-        // c、设置当前设备宽度最大值为750px
-        deviceWidth = deviceWidth > 750 ? 750 : deviceWidth;
-        // d、当前设备宽度 / 7.5，得到“当前设备1rem所对应的字体大小”（假设设计图1rem = 100px，则有750px / 100rem = 7.5）
-        rootFontSize = deviceWidth / 7.5;
-        // e、设置根节点字体大小
-        rootHTML.style.fontSize = rootFontSize + 'px';
-    }
-    _setRootSize();
-    if (document.body) {
-        _setRootSize();
-    } else if (document) {
-        document.addEventListener('DOMContentLoaded', _setRootSize);
-    }
-    window.addEventListener('resize', _setRootSize)
-})();
-```
 
 ## Css-Hack
 `Css Hack`指的是：**当不同浏览器对某些css属性做解析，并出现差异的时候，去弥补这些差异的过程。**
@@ -254,13 +208,6 @@ html {
  - `display: none`的子、孙元素全都不可见，`visibility: hidden`的子孙元素可以设置`visibility: visible`来显示。
  - `display: none`会影响CSS的`transition`**过渡效果**，`visibility: hidden`不会 -->
 
-## CSS布局格式
- - 标准流
-   - 行内元素在同一行，块级元素上下显示
- - 浮动流
-   - 脱离标准流的第一种方式，但 **会影响** 标准流的排列
- - 定位流
-   - 脱离标准流的第二种方式，**不会影响** 标准流的排列
 
 
 ## z-index和position的关系
@@ -386,8 +333,6 @@ html {
     - 因为每一行有3条间隙，平分上面算的剩余`8%`的宽度，算得约每条`2.67%`
     - 因为`高度不能直接设置百分比`。把参考物换成`父容器top-wrapper`可以通过`margin-top`实现，即每个小方块`margin-top: 2.67%`（也是相对于父容器top-wrapper宽度），实现垂直间距
 
-## 多列布局、伸缩布局、网格布局
-
 
 ## CSS选择器
 ### >（子选择器）
@@ -451,89 +396,6 @@ html {
  ```
  ![alt](./img/Selector-3.png)
 
-## 三列布局的实现
-三列布局：三个元素：左、中、右、，其中左、右固定宽度为200px，中间宽度自适应。
- ```html
-    <div class="left"></div>
-    <div class="center"></div>
-    <div class="right"></div>
- ```
- - 1、flexBox（有父容器）
- ```css
-    .contain {
-        display: flex;
-    }
-    .left,
-    .right {
-        width: 200px;
-    }
-    .center {
-        flex: 1;
-    }
- ```
- 
- - 2、浮动定位（待确认）
- ```css
-    .left,.right {
-        width: 200px;
-        height: 200px;
-    }
-    .left {
-        float: left;
-    }
-    .right {
-        float: right;
-    }
-    .center {
-        height: 200px;
-    }
- ```
-
- - 3、绝对定位
- ```css
-    .left,
-    .right {
-        position: absolute;
-        width: 300px;
-        height: 400px;
-    }
-    .left {
-        left: 0;
-    }
-    .right {
-        right: 0;
-    }
-    .center {
-        position: absolute;
-        left: 300px;
-        right: 300px;
-        height: 400px;
-    }
- ```
- - 4、表格布局（有父容器）
- ```css
-    .contain {
-        display: table;
-        width: 100%; /* 注意，这里因为是table，所以width是100% */
-        height: 200px;
-    }
-    .left,
-    .right {
-        display: table-cell;
-        width: 200px;
-    }
-    .center {
-        display: table-cell;
-    }
- ```
- - 5、网格布局（有父容器）
- ```css
-    .contain {
-        display: grid;
-        grid-template-rows: 200px;
-        grid-template-columns: 300px auto 300px;
-    }
- ```
 
 ## 媒体查询
 ```css
