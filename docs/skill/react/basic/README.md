@@ -47,12 +47,8 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
 <input ref={this.input} />
 ```
 由上，可以通过ref来读取当前input的value。
- - 不需要去定义state挂在value上、阻止用户输入
- - 也不需要像 **受控组件** 一样编写onChange事件去取value从而改变state
 
-<!-- 
-在React渲染生命周期里，表单元素上的`value`这个props属性会覆盖掉DOM节点里的`value`。
-> In the React rendering lifecycle, the `value` attribute on form elements will override the value in the DOM.  -->
+> 不需要像 **受控组件** 一样去定义state挂在value上、编写onChange事件去取value从而改变state
 
 对于非受控组件，我们可以定义一个`defaultValue`而不是`value`，来达到给组件赋予初始值，而不控制后续更新。
 > With an uncontrolled component, you often want React to specify the initial value, but leave subsequent updates uncontrolled. You can specify a `defaultValue` attribute instead of `value`
