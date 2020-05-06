@@ -94,6 +94,7 @@ const sidebar = {
                 'js/modular/',
                 'js/regex/',
                 'js/class/',
+                'js/typescript/',
                 // 'js/amd-cmd/',
                 'js/other/'
             ]
