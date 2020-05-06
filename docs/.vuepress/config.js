@@ -138,12 +138,12 @@ const sidebar = {
             collapsable: false,
             children: [
                 'react/basic/',
+                'react/feature-v16/',
                 'react/fiber/',
                 'react/life-cycle/',
                 'react/set-state/',
                 'react/react-composition/',
                 'react/hooks/',
-                'react/feature-v16/',
                 'react/question/',
                 'react/other/',
             ]
