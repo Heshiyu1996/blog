@@ -62,7 +62,7 @@ console.log('h')
  - `await紧跟`的Promise相当于new Promise，会**立即执行**
  - `await下面`的代码，相当于promise.then(代码)，视作**微任务**
  - `Promise内代码执行完`、`Promise.resolve()`，都会开始执行promise.then，视作**微任务**
- - setTimeout属于**宏任务**
+ - setTimeout属于**宏任务**（由 **事件触发线程** 维护）
  - 要注意Promise的**状态变更时机**
 
 

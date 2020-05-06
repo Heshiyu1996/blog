@@ -68,8 +68,8 @@
 ![alt](./img/img-2.png)
 
 几个重要的时间属性：
- - `navigationSart`：触发上一个文档unload的时刻（若上一个文档为空，值为`fetStart`）
- - `fetStart`：浏览器发起首个请求的时刻
+ - `navigationSart`：触发上一个文档unload的时刻（若上一个文档为空，值为`fetchStart`）
+ - `fetchStart`：浏览器发起首个请求的时刻
  - `domLoading`：浏览器开始解析渲染DOM的时刻
  - `domContentLoadedEventEnd`：DOM解析完成的时刻（代表`DOMContentLoaded`事件完成）
  - `loadEventEnd`：window.onload事件回调函数执行完成的时刻
