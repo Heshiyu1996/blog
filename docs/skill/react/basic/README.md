@@ -4,35 +4,18 @@
 [[toc]]
 
 ## 单向数据流
-**单向数据流**，如果把整个react应用当作一个瀑布，那props就是瀑布水流的额外水源：
+**单向数据流**：把整个react应用看作一个瀑布，那props就是瀑布水流的额外水源。
 ```jsx
-<FormattedDate date={this.state.date}>
+<Component data={this.state.data}>
 ```
- - `FormattedDate`组件本身无法知道它是来自于`Clock`的state，还是`Clock`的props，还是手动输入。
- - 任何state总是所属于特定的组件，而且从该state派生的任何数据或UI（Any data or UI derived from that state）只能影响树中“低于”它们的组件。
-
-## setState是浅合并
-
-setState是浅合并。`this.setState({ comments })`完整保留了`this.state.posts`，但完全替换换了`this.state.comments`。
-
-## 更新会执行render
-每次组件更新时，render方法都会被调用。但只要在相同的DOM节点中渲染`<Clock />`，就仅有一个Clock组件的class实例被创建使用。
-
+ - `Component`组件不知道`data`来源。
+ - 任何state总是所属于某个特定的组件，而且从该state派生的任何数据或UI（Any data or UI derived from that state）只能影响比它们下方的组件。
 
 ## 受控组件与非受控组件
-### 受控组件
-对于受控组件来说，输入的值始终由 **React的state** 驱动。
-> With a controlled component, the input's value is always driven by the React state.
-<!-- > 注：这里的prop指的是元素的属性，不是react里的props -->
+**受控组件：** 由 `state` 管理输入值，由 `事件处理函数` 去修改state。
+> 会阻止用户输入
 
-
-定义一个受控组件的value后，会阻止用户输入。并且我们需要通过`onChange`去修改挂在value的state。
-> Specifying the value prop on a `controlled component` prevents the user from changing the input unless you desire so.
-
-我们需要 **为数据变化的每种方式** 都指定事件处理函数，并通过一个React组件去管理所有state。
-> An event handler for every way your data can change and pipe all of the input state through a React component.
-
-`<input type="text">`、`<textarea>`和`<select>`这些标签都非常相似——它们都接受一个`value`属性，我们可以使用它来实现受控组件。
+`<input type="text">`、`<textarea>`这类标签都接受一个`value`属性，可以利用它实现受控组件。
 
 
 ### 非受控组件
@@ -213,3 +196,60 @@ React的合成事件处理函数一般会在 **冒泡阶段** 触发（如：onC
  - 由于合并而来，可能会被重用 **（即在事件回调触发完毕后，所有属性都会失效）**
 
 ![alt](./img/img-1.png)
+
+## 触发Render的方式
+ - 首次加载（`ReactDOM.render()`）
+ - setState()
+ - props发生改变
+ - forceUpdate()
+
+其中，`setState`、`props`发生改变都可以通过`shouldComponentUpdate`决定**是否执行render**
+> 注意：
+> 1、只是render的执行与否，数据还是会修改掉的
+>
+> 2、只要在相同的DOM节点中渲染`<Clock />`，就仅有一个Clock组件的class实例被创建使用。
+
+
+
+## 函数内部的this绑定
+### 利用bind
+```jsx
+class HomeIndex extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { name: 'heshiyu' };
+        this.addCount = this.addCount.bind(this); // 或者在render里再调用bind
+    }
+
+    addCount() {
+        console.log(this.state.name);
+    }
+
+    render() {
+        return <button onClick={this.addCount}>Click</button>;
+    }
+}
+```
+
+### 利用箭头函数
+```jsx
+class HomeIndex extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    addCount = () => {
+        console.log(this.state.name);
+    }
+
+    render() {
+        return <button onClick={this.addCount}>Click</button>;
+    }
+}
+```
+
+![alt](./img/img-2.png)
+
+
+## 为什么React要用className？
+因为`class`在JavaScript里是关键字，而JSX是JavaScript的扩展。
