@@ -32,7 +32,8 @@ body, html {
             padding: .35rem 1rem .35rem .75rem;
             margin: 0 1rem 0 1.5rem;
             border-radius: .25rem;
-            color: white;
+            // color: white; // 非暗色主题可打开
+            color: $textDarkColor; // 暗色主题
             background: $accentColor;
             transition: all .2s ease;
         }
@@ -41,7 +42,8 @@ body, html {
 .sidebar-sub-headers {
     a.sidebar-link {
         padding-left: 2.4rem !important;
-        color: #333;
+        // color: #333; // 非暗色主题可打开
+        color: $textDarkColor; // 暗色主题
         font-weight: normal;
         transition: all .2s ease;
 

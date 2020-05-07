@@ -251,11 +251,14 @@ module.exports = {
         toc: { includeLevel: [1, 2] } // 自动生成的目录只显示到2级标题（包括）
     },
     // theme: 'reco',
+    theme: 'default-prefers-color-scheme',
     themeConfig: {
         author: 'Heshiyu',
         nav,
         sidebar,
         sidebarDepth: 1, // 侧边栏显示2级
+
+        defaultTheme: 'dark',
 
         lastUpdated: '上次更新', // string | boolean
 
@@ -264,5 +267,12 @@ module.exports = {
         editLinks: true,
         editLinkText: '帮助我们改善此页面！',
         displayAllHeaders: false // 展开所有页面的标题
+    },
+    // 当指定了显示主题的颜色时，需要增加如下的 postcss 插件
+    postcss: {
+      plugins: [
+        require('css-prefers-color-scheme/postcss'),
+        require('autoprefixer')
+      ]
     }
 };
