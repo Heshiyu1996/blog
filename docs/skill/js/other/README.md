@@ -3,6 +3,16 @@
 
 [[toc]]
 
+## JS数据类型
+基本数据类型：string、number、boolean、undefined、null、Symbol
+
+引用数据类型：object
+
+### null和undefined的区别
+null表示“没有对象”，不应该有值；
+
+undefined表示“缺少值”，应该有值，但未赋值。
+
 ## 可变（Mutable）和不可变（Immutable）对象的区别
 ### Mutable对象：
 在JavaScript中，对象是引用类型的数据，其优点在于频繁地修改对象时，都是在原对象基础上修改，并不需要重新创建，这样就可以有效地利用内存，不会造成内存空间的浪费。
