@@ -138,9 +138,7 @@ sidebarDepth: 2
 ### React16新特性
 [查看](/skill/react/feature-v16/)
 ### 踩坑记录
-[查看](/skill/react/question)'
-### 其他
-[查看](/skill/react/other/)
+[查看](/skill/react/question)
 
 
 
