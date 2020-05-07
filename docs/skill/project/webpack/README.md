@@ -102,6 +102,65 @@ class CleanTerminalPlugin {
 
  IE8下最好用`gulp`，IE9用`webpack`
 
+## 代码分割
+三种手段：
+ - 不同Entry
+ - SplitChunksPlugin（webpack4以前是CommonsChunkPlugin）
+ - 动态导入
+
+### 通过Entry划分
+相同的模块在不同入口的bundle里重复存在。
+
+### 通过SplitChunkPlugin
+需要配置：
+```js
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        another: './src/another.js',
+    },
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    // 新增以下：
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
+    }
+}
+```
+> 可以通过`mini-css-extract-plugin`来分割CSS
+
+### 通过动态导入
+其实是通过`import()`，它内部会调用Promise来实现。
+
+```js
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        another: './src/another.js',
+    },
+    output: {
+        filename: '[name].bundle.js',
+        // 需在`output`下新增`chunkFilename`，用来定义那些没有入口的chunk文件的命名规则。
+        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        path: path.resolve(__dirname, 'dist')
+    }
+}
+```
+与其配合的，是在`import()`时，进行 **魔术注释** 指定`webpackChunkName`
+
+![alt](./img/code-split-3.png)
+
+动态导入前：
+![alt](./img/code-split-2.png)
+
+动态导入后：
+![alt](./img/code-split-1.png)
+
+
 ## 使用笔记
 ### 使用
 不同环境下全局安装的webpack版本可能不符合这个项目，所以还是用局部依赖（或npx webpack）。
