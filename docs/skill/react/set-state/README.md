@@ -1,7 +1,37 @@
 # setState
 > setState是同步的还是异步的？在什么场景下是同步？什么场景下是异步？
 
-## setState的更新机制
+[[toc]]
+
+## 特点一：浅合并
+`this.setState({ comments })` 完整保留了 `this.state.posts`，但完全替换换了 `this.state.comments`。
+
+## 特点二：批量更新策略
+### 现象
+**在合成事件（或生命周期钩子函数）中，对同一个state基于上一次的值多次setState，只有一次的效果**
+
+```js
+class App extends Component {
+
+  state = { val: 0 }
+
+  batchUpdates = () => {
+    this.setState({ val: this.state.val + 1 })
+    this.setState({ val: this.state.val + 1 })
+    this.setState({ val: this.state.val + 1 })
+ }
+
+  render() {
+    return (
+      <div onClick={this.batchUpdates}>
+        {`Counter is ${this.state.val}`} // 1
+      </div>
+    )
+  }
+}
+```
+
+### 更新机制
 当调用`setState`时：
  - 把 `newState` 放入到 `当前组件实例` 下的更新队列
 
@@ -12,12 +42,12 @@
 
  - 遍历`dirtyComponents`，调用`updateComponent`
 
- - 事务结束时，会将 所有临时state 合并、计算出最新state，调用生命周期方法来更新组件，`isBatchingUpdates = false`
+ - 事务结束时，会将 所有临时state 合并、计算出最新state（`flushBatchedUpdates`），调用生命周期方法来更新组件，`isBatchingUpdates = false`
 
  ![alt](./img/img-1.png)
 
 :::tip
-**事务（Transaction）** 把要执行的 method 用 Wrapper 封装起来，提供一个perform方法来调用method。
+**事务（Transaction）** 用 Wrapper 封装要执行的方法，暴露一个`perform`方法来调用原方法。
 > 在Wrapper里定义 `initialize` 和 `close` 方法：它们 **分别** 会在 `指定方法` 执行前、执行后执行。
 ```
 * <pre>
@@ -47,51 +77,23 @@
 ```
 :::
 
-## setState是同步的
-`setState`本身的执行过程是**同步**的。
-> 因为 **`合成事件、生命周期函数` 的执行顺序 在更新之前**，不能直接拿到更新后的值，形成了“异步”。
-
+## 总结
 | 类型 | 方式 | 说明 |
 | ----- |:---:|:---:|
 | **合成事件**、<br/>**生命周期函数**<br/>（除了`componentDidUpdate`） | 会触发一个大事务 | 异步 |
 | **原生事件**、<br/>**setTimeout** | 执行时 **不存在大事务**，会立即发起新的批量更新 | 同步 |
 
-## 批量更新策略
-现象：**在合成事件（或生命周期钩子函数）中，对同一个state进行多次调用setState，只执行最后一次**
 
-原因：当调用`setState`时，react内部会创建一个更新队列（`updateQueue`）。在最终的performWork，相同key值会被覆盖，只有最后一次生效。
+ - **为什么state要批量更新？**
+    - **避免不必要的重新渲染**，从而提升性能。
 
-目的：**避免不必要的重新渲染**，从而提升性能。
-```js
-class App extends Component {
-
-  state = { val: 0 }
-
-  batchUpdates = () => {
-    this.setState({ val: this.state.val + 1 })
-    this.setState({ val: this.state.val + 1 })
-    this.setState({ val: this.state.val + 1 })
- }
-
-  render() {
-    return (
-      <div onClick={this.batchUpdates}>
-        {`Counter is ${this.state.val}`} // 1
-      </div>
-    )
-  }
-}
-```
-
-
-## 总结
- - setState是异步还是同步的？
+ - **setState是异步还是同步的？**
     - 同步的。但有时（合成事件、生命周期）表现出来是异步。
 
- - 为什么在setTimeout方法中调用setState表现出来是同步？
+ - **为什么在setTimeout方法中调用setState表现出来是同步？**
     - 因为setTimeout已经完成了原组件的更新流程，不会放入`dirtyComponents`
 
- - setState中传入一个Function，为何里面的state值是最新的？
+ - **setState中传入一个Function，为何里面的state值是最新的？**
     - 函数接收的state是上轮更新过的state。
     ```js
     this.setState(prevState => ({ count: prevState.count + 1 }))

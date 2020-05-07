@@ -144,8 +144,7 @@ const sidebar = {
                 'react/set-state/',
                 'react/react-composition/',
                 'react/hooks/',
-                'react/question/',
-                'react/other/',
+                'react/question/'
             ]
         }
     ],
