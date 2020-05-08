@@ -143,6 +143,26 @@ p.then(data => console.log(data)) // ['first', 'second', 'third']
  })
  ```
  ![alt](./img/JSAsync-2.png)
+
+ ### Promise源码思路
+ ```js
+ let p = new Promise((resolve, reject) => {
+     resolve('heshiyu')
+ })
+ p.then(res => console.log('heshiyu'))
+ ```
+ - 改变new Promise里的callback的this指向（指向实例本身以及实例本身定义的resolve、reject）
+ - Promise的状态管理、改变
+ - 保存子promise
+ - then
+    - 回调接收两个参数
+    - 回调return value传给下一个promise
+    - 自身返回promise
+ - done：循环children
+ - handle：处理children，处理完改变children实现递归
+
+ [es6 promise源码实现](https://segmentfault.com/a/1190000006103601)
+ 
  
 
 

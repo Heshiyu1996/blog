@@ -177,16 +177,16 @@ function ThemedButton(props) {
 ```
 
 ## 合成事件
-**触发时机：**
+**React合成事件**返回的是`SyntheticEvent实例`，能够兼容不同浏览器。
 
-React的合成事件处理函数一般会在 **冒泡阶段** 触发（如：onClick、onChange）。
+**触发时机：** 冒泡阶段（如：onClick、onChange）。
 > 如果**需要注册捕获阶段的事件处理函数**，可以在事件名后紧接`Capture`（如：onClickCapture）
 
-### 和原生事件不同 
+### 合成事件、原生事件的区别 
 | 方面 | 原生事件 | 合成事件 |
 | --- | ------- | ------ |
-| 绑定事件处理程序 | 传入字符串，函数的执行 | 传入函数 |
 | 兼容性 | 不兼容跨浏览器 | 返回的是`SyntheticEvent实例`，能够兼容不同浏览器 |
+| 绑定事件处理程序 | 传入字符串，函数的执行 | 传入函数 |
 | 阻止默认行为 | 返回`false` | 显示调用`ev.preventDefault()` |
 
 ### SyntheticEvent实例

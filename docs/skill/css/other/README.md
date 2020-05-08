@@ -145,17 +145,7 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
 
  /* 上面是表示当浏览器是小于ie8以下的 */
  ```
- - 属性hack
- ```css
- #test {
-     color: #c30; /* For Firefox */
-     color: red\0; /* For Opera */
-     color: yellow\9; /* For IE8 */
-     *color: blut; /* For IE7 */
-     _color: #ccc; /* For IE6 */
- }
- ```
- - 选择符hack
+ - 选择器hack
  ```css
  * html .test {
      color: red; /* For IE6 and earlier */
@@ -168,6 +158,16 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
  }
  .test:nth-child(1) {
      color: black; /* For IE9+ and not IE */
+ }
+ ```
+ - 属性值hack
+ ```css
+ #test {
+     color: #c30; /* For Firefox */
+     color: red\0; /* For Opera */
+     color: yellow\9; /* For IE8 */
+     *color: blut; /* For IE7 */
+     _color: #ccc; /* For IE6 */
  }
  ```
 
@@ -263,7 +263,7 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
     height: 0;
     /* border-top: 50px solid red; */
     border-right: 50px solid transparent;
-    border-left: 50px solid transparent;
+    border-left: 50px solid transparent; /* 去掉这行，是个直角三角形（直角边为左下角） */
     border-bottom: 50px solid blue;
  }
  ```
@@ -395,12 +395,3 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
 </style>
  ```
  ![alt](./img/Selector-3.png)
-
-
-## 媒体查询
-```css
- /* 分辨率大于960px且小于1280px */
- @media screen and (min-width: 960px) and (max-width: 1280px) {
-
- }
-```

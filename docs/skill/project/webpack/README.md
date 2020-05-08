@@ -297,6 +297,42 @@ module.exports = {
 }
 ```
 
+## Happypack
+在webpack里，loaders都是单个解析、编译，不能同时处理多个任务。利用Happypack可以让它交给多个子进程去并发执行。执行完后，子进程再将结果发送给主进程。
+
+```js
+// 共享进程池：多个Happypack实例都使用同一个共享进程池的子进程去处理任务，防止资源占用过多。
+const Happypack = require('happypack');
+const happyThreadPool = Happypack.ThreadPool({ size: 5 });
+
+modules.exports = {
+    plugins: [
+        new HappyPack({
+            id: 'babel',
+            loaders: ['babel-loader'],
+            threadPool: happyThreadPool
+        })
+    ]
+}
+```
+
+## DllPlugin
+将复用性较高的第三方模块，打包到动态链接库里。
+> 很多产品都用到螺丝，但并不是每次生产产品都需要把生产螺丝的过程重新执行。而是螺丝单独生产，侧面也加快了产品的生产速度。
+
+使用Dll，分为DLL构建、主项目构建。
+ - 在DLL构建文件里指定要打包的第三方库、接入DllPlugin
+    - 执行DLL构建打包后，会生成：`x.dll`、`x.manifest.json`
+    - `x.dll`：类似bundle.js，用数组保存模块，索引值作为id
+    - `x.manifest.json`：描述对应dll文件里的模块信息
+ - 在主项目构建文件引入动态库文件
+    - `webpack.DllReferencePlugin`
+ - 在入口文件引入dll
+
+和CDN区别：
+ - CDN需要配置externals、业务层去掉import
+ - DLL放在本地，比较稳定、业务层引用不变
+
 ## 链接
 [webpack的配置模式mode](https://www.webpackjs.com/concepts/mode/)
 

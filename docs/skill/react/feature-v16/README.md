@@ -62,7 +62,7 @@ const prevCalcValue = usePrevious(calcValue);
 |方面| 函数组件 | class组件 |
 |:--- |:---|:---|
 | 定义方式 | 被定义为一个**纯函数**。<br />它接收一个props对象，并返回`React Element` | 被定义为一个**class**。<br />它继承于`React.Component`，并 **通过render函数** 返回`React Element` |
-| render行为<br /> | 每次组件触发更新：<br />**拥有完全独立的函数作用域**，<br />返回相应的`React Element` | 每次组件触发更新：<br /> **调用`render()`**，<br />返回`React Element` |
+| render行为<br /> | 每次组件触发更新：<br />**拥有完全独立的函数作用域**，<br />返回相应的`React Element` | 每次组件触发更新：<br /> **调用`render()`**，<br />返回`React Element` <br />（对于同一处调用的class组件，**只有一个class实例**被创建/使用，后续的render**只会改变this.props、this.state的值**） |
 | 状态 | 没有自身的state。<br />（**在v16.8添加了hooks，可以使用useState钩子去管理state**） | 拥有自身的state |
 | 生命周期 | 没有生命周期。<br />（**在v16.8后可通过`useEffect`去模拟部分生命周期**） | 有 |
 
@@ -100,3 +100,34 @@ const prevCalcValue = usePrevious(calcValue);
  - 函数是第一等公民
  - 没有副作用（不会影响外部变量）
  - 引用透明（输入相同，输出也相同）
+
+## 为什么Hooks能保留state
+为什么Hooks需要确保Hook 在每次渲染中都按照同样的顺序被调用？因为memoizedState是按照Hooks定义的顺序来存放数据的，只能在最顶层使用Hook、不要在循环、条件、嵌套中调用Hooks。
+> 页面初次渲染，每一个useState执行时都会将对应的setState绑定到对应缩影的位置：
+```js
+function useState(initialValue: any) {
+    memoizedState[cursor] = memoizedState[cursor] || initialValue
+    const currentCursor = cursor  // <-- 记住cursor
+    function setState(newState: any) {
+        memoizedState[currentCursor] = newState // <-- 利用闭包，获得对应cursor
+        cursor = 0
+        render(<App />, document.getElementById('root'))
+    }
+    return [memoizedState[cursor++], setState] // 返回当前 state，并把 cursor 加 1
+}
+```
+
+
+Hooks是作为一个单向链表存在。React维护两个Hook相关的链表：`current hook list`、`work in progress hook list`
+
+React会在重复渲染时记住它的值，并提供最新的值给函数
+
+
+
+useEffect会在每次渲染后都执行，每次重新渲染都会生成新的effect替换掉之前的。（每个effect“属于”一次特定的渲染）。
+
+因为effect在每次渲染都会执行，所以React会在执行当前effect之前对上一个effect进行清除。
+
+## 参考链接
+ - [useCallback、useMemo 分析 & 差别](https://juejin.im/post/5dd64ae6f265da478b00e639)
+ - [剖析useState的执行过程](https://zhuanlan.zhihu.com/p/64354455)

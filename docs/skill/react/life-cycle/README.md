@@ -54,6 +54,9 @@ react v17会推出`Async Rendering`（即生命周期可被打断）。其中被
 ### getSnapshotBeforeUpdate
 执行时机：每次DOM真正渲染前
 
+## 生命周期说明
+### shouldComponentUpdate(nextProps, nextState)
+可以通过`shouldComponentUpdate`比较新、旧的props、state来决定**是否执行render方法**。（**但传下来的props依然是会更新的**）
 
 
 
