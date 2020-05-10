@@ -1,45 +1,110 @@
 # [工具] webpack
-> `webpack`是模块打包的机制，它是通过`loader`、`plugins`对资源进行处理，最后打包成浏览器能识别的js等文件。
+> `webpack`是个模块打包机，它是通过`loader`对 `模块（Module）` 进行处理，通过`plugins`给webpack赋能，最后打包成浏览器能识别的js等文件。
 
 [[toc]]
 
 **原理：**
- - 识别入口文件
+ - 识别“入口模块”
  - 分析模块依赖（`Tree Shaking`）
  - 解析模块（通过不同`Loader`）
  - 编译模块，生成抽象语法树`AST`
  - 循环遍历`AST`
  - 打包成`bundle.js`
 
-## Loader
-`Loader`是对加载的文件进行**解析处理**。
+## Module、Chunk、Bundle
+首先，**webpack是个模块打包机**。
 
-### 常用的loader
-sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loader
+### Module
+我们编写的**任何文件**，对webpack来说都是一个个**模块**。
 
-### 和Plugins的区别
- - `Loader`是在打包构建过程中，用来处理源文件的（JSX、SCSS...），一次处理一个；
- - `Plugins`并不是直接操作单个文件，而是会**对整个构建过程都起作用**
+通过配置`module.rules`，指定哪些文件交给哪些`loader`去处理：
+```js
+module: {
+    rules: [
+        {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        }
+    ]
+}
+```
+
+### Chunk
+以 **入口文件（即入口模块）** 为例，webpack会通过 **入口模块和其它模块之间形成引用关系**，去逐个打包模块，那这些“有关联的`Module`”就形成了一个`Chunk`。
+> webpack源码中对Chunk的解释：
+> 
+> A Chunk is a unit of encapsulation for Modules. 
+>
+> Chunks are "rendered" into bundles that get emitted when the build completes.
+
+#### 产生chunk的三种途径
+ - 不同的入口模块（entry）
+ - 防止重复
+    - SplitChunksPlugin（需指定`output.chunkFilename`）
+ - 动态导入
+
+### Bundle
+综上，`Chunk`是一些“有关联的模块（module）”的封装单元，并且它们会在 **构建之后** 变成`Bundle`。
+> 大多数情况下，一个Chunk只会产生一个Bundle
+
+#### bundle.js
+`bundle.js`实际上是一个`立即执行的匿名函数`：
+ - 这个函数接受一个数组
+    - 它由一个个`模块（Module）` **以`function`的形式** 来组成
+    - `模块（Module）`按照`require`的顺序排列
+ - 每个`模块（Module）`都有唯一的id（从0递增）
+
+<!-- ![alt](./img/bundle-1.png) -->
+
+<img src="./img/bundle-1.png" width="400px" />
 
 
-## Plugins
-`Plugins`是用来扩展webpack功能的，**会在整个构建过程中生效**，执行相关的任务。
+[查看bundle.js](/bundle.js)
 
-### 常用的plugins
+
+
+
+## Loader、Plugins
+ - `Loader` 可以对模块进行**解析处理**；
+ - `Plugins` 可以为webpack扩展功能，**对整个构建过程都起作用**。
+
+### Loader
+#### 常用的loader
+sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loader、file-loader
+
+:::tip
+**file-loader**：在执行 `import MyImage from './my-image.png` 时，这张图片会经过处理、被添加到 `output` 指定的目录，然后 `MyImage` 变量将表示 **这张图片在处理后** 的最终url。
+
+**css-loader**：在`css`里的`url('./my-image.png')`，这张图片会经过处理、被添加到 `output` 指定的目录，然后`url()`里面会被替换成 **这张图片在处理后** 的最终url。（类似`file-loader`处理）
+
+未经过**css-loader**处理：
+<img src="./img/loader-1.png" width="400px" />
+
+经过**css-loader**处理：
+<img src="./img/loader-2.png" width="400px" />
+:::
+
+
+### Plugins
+#### 常用的plugins
  - html-webpack-plugin：用于生成一个HTML文件，并将webpack最终生成的JS、CSS以及一些静态资源以`script`、`link`的形式插入到其中。
  - happypack：把任务分解给多个子进程去并发执行。
 
-### Plugins的特点
-`plugins`其实是一个具有 `apply`方法 的对象，需要在webpack.plugins里注册；
+#### 特点
+1、`plugins`需要在`webpack.plugins`里实例化；
 
-当webpack调用插件时，`apply`方法会被注入 `compiler对象`，其中挂载了相应的webpack事件钩子
+2、webpack会在调用时，执行`plugin对象`的`apply`方法，传入 `compiler对象`；
 
-webpack会在 **整个构建过程中** 调用这些事件钩子。
+3、`compiler对象`上挂载了相应的webpack事件钩子；
+
+4、webpack会在 **整个构建过程中** 调用这些事件钩子。
 
 > `compiler`对象里拥有 `所有和webpack主环境相关` 的信息。
 
-### Plugins中常见的事件钩子
-（按触发顺序：）
+:::tip
+**常见的事件钩子：**
+
+（按触发顺序）
  - **afterPlugins**
     - 初始化插件之后
  - **compile**
@@ -52,6 +117,7 @@ webpack会在 **整个构建过程中** 调用这些事件钩子。
     - 在 生成资源 之后
  - **done**
     - 完成本次编译
+:::
 
 #### 示例插件：保存时clear日志
 ```js
@@ -79,41 +145,51 @@ class CleanTerminalPlugin {
 }
 ```
 
-## bundle.js
-`bundle.js`实际上是一个`立即执行的匿名函数`。
- - 函数的参数是一个数组，数组中的每一项都是一个`function`
- - 每个`function`就对应每个`模块`的内容，会按照`require`的顺序排列，
- - 每个模块都有一个唯一的id（从0递增）
-
-![alt](./img/bundle-1.png)
-
-[查看bundle.js](/bundle.js)
-
-## gulp与webpack的区别
-`gulp`强调的是**前端开发流程**。
-
-**用法：** 定义一系列的task，再定义它处理的事物、顺序，最后让gulp执行task，从而构建前端项目。
-
-4个常用的方法：
- - **src（）**：获取流
- - **dest（）**：写文件
- - **task（）**：定义任务
- - **watch（）**：用来监听事件
-
- IE8下最好用`gulp`，IE9用`webpack`
-
 ## 代码分割
-三种手段：
- - 不同Entry
- - SplitChunksPlugin（webpack4以前是CommonsChunkPlugin）
+`代码分割`实际上是把代码分离到不同的 bundle 中，因为这样就可以 按需加载 或 并行加载 这些 bundle
+> 代码分割后，bundle 的体积会更小、控制加载优先级。如果使用合理，可以优化加载时间。
+
+实质上，分割方式和“生成不同`Chunk`”是一样的：
+ - 不同的入口模块（entry）
+ - 防止重复
+    - SplitChunksPlugin（需指定`output.chunkFilename`）
  - 动态导入
 
 ### 通过Entry划分
-相同的模块在不同入口的bundle里重复存在。
+直接通过 **新增入口** 来生成不同 Chunk：
+
+```js
+// 假设`index.js`、`another.js`中都引入了`lodash`：
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        another: './src/another.js', // 新增的入口
+    },
+    output: {
+        filename: '[name].bundle.js', // 注意：多入口时，filename不能写死
+        path: path.resolve(__dirname, 'dist')
+    }
+}
+```
+
+`npm run build`效果：
+```
+            Asset     Size   Chunks             Chunk Names
+another.bundle.js  550 KiB  another  [emitted]  another
+  index.bundle.js  550 KiB    index  [emitted]  index
+Entrypoint index = index.bundle.js
+Entrypoint another = another.bundle.js
+```
+
+可见，**不同入口Chunk之间包含的一些重复模块，会被引入到各个Bundle中**。
+
+需要进一步通过`防止重复`来移除重复模块。
 
 ### 通过SplitChunkPlugin
-需要配置：
+`SplitChunksPlugin`可以将 **不同入口Chunk之间包含的一些重复模块** 提取到一个新生成的 chunk
+
 ```js
+// 假设`index.js`、`another.js`中都引入了`lodash`：
 module.exports = {
     entry: {
         index: './src/index.js',
@@ -123,181 +199,94 @@ module.exports = {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    // 新增以下：
+    // 新增以下：（如不指定，webpack会默认只会对async的第三方包进行分割，见下方“默认配置”）
     optimization: {
         splitChunks: {
-            chunks: 'all'
+            chunks: 'all' // 默认async
         }
     }
 }
 ```
+
+`npm run build`效果：
+```
+                          Asset      Size                 Chunks             Chunk Names
+              another.bundle.js  5.95 KiB                another  [emitted]  another
+                index.bundle.js  5.89 KiB                  index  [emitted]  index
+vendors~another~index.bundle.js   547 KiB  vendors~another~index  [emitted]  vendors~another~index
+Entrypoint index = vendors~another~index.bundle.js index.bundle.js
+Entrypoint another = vendors~another~index.bundle.js another.bundle.js
+```
+可见，**不同入口Chunk之间包含的一些重复模块** 已经被提取到了`vendors`这个Chunk里
+
+`vendors~another~index`，表示：**缓存组~提取的Chunk1~提取的Chunk2...**
+> 也可以通过声明`cacheGroups.vendors.name`来指定这个 提取好的chunk 名字
+
+#### 默认配置
+```js
+optimization: {
+    splitChunks: {
+        // chunks：表示
+        chunks: 'async', // <-- 默认只对“异步加载模块”进行分割
+        // minSize：表示引入的包或模块>30kb才会加入“切割范畴”
+        minSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
+        name: true,
+        cacheGroups: {
+            // 默认有一个vendors缓存组
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10
+            },
+        default: {
+                minChunks: 2,
+                priority: -20,
+                reuseExistingChunk: true
+            }
+        }
+    }
+}
+```
+
 > 可以通过`mini-css-extract-plugin`来分割CSS
 
 ### 通过动态导入
-其实是通过`import()`，它内部会调用Promise来实现。
+两种方式：1、`import()`；2、`require.ensure`（较少）
+
+`import()`内部通过 `Promise` 来实现动态导入。
 
 ```js
 module.exports = {
     entry: {
-        index: './src/index.js',
-        another: './src/another.js',
+        index: './src/index.js' // 只有一个index入口
     },
     output: {
         filename: '[name].bundle.js',
-        // 需在`output`下新增`chunkFilename`，用来定义那些没有入口的chunk文件的命名规则。
-        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js', // 指定chunk的名字生成规则
         path: path.resolve(__dirname, 'dist')
     }
 }
 ```
-与其配合的，是在`import()`时，进行 **魔术注释** 指定`webpackChunkName`
+是在`import()`时，进行 **魔术注释** 指定 `非入口chunk` 的名称
 
-![alt](./img/code-split-3.png)
-
-动态导入前：
-![alt](./img/code-split-2.png)
-
-动态导入后：
-![alt](./img/code-split-1.png)
+> 此处实验过，入口chunk也会应用chunkFilename的规则？
 
 
-## 使用笔记
-### 使用
-不同环境下全局安装的webpack版本可能不符合这个项目，所以还是用局部依赖（或npx webpack）。
+`npm run build`效果：
 ```
-./node_modules/.bin/webpack `input.js` `output.js`
+                   Asset      Size          Chunks             Chunk Names
+         index.bundle.js  7.88 KiB           index  [emitted]  index
+vendors~lodash.bundle.js   547 KiB  vendors~lodash  [emitted]  vendors~lodash
+Entrypoint index = index.bundle.js
 ```
+`vendors~lodash`，是因为webpack默认会对async包进行`SplitChunk`配置下的`vendors`缓存组。
 
-### path.resolve(__dirname, './src)和path.join()
-有两个知识点:
- - path.resolve()
- - __dirname
+## 热编译的提速方案
 
-#### path.resolve()
-> 作用：将路径片段解析成绝对路径；
-
-![alt](./img/pathresolve-1.png)
-
-参数：`String`（逗号分割）
-
-返回值：`String`（绝对路径）
-
-使用说明：
- - **从右向左**解析，`一旦遇到绝对路径，就不继续`
-    - path.resolve('/foo', '/bar', 'baz') => '/bar/baz'
-
-#### __dirname
-> 指的是当前文件所在目录的路径
-
-![alt](./img/dirname-1.png)
-
-如图，`__dirname`的值为`C:\Users\GaoKai\Desktop\test`
-
-以上两个可以解决`“虽然各个文件所在目录不同，但可以访问某个指定目录下的文件更方便”`（可以不使用`../../`），如下例子：
-```js
-// 修改前：
-import foo from '../../../util/foo'
-```
-```js
-// 修改后：
-import foo from 'util/foo'
-
-// webpack.config.js
-resolve: {
-    extensions: ['.js', 'vue'],
-    alias: {
-        // 快捷访问入口
-        'util': path.resolve(__dirname, './src/util')
-    }
-}
-```
-
-#### path.join()
-参数：`String`（逗号分割）
-
-返回值：`String`
-
-使用说明:
- - **从左到右**解析，将`所有路径片段都`拼接起来
- - 每个片段之间用`/`链接（片段之间最多只能存在1个`/`）
- ```js
- path.join('a', 'b', 'c') => 'a/b/c'
- path.join('a', 'b', '/c') => 'a/b/c'
-
- path.join('/a', 'b', '/c') => '/a/b/c'
- path.join('/a', '/b', '/c') => '/a/b/c'
- ```
-
-### process.env.NODE_ENV
-在node环境，全局变量`process`表示**当前node进程**。其中`process.env`表示**当前系统环境的信息。**
-> 实际上，process.env里并不存在NODE_ENV这个变量，是用户自定义的。
-
-在node环境下，`console.log(process)`会得到：
-
-![alt](./img/process-1.png)
-
-在浏览器环境下，`console.log(process)`会得到：
-
-![alt](./img/process-2.png)
-
-#### 设置node环境下的process.env.NODE_ENV
-通过**cross-env**来配置环境变量（支持跨平台）
-```json
-"scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --open --config config/webpack.config.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js"
-}
-```
-这样，在node环境下，`process.env.NODE_ENV`就有值了。
-
-#### 设置浏览器环境下的process.env.NODE_ENV
-平时我们会**在项目的运行过程中**去判断当前环境，比如在`@/axios/config.js`里配置了环境变量：
-```js
-export const isDev = process.env.NODE_ENV === 'development'
-```
-这里的`process.env.NODE_ENV`指的是**浏览器环境下的环境变量**。
-> 和node环境一样，默认是没有NODE_ENV这个变量的。
-
-通过**DefinePlugin**来配置环境变量
-```js
-// webpack.base.js
-module.exports = {
-    plugins: [
-        new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV) })
-    ]
-}
-```
-这样，在浏览器环境下，`process.env.NODE_ENV`就有值了。
-
-#### webpack的配置模式mode
-```js
-// webpack.config.dev.js
-module.exports = {
-    mode: 'development' // 或'production'
-}
-```
-根据官网描述，配置`mode`值会**自动开启某些优化配置**（笔者并未达到**DefinePlugin**效果）
-
-![alt](./img/process-3.png)
-
-### webpack中运用externals
-一些类似包体积比较大的包（如：lodash），可以通过CDN的形式在`index.html`引入后，再通过`webpack.config.js`里加一个`externals`配置。
-
-```html
-<!-- index.html -->
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-```
-
-```js
-// webpack.config.js
-module.exports = {
-    externals: {
-        lodash: '_'
-    }
-}
-```
-
-## Happypack
+### Happypack
 在webpack里，loaders都是单个解析、编译，不能同时处理多个任务。利用Happypack可以让它交给多个子进程去并发执行。执行完后，子进程再将结果发送给主进程。
 
 ```js
@@ -316,7 +305,7 @@ modules.exports = {
 }
 ```
 
-## DllPlugin
+### DllPlugin
 将复用性较高的第三方模块，打包到动态链接库里。
 > 很多产品都用到螺丝，但并不是每次生产产品都需要把生产螺丝的过程重新执行。而是螺丝单独生产，侧面也加快了产品的生产速度。
 
@@ -333,7 +322,74 @@ modules.exports = {
  - CDN需要配置externals、业务层去掉import
  - DLL放在本地，比较稳定、业务层引用不变
 
-## 链接
-[webpack的配置模式mode](https://www.webpackjs.com/concepts/mode/)
+### HardSourceWebpackPlugin
+`高速缓存`会 **在第二次启动** 及以后，直接从缓存获取文件，以提高开发编译速度。
+> 搭配Happypack、DLL、CDM使用更佳
 
-[理解webpack之process.env.NODE_ENV详解(十八)](https://www.cnblogs.com/tugenhua0707/p/9780621.html)
+```js
+// webpack.dev.js
+    new HardSourceWebpackPlugin({
+        // 缓存存放位置
+        cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+        // hash生成规则
+        configHash: function(webpackConfig) {
+            return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+        },
+        // Either false, a string, an object, or a project hashing function.
+        environmentHash: {
+            root: process.cwd(),
+            directories: [],
+            files: ['package-lock.json', 'yarn.lock']
+        },
+        // 控制台输出格式
+        info: {
+            mode: 'test',
+            level: 'debug' // 'debug', 'log', 'info', 'warn', or 'error'
+        },
+        // 旧缓存清空机制
+        cachePrune: {
+            // 缓存有效期大于2days时
+            maxAge: 2 * 24 * 60 * 60 * 1000,
+            // 所有缓存体积大于500MB时
+            sizeThreshold: 500 * 1024 * 1024
+        }
+    })
+```
+
+### 总结
+建议：在 **开发**、**打包** 不同环境采用不同策略，以尽最大优化：
+
+| 方式 | DLL | CDN | webpack打包 | 高速缓存 |
+| --- | --- | --- | --- | --- |
+| 开发 | react、react-router-dom、react-dom | lodash、moment | **antd** | ✔ |
+| 打包 | react、react-router-dom、react-dom、**antd** | lodash、moment | / | ✘ | 
+
+**Q：为什么 antd 在开发时放DLL、打包时放webpack？**
+ - 开发时，通过DLL会完整构建，提高编译速度
+ - 打包时，可以tree shaking，减少打包体积
+
+**Q：具体放置策略？**
+ - 全盘使用的包放入DLL（如：react）；
+ - 部分使用的包通过webpack打包（如：antd）；
+ - 体积较小通过CDN（如：lodash）
+
+
+## gulp与webpack的区别
+`gulp`强调的是**前端开发流程**。
+
+**用法：** 定义一系列的task，再定义它处理的事物、顺序，最后让gulp执行task，从而构建前端项目。
+
+4个常用的方法：
+ - **src（）**：获取流
+ - **dest（）**：写文件
+ - **task（）**：定义任务
+ - **watch（）**：用来监听事件
+
+ IE8下最好用`gulp`，IE9用`webpack`
+
+## 链接
+ - [webpack的配置模式mode](https://www.webpackjs.com/concepts/mode/)
+
+ - [理解webpack之process.env.NODE_ENV详解(十八)](https://www.cnblogs.com/tugenhua0707/p/9780621.html)
+
+ - [Webpack 理解 Chunk](https://juejin.im/post/5d2b300de51d45775b419c76#heading-2)
