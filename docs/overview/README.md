@@ -50,6 +50,8 @@ sidebarDepth: 2
 
 
 ## CSS <Badge text="基础" type="success"/>
+### CSS布局
+[查看](/skill/css/layout/)
 ### BFC和浮动
 [查看](/skill/css/bfc/)
 ### 弹性盒模型（FlexBox）
@@ -83,6 +85,9 @@ sidebarDepth: 2
 
 ### Class（类）
 [查看](/skill/js/class/)
+
+### Typescript基本知识
+[查看](/skill/js/typescript/)
 
 ### 其他
 [查看](/skill/js/other)
@@ -131,6 +136,10 @@ sidebarDepth: 2
 
 
 ## React <Badge text="框架" type="warning"/>
+### React基础知识
+[查看](/skill/react/basic/)
+### React16基础知识
+[查看](/skill/react/feature-v16/)
 ### React Fiber
 [查看](/skill/react/fiber/)
 ### 生命周期
@@ -139,8 +148,6 @@ sidebarDepth: 2
 [查看](/skill/react/set-state/)
 ### Hooks
 [查看](/skill/react/hooks/)
-### React16新特性
-[查看](/skill/react/feature-v16/)
 ### 踩坑记录
 [查看](/skill/react/question)
 
@@ -149,17 +156,23 @@ sidebarDepth: 2
 
 
 ## Vue <Badge text="框架" type="warning"/>
-### Vue Composition API RFC
-[查看](/skill/vue/vue-composition-api-rfc/)
-### key值的作用
-[查看](/skill/vue/key/)
-### KeepAlive
+### Vue基础知识
+[查看](/skill/vue/basic/)
+### 生命周期
+[查看](/skill/vue/life-cycle/)
+### Vue3.0新特性
+[查看](/skill/vue/feature-v3//)
+### [开发笔记] Vue使用问题集合
+[查看](/skill/vue/question/)
+### [开发笔记] KeepAlive
 [查看](/skill/vue/keep-alive/)
 ### [vue源码] 基本知识
 [查看](/skill/vue/build/)
 ### [vue源码] 数据驱动（Data Driven）
 [查看](/skill/vue/data-driven/)
 ### [vue源码] 组件化（Component）
+[查看](/skill/vue/vue-router/)
+### [工具] Vue Router实现思路
 [查看](/skill/vue/vue-router/)
 ### [组件库] 组件开发思路
 [查看](/skill/vue/component-lib/)
@@ -196,13 +209,17 @@ sidebarDepth: 2
 
 
 ## 读书/参会心得 <Badge text="笔记" type="error"/>
+### D2-2019
+[查看](/skill/note/d2-2019)
 ### vue-conf-2018
 [查看](/skill/note/vue-conf-2018)
+### Vue Composition API RFC
+[查看](/skill/note/vue-composition-api-rfc/)
 ### Complete intro react
 [查看](/skill/note/complete-intro-react/)
-### 《Webpack实战》-居玉浩
+### 《Webpack实战》 - 居玉浩
 [查看](/skill/note/webpack-experience/)
-### 《深入React技术栈》-陈屹
+### 《深入React技术栈》 - 陈屹
 [查看](/skill/note/react-deep-learning/)
 ### 优秀文章链接
 [查看](/skill/note/links)

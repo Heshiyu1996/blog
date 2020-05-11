@@ -105,8 +105,8 @@ const sidebar = {
             title: '《NodeJS》',
             collapsable: false,
             children: [
-                'nodejs/koa/',
                 'nodejs/multi-process/',
+                'nodejs/koa/',
                 'nodejs/other/',
             ]
         }
@@ -155,16 +155,14 @@ const sidebar = {
             children: [
                 'vue/basic/',
                 'vue/life-cycle/',
+                'vue/feature-v3/',
                 'vue/question/',
-                // 'vue/key/',
                 'vue/keep-alive/',
                 'vue/build/',
                 'vue/data-driven/',
                 'vue/component/',
-                'vue/component-lib/',
                 'vue/vue-router/',
-                'vue/feature-v3/',
-                'vue/vue-composition-api-rfc/'
+                'vue/component-lib/',
             ]
         }
     ],
@@ -192,6 +190,7 @@ const sidebar = {
             children: [
                 'note/d2-2019/',
                 'note/vue-conf-2018/',
+                'note/vue-composition-api-rfc/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
