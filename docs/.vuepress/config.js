@@ -190,6 +190,7 @@ const sidebar = {
             title: '《读书/参会心得》',
             collapsable: false,
             children: [
+                'note/d2-2019/',
                 'note/vue-conf-2018/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
