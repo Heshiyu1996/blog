@@ -4,6 +4,10 @@ sidebarDepth: 2
 ---
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-05-10
+ - [webpack4知识整理](/skill/project/webpack/)
+<Badge text="笔记" type="error"/>
+
 #### 2020-04-18
  - [Web性能优化](/skill/web/optimize/)
 <Badge text="基础" type="success"/>
