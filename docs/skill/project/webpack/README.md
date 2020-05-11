@@ -40,17 +40,17 @@ module: {
 #### 产生chunk的三种途径
  - 不同的入口模块（entry）
  - 防止重复
-    - SplitChunksPlugin（需指定`output.chunkFilename`）
+    - SplitChunksPlugin（可指定chunk名字生成规则`output.chunkFilename`）
  - 动态导入
 
 ### Bundle
-综上，`Chunk`是一些“有关联的模块（module）”的封装单元，并且它们会在 **构建之后** 变成`Bundle`。
+综上，`Chunk`是一些“有关联的模块（module）”的封装单元，并且它们会在 **构建之后** 变成一个个 `Bundle`。
 > 大多数情况下，一个Chunk只会产生一个Bundle
 
 #### bundle.js
 `bundle.js`实际上是一个`立即执行的匿名函数`：
  - 这个函数接受一个数组
-    - 它由一个个`模块（Module）` **以`function`的形式** 来组成
+    - 它由一个个`模块（Module）` （模块**以`function`的形式**） 组成
     - `模块（Module）`按照`require`的顺序排列
  - 每个`模块（Module）`都有唯一的id（从0递增）
 
@@ -75,6 +75,9 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
 :::tip
 **file-loader**：在执行 `import MyImage from './my-image.png` 时，这张图片会经过处理、被添加到 `output` 指定的目录，然后 `MyImage` 变量将表示 **这张图片在处理后** 的最终url。
 
+**url-loader**：和`file-loader`功能类似，处理图片、字体图标等文件。提供了`options.limit`，指定**转为base64的上限值**
+ - 底层依赖于`file-loader`（不安装`file-loader`会报错）
+
 **css-loader**：在`css`里的`url('./my-image.png')`，这张图片会经过处理、被添加到 `output` 指定的目录，然后`url()`里面会被替换成 **这张图片在处理后** 的最终url。（类似`file-loader`处理）
 
 未经过**css-loader**处理：
@@ -84,6 +87,22 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
 <img src="./img/loader-2.png" width="400px" />
 :::
 
+通常webpack里只需配置`url-loader`即可
+```js
+{
+    test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)$/i,
+    use: [
+        {
+            loader: require.resolve('url-loader'),
+            options: {
+                limit: 10000, // 小于10kb的图片会转成base64
+                name: 'static/media/[name].[hash:8].[ext]'
+            }
+        },
+        'image-webpack-loader' /*对图片进行压缩*/
+    ]
+},
+```
 
 ### Plugins
 #### 常用的plugins
@@ -91,11 +110,11 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
  - happypack：把任务分解给多个子进程去并发执行。
 
 #### 特点
-1、`plugins`需要在`webpack.plugins`里实例化；
+1、`plugins`需要在`webpack.plugins`里实例化并注册；
 
 2、webpack会在调用时，执行`plugin对象`的`apply`方法，传入 `compiler对象`；
 
-3、`compiler对象`上挂载了相应的webpack事件钩子；
+3、`compiler下的hooks对象`挂载了相应的webpack事件钩子；
 
 4、webpack会在 **整个构建过程中** 调用这些事件钩子。
 
@@ -146,10 +165,10 @@ class CleanTerminalPlugin {
 ```
 
 ## 代码分割
-`代码分割`实际上是把代码分离到不同的 bundle 中，因为这样就可以 按需加载 或 并行加载 这些 bundle
+`代码分割`最初的目的是 **是把代码分离到不同的 bundle 中**。这样做的好处是可以 `按需加载` 或 `并行加载` 这些 bundle。
 > 代码分割后，bundle 的体积会更小、控制加载优先级。如果使用合理，可以优化加载时间。
 
-实质上，分割方式和“生成不同`Chunk`”是一样的：
+因为 **`Chunk`是对一些模块进行封装的基本单位** ，所以代码分割方式和“生成不同`Chunk`”是一样的：
  - 不同的入口模块（entry）
  - 防止重复
     - SplitChunksPlugin（需指定`output.chunkFilename`）
@@ -166,7 +185,7 @@ module.exports = {
         another: './src/another.js', // 新增的入口
     },
     output: {
-        filename: '[name].bundle.js', // 注意：多入口时，filename不能写死
+        filename: '[name].bundle.js', // 注意：多入口时，filename不能写死，要带上[name]
         path: path.resolve(__dirname, 'dist')
     }
 }
@@ -181,7 +200,7 @@ Entrypoint index = index.bundle.js
 Entrypoint another = another.bundle.js
 ```
 
-可见，**不同入口Chunk之间包含的一些重复模块，会被引入到各个Bundle中**。
+可见，**不同入口Chunk之间包含的一些重复模块，会被重复引入到各个Bundle中**。
 
 需要进一步通过`防止重复`来移除重复模块。
 
@@ -220,6 +239,8 @@ Entrypoint another = vendors~another~index.bundle.js another.bundle.js
 可见，**不同入口Chunk之间包含的一些重复模块** 已经被提取到了`vendors`这个Chunk里
 
 `vendors~another~index`，表示：**缓存组~提取的Chunk1~提取的Chunk2...**
+> 其中，vendors是默认配置下的vendors缓存组
+> 
 > 也可以通过声明`cacheGroups.vendors.name`来指定这个 提取好的chunk 名字
 
 #### 默认配置
@@ -251,7 +272,49 @@ optimization: {
 }
 ```
 
-> 可以通过`mini-css-extract-plugin`来分割CSS
+#### mini-css-extract-plugin
+通过`mini-css-extract-plugin`将CSS从主应用程序中分离。
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+// ...
+module: {
+    rule: [
+        {
+            test: /\.(css|less)$/,
+            // 以下为简化代码
+            use: [
+                'style-loader',
+                MiniCssExtractPlugin.loader, // <-- 使用
+                'css-loader',
+                'postcss-loader',
+                'less-loader'
+            ],
+            sideEffects: true
+        }
+    ]
+},
+plugins: {
+    new MiniCssExtractPlugin({
+        filename: 'static/css/[name].[contenthash:8].css',
+        chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
+    })
+},
+optimization: {
+    minimizer: [
+        // mode: 'production'会开启tree-shaking和js代码压缩，但配置optimization. minimizer会使默认的压缩功能失效。
+        // 所以，指定css压缩插件的同时，务必指定js的压缩插件。
+        new TerserPlugin({}),
+        // This is only used in production mode
+        new OptimizeCSSAssetsPlugin({})
+    ],
+}
+```
+
+配合`optimization.minimizer`、`optimization.splitChunks.cacheGroup`使用：
+ - optimization.minimizer：对css进行压缩（也需指定js压缩，因为会影响webpack对js的压缩）
+ - optimization.splitChunks.cacheGroup：将可复用的css代码块提取到单独的 chunk 文件
+    - 这一点不是必须，因为复用的css文件比较少，且对于“全局复用样式”可以通过`style-resources-loader`
 
 ### 通过动态导入
 两种方式：1、`import()`；2、`require.ensure`（较少）
@@ -271,7 +334,10 @@ module.exports = {
 }
 ```
 是在`import()`时，进行 **魔术注释** 指定 `非入口chunk` 的名称
-
+```js
+import(/* webpackChunkName: "pc-home" */ '@/view/pc/home')
+```
+> 
 > 此处实验过，入口chunk也会应用chunkFilename的规则？
 
 
