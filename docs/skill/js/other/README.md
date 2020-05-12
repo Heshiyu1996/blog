@@ -1100,6 +1100,12 @@ console.log(...Array.from(objLikeArr)) // 1 2
 console.log(...Array.prototype.slice.call(objLikeArr)) // 1 2
 ```
 
+#### Array.from
+`Array.from`除了可以对 `类数组对象` 进行转换成数组，也可以对 `NodeList` 、 `Set实例` 进行转换
+> Array.from(document.querySelectorAll('div'))
+>
+> Array.from(new Set([1, 1, 3]))
+
 ### 可遍历对象
 **可遍历对象** 指的是：
  - 部署了 `Iterator` 接口
