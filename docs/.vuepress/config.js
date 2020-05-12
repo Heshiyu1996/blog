@@ -174,6 +174,7 @@ const sidebar = {
                 'project/webpack/',
                 'project/babel/',
                 'project/tools/',
+                'project/mp/',
                 'project/chrome-extension/',
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
