@@ -153,9 +153,54 @@
  - 懒加载：图片、路由
  - SSR
 
+## 懒加载实现
+原理：通过监听`scroll`事件，以及元素的`getBoundingClientReact()`来判断它的“进入视窗状态”，实时赋值`src`属性。
+
+```html
+<img src="" lazyload="true" data-original="images/1.png" />
+<img src="" lazyload="true" data-original="images/2.png" />
+```
+
+```css
+img {
+    display: inline-block;
+    width: 100%;
+    height: 300px; /* 要设置img的高度 */
+    background: red;
+}
+```
+
+```js
+let viewHeight = document.documentElement.clientHeight // 获取可视区域的高度
+
+function lazyload() {
+    let lazyElems = document.querySelectorAll('img[data-original][lazyload]');
+
+    Array.prototype.forEach.call(lazyElems, (item, index) => {
+        if (!item.dataset.original) return;
+        let rect = item.getBoundingClientRect() // 获得元素相对于视窗上、下、左、右的举例
+        if (rect.top < viewHeight && rect.bottom >= 0) { // 表示 元素顶部/元素底部 开始进入到视窗
+                var img = new Image()
+                img.src = item.dataset.original
+                img.onload = function() {
+                    item.src = img.src // 当这个“匿名”img标签加载完src后，执行这里
+                }
+            item.removeAttribute("data-original"); //移除属性，下次不再遍历
+            item.removeAttribute("lazyload");
+        }
+    })
+}
+
+lazyload();
+
+document.addEventListener('scroll', lazyload); 
+```
+
+
 ## 参考链接
  - [前端性能监控方案（首屏、白屏时间等）](https://juejin.im/post/5df4294d518825128306cd5c#comment)
  - [Web 性能优化-首屏和白屏时间](https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%E9%A6%96%E5%B1%8F%E5%92%8C%E7%99%BD%E5%B1%8F%E6%97%B6%E9%97%B4/)
  - [全新Chrome Devtools Performance使用指南](https://segmentfault.com/a/1190000011516068)
  - [React性能优化的8种方式了解一下？](https://juejin.im/post/5d63311be51d45620821ced8)
  - [Vue 项目性能优化 — 实践指南（网上最全 / 详细）](https://juejin.im/post/5d548b83f265da03ab42471d#heading-2)
+ - [前端性能优化--懒加载和预加载](https://segmentfault.com/a/1190000018275268?utm_source=tag-newest)
