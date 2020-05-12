@@ -1,120 +1,163 @@
-# [工具] Babel7使用实践
+# [工具] Babel7
 > 在项目中我们用到Babel的原因：
 > 
-> 1、对JS的新语法（比如：箭头函数、Class、扩展运算符（...））进行转译；
+> 1、【新语法】支持转译：比如：箭头函数、Class、扩展运算符（...）；
 > 
-> 2、利用`babel-polyfill`将ES6的新API（比如：Array的includes、Promise）进行实现（通过浏览器能使用的旧API）
-> 
-> 本文将记录在实践过程中Babel7的配置经验。
+> 2、【新API】利用`babel-polyfill`进行实现：比如：Array的includes、Promise（通过旧API）
 
 [[toc]]
 
-## 配置方式
-在根目录新建`.babelrc`
+## 基本工作原理
+（以“将ES6转换成ES5”为例）：
 
-## 常用预设（presets）
-`presets`实际上也是插件（`plugins`），只不过它是一堆plugins的集合。
+ `Babel`是一个转译器，它的原理分三个部分：
+  - 解析（parsing）
+    - 把ES6代码生成AST
+  - 转译（transforming）
+    - 把AST遍历，优化成新的AST
+  - 生成（generating）
+    - 按照新的AST生成ES5代码
 
-### @babel/preset-env
-转化最新语法。
+## plugins和presets
+ `plugins`应用于整个过程（尤其是`transforming`）的插件。
+
+ `presets`是一些预设的插件集。
+
+ > 关系：`presets`实际上是一堆插件（`plugins`）的集合。
+
+### 常用的presets
+#### @babel/preset-env
+作用：**转译【新语法】**。
 > 如：箭头函数、Class、扩展运算符（...）
 
-一般我们会赋予配置项：
+它包含了以下 **转译插件**：
+:::tip
+transform-arrow-functions {}
+
+transform-classes {}
+
+// ...
+:::
+
+一般我们会赋予 `@babel/preset-env` 配置项：
 ```js
 // .babelrc
 {
     "presets": [
         "@babel/preset-env",
         {
-            // 是否将ES6 module转换为其他模块规范
+            // 指定将es6 modules转换为哪种模块规范
             // 可配置项： "auto"（默认） | "amd" | "umd" | "systemjs" | "commonjs" | "cjs" | false
-            "modules": false,
-            "useBuiltIns": "usage", // 可配置项：false（默认） | "entry" | "usage"
-            "corejs": 3,
+            "modules": false // false则表示：将module交由webpack处理，而不是babel。
         }
     ]
 }
 ```
-**modules**：指定将es6 modules转换为哪种模块规范。
-> 一般在webpack 项目中，我们会将此参数设置为false，表示将module交由webpack处理，而不是babel。
-
-**useBuiltIns**：
-- `false`：对`@babel/polyfill`不作任何处理
-> 在入口文件手动`import '@babel/polyfill`的话，会加载所有polyfills
-- `"entry"`：使得`@babel/polyfill`按照browserlist来加载
-> 在入口文件手动`import '@babel/polyfill'`的话，会根据browserlist去加载需要的polyfill
-- `"usage"`：使得`@babel/polyfill`按照browserlist、实际需要来加载
-> 告诉Babel在每个需要polyfill的文件里，import指定的polyfills。（这可以保证最终的打包文件里，每个polyfill的特性仅load一次）
 
 
+#### @babel/preset-react
+作用：**识别并转换JSX语法**。
 
-### @babel/polyfill
-`polyfill`是垫片的意思。就比如桌子的桌脚有一边矮了一点，就需要拿一个东西把桌子垫平。所以会用来**修补浏览器的一些API缺陷**。
-
-
-
-
-
-### @babel/preset-react
-识别并转换JSX语法。
-
-这个`preset`其实包含了以下三种插件：
+它包含了以下 **转译插件**：
 - `@babel/plugin-syntax-jsx`
 - `@babel/plugin-transform-react-jsx`
 - `@babel/plugin-transform-react-display-name`
 
-## 常用插件（plugins）
 
-### @babel/plugin-transform-runtime
-运行时引入`generators/async`、`babel-runtime/core-js`
-> 不会污染全局
+### 常用插件（plugins）
+
+#### @babel/polyfill
+作用：**转译【新API】**。
+> `polyfill`是垫片的意思。
+
+要使用`@babel/polyfill`，一般我们会赋予 `@babel/preset-env` 配置项：
+```js
+// .babelrc
+{
+    "presets": [
+        "@babel/preset-env",
+        {
+            "modules": false,
+
+            // 可配置项：false（默认） | "entry" | "usage"
+            // false：加载所有polyfill
+            // "entry"：根据 “browserlist” 来加载需要的polyfill
+            // "usage"：根据 “browserlist” + “实际代码需要” 来加载需要的polyfill（最终的打包文件里，每种polyfill的特性仅load一次）
+            "useBuiltIns": "usage", // <-- 新增
+            "corejs": 3 // <-- 新增
+        }
+    ]
+}
+```
+前提是在 入口文件内 执行`import '@babel/polyfill'`
+> 不要使用 `entry: ['@babel/polyfill', './src/index.js']` 这种写法，属于 多主入口 方式。打包体积会比较大
+
+缺点：**污染全局作用域**
+> 如：引入 Array.prototype.includes 修改了 Array 的原型，除此外还有 String...
+
+可以通过 `@babel/runtime`、`@babel/plugin-transform-runtime`。
+
+#### @babel/runtime、@babel/plugin-transform-runtime
+`@babel/runtime`：提供辅助函数，像是分散的`polyfill`块。
+> 使用时需要在各自的模块里单独引入
+
+`@babel/plugin-transform-runtime`：协助`@babel/runtime`来自动化处理`polyfill`
+
+```
+yarn add  @babel/runtime-corejs3
+yarn add @babel/plugin-transform-runtime -D
+```
 
 
-https://browserl.ist/
+移除：**入口文件内的 `import '@babel/polyfill'`**
+```json
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [["@babel/plugin-transform-runtime", { "corejs": 3 }]]
+}
+```
 
 ## 实践遇到的问题
 ### Promise在IE下undefined问题
 **原因**：在IE下，不支持ES6的新API（Promise）。
 
-**解决方法**：使用`Babel`、`@babel/polyfill`，并指定`corejs`版本为`3`，实现按需加载polyfills。
+**解决方法**：
+ - 方法一：实现按需加载polyfills
+ - 方法二：@babel/runtime、@babel/plugin-transform-runtime
 
-## 目前项目中的babel配置
+#### 方法一：实现按需加载polyfills
+ 1、在 入口文件 引入`@babel/polyfill`
+ 
+ 2、指定`corejs`版本为`3`
+
+`index.js`
 ```js
-{
+import '@babel/polyfill';
+```
+
+`.babelrc`
+```json
+ {
     "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "modules": false
-            }
-        ],
-        "@babel/preset-react"
-  ],
-    "plugins": [
-        "react-hot-loader/babel",
-        "@babel/plugin-transform-runtime",
-        [
-            "@babel/plugin-proposal-decorators",
-            {
-            "legacy": true
-            }
-        ],
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-syntax-dynamic-import",
-        "react-loadable/babel",
-        [
-            "import",
-            {
-                "libraryName": "antd",
-                "libraryDirectory": "es",
-                // "style": "css"
-                "style": true
-            }
-        ]
-    ],
-    "ignore": ["xxx.js", "xxx/**/*.js"]
+        ["@babel/preset-env", {
+            "useBuiltIns": "usage",
+            "corejs": 3
+        }]
+    ]
+}
+```
+缺点：`@babel/polyfill`会污染全局作用域，并引入新的对象`Promise`、`WeakMap`
+
+#### 方法二：@babel/runtime、@babel/plugin-transform-runtime
+```json
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [["@babel/plugin-transform-runtime", { "corejs": 3 }]]
 }
 ```
 
+
 ## 参考链接
-[babel preset env配置](https://segmentfault.com/a/1190000017929781)
+ - [babel preset env配置](https://segmentfault.com/a/1190000017929781)
+ - [webpack - babel 篇](https://juejin.im/post/5bfe541bf265da6179748834)
+ - [https://browserl.ist/](https://browserl.ist/)

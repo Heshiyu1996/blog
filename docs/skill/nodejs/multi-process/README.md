@@ -35,7 +35,7 @@ let child = spawn('node', ['sub-process.js'], {
     stdio: [0, "pipe", "ignore", "ipc"]
 });
 
-child.on('message'ta => {
+child.on('message', data => {
     console.log(data);
 
     // 回复消息给子进程

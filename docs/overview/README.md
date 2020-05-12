@@ -188,7 +188,7 @@ sidebarDepth: 2
 [查看](/skill/project/source-map/) -->
 ### [工具] webpack
 [查看](/skill/project/webpack/)
-### [工具] Babel7使用实践
+### [工具] Babel7
 [查看](/skill/project/babel/)
 ### [工具] 其它工具
 [查看](/skill/project/tools/)
