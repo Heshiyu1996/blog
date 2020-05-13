@@ -101,13 +101,110 @@ const prevCalcValue = usePrevious(calcValue);
  - 没有副作用（不会影响外部变量）
  - 引用透明（输入相同，输出也相同）
 
-## 为什么Hooks能保留state
-为什么Hooks需要确保Hook 在每次渲染中都按照同样的顺序被调用？因为memoizedState是按照Hooks定义的顺序来存放数据的，只能在最顶层使用Hook、不要在循环、条件、嵌套中调用Hooks。
-> 页面初次渲染，每一个useState执行时都会将对应的setState绑定到对应缩影的位置：
+## Hooks的状态管理
+```js
+function PersionInfo ({initialAge,initialName}) {
+    const [age, setAge] = useState(initialAge);
+    const [name, setName] = useState(initialName);
+
+    return (
+        <>
+            Age: {age}, Name: {name}
+            <button onClick={() => setAge(age + 1)}>Growing up</button>
+        </>
+    );
+}
+```
+问题：
+ - 多个`useState`，如何区分这两个状态？
+ - 每次重新渲染，如何获取最新状态？
+ - 为什么不能在 **循环、条件、嵌套** 里用 Hooks？
+ - Hook的状态存在哪？
+
+
+```ts
+export type Hook = {
+    memoizedState: any,
+
+    baseState: any,
+    baseUpdate: Update<any, any> | null,
+    queue: UpdateQueue<any, any> | null,
+
+    next: Hook | null, // 指向下一个Hook
+}
+```
+**React认为Hook是一个链表（具有`next`属性）。** 所以我们在组件里用到的Hooks是通过 **链表** 连接起来的（上一个Hook的`next`指向下一个Hook），这些Hooks节点利用单链表的结构串联在一起。
+
+
+#### 多个`useState`，如何区分两个状态？
+答案：初次渲染时，每次调用Hooks方法，就会调用`mountState`。它内部会通过`mountWorkInProgressHook`去创建一个 Hook节点 ，并把它添加到 **Hooks链表** 上。
+
+![alt](./img/img-1.png)
+
+
+#### 每次重新渲染，如何获取最新状态？
+答案：每个Hook节点都维护自身的 “`更新链表（queue）`”。通过queue来存放所有的历史更新操作。
+
+在重新渲染时，会从 “`更新链表（queue）`” 的表头开始遍历，执行每一次更新，最后将最新的状态来返回，以保证每次重新渲染都能获得最新状态。
+
+![alt](./img/img-2.png)
+
+![alt](./img/img-3.png)
+
+#### 为什么不能在嵌套、条件、循环里用Hooks
+答案：重新渲染时，每次调用Hooks方法，就会调用`updateState`。它内部会通过`updateWorkInProgressHook`去获取当前对应的链表节点（基于 `初次渲染时生成的 Hooks链表`的next）。
+
+如果在条件语句中使用Hook，若不符合条件未执行对应`useState`，就会导致从 Hooks链表 中获取信息不正确。
+> 初次渲染：state1 => hook1, state2 => hook2, state3 => hook3...
+>
+> 再次渲染：state1 => hook1, state3 => hooks2，乱套！
+
+#### Hook的状态存在哪？
+答案：Hooks 链表会挂载到`FiberNode.memoizedState`
+> 每个Fiber就是一个Virtual DOM，每个组件就对应Fiber树上对应的Fiber节点。
+
+<!-- 
+
+
+ - 不要在“循环、条件、嵌套”里使用Hooks
+    - Don't call Hooks inside loops, conditions, or nested functions
+ - 只在React 函数组件中使用Hooks
+    - Only Call Hooks from React Functions
+
+
+维护了一个指针`cursor`指向一个数组，如果 `render`函数内部 的调用顺序改变，`cursor`将不会匹配到正确的数据 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+为什么需要确保 Hook 在每次渲染中都按照同样的顺序被调用？
+
+因为memoizedState是按照Hooks定义的顺序来存放数据的，只能在最顶层使用Hook、不要在循环、条件、嵌套中调用Hooks。
+> 页面初次渲染，每一个useState执行时都会将对应的setState绑定到对应的位置：
 ```js
 function useState(initialValue: any) {
     memoizedState[cursor] = memoizedState[cursor] || initialValue
     const currentCursor = cursor  // <-- 记住cursor
+
     function setState(newState: any) {
         memoizedState[currentCursor] = newState // <-- 利用闭包，获得对应cursor
         cursor = 0
@@ -124,10 +221,14 @@ React会在重复渲染时记住它的值，并提供最新的值给函数
 
 
 
-useEffect会在每次渲染后都执行，每次重新渲染都会生成新的effect替换掉之前的。（每个effect“属于”一次特定的渲染）。
+useEffect会在每次渲染后都执行，React会在重新渲染之前，执行当前effect之前对上一个effect进行清除。
+> 每次重新渲染都会生成新的effect替换掉之前的。（每个effect“属于”一次特定的渲染）
+ -->
 
-因为effect在每次渲染都会执行，所以React会在执行当前effect之前对上一个effect进行清除。
 
 ## 参考链接
  - [useCallback、useMemo 分析 & 差别](https://juejin.im/post/5dd64ae6f265da478b00e639)
  - [剖析useState的执行过程](https://zhuanlan.zhihu.com/p/64354455)
+ - [React中useEffect的源码解读](https://www.cnblogs.com/vvjiang/p/12160791.html)
+ - [React Hooks源码解析，原来这么简单～](https://juejin.im/post/5e5e66d6e51d4526e651c796#comment)
+ - [React Hooks 进阶](https://github.com/SunShinewyf/issue-blog/issues/50)
