@@ -196,6 +196,25 @@ lazyload();
 document.addEventListener('scroll', lazyload); 
 ```
 
+## 预加载的实现
+原理：将所需资源提前请求加载到本地，这样后面在需要用到时就直接**从缓存取资源**。
+
+1、使用`display: none`
+
+2、使用`Image`对象
+```js
+let image = new Image();
+image.src = "images.1.png"
+```
+
+3、`<link>`的`preload`
+```html
+<link rel="preload" href="test.mp4" as="video" type="video/mp4">
+```
+这种方式有资源的类型要求。
+
+和懒加载的区别：预加载是提前加载、懒加载是延迟加载。
+
 
 ## 参考链接
  - [前端性能监控方案（首屏、白屏时间等）](https://juejin.im/post/5df4294d518825128306cd5c#comment)
