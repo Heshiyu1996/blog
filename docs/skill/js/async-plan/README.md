@@ -163,7 +163,28 @@ p.then(data => console.log(data)) // ['first', 'second', 'third']
 
  [es6 promise源码实现](https://segmentfault.com/a/1190000006103601)
  
- 
+ ### 实现Promise.all
+ ```js
+ // 会按顺序输出，不过以下是串行的：
+ var mockAll = function (args) {
+    let values = [];
+    return new Promise((resolve, reject) => {
+            let i = 0;
+            next();
+            function next() {
+                args[i].then(res => {
+                    values.push(res);
+                    i++;
+                    if (i === args.length) {
+                        resolve(values)
+                    } else {
+                        next()
+                    }
+                }).catch(err => reject(err))
+            }
+    })
+}
+ ```
 
 
 ## Generator函数

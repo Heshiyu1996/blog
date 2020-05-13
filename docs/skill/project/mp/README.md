@@ -63,3 +63,17 @@ data |   | event    event |   | data
     - 开发者将`token`和`uid`种到session里，并响应给小程序端验证成功
     - 在session有效期内，不需重复授权
 
+## 开发遇到的问题
+
+### HTML
+ - `<text>`组件能识别`\n`
+ - 调用子组件时，短横线、驼峰都失效
+    - 解决方法：大写字母开头 + 下划线(`<Detail_date>`)
+
+### CSS
+ - transform的rotate是-180到180
+ - background-image不支持本地资源，只支持线上图片（或base64）
+
+### 资源
+ - 微信会缓存静态资源，如何修改图片
+    - 解决方法：改资源url地址

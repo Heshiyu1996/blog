@@ -49,9 +49,6 @@ const AppWithMouse = withMouse(App) // 将旧组件传入HOC，获得新组件
 ```
 
 ### 注意事项
- - 不要在render方法中使用HOC
-    - ？
-
  - 组件经HOC包装后，原静态方法将丢失
     - 解决：需在HOC内指定静态方法到新组件上。
 
