@@ -36,12 +36,9 @@ componentWillUnmount
 ## 删除三个生命周期钩子的原因
 标记为不安全的3个生命周期钩子：`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`。
 
-官方解释原因有二：
- - 原因一：为未来做准备。
-react v17会推出`Async Rendering`（即生命周期可被打断）。其中被打断的阶段是在`virtual dom构建阶段`，如果这三个不安全的生命周期一旦被打断，就**不能保证组件更新只会触发一次**了。
+官方解释原因：Fiber结构考虑。
+> react v16采用了 Fiber结构 表示 virtual dom，使得可在构建阶段被打断。对于`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`也许**不能保证只触发一次**。
 
- - 原因二：错误使用。
-很多react用户都存在出错误地使用这三个生命周期，导致之后的异步渲染产生极大的性能损耗。（如：在`componentWillMount`时请求接口，因为会立即触发render，导致首屏数据为空）
 
 ## 取代的两个生命周期
 ### getDerivedStateFromProps
