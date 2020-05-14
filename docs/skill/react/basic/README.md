@@ -42,83 +42,68 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
 在非受控组件中，表单数据是由`DOM节点`来处理。
 
 ## Context
-Context可以共享那些对于一个组件树而言是“全局”的数据。
-> Context is designed to share data that can be considered "global" for a tree of React Component
+Context可以用来共享“全局”（一个组件树）的数据。
 
-### React.createContext
+### 创建Context对象
 ```js
 const MyContext = React.createContext(defaultValue); // 创建一个Context对象
+// defaultValue会在 当组件所处的树中没有匹配到Provider时 使用。
 ```
-当组件所处的树中没有匹配到Provider时，才会使用`defaultValue`值。
-> The `defaultValue` argument is only used when a component does not have a matching Provider above it in the tree.
 
 
-### Context.Provider（生产者）
+### 定义Context.Provider
 ```jsx
 <MyContext.Provider value={/* 某个值 */}>
-    /**/
+    /* ... */
 </MyContext.Provider>
 ```
 `Provider`接收一个`value`属性，传递给消费组件。
-> Accepts a `value` prop to be passed to consuming components that are descendants of this Provider
+
+当 value 值变化时，它内部的所有消费组件都会重新渲染。
 
 
-当`Provider`的value值发生变化时，它内部的所有消费组件都会重新渲染。
-> All consumers that are descendants of a Provider will re-render whenever the Provider's `value` props changes.
 
-对于任何消费者（无论消费模式是`.contextType`还是`useContext`）来说，这种传播不会受到中间组件`shouldComponentUpdate`的影响。
-> The propagation from Provider to its descendant consumers(including `.contextType` and `useContext`) is not subject to the `shouldComponentUpdate` method
+### 订阅Context变更
+订阅 context 变更一共有 3种方法：`Class.contextType`、`Context.Consumer`、`useContext`。
+> 每一种订阅模式，都不会受到中间组件`shouldComponentUpdate`的影响，即子组件依旧能触发更新。
 
-### class.contextType（订阅Context）
-将`Context对象`挂载到class上的`contextType`属性，就可以通过`this.context`取得`Context`的值
-> The `contextType` property on a class can be assigned a Context object created by `React.createContext()`. This lets you consume the nearest current value of that Context type using `this.context`.
+#### Class.contextType
+将`Context对象`挂载到class上的`contextType`属性，可以订阅到 context 变更。这样就可以通过`this.context`取得`Context`的值。
 
-`this.context`可以在任何生命周期（包括render函数）中使用。
->  You can reference this in any of the lifecycle methods including the render function.
+> `this.context`可以在任何生命周期（包括render函数）中使用
 
-以下Way1、Way2是等价的：
+以下 Way1、Way2 是等价的：
 ```js
 class MyClass extends React.Component {
-  // Way1: use a static class field to initialize your `contextType`
+  // Way1: 
   static contextType = MyContext;
 
   render() {
     let value = this.context;
-    /* render something based on the value */
   }
 }
 
-// Way2: The `contextType` property on a class can be assigned a Context object created by `React.createContext()`.
+// Way2: 
 // MyClass.contextType = MyContext;
 ```
 
-### Context.Consumer
-消费者：能读取Context值，并能订阅它的变化。
-> lets you read the context and subsccribe to its changes.
-
-当React渲染 **一个订阅了Context对象的** 组件，那这个组件会从最近的`Provider`去取Context值
-> When React renders a component that subscribes to this Context object it will read the current context value from the closest matching `Provider` above it in the tree.
-
-
-即便父组件跳过了更新，作为消费者的子组件依然能够触发更新。
-> so the consumer is updated even when an ancestor component skips an update.
+#### Context.Consumer
+`Context.Consumer`也可以订阅到 context 变更。
 
 ```jsx
 <MyContext.Consumer>
     {value => /* */}
 </MyContext.Consumer>
 ```
-指定子组件为一个函数。回调里的`value`就是最近的Provider提供的value
-> Requires a `function as child`. The `value` argument passed to the function will be equal to the `value` prop of the closest Provider for this context above in the tree.
+指定子组件为一个函数。回调里的`value`就是最近的 Provider提供的value。
 
 #### useContext
-对于函数式组件，也可以通过`useContext`取得Provider的value：
+对于函数式组件，也可以通过`useContext`订阅到 context 变更：
 ```js
 function ThemedButton(props) {
     const value = useContext(MyContext); // 把Context对象传入useContext
 }
 ```
-同样也不会受中间组件`shouldComponentUpdate`影响。
 
 ### Demo
 **theme-context.js**：（创建context对象）
@@ -133,8 +118,6 @@ import { MyContext } from './theme-context';
 
 class App extends React.Component {
     render() {
-        let props = this.props;
-        let theme = this.context;
         return (
             // 定义Provider，提供value值
             <MyContext.Provider value={'这里是根组件的水源'}>
