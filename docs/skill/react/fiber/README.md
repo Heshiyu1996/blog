@@ -35,11 +35,14 @@ class Fiber {
     constructor (instance) {
         this.instance = instance;
         // 指向第一个 child 节点
-        this.child = child
+        this.child = child;
         // 指向父节点
         this.return = parent;
         // 指向第一个兄弟节点
-        this.sibling = previous.
+        this.sibling = previous;
+
+        // Fiber节点里的Hooks链表
+        this.memoizedState = Hooks // <-- 伪代码
     }
 }
 ```
