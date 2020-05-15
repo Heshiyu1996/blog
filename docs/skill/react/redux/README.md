@@ -1,50 +1,45 @@
-# react-redux
-> Redux和 React 无关，React-Redux才是结合 React 使用
+# Redux
+> Redux 是一个 Web应用 的**状态管理方案**。
 
-Redux 是一个 **全局数据管理中心**。它通过一定的使用规则 和 限制，保证了数据的可控、可追溯、可预测。
+[[toc]]
 
-## 核心理念
- - **单一数据源：** 整个应用只有唯一一个状态树；
+## 基本组成
+ - **store**：一个状态容器，存储着所有状态（state）。整个应用只能有一个。
+ - **state**：状态
+ - **action**：View 发出的一种 **能让 state 发生变化** 的通知
+ - **dispatch**：View 发出 Action 的媒介
+ - **reducer**：接收 action、state，返回一个新的 state（通过替换旧的）
 
- - **状态只读：** Redux Store中的数据无法被直接修改；
 
- - **纯行为函数：** 只能通过一个纯行为函数（Reducer）来描述修改。
+现实中：<img src="./img/img-2.png" width="300" />
 
-## 实现原理
+理想：<img src="./img/img-3.png" width="300" />
 
-![alt](./img/img-1.png)
+## 三个原则
+ - **单一数据源：** 整个应用只有唯一的 `Store`；
 
-## 在React里使用redux
+ - **State只读：** 唯一改变 `state` 的方法就是 `dispatch` 一个 `action`
 
-### 在根组件使用Provider
-```jsx
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import todoApp from './reducers'
-import App from './components/App'
+ - **纯行为函数：** 只能通过一个 纯函数`reducer`  来描述修改。
 
-const store = createStore(todoApp)
+## 特点
+ - 每一个 state 的变化可预测
+ - 动作和状态统一管理
 
-render(
-  // 在根组件使用Provider
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-)
-```
 
-### Store
-一个应用程序中只有一个 store对象。它本质上是一个状态树，保存了所有对象的状态。
- - store接收到一个action，它将action代理给相关reducer。reducer会执行这个action并返回一个辛庄天
 
-### Provider
-Provider是一个外层容器，它的作用是通过配合 `connect` 来达到跨层级传递数据。
-> 使用时，将Provider定义为整个项目的最外层组件，并传入store属性
 
-原理：通过React `Context`实现。
+
+
+## react-redux
+在 React 里使用 Redux。
+
+部分概念和上面提到的差不多，除此之外，还有一些新的概念：
+
+#### Provider
+`<Provider>`是一个容器。在组件内与 `connect` 配合，可以实现 **跨层级数据传递**。
+
+**原理：通过React `Context`实现。**
 ```js
 export const ReactReduxContext = React.createContext(null);
 
@@ -55,25 +50,13 @@ function Provider({ store, context, children }) {
 ```
 
 
-### connect
-```js
-const mapStateToProps = state => {
-    const { projectListState } = state
-    const { responsive = { data: {} } } = state.httpData
+#### connect
+`connect` 接收 2 个函数：
+ - `mapStateToProps`：将需要的 `state` 注入到组件的props中
+ - `mapDispatchToProps`：将 `dispatch` 注入到组件的props中
 
-    return { projectListState, personalMenuState: state.personalMenuState, responsive }
-}
+除了上面的作用，还有当 `state` 发生变化时，通知关联的组件更新。
 
-const mapDispatchToProps = dispatch => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Banner)
-```
-`mapStateToProps` 的作用是将store里的state注入到组件的props中
-
-`mapDispatchToProps` 的作用是将store里的action（操作数据的方法）绑定到指定组件的props中
-
-
-connect将 组件 和 Store 连接的原理：
 ```js
 import {Component} from "react";
 import React from "react";
@@ -107,7 +90,9 @@ const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent => {
         }
     }
 
-    Connect.contentType = 
+    Connect.contextTypes = {
+        store: PropTypes.object
+    }
 
     return Connect
 })
@@ -115,18 +100,15 @@ const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent => {
 export default connect
 ```
 
-### action
-**action** 是把数据从应用传到 store 的有效载荷。它是 **store数据** 的唯一来源。
 
-### reducer
-**reducer**指的是纯行为函数，描述store的修改。
+### [实践] react-redux
+1、**新建`reducer.js`**：接收 action、state，返回新的 state
 
+2、**实例化`store`**：向 `createStore` 传入 `reducer`
 
-## 实践
- - 新建`reducer.js`：定义 各类行为 对 store 的影响
- - 实例化`store`：向 `createStore` 传入 `reducer`
- - 引入`Provider`组件：利用React context，将传入的 store传递给子组件
- - 注入到`业务组件`：利用`connect`包装业务组件，将 store、dispatch 注入到组件
+3、**引入`Provider`组件**：传入`store`
+
+4、**注入到`业务组件`**：利用 `connect` 包裹业务组件，将 `store`、`dispatch` 注入到组件
 
 **reducer.js**：
 ```jsx
@@ -185,3 +167,6 @@ const mapDispatchToProps = dispatch => ({
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
 ```
+
+## 参考链接
+ - [从 Redux 设计理念到源码分析](https://mp.weixin.qq.com/s/8A-uOiuiMpAfhX0S6YwhbA)
