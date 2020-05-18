@@ -3,8 +3,6 @@
 
 [[toc]]
 
-<!-- ![alt](./img/img-4.png) -->
-
 ## 职责
  - 项目搭建（前端脚手架）
  - 国际化调研/配置
@@ -93,8 +91,7 @@
     - 两套页面
         - 维护性差，时间成本高。
     - react-intl
-        - 原理：通过HOC，来向当前组件包裹注入intl属性
-        - 优点：从根组件注入
+        - 原理：通过HOC，来向当前组件包裹注入intl对象；调用这个对象的方法，根据id从语言包取值
         - 缺点：1、只能应用于`React.Component`（无法用于纯JS的工具方法文件）；2、组件实例的ref会改变；3、因为组件被HOC包裹，组件的属性不会被子类继承；
     - react-intl-universal
         - 优点：1、对于`React.Component`、`JS工具方法`都能应用；2、组件实例不会改变；3、使用简单（3个API和一些可选属性）；3、可以按需注入
@@ -102,15 +99,15 @@
  - **语言方案**
     - 根组件声明语言种类`lang`，并注入到context
     - 页面、业务组件
-        - 编写独立locale跟随业务文件，在页面中按需引入并根据`lang`实例化intl对象
-    - Ant组件
-        - 给最外层`ConfigProvider`组件的`locale`属性赋值（`antd语言包`）
+        - 【intl对象】编写独立locale跟随业务文件，在页面中按需引入intl对象
+    - Antd组件
+        - 给最外层`ConfigProvider`组件的`locale`属性传入`Aantd语言包`
     - 登录组件（输入控件、验证码）
-        - 在初始化URS登录控件时传参`lang`，指定语言版本
+        - 在 初始化URS登录控件 时传参 `lang` 指定语言
     - 后端接口部分
-        - 接口请求。统一配置请求头`lang`字段
-        - 接口响应。统一拦截响应：code（402001）、msg
-        - 字典接口。与后端约定好，同一字段在不同语言下的命名格式（`name`、`en_name`），前端根据`lang`取相应语言的变量
+        - 请求：统一配置，请求头 `lang` 字段
+        - 响应：统一拦截，读取msg
+        - 字典数据：同一字段在不同语言下的命名格式（`name`、`en_name`），前端根据`lang`取相应内容
 
 ![alt](./img/img-7.png)
 
@@ -157,18 +154,20 @@ const _move = (dom, order, { speed, offset }) => {
 };
 ```
 
-### 多页应用配置
- - 其他：
-    - 单入口启动
-    - DLL动态链接库（没有指定`devtool`: `cheap-module-eval-source-map`）
-    - ts的类型检查（【开发时监听】`tsc --noEmit -w`；【打包时】`tsc --noEmit`）
-    - Nginx配置：
-        - 因为是个多页应用（BrowserRouter）。**手动刷新**浏览器会尝试从服务器取资源。
-        - 需通过以下Nginx配置将资源 **重定向到前端静态资源** 去寻找。
-            ```js
+### 其他配置
+  - 单入口启动
+
+  - DLL动态链接库
+
+  - ts的类型检查（【开发时监听】`tsc --noEmit -w`；【打包时】`tsc --noEmit`）
+
+  - Nginx配置：
+      - 因为是个多页应用（BrowserRouter）。**手动刷新**浏览器会尝试从服务器取资源。
+      - 需通过以下Nginx配置将资源 **重定向到前端静态资源** 去寻找。
+        ```js
             location /test.html {
                 root /home/appops/my-static/myProject/build;
                 index test.html;
                 try_files $uri /test.html;
             }
-            ```
+        ```

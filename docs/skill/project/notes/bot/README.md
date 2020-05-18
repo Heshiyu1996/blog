@@ -74,7 +74,7 @@
  - **更优方案：使用`vue-virtual-scroller`**
     - 现象：性能好
     - 原理：将 **加载事件** 绑定在 `scroll事件` 上，并记录上次渲染的`startIndex`、`endIndex`，利用一个buffer进行存储。局部渲染、自动回收DOM
-    - 缺点：设置固定高度
+    - 缺点：需要设置固定的 父容器、子元素高度
 
 <!-- 
 #### 列表数据庞大下，查找指定数据
@@ -131,19 +131,3 @@ createHash.add(picArray);
 console.log(createHash._hashValue);
 console.log(createHash.get('123')); // hhh
 ``` -->
-
-### [vuelidate]表单校验
-调研思路：
-  - 基于数据模型
-  - 支持自定义函数
-  - 支持嵌套
-  - 支持Promise
-  - 引入方式（可全局、可局部）
- 
-源码实现（数据响应）
-  - 当实例化一个vue时，会通过`this.$options`获取该vue实例选项里的`validations`
-  - 再把选项里的`配置规则`转化为`$v`属性
-  - 将`$v`的代理通过`mixin`的方式，加入到Vue实例中的`computed`选项
-  - 默认是通过`input`事件进行校验。作者也推荐开发者可以通过给`v-model`定义`.lazy`修饰符，使得校验器可以进行懒校验
- 
-

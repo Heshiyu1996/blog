@@ -1,4 +1,4 @@
-# 小程序
+# [工具] 小程序
 
 ## 整体架构
 ```js
@@ -14,7 +14,7 @@ data |   | event    event |   | data
 ```
 `View`对应视图层，`App Service`对应我们的逻辑层
 
-`View`和`App Service`O分别跑在两个线程中，通过 `JSBridge` 进行 **数据和事件** 的通信
+`View`和`App Service`分别跑在两个线程中，通过 `JSBridge` 进行 **数据和事件** 的通信
 
 ## 生命周期
   - beforeCreate
@@ -41,7 +41,7 @@ data |   | event    event |   | data
  `switchTab`，只能用于跳转到tab页面，并关闭其他非tab bar页
 
 ### fly.js
-因为小程序是在 **jsCore环境下** 执行，在这个环境下并没有`window`，也没有`XMLHttpRequest对象`。
+因为小程序是在 **JSCore环境下** 执行，在这个环境下并没有`window`，也没有`XMLHttpRequest对象`。
 
 而 `fly.js` 可以在底层切换不同的 **Http Engine** 来实现多环境支持。
 
@@ -77,3 +77,33 @@ data |   | event    event |   | data
 ### 资源
  - 微信会缓存静态资源，如何修改图片
     - 解决方法：改资源url地址
+
+## JSBridge
+首先，JavaScript是运行在一个单独的JS Context（例如：WebView的webkit引擎、JSCore）
+
+JSBridge主要是给 JavaScript 提供调用 Native 功能的接口，让混合开发中的“前端部分”可以方便地使用地理位置、摄像头、支付等Native功能。
+
+通过JSBridge，Web可以和Native进行交互。
+
+核心是构建 Native 和 非Native之间的消息通信通道，而且是双向通信通道。
+> 双向通信指的是：
+> 
+> JS 向 Native 通信：调用功能、通知 Native 当前JS的相关状态
+>
+> Native 向 JS 通信：消息推送、通知 JS 当前 Native的相关状态
+
+
+## WebView
+移动操作系统都包含可运行JavaScript的容器，例如WebView、JSCore
+
+## Hybrid
+Hybrid App指的是混合模式移动应用（混合了 Native技术 与 Web技术 来开发移动应用）
+
+> 简单来说，APP里内置了Web网页
+
+### 三种混合方案
+ - 基于WebView UI
+ - 基于Native UI
+ - 小程序
+
+![alt](./img/img-1.png)
