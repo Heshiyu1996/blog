@@ -269,6 +269,15 @@ module.exports = {
         editLinkText: '帮助我们改善此页面！',
         displayAllHeaders: false // 展开所有页面的标题
     },
+
+    plugins: [
+        [
+            '@vuepress/register-components',
+            {
+                componentsDir: './components'
+            }
+        ]
+    ],
     // 当指定了显示主题的颜色时，需要增加如下的 postcss 插件
     postcss: {
       plugins: [
