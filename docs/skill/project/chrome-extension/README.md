@@ -70,12 +70,16 @@
 相关事件：`onActivated`、`onUpdated`
 
 ### content.js的注入时机
-`document_start`：css优先加载
+`document_start`：css之后、DOM构建之前
 
-`document_end`：DOM优先加载
+`document_end`：DOM构建之后
 
 ### 其它
- - chrome API大部分都是异步操作
+**技术**：
+ - chrome API大部分都是异步操作、且传参严格
  - permissions若为无限跨域，发布审核会很严格；且版本迭代时，会通知给使用者
+
+**非技术**：
+ - 隐私政策：需提供隐私政策说明才能发布
 
 [stackoverflow连接](https://stackoverflow.com/questions/5544256/chrome-extensionhow-to-pragmatically-open-the-popup-window-from-background-htm)
