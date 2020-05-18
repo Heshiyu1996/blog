@@ -1,19 +1,17 @@
 <template>
-  <section style="border-top: 2px solid #eaecef;padding-top:1rem;margin-top:2rem;">
-    <div>
+    <div class="u-valine">
       <!-- id 将作为查询条件 -->
       <span class="leancloud-visitors"
             data-flag-title="Your Article Title">
-        <em class="post-meta-item-text">阅读量： </em>
-        <i class="leancloud-visitors-count"></i>
+        <span class="post-meta-itspan-text">阅读量： </span>
+        <span class="leancloud-visitors-count"></span>
       </span>
     </div>
 
-    <div class="u-comment-wrapper">
+    <!-- <div class="u-comment-wrapper">
         <h3>评论区：</h3>
         <div id="vcomments"></div>
-    </div>
-  </section>
+    </div> -->
 </template>
 
 <script>
@@ -44,3 +42,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+/* .u-valine {
+    margin-top: 0 !important;
+} */
+</style>
