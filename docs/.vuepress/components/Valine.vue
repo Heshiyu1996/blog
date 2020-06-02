@@ -15,21 +15,24 @@
 </template>
 
 <script>
-import Valine from 'valine';
-
 export default {
     name: 'Valine',
 
-    mounted: function () {
-        if (typeof window !== 'undefined') {
-            document.getElementsByClassName('leancloud-visitors')[0].id
-            = window.location.pathname
-            this.window = window
-            window.AV = require('leancloud-storage')
-        }
+    mounted() {
+        // valine库里面存在window变量；HTML会通过NodeJS进行服务端渲染来产生
+        // 通过动态导入来解决“NodeJS环境下对window变量未定义”的问题
+        import('valine').then(module => {
+            const Valine = module.default
 
-        this.valine = new Valine()
-        this.initValine()
+            if (typeof window !== 'undefined') {
+                document.getElementsByClassName('leancloud-visitors')[0].id = window.location.pathname
+                this.window = window
+                window.AV = require('leancloud-storage')
+
+                this.valine = new Valine()
+                this.initValine()
+            }
+        })
     },
 
     methods: {
