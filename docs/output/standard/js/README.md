@@ -14,28 +14,44 @@ let maxCount = 10
 
 ## 常量
 ### 基本类型的常量：
-命名方式：**全部大写（基本类型）**
+命名方式：**全部大写**
 
 命名规范：**多个单词时使用分隔符`_`**
 
-### 引用类型的常量：
-命名方式：**全部大写（基本类型）**
-
-命名规范：**大驼峰（枚举）**。枚举的元素按“基本类型”规则
 ```js
 // bad
 const serverErrorCode = 402
-const statusMap = {
-    success: 1,
-    fail: 2
-}
 
 // good
 const SERVER_ERROR_CODE = 402
-const StatusMap = {
-    SUCCESS: 1,
-    FAIL: 2
+```
+
+### 引用类型的常量：
+命名方式：**全部大写**
+
+命名规范：（3类）value枚举、label枚举、value-label枚举
+```js
+// good
+const MODIFY_TYPE = {
+    ADD: 1,
+    EDIT: 2
 }
+
+const MODIFY_TYPE_MAP = {
+    [MODIFY_TYPE.ADD]: '新增',
+    [MODIFY_TYPE.EDIT]: '编辑',
+}
+
+const MODIFY_TYPE_LIST = [
+    {
+        value: MODIFY_TYPE.ADD,
+        label: MODIFY_TYPE_MAP[MODIFY_TYPE.ADD]
+    },
+    {
+        value: MODIFY_TYPE.EDIT,
+        label: MODIFY_TYPE_MAP[MODIFY_TYPE.EDIT]
+    }
+]
 ```
 
 ## 函数

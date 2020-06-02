@@ -180,7 +180,7 @@ const sidebar = {
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
-                'project/notes/',
+                // 'project/notes/',
                 'project/other/'
             ]
         }
@@ -234,7 +234,7 @@ const sidebar = {
                 'standard/eslint/',
                 'standard/stylelint/',
                 'standard/git/',
-                'standard/interface/'
+                // 'standard/interface/'
             ]
         }
     ]
@@ -261,9 +261,7 @@ module.exports = {
 
         defaultTheme: 'dark',
 
-        lastUpdated: '上次更新', // string | boolean
-
-        repo: 'https://github.com/Heshiyu1996/blog',
+        repo: 'https://github.com/Heshiyu1996',
 
         editLinks: true,
         editLinkText: '帮助我们改善此页面！',
@@ -275,6 +273,20 @@ module.exports = {
             '@vuepress/register-components',
             {
                 componentsDir: './components'
+            }
+        ],
+        [
+            '@vuepress/last-updated',
+            {
+                transformer: (timestamp, lang) => {
+                    const moment = require('moment')
+                    moment.locale(lang)
+                    moment(timestamp).format('YYYY-MM-DD HH:mm')
+                    const aMonth = 2678400000;
+                    const moreAMonth = Date.now() - timestamp > aMonth;
+                    // return moment(timestamp).fromNow() // xx days ago
+                    return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
+                }
             }
         ]
     ],

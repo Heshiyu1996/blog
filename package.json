@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "leancloud-storage": "^4.5.3",
+    "moment": "^2.26.0",
     "valine": "^1.4.14",
     "vuepress-theme-default-prefers-color-scheme": "^1.0.7"
   }

@@ -1,10 +1,17 @@
 <template>
     <div class="u-valine">
-      <!-- id 将作为查询条件 -->
+
       <span class="leancloud-visitors"
             data-flag-title="Your Article Title">
-        <span class="post-meta-itspan-text">阅读量： </span>
-        <span class="leancloud-visitors-count"></span>
+
+        <span class="stat update-time">
+            <img class="icon" src="/update-time.png" />{{$page.lastUpdated}}
+        </span>
+
+        <span class="stat read-count">
+            <img class="icon" src="/read-count.png" />
+            <span class="leancloud-visitors-count"></span>
+        </span>
       </span>
     </div>
 
@@ -44,7 +51,27 @@ export default {
 </script>
 
 <style scoped>
-/* .u-valine {
-    margin-top: 0 !important;
-} */
+.icon {
+    width: 14px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.leancloud-visitors-count {
+    vertical-align: middle;
+}
+
+.stat {
+    font-size: 12px;
+}
+
+.stat::after {
+    content: "|";
+    opacity: .4;
+    margin: 0 6px;
+}
+
+.stat:last-child::after {
+    content: " ";
+}
 </style>
