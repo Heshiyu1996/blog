@@ -1,9 +1,7 @@
 <template>
     <div class="u-valine">
-
       <span class="leancloud-visitors"
             data-flag-title="Your Article Title">
-
         <span class="stat update-time">
             <img class="icon" src="/update-time.png" />{{$page.lastUpdated}}
         </span>
@@ -14,11 +12,6 @@
         </span>
       </span>
     </div>
-
-    <!-- <div class="u-comment-wrapper">
-        <h3>评论区：</h3>
-        <div id="vcomments"></div>
-    </div> -->
 </template>
 
 <script>
@@ -35,18 +28,36 @@ export default {
             window.AV = require('leancloud-storage')
         }
 
-        new Valine({
-            el: '#vcomments',
-            appId: 'z5GwWINgAn1R9SLxhR0Frh1P-gzGzoHsz',// your appId
-            appKey: 'COUxnph8NagaafTrSVhFM3dD', // your appKey
-            notify: false,
-            verify: false,
-            path: window.location.pathname,
-            visitor: true,
-            avatar: 'mm',
-            placeholder: 'write here'
-        });
+        this.valine = new Valine()
+        this.initValine()
     },
+
+    methods: {
+        initValine () {
+            let path = window.location.pathname
+            document.getElementsByClassName('leancloud-visitors')[0].id = path
+
+            this.valine.init({
+                el: '#vcomments',
+                appId: 'z5GwWINgAn1R9SLxhR0Frh1P-gzGzoHsz',// your appId
+                appKey: 'COUxnph8NagaafTrSVhFM3dD',// your appKey
+                notify: false,
+                verify: false,
+                path,
+                visitor: true,
+                avatar: 'mm',
+                placeholder: 'write here'
+            })
+        }
+    },
+
+    watch: {
+        $route (to, from) {
+            if (from.path !== to.path) {
+                this.initValine()
+            }
+        }
+    }
 }
 </script>
 
@@ -55,6 +66,7 @@ export default {
     width: 14px;
     margin-right: 4px;
     vertical-align: middle;
+    opacity: 1;
 }
 
 .leancloud-visitors-count {
@@ -63,6 +75,7 @@ export default {
 
 .stat {
     font-size: 12px;
+    opacity: .6;
 }
 
 .stat::after {

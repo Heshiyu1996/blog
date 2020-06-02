@@ -251,8 +251,10 @@ module.exports = {
         lineNumbers: true, // 代码块显示行号
         toc: { includeLevel: [1, 2] } // 自动生成的目录只显示到2级标题（包括）
     },
-    // theme: 'reco',
-    theme: 'default-prefers-color-scheme',
+    
+    // 注释原因：直接从“docs/.vuepress/theme/index.js”载入自定义主题
+    // theme: 'default-prefers-color-scheme',
+
     themeConfig: {
         author: 'Heshiyu',
         nav,
