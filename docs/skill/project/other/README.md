@@ -448,3 +448,33 @@ const plugin = new HtmlWebpackPlugin({
         : {})
 })
 ```
+
+## keydown、keyup、keypress
+`keydown`、`keyup`是捕获了键盘的按键操作
+
+`keypress`反映了具体输入某个字符的值
+
+> 键盘事件只能由`<input>`、`<textarea>`以及任何具有`contentEditable`或`tabindex="-1"`属性的组件触发
+
+### 踩坑：在Windows、中文输入法下，输入全角符号keycode都为229
+**现象：** 在Windows的中文输入法下，通过`keydown`监听到的符号输出（即英文字母上面那排数字搭配`Shift`），keycode皆为**229**
+
+**原因：** 自 Firefox 65起,  `keydown` 与 `keyup` 事件会在 IME（输入法编辑器）复合事件 中被触发，目的是为了提升CJKT（中日韩台地区）用户跨浏览器性能。
+> [MDN - Element: 键盘按下事件](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/keydown_event)
+
+**解决方案：**
+ - 利用`onInput`事件，监听`nativeEvent.data`（该值为输入值）
+ - 对要更新的字段进行手动“修饰”
+
+```js
+onInput = (ev) => {
+    const { nativeEvent, target } = ev;
+    const key = nativeEvent.data;
+
+    // 若输入为"@"，弹出选人弹框
+    if (key === '@') {
+        this.popoverFromKeyBoard = true; // 通过这个字段来“手动修饰”
+        this.handleVisibleSelectPerson(true);
+    }
+}
+```
