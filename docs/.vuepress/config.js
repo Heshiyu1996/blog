@@ -237,6 +237,17 @@ const sidebar = {
                 // 'standard/interface/'
             ]
         }
+    ],
+
+    '/tool/': [
+        {
+            title: '实用工具',
+            collapsable: false,
+            children: [
+                'vuepress-stat/',
+                // 'standard/interface/'
+            ]
+        }
     ]
 }
 
@@ -271,12 +282,6 @@ module.exports = {
     },
 
     plugins: [
-        [
-            '@vuepress/register-components',
-            {
-                componentsDir: './components'
-            }
-        ],
         [
             '@vuepress/last-updated',
             {
