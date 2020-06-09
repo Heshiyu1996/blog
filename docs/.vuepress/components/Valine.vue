@@ -25,9 +25,6 @@ export default {
             const Valine = module.default
 
             if (typeof window !== 'undefined') {
-                const isDev = window.location.hostname.includes('localhost');
-                if (isDev) return; // 不统计本地开发时的阅读量
-
                 document.getElementsByClassName('leancloud-visitors')[0].id = window.location.pathname
                 this.window = window
                 window.AV = require('leancloud-storage')
@@ -40,8 +37,11 @@ export default {
 
     methods: {
         initValine () {
-            let path = window.location.pathname
+            let { pathname: path, hostname } = window.location;
             document.getElementsByClassName('leancloud-visitors')[0].id = path
+
+            const isDev = hostname.includes('localhost');
+            if (isDev) return; // 不统计本地开发时的阅读量
 
             this.valine.init({
                 el: '#vcomments',
