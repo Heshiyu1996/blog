@@ -246,6 +246,7 @@ const sidebar = {
             children: [
                 'vuepress-stat/',
                 'shell-script/',
+                'paste/',
                 // 'standard/interface/'
             ]
         }
