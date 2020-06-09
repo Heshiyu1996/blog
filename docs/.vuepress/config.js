@@ -245,6 +245,7 @@ const sidebar = {
             collapsable: false,
             children: [
                 'vuepress-stat/',
+                'shell-script/',
                 // 'standard/interface/'
             ]
         }
