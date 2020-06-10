@@ -101,7 +101,7 @@ const prevCalcValue = usePrevious(calcValue);
  - 没有副作用（不会影响外部变量）
  - 引用透明（输入相同，输出也相同）
 
-## Hooks的状态管理
+## Hooks的管理机制
 ```js
 function PersionInfo ({initialAge,initialName}) {
     const [age, setAge] = useState(initialAge);
@@ -163,67 +163,45 @@ export type Hook = {
 答案：Hooks 链表会挂载到`FiberNode.memoizedState`
 > 每个Fiber就是一个Virtual DOM，每个组件就对应Fiber树上对应的Fiber节点。
 
-<!-- 
-
-
- - 不要在“循环、条件、嵌套”里使用Hooks
-    - Don't call Hooks inside loops, conditions, or nested functions
- - 只在React 函数组件中使用Hooks
-    - Only Call Hooks from React Functions
-
-
-维护了一个指针`cursor`指向一个数组，如果 `render`函数内部 的调用顺序改变，`cursor`将不会匹配到正确的数据 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-为什么需要确保 Hook 在每次渲染中都按照同样的顺序被调用？
-
-因为memoizedState是按照Hooks定义的顺序来存放数据的，只能在最顶层使用Hook、不要在循环、条件、嵌套中调用Hooks。
-> 页面初次渲染，每一个useState执行时都会将对应的setState绑定到对应的位置：
+#### 父Hook引用子Hook，它们内部Hooks之间的执行顺序？
 ```js
-function useState(initialValue: any) {
-    memoizedState[cursor] = memoizedState[cursor] || initialValue
-    const currentCursor = cursor  // <-- 记住cursor
+// 父Hook
+import React, { useEffect } from "react";
+import useChild from "./useChild";
 
-    function setState(newState: any) {
-        memoizedState[currentCursor] = newState // <-- 利用闭包，获得对应cursor
-        cursor = 0
-        render(<App />, document.getElementById('root'))
-    }
-    return [memoizedState[cursor++], setState] // 返回当前 state，并把 cursor 加 1
+function App() {
+  const { childName } = useChild("hsy"); // 会先输出子Hook内的useEffect
+
+  useEffect(() => {
+    console.log("App的effect");
+  });
+
+  return <div className="App">我是App,{childName}</div>;
 }
 ```
 
+```js
+// 子Hook
+import { useState, useEffect } from "react";
+function useChild() {
+  const [childName, setChildName] = useState("");
 
-Hooks是作为一个单向链表存在。React维护两个Hook相关的链表：`current hook list`、`work in progress hook list`
+  useEffect(() => {
+    console.log("useChild的useEffect");
+    console.log(setChildName);
+  }, []);
 
-React会在重复渲染时记住它的值，并提供最新的值给函数
+  return { childName };
+}
 
+export default useChild;
 
+```
+[代码示例](https://codesandbox.io/s/antd-reproduction-template-ft5cm?file=/index.js)
 
-useEffect会在每次渲染后都执行，React会在重新渲染之前，执行当前effect之前对上一个effect进行清除。
-> 每次重新渲染都会生成新的effect替换掉之前的。（每个effect“属于”一次特定的渲染）
- -->
+**正解：** 父Hook调用子Hook，其实也是把子Hook**当做一个函数被调用**。（可以尝试将`const { childName } = useChild('hsy');`这行放到useEffect的下一行执行）
+> 也就是说，将子Hook里的Hook“平摊”到子Hook被调用的地方，那随后会按按照类似“JS事件循环 - 微任务”的机制来处理父、子内部的这些Hook。
+
 
 
 ## 参考链接
