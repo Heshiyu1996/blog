@@ -1,4 +1,8 @@
 # package.json
+> 记录package.json文件里的一些知识
+
+[[toc]]
+
 
 ## peerDependencies
 在`npm3`中，项目中不会自动安装某第三方库里的`peerDependencies`所指定得到依赖。

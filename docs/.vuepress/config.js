@@ -180,6 +180,7 @@ const sidebar = {
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
+                'project/package/',
                 // 'project/notes/',
                 'project/other/'
             ]
