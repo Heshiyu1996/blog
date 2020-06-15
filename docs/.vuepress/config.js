@@ -43,15 +43,21 @@ const nav = [
                     { text: '接口规范', link: '/output/standard/interface/' }
                 ]
             },
-            { text: '前端工程模板', items: [
+            { 
+                text: '项目沉淀',
+                items: [
+                    { text:'【封装】React-Router自动化渲染', link: '/output/fruit/router/' },
+                    { text: '【组件库】sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
+                ] 
+            },
+            { 
+                text: '前端工程模板',
+                items: [
                     { text: '单页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js' },
                     { text: '单页项目（react16.9 + webpack4 + Typescript）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts' },
                     { text: '多页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js' },
                 ]
-            },
-            { text: '团队组件库', items: [
-                { text: 'sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
-            ] }
+            }
         ]
     },
     { text: '实用工具', link: '/tool/' },
@@ -180,6 +186,7 @@ const sidebar = {
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
+                'project/ci-cd/',
                 'project/package/',
                 // 'project/notes/',
                 'project/other/'
@@ -237,6 +244,14 @@ const sidebar = {
                 'standard/git/',
                 // 'standard/interface/'
             ]
+        },
+        {
+            title: '项目沉淀',
+            collapsable: false,
+            children: [
+                'fruit/router/',
+                ['https://github.com/Heshiyu1996/sy-ui','个人组件库']
+            ]
         }
     ],
 
@@ -284,22 +299,22 @@ module.exports = {
         displayAllHeaders: false // 展开所有页面的标题
     },
 
-    plugins: [
-        [
-            '@vuepress/last-updated',
-            {
-                transformer: (timestamp, lang) => {
-                    const moment = require('moment')
-                    moment.locale(lang)
-                    moment(timestamp).format('YYYY-MM-DD HH:mm')
-                    const aMonth = 2678400000;
-                    const moreAMonth = Date.now() - timestamp > aMonth;
-                    // return moment(timestamp).fromNow() // xx days ago
-                    return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
-                }
-            }
-        ]
-    ],
+    // plugins: [
+    //     [
+    //         '@vuepress/last-updated',
+    //         {
+    //             transformer: (timestamp, lang) => {
+    //                 const moment = require('moment')
+    //                 moment.locale(lang)
+    //                 moment(timestamp).format('YYYY-MM-DD HH:mm')
+    //                 const aMonth = 2678400000;
+    //                 const moreAMonth = Date.now() - timestamp > aMonth;
+    //                 // return moment(timestamp).fromNow() // xx days ago
+    //                 return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
+    //             }
+    //         }
+    //     ]
+    // ],
     // 当指定了显示主题的颜色时，需要增加如下的 postcss 插件
     postcss: {
       plugins: [
