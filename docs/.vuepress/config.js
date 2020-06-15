@@ -186,7 +186,7 @@ const sidebar = {
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
-                'project/ci-cd/',
+                // 'project/ci-cd/',
                 'project/package/',
                 // 'project/notes/',
                 'project/other/'
