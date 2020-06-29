@@ -1,4 +1,4 @@
-# [工具] webpack
+# webpack
 > `webpack`是个模块打包机，它是通过`loader`对 `模块（Module）` 进行处理，通过`plugins`给webpack赋能，最后打包成浏览器能识别的js等文件。
 
 [[toc]]
@@ -452,6 +452,9 @@ modules.exports = {
  - **watch（）**：用来监听事件
 
  IE8下最好用`gulp`，IE9用`webpack`
+
+## 实践笔记
+[webpack使用笔记](./DEMO.md)
 
 ## 链接
  - [webpack的配置模式mode](https://www.webpackjs.com/concepts/mode/)

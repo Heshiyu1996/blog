@@ -113,14 +113,15 @@ const sidebar = {
             children: [
                 'nodejs/multi-process/',
                 'nodejs/koa/',
+                'nodejs/node-mysql/',
                 'nodejs/other/',
             ]
         }
     ],
     '/skill/web': [
         {
-            title: 'Web/浏览器',
-            collapsable: true,
+            title: '《Web/浏览器》',
+            collapsable: false,
             children: [
                 'web/diff/',
                 'web/browser/',
@@ -169,10 +170,6 @@ const sidebar = {
                 'vue/feature-v3/',
                 'vue/question/',
                 'vue/keep-alive/',
-                // 'vue/build/',
-                // 'vue/data-driven/',
-                // 'vue/component/',
-                // 'vue/vue-router/',
                 'vue/component-lib/',
             ]
         },
@@ -180,35 +177,38 @@ const sidebar = {
             title: '源码部分',
             collapsable: false,
             children: [
-                // 'vue/basic/',
-                // 'vue/life-cycle/',
-                // 'vue/feature-v3/',
-                // 'vue/question/',
-                // 'vue/keep-alive/',
                 'vue/build/',
                 'vue/data-driven/',
                 'vue/component/',
                 'vue/vue-router/',
-                // 'vue/component-lib/',
             ]
         }
     ],
     '/skill/project': [
         {
             title: '《项目笔记》',
+            collapsable: false
+        },
+        {
+            title: '工具实践',
             collapsable: false,
             children: [
                 'project/webpack/',
                 'project/babel/',
-                'project/tools/',
+                'project/package/',
+                'project/npm/',
                 'project/mp/',
                 'project/chrome-extension/',
+                'project/rollup/',
+            ]
+        },
+        {
+            title: '项目踩坑',
+            collapsable: false,
+            children: [
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
-                // 'project/ci-cd/',
-                'project/package/',
-                // 'project/notes/',
                 'project/other/'
             ]
         }

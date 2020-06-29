@@ -1,5 +1,6 @@
-# [踩坑记录] vue-cli + Prettier
-> Prettier
+# 在vue-cli中引入Prettier
+
+
 ## 使用vue-cli 3.0内置的prettier
 ```json
 // package.json

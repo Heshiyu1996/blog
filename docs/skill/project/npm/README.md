@@ -1,6 +1,8 @@
 # NPM
 > npm
 
+[[toc]]
+
 ## 修改全局模块的安装路径
 之前遇到的问题：想把shell从bash换成zsh（有炫酷的UI以及其他优点【待补充】），后来发现npm全局安装的包居然用命令行执行不起来，显示：`zsh: command not found: xxx`
 
@@ -27,3 +29,16 @@ source ~/.profile
 ```
 
 综上，`npm install -g`安装的模块就会到该用户名字下面的`~/.npm-global`目录了，还有一个好处是做到了用户隔离。
+
+## npm vs yarn
+`npm`是Node.js中`默认的包管理工具`
+
+`yarn`是Facebook和Google联合推出的`新的JS包管理工具`
+
+`yarn`有以下优点：
+ - 速度快
+    - 并行安装、离线模式
+ - 版本锁定
+    - yarn.lock
+ - 更简洁的输出
+ - 语义化的命令

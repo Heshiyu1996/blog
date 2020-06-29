@@ -1,4 +1,4 @@
-# [开发笔记] Chrome插件
+# Chrome Extension
 
 [[toc]]
 
