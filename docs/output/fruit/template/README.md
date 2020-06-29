@@ -1,4 +1,4 @@
-# 前端脚手架
+# React前端工程模板
 > 主要技术： react(16.9.0) + antd(3.23.3) + webpack(4.39.1) + react-router-dom(5.0.1) + react-loadable(5.5.0)
 
 [[toc]]

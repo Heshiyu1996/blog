@@ -46,7 +46,8 @@ const nav = [
             { 
                 text: '项目沉淀',
                 items: [
-                    { text:'前端脚手架', link: '/output/fruit/template/' },
+                    { text:'基于Antd的业务组件库', link: '/output/fruit/component-lib/' },
+                    { text:'React工程模板', link: '/output/fruit/template/' },
                     // { text: '【组件库】sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
                 ] 
             },
@@ -289,8 +290,8 @@ const sidebar = {
             title: '项目沉淀',
             collapsable: false,
             children: [
-                // 'fruit/router/',
                 'fruit/template/',
+                'fruit/component-lib/',
                 // ['https://github.com/Heshiyu1996/sy-ui','个人组件库']
             ]
         }
