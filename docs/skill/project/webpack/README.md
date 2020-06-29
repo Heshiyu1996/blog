@@ -15,6 +15,8 @@
 首先，**webpack是个模块打包机**。
 
 ### Module
+指“模块”。
+
 我们编写的**任何文件**，对webpack来说都是一个个**模块**。
 
 通过配置`module.rules`，指定哪些文件交给哪些`loader`去处理：
@@ -30,6 +32,8 @@ module: {
 ```
 
 ### Chunk
+指“代码块”，一个 Chunk 由多个模块组成。用于代码合并与分割。
+
 以 **入口文件（即入口模块）** 为例，webpack会通过 **入口模块和其它模块之间形成引用关系**，去逐个打包模块，那这些“有关联的`Module`”就形成了一个`Chunk`。
 > webpack源码中对Chunk的解释：
 > 
@@ -37,11 +41,7 @@ module: {
 >
 > Chunks are "rendered" into bundles that get emitted when the build completes.
 
-#### 产生chunk的三种途径
- - 不同的入口模块（entry）
- - 防止重复
-    - SplitChunksPlugin（可指定chunk名字生成规则`output.chunkFilename`）
- - 动态导入
+产生chunk的三种途径（详见 [代码分割](#代码分割)）：不同的入口模块（entry）、SplitChunksPlugin、动态导入
 
 ### Bundle
 综上，`Chunk`是一些“有关联的模块（module）”的封装单元，并且它们会在 **构建之后** 变成一个个 `Bundle`。
@@ -65,8 +65,8 @@ module: {
 
 
 ## Loader、Plugins
- - `Loader` 可以对模块进行**解析处理**；
- - `Plugins` 可以为webpack扩展功能，**对整个构建过程都起作用**。
+ - `Loader` 模块转换器。对模块进行**解析处理**；
+ - `Plugins` 扩展插件。在 Webpack 构建流程中的特定时机注入扩展逻辑来改变构建结果。
 
 ### Loader
 #### 常用的loader
@@ -75,10 +75,10 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
 :::tip
 **file-loader**：在执行 `import MyImage from './my-image.png` 时，这张图片会经过处理、被添加到 `output` 指定的目录，然后 `MyImage` 变量将表示 **这张图片在处理后** 的最终url。
 
-**url-loader**：和`file-loader`功能类似，处理图片、字体图标等文件。提供了`options.limit`，指定**转为base64的上限值**
+**url-loader**：和`file-loader`功能类似，处理图片、字体图标等文件。额外提供了`options.limit`，指定**转为base64的上限值**
  - 底层依赖于`file-loader`（不安装`file-loader`会报错）
 
-**css-loader**：在`css`里的`url('./my-image.png')`，这张图片会经过处理、被添加到 `output` 指定的目录，然后`url()`里面会被替换成 **这张图片在处理后** 的最终url。（类似`file-loader`处理）
+**css-loader**：处理 `.css` 里的 url。`css`内的`url('./my-image.png')` 会被处理，然后添加到 `output` 指定的目录，然后`url()`里面会被替换成 **这张图片在处理后** 的最终url。（类似`file-loader`处理）
 
 未经过**css-loader**处理：
 <img src="./img/loader-1.png" width="400px" />
@@ -87,7 +87,7 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
 <img src="./img/loader-2.png" width="400px" />
 :::
 
-通常webpack里只需配置`url-loader`即可
+因为 url-loader底层依赖于file-loader，通常webpack里只需配置`url-loader`即可
 ```js
 {
     test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)$/i,
