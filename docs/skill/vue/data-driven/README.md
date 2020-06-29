@@ -1,4 +1,4 @@
-# [vue源码] 数据驱动（Data Driven）
+# 数据驱动（Data Driven）
 > Vue.js的核心思想：数据驱动
 > 
 > 更新时间： 2019-04-04

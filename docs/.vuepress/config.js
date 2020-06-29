@@ -158,6 +158,10 @@ const sidebar = {
     '/skill/vue': [
         {
             title: '《Vue》',
+            collapsable: false
+        },
+        {
+            title: '基础部分',
             collapsable: false,
             children: [
                 'vue/basic/',
@@ -165,11 +169,27 @@ const sidebar = {
                 'vue/feature-v3/',
                 'vue/question/',
                 'vue/keep-alive/',
+                // 'vue/build/',
+                // 'vue/data-driven/',
+                // 'vue/component/',
+                // 'vue/vue-router/',
+                'vue/component-lib/',
+            ]
+        },
+        {
+            title: '源码部分',
+            collapsable: false,
+            children: [
+                // 'vue/basic/',
+                // 'vue/life-cycle/',
+                // 'vue/feature-v3/',
+                // 'vue/question/',
+                // 'vue/keep-alive/',
                 'vue/build/',
                 'vue/data-driven/',
                 'vue/component/',
                 'vue/vue-router/',
-                'vue/component-lib/',
+                // 'vue/component-lib/',
             ]
         }
     ],
@@ -195,16 +215,22 @@ const sidebar = {
     ],
     '/skill/note': [
         {
-            title: '《读书/参会心得》',
-            collapsable: false,
+            title: '《读书》',
+            collapsable: true,
             children: [
-                'note/d2-2019/',
-                'note/vue-conf-2018/',
                 'note/vue-composition-api-rfc/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
                 'note/react-deep-learning/',
                 'note/links/'
+            ]
+        },
+        {
+            title: '《参会》',
+            collapsable: true,
+            children: [
+                'note/d2-2019/',
+                'note/vue-conf-2018/',
             ]
         }
     ],
