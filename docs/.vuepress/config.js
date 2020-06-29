@@ -121,11 +121,13 @@ const sidebar = {
     '/skill/web': [
         {
             title: '《Web/浏览器》',
+            collapsable: false
+        },
+        {
+            title: 'Web',
             collapsable: false,
             children: [
                 'web/diff/',
-                'web/browser/',
-                'web/browser-cache/',
                 'web/cdn/',
                 'web/cors/',
                 'web/http/',
@@ -134,6 +136,14 @@ const sidebar = {
                 'web/web-attack/',
                 'web/web-storage/',
                 'web/websocket/',
+            ]
+        },
+        {
+            title: '浏览器',
+            collapsable: false,
+            children: [
+                'web/browser/',
+                'web/browser-cache/',
                 'web/other/'
             ]
         },
@@ -215,8 +225,12 @@ const sidebar = {
     ],
     '/skill/note': [
         {
-            title: '《读书》',
-            collapsable: true,
+            title: '《读书/参会心得》',
+            collapsable: false,
+        },
+        {
+            title: '读书心得',
+            collapsable: false,
             children: [
                 'note/vue-composition-api-rfc/',
                 'note/complete-intro-react/',
@@ -226,8 +240,8 @@ const sidebar = {
             ]
         },
         {
-            title: '《参会》',
-            collapsable: true,
+            title: '参会心得',
+            collapsable: false,
             children: [
                 'note/d2-2019/',
                 'note/vue-conf-2018/',
