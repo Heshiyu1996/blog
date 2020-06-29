@@ -1,4 +1,4 @@
-# 【封装】React-Router自动化渲染
+# React-Router自动化渲染
 
 [[toc]]
 
