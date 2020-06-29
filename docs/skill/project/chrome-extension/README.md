@@ -82,4 +82,9 @@
 **非技术**：
  - 隐私政策：需提供隐私政策说明才能发布
 
+## 实践笔记
+ - [实践笔记](./DEMO.md)
+ - [分析与实践PDF](/chrome-extension-practise.pdf)
+
+## 参考链接
 [stackoverflow连接](https://stackoverflow.com/questions/5544256/chrome-extensionhow-to-pragmatically-open-the-popup-window-from-background-htm)
