@@ -58,3 +58,15 @@ create-react-app my-app
 ```
 注意上面的`create位置`
 
+
+## 有关scripts
+有时会在在 scripts 里声明一些指令。
+
+### 并发和继发地执行指令
+```
+// 并发（同时执行）
+npm run dll & npm start
+
+// 继发（相继执行）
+npm run dll && npm start
+```
