@@ -1,4 +1,5 @@
 # H5兼容性方案
+[[toc]]
 
 ## 判断是否为Retina屏
 ```js
@@ -196,3 +197,23 @@ elem.addEventListener('touchstart', fn, { passive: false })
 ### 媒体查询
 
 ### Rem
+
+## 常用媒体查询兼容方案
+[查看](./MEDIA.md)
+
+## ios、安卓6及以上机型无法播放视频
+
+```js
+const doPreview = (index) => {
+    // ios、安卓6及以上机型无法播放视频
+    // hack做法：手动触发播放、暂停。
+    if (Env.isIos() || (Env.isAndroid() && Env.getAndroidVersion() >= 6)) {
+        audioRef.current.doPlay(index);
+        audioRef.current.doPause(index);
+    }
+};
+```
+
+```jsx
+<AudioComponent ref={audioRef} />
+```
