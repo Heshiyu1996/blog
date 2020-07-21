@@ -140,3 +140,27 @@ module.exports = {
 ```
 npm config set scripts-prepend-node-path true
 ```
+
+
+### TypeError: func.apply is not a function
+#### 产生原因
+在某个`useEffect`里返回了一个值，而不是函数
+
+假设有一个函数
+```js
+const fetchTask = () => new Promise(/*...*/);
+```
+```js
+// Error
+useEffect(() => fetchTask(), []);
+
+// OK
+useEffect(() => {
+    fetchTask();
+}, []);
+```
+
+#### 解决方案
+去掉从`useEffect`中隐式返回的（除了false）值
+
+> 地址：https://github.com/facebook/react/issues/14838
