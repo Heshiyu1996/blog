@@ -238,3 +238,19 @@ const Index = props => {
 
 export default Index;
 ```
+
+## 问题发现
+### 1、切换路由时，App会渲染多次
+普通的`react-router`不会导致App重新渲染，[查看DEMO](https://codesandbox.io/s/sweet-bose-3i9le?file=/src/App.js:295-302)
+
+该工具类会导致App重复渲染。怀疑原因是由于**动态生成`<Switch>`组导致**的，是无法避免的。但好在React的Diff算法可以减轻一些损耗，只更新要更新的地方
+
+### 2、为何不用React.lazy
+起初是使用`React.lazy`，但`lazy`搭配`suspense`来处理自动化生成的路由，会将整个`<Switch>`组都卸载掉：
+
+假设切换较深层级的子路由时，渲染的范围不一样：
+ - 使用`lazy`：
+![alt](./img/img-1.png)
+
+ - 使用`react-loadable`：
+![alt](./img/img-2.png)
