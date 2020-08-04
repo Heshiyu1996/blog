@@ -16,6 +16,9 @@
 > 
 > “端口”，可通过`Charles` > `Proxy` > `Proxy Settings` > `HTTP Proxy` > `Port` 查看。
 
+这样就可以让真机和电脑处于同一个网络环境（**电脑上开启的Nginx对真机同样有效**）。
+> 此处的Host配置需要是全局的Host文件：`/etc/hosts`
+
 ## 抓HTTPS包
 打开Charles，点击`Proxy` > `SSL Proxying Settings`，输入要抓的HTTPS域名（如：`www.dbxyyxt.com`）即可
 
