@@ -345,8 +345,6 @@ module.exports = {
         sidebar,
         sidebarDepth: 1, // 侧边栏显示2级
 
-        defaultTheme: 'dark',
-
         repo: 'https://github.com/Heshiyu1996',
 
         editLinks: true,
