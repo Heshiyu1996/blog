@@ -107,27 +107,29 @@ const refContainner = useRef(initialValue);
 ### 项目中使用useRef的常见情况
  - 引用某个指定的dom实例时
 
-例子1：
+#### 例子1
+访问DOM的主要方式。[demo](https://codesandbox.io/s/brave-wiles-ggv6u)
+> 1、无论该DOM节点如何改变，ref对象的`.current`属性都会被设置为相应的DOM节点。
+> 
+> 2、`.current`就相当于直接的document.getElementById('myInput')
 ```jsx
 function App(props) {
-    const videoRef = useRef();
-    const start = () => {
-        videoRef.current.play();
+    const inputRef = useRef(); // <-- 声明ref对象
+
+    const onSubmit = () => {
+        console.log(inputRef.current) 
     };
     
     return (
         <div>
-            <video ref={videoRef}>
-                <source src="https://www.163.com/happy.mp4" type="video/mp4" />
-                你的浏览器不支持该视频格式
-            </video>
-            <button onClick={start}>Play!</button>
+            <input ref={inputRef} id="myInput" type="text" /> {/*  <-- ref对象的.current属性会被设置为相应的DOM节点 */}
+            <button onClick={onSubmit}>提交</button>
         </div>
     )
 }
 ```
 
-例子2：
+#### 例子2
 ```jsx
 // 1、有一个自定义Form表单：CustomizedForm
 class CustomizedForm extends React.Component { ... }

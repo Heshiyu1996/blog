@@ -5,6 +5,10 @@ sidebarDepth: 2
 
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-08-06
+ - [ref对象](/skill/react/basic/#ref对象)
+<Badge text="框架" type="warning"/>
+
 #### 2020-05-11
  - [webpack4知识整理](/skill/project/webpack/)
 <Badge text="笔记" type="error"/>

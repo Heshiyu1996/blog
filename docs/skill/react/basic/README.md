@@ -236,3 +236,77 @@ class HomeIndex extends Component {
 
 ## 为什么React要用className？
 因为`class`在JavaScript里是关键字，而JSX是JavaScript的扩展。
+
+## ref对象
+ref对象：是[可变的](/skill/js/other/#可变（mutable）和不可变（immutable）对象的区别)对象（每次都是修改其下的`.current`属性），并且在整个生命周期内保持不变。
+
+### 通过createRef和useRef来创建ref对象
+这两种方式都可以创建ref对象，但有区别。
+
+#### createRef
+一般我们会在`constructor`里定义ref对象：
+```js
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef(); // <-- 通过createRef创建ref对象
+  }
+}
+```
+也正是React的生命周期，让`createRef`只执行了一次。
+
+但实际上，每次调用它都会**重新生成一个ref对象**（引用地址会发生改变），[What's the difference between useRef and createRef?](https://stackoverflow.com/questions/54620698/whats-the-difference-between-useref-and-createref)
+
+由于引用地址发生变化，对于函数式组件就需要使用`useRef`
+
+#### useRef
+```js
+function App() {
+    const inputRef = useRef(null); // <-- 通过useRef创建ref对象
+}
+```
+在函数式组件内，通过`useRef`返回的ref对象可以在整个生命周期内保持不变。
+
+
+#### 结论
+createRef：
+ - 一般用于`Class Component`
+ - 每次重新渲染都会使得引用地址发生变化（在生命周期内定义时除外）
+
+useRef：
+ - 一般用于`函数式组件`
+ - 每次重新渲染不会导致引用地址发生改变
+
+### ref的作用
+ - 当`ref`用于HTML元素时，其`.current`属性为`对应的DOM元素`
+ - 当`ref`用于`Class Component`时，其`.current`属性为`组件的实例`
+
+以下打印了两者的`.current`属性：
+![alt](./img/img-3.png)
+
+### 将ref作用于函数式组件（forwardRef搭配useImperativeHandle）
+若ref用于`函数式组件`，因为它没有实例，react会提示你用`forwardRef`
+
+那就需要将`forwardRef`搭配`useImperativeHandle`使用，来转发这个ref
+
+但最终，还是需要让ref来指向一个DOM元素或者`Class Component`。
+
+#### 转发ref
+假设有一个`函数式组件CustomInput`
+
+```js
+const CustomInput = forwardRef((props, ref) => {
+    const inputRef = useRef();
+    
+    useImperativeHandle(ref, () => ({
+        focus: () => {
+            inputRef.current.focus();
+        }
+    }));
+
+    // 最终还是需要让ref来指向一个DOM元素（或一个Class Component）
+    return <input ref={inputRef} />;
+})
+```
+这样，当父组件（即：引用`<CustomInput ref={myRef} />`的那个组件）就可以通过`myRef.current`来拿到`CustomInput`里的input元素了。
