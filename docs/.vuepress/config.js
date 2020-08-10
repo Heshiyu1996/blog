@@ -163,7 +163,6 @@ const sidebar = {
                 'react/react-composition/',
                 'react/hooks/',
                 'react/redux/',
-                'react/question/'
             ]
         }
     ],
@@ -217,6 +216,7 @@ const sidebar = {
             title: '项目踩坑',
             collapsable: false,
             children: [
+                'project/react-project-note/',
                 'project/prettier-vue-cli/',
                 'project/compatibility/pc/',
                 'project/compatibility/h5/',
