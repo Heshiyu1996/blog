@@ -319,6 +319,7 @@ const sidebar = {
                 'vuepress-stat/',
                 'shell-script/',
                 'paste/',
+                'airpods/',
             ]
         }
     ]
