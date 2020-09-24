@@ -233,6 +233,7 @@ const sidebar = {
             title: '读书心得',
             collapsable: false,
             children: [
+                'note/hooks-vs-class/',
                 'note/vue-composition-api-rfc/',
                 'note/complete-intro-react/',
                 'note/webpack-experience/',
