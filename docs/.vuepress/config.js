@@ -347,6 +347,7 @@ module.exports = {
         sidebar,
         sidebarDepth: 1, // 侧边栏显示2级
 
+        lastUpdated: '更新时间',
         repo: 'https://github.com/Heshiyu1996',
 
         editLinks: true,

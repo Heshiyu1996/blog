@@ -66,11 +66,16 @@ body
       &:focus
         color #fff
   .last-updated
+    position: absolute;
+    top: 17%;
+    font-size: 0.4em !important;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 6px;
     .prefix
-      color desaturate(lighten($bgColor, 50%), 50%)
+      color desaturate(lighten($bgColor, 40%), 50%) !important
     
     .time
-      color desaturate(lighten($bgColor, 40%), 50%)
+      color desaturate(lighten($bgColor, 40%), 50%) !important
 
 h2
   border-bottom-color desaturate(lighten($bgColor, 10%), 10%)
