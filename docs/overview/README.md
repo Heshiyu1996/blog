@@ -1,6 +1,7 @@
 ---
 title: 知识总览
 sidebarDepth: 2
+pageClass: p-overview-page
 ---
 
 
