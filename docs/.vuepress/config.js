@@ -40,7 +40,7 @@ const nav = [
                     { text: 'ESLint & Prettier规范', link: '/output/standard/eslint/' },
                     { text: 'Stylelint规范', link: '/output/standard/stylelint/' },
                     { text: 'Git规范', link: '/output/standard/git/' },
-                    { text: '接口规范', link: '/output/standard/interface/' }
+                    // { text: '接口规范', link: '/output/standard/interface/' }
                 ]
             },
             { 
