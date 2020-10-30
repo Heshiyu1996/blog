@@ -1,4 +1,4 @@
-# 给Vuepress加入阅读量统计
+# Vuepress-阅读量统计
 > 主要是通过 Valine、LeanCloud 这两款工具实现。
 
 [[toc]]

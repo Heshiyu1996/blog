@@ -1236,3 +1236,18 @@ function fn1() {
 fn1() // 'heshiyu', 24
 ```
 
+
+## scroll事件不能阻止冒泡
+实例：弹出层的scroll滑到顶、底部会冒泡到外层的scroll
+
+MDN：https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event
+
+解决办法：
+```js
+componentDidMount() {
+    document.body.style.overflow = 'hidden';
+}
+componentWillUnmount() {
+    document.body.style.overflow = '';
+}
+```

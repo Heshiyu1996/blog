@@ -299,11 +299,14 @@ useRef：
 const CustomInput = forwardRef((props, ref) => {
     const inputRef = useRef();
     
-    useImperativeHandle(ref, () => ({
-        focus: () => {
-            inputRef.current.focus();
-        }
-    }));
+    useImperativeHandle(ref, () => 
+        // 这个返回的对象表示：向父组件暴露的属性
+        ({
+            focus: () => {
+                inputRef.current.focus();
+            }
+        })
+    );
 
     // 最终还是需要让ref来指向一个DOM元素（或一个Class Component）
     return <input ref={inputRef} />;
