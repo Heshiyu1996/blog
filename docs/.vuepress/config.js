@@ -8,18 +8,19 @@ const nav = [
                     { text: 'HTML', link: '/skill/html/' },
                     { text: 'CSS', link: '/skill/css/' },
                     { text: 'JS', link: '/skill/js/' },
-                    { text: 'NodeJS', link: '/skill/nodejs/' },
                     { text: 'Web/浏览器', link: '/skill/web/' },
                 ]
             },
             {
                 text: '框架', items: [
                     { text: 'React', link: '/skill/react/' },
-                    { text: 'Vue', link: '/skill/vue/' }
+                    { text: 'Vue', link: '/skill/vue/' },
+                    { text: 'NodeJS', link: '/skill/nodejs/' }
                 ],
             },
             {
                 text: '笔记', items: [
+                    { text: '个人笔记', link: '/skill/personal/' },
                     { text: '项目笔记', link: '/skill/project/' },
                     { text: '读书/参会心得', link: '/skill/note/' }
                 ]
@@ -192,6 +193,15 @@ const sidebar = {
                 'vue/data-driven/',
                 'vue/component/',
                 'vue/vue-router/',
+            ]
+        }
+    ],
+    '/skill/personal': [
+        {
+            title: '《个人笔记》',
+            collapsable: false,
+            children: [
+                'personal/2020-q3/',
             ]
         }
     ],
