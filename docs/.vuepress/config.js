@@ -320,9 +320,6 @@ const sidebar = {
             collapsable: false,
             children: [
                 'charles/',
-                // 'vuepress-stat/',
-                // 'shell-script/',
-                // 'paste/',
             ]
         },
         {
@@ -330,6 +327,7 @@ const sidebar = {
             collapsable: false,
             children: [
                 'vuepress-stat/',
+                'vuepress-zoom/',
                 'shell-script/',
                 'paste/',
                 'airpods/',
@@ -368,20 +366,20 @@ module.exports = {
     },
 
     plugins: [
-        [
-            '@vuepress/last-updated',
-            {
-                transformer: (timestamp, lang) => {
-                    const moment = require('moment')
-                    moment.locale(lang)
-                    moment(timestamp).format('YYYY-MM-DD HH:mm')
-                    const aMonth = 2678400000;
-                    const moreAMonth = Date.now() - timestamp > aMonth;
-                    // return moment(timestamp).fromNow() // xx days ago
-                    return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
-                }
-            }
-        ],
+        // [
+        //     '@vuepress/last-updated',
+        //     {
+        //         transformer: (timestamp, lang) => {
+        //             const moment = require('moment')
+        //             moment.locale(lang)
+        //             moment(timestamp).format('YYYY-MM-DD HH:mm')
+        //             const aMonth = 2678400000;
+        //             const moreAMonth = Date.now() - timestamp > aMonth;
+        //             // return moment(timestamp).fromNow() // xx days ago
+        //             return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
+        //         }
+        //     }
+        // ],
         [
           'vuepress-plugin-medium-zoom',
             {
