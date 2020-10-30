@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/Heshiyu1996/Heshiyu1996.github.io#readme",
   "devDependencies": {
-    "vuepress": "^1.3.1"
+    "vuepress": "^1.3.1",
+    "vuepress-plugin-medium-zoom": "^1.1.9"
   },
   "dependencies": {
     "css-prefers-color-scheme": "3.1.1",

@@ -371,7 +371,18 @@ module.exports = {
                     return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
                 }
             }
-        ]
+        ],
+        [
+          'vuepress-plugin-medium-zoom',
+            {
+                delay: 1000,
+                options: {
+                margin: 24,
+                    background: '#25272A',
+                    scrollOffset: 0,
+                },
+            },
+        ],
     ],
     // 当指定了显示主题的颜色时，需要增加如下的 postcss 插件
     postcss: {
