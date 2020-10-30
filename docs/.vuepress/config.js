@@ -163,6 +163,7 @@ const sidebar = {
                 'react/react-composition/',
                 'react/hooks/',
                 'react/redux/',
+                'react/error-usage/'
             ]
         }
     ],
@@ -233,6 +234,7 @@ const sidebar = {
             title: '读书心得',
             collapsable: false,
             children: [
+                'note/webpack5/',
                 'note/hooks-vs-class/',
                 'note/vue-composition-api-rfc/',
                 'note/complete-intro-react/',
@@ -355,22 +357,22 @@ module.exports = {
         displayAllHeaders: false // 展开所有页面的标题
     },
 
-    // plugins: [
-    //     [
-    //         '@vuepress/last-updated',
-    //         {
-    //             transformer: (timestamp, lang) => {
-    //                 const moment = require('moment')
-    //                 moment.locale(lang)
-    //                 moment(timestamp).format('YYYY-MM-DD HH:mm')
-    //                 const aMonth = 2678400000;
-    //                 const moreAMonth = Date.now() - timestamp > aMonth;
-    //                 // return moment(timestamp).fromNow() // xx days ago
-    //                 return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
-    //             }
-    //         }
-    //     ]
-    // ],
+    plugins: [
+        [
+            '@vuepress/last-updated',
+            {
+                transformer: (timestamp, lang) => {
+                    const moment = require('moment')
+                    moment.locale(lang)
+                    moment(timestamp).format('YYYY-MM-DD HH:mm')
+                    const aMonth = 2678400000;
+                    const moreAMonth = Date.now() - timestamp > aMonth;
+                    // return moment(timestamp).fromNow() // xx days ago
+                    return moreAMonth ? moment(timestamp).format('YYYY-MM-DD HH:mm') : moment(timestamp).fromNow();
+                }
+            }
+        ]
+    ],
     // 当指定了显示主题的颜色时，需要增加如下的 postcss 插件
     postcss: {
       plugins: [
