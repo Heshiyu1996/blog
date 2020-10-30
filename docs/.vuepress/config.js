@@ -352,8 +352,8 @@ module.exports = {
         lastUpdated: '更新时间',
         repo: 'https://github.com/Heshiyu1996',
 
-        editLinks: true,
-        editLinkText: '帮助我们改善此页面！',
+        editLinks: false,
+        editLinkText: ' ',
         displayAllHeaders: false // 展开所有页面的标题
     },
 
