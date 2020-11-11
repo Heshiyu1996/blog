@@ -320,6 +320,7 @@ const sidebar = {
             collapsable: false,
             children: [
                 'charles/',
+                'http-server/',
             ]
         },
         {
