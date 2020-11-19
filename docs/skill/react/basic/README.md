@@ -313,3 +313,10 @@ const CustomInput = forwardRef((props, ref) => {
 })
 ```
 这样，当父组件（即：引用`<CustomInput ref={myRef} />`的那个组件）就可以通过`myRef.current`来拿到`CustomInput`里的input元素了。
+
+## ReactDOM.createPortal
+> [React Portals](https://reactjs.org/docs/portals.html)
+
+看官方文档上的意思，它可以在dom上挂载“表现在外层”，但它事件冒泡还是能够在原来声明处被父容器捕获到
+
+![alt](./img/img-4.png)
