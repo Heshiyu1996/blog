@@ -161,6 +161,7 @@ const sidebar = {
                 'react/fiber/',
                 'react/life-cycle/',
                 'react/set-state/',
+                'react/react-ssr/',
                 'react/react-composition/',
                 'react/hooks/',
                 'react/redux/',
