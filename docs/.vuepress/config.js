@@ -328,6 +328,7 @@ const sidebar = {
             title: '非技术',
             collapsable: false,
             children: [
+                'cmd/',
                 'vuepress-stat/',
                 'vuepress-zoom/',
                 'shell-script/',
