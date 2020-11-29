@@ -86,6 +86,7 @@ const sidebar = {
                 'css/bfc/',
                 'css/flex-box/',
                 'css/sass-less/',
+                'css/media/',
                 'css/other/'
             ]
         }
