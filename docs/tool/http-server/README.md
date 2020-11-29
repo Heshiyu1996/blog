@@ -7,6 +7,8 @@
 
 需要修改打包文件的**输出路径前缀**：`publicPath`
 > 一般在webpack.prod.js > output.publicPath
+> 
+> 需要改为`/`
 
 ```
 // 工程打包
