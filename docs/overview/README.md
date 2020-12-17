@@ -6,6 +6,10 @@ pageClass: p-overview-page
 
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-12-04
+ - [像素](/skill/css/px)
+<Badge text="基础" type="warning"/>
+
 #### 2020-08-06
  - [ref对象](/skill/react/basic/#ref对象)
 <Badge text="框架" type="warning"/>
@@ -21,19 +25,6 @@ pageClass: p-overview-page
 #### 2020-04-17
  - [Diff、React Diff、Vue Diff](/skill/web/diff/)
 <Badge text="基础" type="success"/>
-
-#### 2020-04-01
- - [浏览器缓存机制](/skill/web/browser-cache/)
-<Badge text="基础" type="success"/>
-
-#### 2020-03-23
- - [Complete intro react](/skill/note/complete-intro-react/)
-<Badge text="笔记" type="error"/>
-
-#### 2020-01-03
- - [React Fiber](/skill/react/fiber/)
-<Badge text="框架" type="warning"/>
-:::
 
 #### 前端知识掌握图（2020-05-04）
 ![alt](./img/FE.png)
