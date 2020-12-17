@@ -11,25 +11,26 @@
 :::tip
 React的核心流程分为两部分：
  - reconciliation（调度算法）
-    - 更新state和props
-    - 调用生命周期钩子
-    - 生成virtual dom
-    - 通过diff算法，对比新旧virtual dom
-    - 确定是否需要重新渲染
- - commit（操作dom节点更新）
+    - 更新state/props、调用生命周期钩子、生成virtual dom、通过diff算法、重新渲染
+ - commit
+    - 操作dom节点更新
 
 :::
 
 原因：大量的组件渲染会导致主进程长时间被占用，导致出现卡顿和掉帧的情况。
 
-旧状：因为在之前的调度算法中，React对组件树是通过**同步递归、遍历渲染**，并且无法暂停和恢复。
+旧状：因为在之前的调度算法中，React对组件树是通过**同步递归渲染**，并且无法暂停和恢复。
 
 ## 原理
 `React Fiber`可以实现任务分割。
 
-主要原理是：**将任务分割成一个个独立的小任务。根据不同的优先级，将这些小任务分散到浏览器的各个空闲期间执行，充分利用主进程的事件循环机制。**
+主要原理是：**将任务分割成一个个独立的小任务，将这些小任务分散到浏览器的各个空闲期间（由requestIdleCallback告知）执行**。（根据不同的优先级）
+
+特点是：能充分利用**主进程的事件循环机制**。
 
 ### 大致数据结构
+![alt](https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5300246369/2160/0f3c/47b9/2535662b0dbc1eb8eb49a618270d4d95.png)
+
 ```js
 class Fiber {
     constructor (instance) {
@@ -49,7 +50,9 @@ class Fiber {
 
 ## 具体实现机制
 ### 暂停和恢复
-React V16将`reconciliation`进行了重构（`stack reconciler` -> `fiber reconciler`），变成了具有链表、指针的 **单链表树遍历算法**。通过指针映射，每个单元都记录着上一步、下一步，从而变得可以被暂停和恢复。
+React V16将`reconciliation`进行了重构（`stack reconciler` -> `fiber reconciler`），变成了 **简单的链表遍历**。
+
+通过指针映射，每个单元都记录着上一步、下一步，从而变得可以被暂停和恢复。
 
 ### 分散执行
 通过两个新API：`requestIdleCallback`、`requestAnimationFrame`
@@ -71,55 +74,13 @@ window.requestIdleCallback(
 #### requestAnimationFrame
 高优先级的任务交给`requestAnimationFrame`
 
+## 其它
+ Fiber 比 Stack 的方式要花费更多的内存占用和执行性能，但React 基于 Fiber 的思路会让 JS 执行性能提升。
 
+## Fiber 的衍生产物 Custom Renderer 
+它定义了一系列标准化的接口，使我们不必关心 Fiber 内部是如何工作的，就可以通过虚拟 DOM 的方式驱动宿主环境。
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-## 浏览器里的“单处理器调度”
-[复习单处理器调度策略](./../../computeracy/scheduling-strategy/)
-
-我们可以**把浏览器中JavaScript执行环境（即Renderer进程）当作是一台单处理器**。
-
-打开Chrome-任务管理器，可以发现：
-![alt](./img/fiber-3.png)
-
-1、浏览器是**多进程**的，且其下各个进程的职责如下：
-```
-主进程（Browser进程）：
-    - 浏览器的界面交互（前进、后退等）
-    - 负责各个页面的管理（创建、销毁其它进程）
-    - 将Renderer进程得到的内存中的Bitmap，绘制到界面上
-    - 静态资源下载
-
-浏览器内核（Renderer进程）：
-    - JS引擎线程：JS解析和执行；维护微任务
-    - GUI渲染线程：布局/绘制
-    - 事件触发线程：事件处理；维护宏任务
-
-GPU进程：最多一个，用于3D绘制等
-
-第三方插件进程：每种类型的谷歌浏览器插件对应一个进程，仅当使用了该插件时才创建
-```
-> "Browser进程"和"Renderer进程"之间可以通过 `RendererHost接口` 取得联系。
-
-2、JS引擎是**单线程运行**（在Renderer进程下）；
-
-3、JS引擎线程、GUI渲染线程**互斥**；
-
-4、如果**JS引擎中的某个任务**长期霸占CPU，浏览器会出现卡死状态。
-
-### 对于前端框架，“解决卡死”有三种思路:
+<!-- ### 对于前端框架，“解决卡死”有三种思路:
  - **优化JS引擎中的每个任务。**
     > Vue使用的是这种。因为响应式机制可以让Vue更精确地进行节点更新。
 
@@ -146,8 +107,6 @@ GPU进程：最多一个，用于3D绘制等
 好处：
  - 让浏览器及时响应交互
  - 分批延时对DOM进行操作
- - 使浏览器会对代码进行编译优化（JIT）及进行热代码优化，或者对reflow进行修正（？）
-
 
 那它是如何使Reconciliation变得可中断的呢？
 
@@ -227,4 +186,4 @@ interface IdleDealine {
 
 - [Virtual DOM 及内核](https://zh-hans.reactjs.org/docs/faq-internals.html#what-is-react-fiber)
 
-- [这可能是最通俗的 React Fiber(时间分片) 打开方式](https://juejin.im/post/5dadc6045188255a270a0f85#heading-2) -->
+- [这可能是最通俗的 React Fiber(时间分片) 打开方式](https://juejin.im/post/5dadc6045188255a270a0f85#heading-2) --> -->
