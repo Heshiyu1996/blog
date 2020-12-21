@@ -6,6 +6,10 @@ pageClass: p-overview-page
 
 
 ::: tip -------------------------------最近更新-------------------------------
+#### 2020-12-21
+ - [Web Vitals](/skill/web/web-vitals)
+<Badge text="基础" type="warning"/>
+
 #### 2020-12-04
  - [像素](/skill/css/px)
 <Badge text="基础" type="warning"/>

@@ -135,6 +135,7 @@ const sidebar = {
                 'web/cdn/',
                 'web/cors/',
                 'web/http/',
+                'web/web-vitals/',
                 'web/optimize/',
                 'web/ssr/',
                 'web/web-attack/',
