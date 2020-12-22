@@ -51,6 +51,24 @@ screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-
  {
     /* ... */
 }
+
+/* iphone 12 & iphone 12pro */
+@media screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)
+ {
+    /* ... */
+}
+
+/* iphone 12mini */
+@media screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3)
+ {
+    /* ... */
+}
+
+/* iphone 12pro Max */
+@media screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)
+ {
+    /* ... */
+}
 ```
 
 #### 各型号iphone参数对比：
