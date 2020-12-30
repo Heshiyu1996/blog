@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "css-prefers-color-scheme": "3.1.1",
-    "leancloud-storage": "^4.5.3",
     "moment": "^2.26.0",
     "valine": "^1.4.14"
   }
