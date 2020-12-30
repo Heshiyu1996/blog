@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Websocket Demo | Heshiyu&#39;s Blog</title>
+    <meta name="description" content=" ">
+    <meta name="generator" content="VuePress 1.3.1">
+    <link rel="icon" href="/blog/favicon.png">
+  <link rel="manifest" href="/blog/favicon.png">
+  <link rel="apple-touch-icon" href="/blog/favicon.png">
+  <link rel="mask-icon" href="/blog/favicon.png" color="#3eaf7c">
+  <meta http-quiv="pragma" cotent="no-cache">
+  <meta http-quiv="expires" cotent="0">
+  <meta http-quiv="pragma" cotent="no-cache, must-revalidate">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.a8e839f5.css" as="style"><link rel="preload" href="/blog/assets/js/app.eef58a57.js" as="script"><link rel="preload" href="/blog/assets/js/2.0b00361f.js" as="script"><link rel="preload" href="/blog/assets/js/150.3500f2ae.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.90e2f954.js"><link rel="prefetch" href="/blog/assets/js/100.01fd7341.js"><link rel="prefetch" href="/blog/assets/js/101.8404d1ed.js"><link rel="prefetch" href="/blog/assets/js/102.ab6ce624.js"><link rel="prefetch" href="/blog/assets/js/103.17eda17e.js"><link rel="prefetch" href="/blog/assets/js/104.ffdadb32.js"><link rel="prefetch" href="/blog/assets/js/105.8beb0f3f.js"><link rel="prefetch" href="/blog/assets/js/106.aeaf090b.js"><link rel="prefetch" href="/blog/assets/js/107.3e2d2ed4.js"><link rel="prefetch" href="/blog/assets/js/108.6d9cddd8.js"><link rel="prefetch" href="/blog/assets/js/109.f666e33a.js"><link rel="prefetch" href="/blog/assets/js/11.3ef68b42.js"><link rel="prefetch" href="/blog/assets/js/110.bb1de2d0.js"><link rel="prefetch" href="/blog/assets/js/111.97bca696.js"><link rel="prefetch" href="/blog/assets/js/112.3c7bdbf0.js"><link rel="prefetch" href="/blog/assets/js/113.f4299bf2.js"><link rel="prefetch" href="/blog/assets/js/114.8132005c.js"><link rel="prefetch" href="/blog/assets/js/115.d4e3d192.js"><link rel="prefetch" href="/blog/assets/js/116.5e7051fe.js"><link rel="prefetch" href="/blog/assets/js/117.f781a94d.js"><link rel="prefetch" href="/blog/assets/js/118.ec003c44.js"><link rel="prefetch" href="/blog/assets/js/119.bfbb6f4f.js"><link rel="prefetch" href="/blog/assets/js/12.6e7b47b0.js"><link rel="prefetch" href="/blog/assets/js/120.de67238e.js"><link rel="prefetch" href="/blog/assets/js/121.930fdd22.js"><link rel="prefetch" href="/blog/assets/js/122.202660ed.js"><link rel="prefetch" href="/blog/assets/js/123.b81fe880.js"><link rel="prefetch" href="/blog/assets/js/124.d9c171b5.js"><link rel="prefetch" href="/blog/assets/js/125.b4326de7.js"><link rel="prefetch" href="/blog/assets/js/126.daa2d256.js"><link rel="prefetch" href="/blog/assets/js/127.1a225cdf.js"><link rel="prefetch" href="/blog/assets/js/128.fff38bb4.js"><link rel="prefetch" href="/blog/assets/js/129.33424099.js"><link rel="prefetch" href="/blog/assets/js/13.ed8ed002.js"><link rel="prefetch" href="/blog/assets/js/130.9fe642ea.js"><link rel="prefetch" href="/blog/assets/js/131.82b8eeba.js"><link rel="prefetch" href="/blog/assets/js/132.e5714876.js"><link rel="prefetch" href="/blog/assets/js/133.2960eeff.js"><link rel="prefetch" href="/blog/assets/js/134.84a03e3b.js"><link rel="prefetch" href="/blog/assets/js/135.da59fbb4.js"><link rel="prefetch" href="/blog/assets/js/136.4535c1e9.js"><link rel="prefetch" href="/blog/assets/js/137.6bcbd0e8.js"><link rel="prefetch" href="/blog/assets/js/138.48f25b8f.js"><link rel="prefetch" href="/blog/assets/js/139.86c4ad21.js"><link rel="prefetch" href="/blog/assets/js/14.761d901d.js"><link rel="prefetch" href="/blog/assets/js/140.90531fb0.js"><link rel="prefetch" href="/blog/assets/js/141.6d6559bb.js"><link rel="prefetch" href="/blog/assets/js/142.b07342fd.js"><link rel="prefetch" href="/blog/assets/js/143.93dce9fa.js"><link rel="prefetch" href="/blog/assets/js/144.d2479895.js"><link rel="prefetch" href="/blog/assets/js/145.d8d84e62.js"><link rel="prefetch" href="/blog/assets/js/146.1c044a9a.js"><link rel="prefetch" href="/blog/assets/js/147.1675e503.js"><link rel="prefetch" href="/blog/assets/js/148.7de9881a.js"><link rel="prefetch" href="/blog/assets/js/149.d9379d72.js"><link rel="prefetch" href="/blog/assets/js/15.5ee00ec1.js"><link rel="prefetch" href="/blog/assets/js/151.792187d2.js"><link rel="prefetch" href="/blog/assets/js/152.50c9b7c0.js"><link rel="prefetch" href="/blog/assets/js/153.4fd509a6.js"><link rel="prefetch" href="/blog/assets/js/154.aacb3d66.js"><link rel="prefetch" href="/blog/assets/js/155.01ce7e2b.js"><link rel="prefetch" href="/blog/assets/js/156.eb11e55d.js"><link rel="prefetch" href="/blog/assets/js/16.e11fe2ce.js"><link rel="prefetch" href="/blog/assets/js/17.f03aa942.js"><link rel="prefetch" href="/blog/assets/js/18.b754f134.js"><link rel="prefetch" href="/blog/assets/js/19.3eb28c46.js"><link rel="prefetch" href="/blog/assets/js/20.3f4da18b.js"><link rel="prefetch" href="/blog/assets/js/21.ccfdd87a.js"><link rel="prefetch" href="/blog/assets/js/22.9f59a296.js"><link rel="prefetch" href="/blog/assets/js/23.491b9632.js"><link rel="prefetch" href="/blog/assets/js/24.cb8c2634.js"><link rel="prefetch" href="/blog/assets/js/25.67012924.js"><link rel="prefetch" href="/blog/assets/js/26.37346f5f.js"><link rel="prefetch" href="/blog/assets/js/27.3d207f7b.js"><link rel="prefetch" href="/blog/assets/js/28.86d3c9e3.js"><link rel="prefetch" href="/blog/assets/js/29.d5874434.js"><link rel="prefetch" href="/blog/assets/js/3.dff0efc5.js"><link rel="prefetch" href="/blog/assets/js/30.71dfd815.js"><link rel="prefetch" href="/blog/assets/js/31.369ceb55.js"><link rel="prefetch" href="/blog/assets/js/32.16922a63.js"><link rel="prefetch" href="/blog/assets/js/33.a03df4e5.js"><link rel="prefetch" href="/blog/assets/js/34.62708090.js"><link rel="prefetch" href="/blog/assets/js/35.7b386dac.js"><link rel="prefetch" href="/blog/assets/js/36.176aed71.js"><link rel="prefetch" href="/blog/assets/js/37.42d38b9b.js"><link rel="prefetch" href="/blog/assets/js/38.008b7a75.js"><link rel="prefetch" href="/blog/assets/js/39.32ed347e.js"><link rel="prefetch" href="/blog/assets/js/4.29485c42.js"><link rel="prefetch" href="/blog/assets/js/40.30974858.js"><link rel="prefetch" href="/blog/assets/js/41.59214534.js"><link rel="prefetch" href="/blog/assets/js/42.02e14d29.js"><link rel="prefetch" href="/blog/assets/js/43.78523952.js"><link rel="prefetch" href="/blog/assets/js/44.0d6df329.js"><link rel="prefetch" href="/blog/assets/js/45.c2e44795.js"><link rel="prefetch" href="/blog/assets/js/46.6982a832.js"><link rel="prefetch" href="/blog/assets/js/47.4758d79f.js"><link rel="prefetch" href="/blog/assets/js/48.06bb5510.js"><link rel="prefetch" href="/blog/assets/js/49.6e968da0.js"><link rel="prefetch" href="/blog/assets/js/5.b3195c85.js"><link rel="prefetch" href="/blog/assets/js/50.9d6aaa8d.js"><link rel="prefetch" href="/blog/assets/js/51.e37f09b7.js"><link rel="prefetch" href="/blog/assets/js/52.30d14207.js"><link rel="prefetch" href="/blog/assets/js/53.d07910bc.js"><link rel="prefetch" href="/blog/assets/js/54.9313319c.js"><link rel="prefetch" href="/blog/assets/js/55.faf72d77.js"><link rel="prefetch" href="/blog/assets/js/56.288c2a31.js"><link rel="prefetch" href="/blog/assets/js/57.ff8e5cad.js"><link rel="prefetch" href="/blog/assets/js/58.83078140.js"><link rel="prefetch" href="/blog/assets/js/59.d8000f20.js"><link rel="prefetch" href="/blog/assets/js/6.14082e79.js"><link rel="prefetch" href="/blog/assets/js/60.e1385031.js"><link rel="prefetch" href="/blog/assets/js/61.da8fd279.js"><link rel="prefetch" href="/blog/assets/js/62.771d72d3.js"><link rel="prefetch" href="/blog/assets/js/63.16e424a3.js"><link rel="prefetch" href="/blog/assets/js/64.7dddec9e.js"><link rel="prefetch" href="/blog/assets/js/65.b0194110.js"><link rel="prefetch" href="/blog/assets/js/66.dc565beb.js"><link rel="prefetch" href="/blog/assets/js/67.86fdf6b3.js"><link rel="prefetch" href="/blog/assets/js/68.befdade2.js"><link rel="prefetch" href="/blog/assets/js/69.0eac1d9e.js"><link rel="prefetch" href="/blog/assets/js/7.17690230.js"><link rel="prefetch" href="/blog/assets/js/70.f61998a0.js"><link rel="prefetch" href="/blog/assets/js/71.323a3780.js"><link rel="prefetch" href="/blog/assets/js/72.da41f1f2.js"><link rel="prefetch" href="/blog/assets/js/73.8fe01899.js"><link rel="prefetch" href="/blog/assets/js/74.b6b7b48f.js"><link rel="prefetch" href="/blog/assets/js/75.88aaeadc.js"><link rel="prefetch" href="/blog/assets/js/76.b2e6f2a3.js"><link rel="prefetch" href="/blog/assets/js/77.67a43ac8.js"><link rel="prefetch" href="/blog/assets/js/78.26196c46.js"><link rel="prefetch" href="/blog/assets/js/79.bc83b6fd.js"><link rel="prefetch" href="/blog/assets/js/8.09f0712f.js"><link rel="prefetch" href="/blog/assets/js/80.d9b19317.js"><link rel="prefetch" href="/blog/assets/js/81.fc6152a8.js"><link rel="prefetch" href="/blog/assets/js/82.7f86ed77.js"><link rel="prefetch" href="/blog/assets/js/83.aabf3857.js"><link rel="prefetch" href="/blog/assets/js/84.dc521503.js"><link rel="prefetch" href="/blog/assets/js/85.bab04dce.js"><link rel="prefetch" href="/blog/assets/js/86.857cac8d.js"><link rel="prefetch" href="/blog/assets/js/87.8d67107d.js"><link rel="prefetch" href="/blog/assets/js/88.260a0fae.js"><link rel="prefetch" href="/blog/assets/js/89.b75ce8eb.js"><link rel="prefetch" href="/blog/assets/js/9.aa07467f.js"><link rel="prefetch" href="/blog/assets/js/90.3e64ade8.js"><link rel="prefetch" href="/blog/assets/js/91.4245eeab.js"><link rel="prefetch" href="/blog/assets/js/92.5c6ad43c.js"><link rel="prefetch" href="/blog/assets/js/93.fbc98665.js"><link rel="prefetch" href="/blog/assets/js/94.694ee727.js"><link rel="prefetch" href="/blog/assets/js/95.8c687498.js"><link rel="prefetch" href="/blog/assets/js/96.fd85a12d.js"><link rel="prefetch" href="/blog/assets/js/97.89d92a32.js"><link rel="prefetch" href="/blog/assets/js/98.b63d05dc.js"><link rel="prefetch" href="/blog/assets/js/99.e92448ca.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.a8e839f5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">Heshiyu's Blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link router-link-active">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link router-link-active">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>《Web/浏览器》</span> <!----></p> <!----></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>Web</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/skill/web/diff/" class="sidebar-link">Diff、React Diff、Vue Diff</a></li><li><a href="/blog/skill/web/cdn/" class="sidebar-link">CDN</a></li><li><a href="/blog/skill/web/cors/" class="sidebar-link">跨域资源共享（CORS）</a></li><li><a href="/blog/skill/web/http/" class="sidebar-link">HTTP</a></li><li><a href="/blog/skill/web/web-vitals/" class="sidebar-link">Web Vitals</a></li><li><a href="/blog/skill/web/optimize/" class="sidebar-link">Web性能优化</a></li><li><a href="/blog/skill/web/ssr/" class="sidebar-link">浏览器/服务端渲染</a></li><li><a href="/blog/skill/web/web-attack/" class="sidebar-link">XSS、CSRF、SQL注入</a></li><li><a href="/blog/skill/web/web-storage/" class="sidebar-link">WebStorage</a></li><li><a href="/blog/skill/web/websocket/" aria-current="page" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>浏览器</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/skill/web/browser/" class="sidebar-link">浏览器基础</a></li><li><a href="/blog/skill/web/browser-cache/" class="sidebar-link">浏览器缓存机制</a></li><li><a href="/blog/skill/web/other/" class="sidebar-link">其他</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="websocket-demo"><a href="#websocket-demo" class="header-anchor">#</a> Websocket Demo</h1> <p></p><div class="table-of-contents"><ul><li><a href="#websocket-demo">Websocket Demo</a><ul><li><a href="#websocketclass类">WebSocketClass类</a></li><li><a href="#heartcheck类">HeartCheck类</a></li></ul></li></ul></div><p></p> <p>下面封装了两个类（<strong>WebSocketClass类、HeartCheck类</strong>）。</p> <ul><li>前者主要负责主功能的websocket建立、监听；</li> <li>后者主要负责心跳检测的具体逻辑。</li></ul> <h2 id="websocketclass类"><a href="#websocketclass类" class="header-anchor">#</a> WebSocketClass类</h2> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">/**
+* @description: WebSocketClass类
+* @param {String} url 服务器ip
+* @param {Function} msgCallback 接收到服务器消息的回调方法
+* @param {String} name （可选）websocket名字
+* 
+* @author heshiyu
+* @Date 2019-07-29
+*/</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> WebSocketStatus<span class="token punctuation">,</span> WebSocketActionCode<span class="token punctuation">,</span> WebSocketEventId <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@/constants/config'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> message <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> Delay <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token constant">HEART_CHECK_PING</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token comment">// 2min</span>
+    <span class="token constant">HEART_CHECK_PONG</span><span class="token operator">:</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">5000</span><span class="token punctuation">,</span> <span class="token comment">// 2min5s</span>
+    <span class="token constant">RE_CONNECT</span><span class="token operator">:</span> <span class="token number">5000</span> <span class="token comment">// 5s</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">WebSocketClass</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> msgCallback<span class="token punctuation">,</span> name <span class="token operator">=</span> <span class="token string">'default'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>url <span class="token operator">=</span> url<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>msgCallback <span class="token operator">=</span> msgCallback<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// ws对象</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isWorking <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// ws是否在正常工作中。可用来标志ws是否手动关闭（只在手动关闭ws时，为true）</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>lockReconnect <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// 重链lock</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span> <span class="token comment">// 心跳检测对象</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>ws <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 新建ws实例</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            message<span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token string">'websocket开启失败，请联系管理员'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 初始化</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token function">_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function-variable function">onopen</span> <span class="token operator">=</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token comment">// ws连接成功的回调</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>isWorking <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">连接成功</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 心跳检测</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HeartCheck</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function-variable function">onmessage</span> <span class="token operator">=</span> <span class="token parameter">ev</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>ev<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> data <span class="token operator">!==</span> <span class="token string">'object'</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">const</span> <span class="token punctuation">{</span> eventId <span class="token punctuation">}</span> <span class="token operator">=</span> data<span class="token punctuation">,</span>
+                <span class="token punctuation">{</span> <span class="token constant">HEART_CHECK</span> <span class="token punctuation">}</span> <span class="token operator">=</span> WebSocketEventId<span class="token punctuation">;</span>
+            
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>eventId <span class="token operator">===</span> <span class="token constant">HEART_CHECK</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker<span class="token punctuation">.</span><span class="token function">setIsAlive</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">msgCallback</span><span class="token punctuation">(</span>ev<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function-variable function">onclose</span> <span class="token operator">=</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_closeHandle</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function-variable function">onerror</span> <span class="token operator">=</span> <span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_closeHandle</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span>_closeHandle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_closeHandle<span class="token punctuation">;</span> <span class="token comment">// 将closeHandle挂载到ws实例上</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 发送消息</span>
+    <span class="token function">send</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 手动关闭</span>
+    <span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">关闭</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isWorking <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 关闭方式检测（手动/异常）</span>
+    <span class="token function">_closeHandle</span><span class="token punctuation">(</span>error <span class="token operator">=</span> <span class="token string">'err'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>heartChecker<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isWorking <span class="token operator">?</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_reConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">已正常手动关闭</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 若异常关闭ws，启动重连机制</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 断线重连</span>
+    <span class="token function">_reConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>lockReconnect<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>lockReconnect <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">断开，将正在尝试重连...</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>lockReconnect <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> Delay<span class="token punctuation">.</span><span class="token constant">RE_CONNECT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> WebSocketClass<span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br></div></div><h2 id="heartcheck类"><a href="#heartcheck类" class="header-anchor">#</a> HeartCheck类</h2> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">/**
+* @description: 心跳检测类
+* @param {Object} ws websocket对象
+* 
+* @author heshiyu
+* @Date 2019-07-29
+*/</span>
+<span class="token comment">// 心跳检测 </span>
+<span class="token keyword">class</span> <span class="token class-name">HeartCheck</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">ws</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws <span class="token operator">=</span> ws<span class="token punctuation">;</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isAlive <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>timer <span class="token operator">=</span> <span class="token punctuation">{</span>
+            ping<span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+            pong<span class="token operator">:</span> <span class="token keyword">null</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 启动</span>
+    <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 每120s会向服务器进行心跳检测</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>ping <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_heartCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Delay<span class="token punctuation">.</span><span class="token constant">HEART_CHECK_PING</span><span class="token punctuation">)</span>
+        <span class="token comment">// 每125s会检测isAlive</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>pong <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>isAlive <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function">_closeHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setIsAlive</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> Delay<span class="token punctuation">.</span><span class="token constant">HEART_CHECK_PONG</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 停止</span>
+    <span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>ping <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>pong<span class="token punctuation">)</span> <span class="token keyword">return</span>
+
+        <span class="token function">clearInterval</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>ping<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">clearInterval</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timer<span class="token punctuation">.</span>pong<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 发送约定的心跳包</span>
+    <span class="token function">_heartCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> msg <span class="token operator">=</span> <span class="token punctuation">{</span>
+            action<span class="token operator">:</span> WebSocketActionCode<span class="token punctuation">.</span><span class="token constant">HEART_CHECK</span><span class="token punctuation">,</span>
+            heartBeat<span class="token operator">:</span> <span class="token string">'PING'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span>readyState <span class="token operator">===</span> WebSocketStatus<span class="token punctuation">.</span><span class="token constant">SUCCESS</span> <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">setIsAlive</span><span class="token punctuation">(</span><span class="token parameter">isAlive</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>isAlive <span class="token operator">=</span> isAlive<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br></div></div><h4 id="获取-更新数据"><a href="#获取-更新数据" class="header-anchor">#</a> 获取/更新数据</h4> <p>1、componentWillMount 会开始与后端建立 ws 连接；</p> <p>2、连接成功后，会在 openCallback（即：ws.onopen） 通过 http接口 获取 “可预约的日期列表”；</p> <p>3、随后通过 ws ，发起 action 为 WebSocketActionCode.GET_BOOKABLE_LIST 的消息，获取 “指定日期下可预约的时间段列表”；
+后端接收到 ws 消息后，返回 eventId 为 WebSocketEventId.BOOKABLE_LIST_ALL 的事件</p> <blockquote><p>eventId 也有可能为 WebSocketEventId.BOOKABLE_LIST_PART，主要取决于：该日期下是否需更新所有时间段的状态</p></blockquote> <p>4、前端通过 ws 的 msgCallback （即：ws.onmessage） ，根据 eventId 执行不同的数据处理</p> <h4 id="心跳检测"><a href="#心跳检测" class="header-anchor">#</a> 心跳检测</h4> <blockquote><p>代码位置：同位置下的 HeartCheck 类</p></blockquote> <p>1、连接成功后，会在 openCallback（即ws.onopen） 通过 HeartCheck 实例化 this.heartChecker</p> <p>2、随后通过 ws，发起 action 为 WebSocketActionCode.HEART_CHECK（携带参数heartBeat: 'PING'） 的消息（实际上是利用 setInterval 进行 心跳检测）
+3、如果前端后续能通过 ws 接收到后端返回的 eventId 为 WebSocketEventId.HEART_CHECK 的事件，表明心跳正常。否则判断是否需要断线重连</p> <h4 id="断线重连"><a href="#断线重连" class="header-anchor">#</a> 断线重连</h4> <p>通过 this.ws.isWorking 来判断是否为 手动关闭ws。若非手动关闭，则进行 this.ws._reConnect，进行 断线重连。</p> <h4 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h4> <p>WebSocketActionCode 是 客户端 向 服务端 通过 ws 发送数据时，用的 “操作代号”。</p> <blockquote><p>如：100 - 获取指定日期下可预约的时间段列表</p></blockquote> <p>WebSocketEventId 是 服务端 向 客户端 通过 ws 响应数据时，用的 “事件代号”。</p> <blockquote><p>如：101 - 所有数据；102 - 变化了的数据；</p></blockquote> <p>但它们都是属于“1”开头类型的事件</p> <h4 id="与后端约定的状态码"><a href="#与后端约定的状态码" class="header-anchor">#</a> 与后端约定的状态码</h4> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// 操作类型</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> WebSocketActionCode <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token constant">HEART_CHECK</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">// 心跳检测</span>
+    <span class="token constant">GET_BOOKABLE_LIST</span><span class="token operator">:</span> <span class="token number">100</span> <span class="token comment">// 获取学生预约时段列表</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+  
+<span class="token comment">// 行为EventId</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> WebSocketEventId <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token constant">HEART_CHECK</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">// 心跳检测</span>
+    <span class="token constant">BOOKABLE_LIST_ALL</span><span class="token operator">:</span> <span class="token number">101</span><span class="token punctuation">,</span> <span class="token comment">// 获取学生预约时段列表（全局）</span>
+    <span class="token constant">BOOKABLE_LIST_PART</span><span class="token operator">:</span> <span class="token number">102</span> <span class="token comment">// 获取学生预约时段列表（局部）</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间:</span> <span class="time">7/21/2020, 5:50:29 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/blog/assets/js/app.eef58a57.js" defer></script><script src="/blog/assets/js/2.0b00361f.js" defer></script><script src="/blog/assets/js/150.3500f2ae.js" defer></script>
+  </body>
+</html>

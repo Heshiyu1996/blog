@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>快速排序（稳定） | Heshiyu&#39;s Blog</title>
+    <meta name="description" content=" ">
+    <meta name="generator" content="VuePress 1.3.1">
+    <link rel="icon" href="/blog/favicon.png">
+  <link rel="manifest" href="/blog/favicon.png">
+  <link rel="apple-touch-icon" href="/blog/favicon.png">
+  <link rel="mask-icon" href="/blog/favicon.png" color="#3eaf7c">
+  <meta http-quiv="pragma" cotent="no-cache">
+  <meta http-quiv="expires" cotent="0">
+  <meta http-quiv="pragma" cotent="no-cache, must-revalidate">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.a8e839f5.css" as="style"><link rel="preload" href="/blog/assets/js/app.eef58a57.js" as="script"><link rel="preload" href="/blog/assets/js/2.0b00361f.js" as="script"><link rel="preload" href="/blog/assets/js/89.b75ce8eb.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.90e2f954.js"><link rel="prefetch" href="/blog/assets/js/100.01fd7341.js"><link rel="prefetch" href="/blog/assets/js/101.8404d1ed.js"><link rel="prefetch" href="/blog/assets/js/102.ab6ce624.js"><link rel="prefetch" href="/blog/assets/js/103.17eda17e.js"><link rel="prefetch" href="/blog/assets/js/104.ffdadb32.js"><link rel="prefetch" href="/blog/assets/js/105.8beb0f3f.js"><link rel="prefetch" href="/blog/assets/js/106.aeaf090b.js"><link rel="prefetch" href="/blog/assets/js/107.3e2d2ed4.js"><link rel="prefetch" href="/blog/assets/js/108.6d9cddd8.js"><link rel="prefetch" href="/blog/assets/js/109.f666e33a.js"><link rel="prefetch" href="/blog/assets/js/11.3ef68b42.js"><link rel="prefetch" href="/blog/assets/js/110.bb1de2d0.js"><link rel="prefetch" href="/blog/assets/js/111.97bca696.js"><link rel="prefetch" href="/blog/assets/js/112.3c7bdbf0.js"><link rel="prefetch" href="/blog/assets/js/113.f4299bf2.js"><link rel="prefetch" href="/blog/assets/js/114.8132005c.js"><link rel="prefetch" href="/blog/assets/js/115.d4e3d192.js"><link rel="prefetch" href="/blog/assets/js/116.5e7051fe.js"><link rel="prefetch" href="/blog/assets/js/117.f781a94d.js"><link rel="prefetch" href="/blog/assets/js/118.ec003c44.js"><link rel="prefetch" href="/blog/assets/js/119.bfbb6f4f.js"><link rel="prefetch" href="/blog/assets/js/12.6e7b47b0.js"><link rel="prefetch" href="/blog/assets/js/120.de67238e.js"><link rel="prefetch" href="/blog/assets/js/121.930fdd22.js"><link rel="prefetch" href="/blog/assets/js/122.202660ed.js"><link rel="prefetch" href="/blog/assets/js/123.b81fe880.js"><link rel="prefetch" href="/blog/assets/js/124.d9c171b5.js"><link rel="prefetch" href="/blog/assets/js/125.b4326de7.js"><link rel="prefetch" href="/blog/assets/js/126.daa2d256.js"><link rel="prefetch" href="/blog/assets/js/127.1a225cdf.js"><link rel="prefetch" href="/blog/assets/js/128.fff38bb4.js"><link rel="prefetch" href="/blog/assets/js/129.33424099.js"><link rel="prefetch" href="/blog/assets/js/13.ed8ed002.js"><link rel="prefetch" href="/blog/assets/js/130.9fe642ea.js"><link rel="prefetch" href="/blog/assets/js/131.82b8eeba.js"><link rel="prefetch" href="/blog/assets/js/132.e5714876.js"><link rel="prefetch" href="/blog/assets/js/133.2960eeff.js"><link rel="prefetch" href="/blog/assets/js/134.84a03e3b.js"><link rel="prefetch" href="/blog/assets/js/135.da59fbb4.js"><link rel="prefetch" href="/blog/assets/js/136.4535c1e9.js"><link rel="prefetch" href="/blog/assets/js/137.6bcbd0e8.js"><link rel="prefetch" href="/blog/assets/js/138.48f25b8f.js"><link rel="prefetch" href="/blog/assets/js/139.86c4ad21.js"><link rel="prefetch" href="/blog/assets/js/14.761d901d.js"><link rel="prefetch" href="/blog/assets/js/140.90531fb0.js"><link rel="prefetch" href="/blog/assets/js/141.6d6559bb.js"><link rel="prefetch" href="/blog/assets/js/142.b07342fd.js"><link rel="prefetch" href="/blog/assets/js/143.93dce9fa.js"><link rel="prefetch" href="/blog/assets/js/144.d2479895.js"><link rel="prefetch" href="/blog/assets/js/145.d8d84e62.js"><link rel="prefetch" href="/blog/assets/js/146.1c044a9a.js"><link rel="prefetch" href="/blog/assets/js/147.1675e503.js"><link rel="prefetch" href="/blog/assets/js/148.7de9881a.js"><link rel="prefetch" href="/blog/assets/js/149.d9379d72.js"><link rel="prefetch" href="/blog/assets/js/15.5ee00ec1.js"><link rel="prefetch" href="/blog/assets/js/150.3500f2ae.js"><link rel="prefetch" href="/blog/assets/js/151.792187d2.js"><link rel="prefetch" href="/blog/assets/js/152.50c9b7c0.js"><link rel="prefetch" href="/blog/assets/js/153.4fd509a6.js"><link rel="prefetch" href="/blog/assets/js/154.aacb3d66.js"><link rel="prefetch" href="/blog/assets/js/155.01ce7e2b.js"><link rel="prefetch" href="/blog/assets/js/156.eb11e55d.js"><link rel="prefetch" href="/blog/assets/js/16.e11fe2ce.js"><link rel="prefetch" href="/blog/assets/js/17.f03aa942.js"><link rel="prefetch" href="/blog/assets/js/18.b754f134.js"><link rel="prefetch" href="/blog/assets/js/19.3eb28c46.js"><link rel="prefetch" href="/blog/assets/js/20.3f4da18b.js"><link rel="prefetch" href="/blog/assets/js/21.ccfdd87a.js"><link rel="prefetch" href="/blog/assets/js/22.9f59a296.js"><link rel="prefetch" href="/blog/assets/js/23.491b9632.js"><link rel="prefetch" href="/blog/assets/js/24.cb8c2634.js"><link rel="prefetch" href="/blog/assets/js/25.67012924.js"><link rel="prefetch" href="/blog/assets/js/26.37346f5f.js"><link rel="prefetch" href="/blog/assets/js/27.3d207f7b.js"><link rel="prefetch" href="/blog/assets/js/28.86d3c9e3.js"><link rel="prefetch" href="/blog/assets/js/29.d5874434.js"><link rel="prefetch" href="/blog/assets/js/3.dff0efc5.js"><link rel="prefetch" href="/blog/assets/js/30.71dfd815.js"><link rel="prefetch" href="/blog/assets/js/31.369ceb55.js"><link rel="prefetch" href="/blog/assets/js/32.16922a63.js"><link rel="prefetch" href="/blog/assets/js/33.a03df4e5.js"><link rel="prefetch" href="/blog/assets/js/34.62708090.js"><link rel="prefetch" href="/blog/assets/js/35.7b386dac.js"><link rel="prefetch" href="/blog/assets/js/36.176aed71.js"><link rel="prefetch" href="/blog/assets/js/37.42d38b9b.js"><link rel="prefetch" href="/blog/assets/js/38.008b7a75.js"><link rel="prefetch" href="/blog/assets/js/39.32ed347e.js"><link rel="prefetch" href="/blog/assets/js/4.29485c42.js"><link rel="prefetch" href="/blog/assets/js/40.30974858.js"><link rel="prefetch" href="/blog/assets/js/41.59214534.js"><link rel="prefetch" href="/blog/assets/js/42.02e14d29.js"><link rel="prefetch" href="/blog/assets/js/43.78523952.js"><link rel="prefetch" href="/blog/assets/js/44.0d6df329.js"><link rel="prefetch" href="/blog/assets/js/45.c2e44795.js"><link rel="prefetch" href="/blog/assets/js/46.6982a832.js"><link rel="prefetch" href="/blog/assets/js/47.4758d79f.js"><link rel="prefetch" href="/blog/assets/js/48.06bb5510.js"><link rel="prefetch" href="/blog/assets/js/49.6e968da0.js"><link rel="prefetch" href="/blog/assets/js/5.b3195c85.js"><link rel="prefetch" href="/blog/assets/js/50.9d6aaa8d.js"><link rel="prefetch" href="/blog/assets/js/51.e37f09b7.js"><link rel="prefetch" href="/blog/assets/js/52.30d14207.js"><link rel="prefetch" href="/blog/assets/js/53.d07910bc.js"><link rel="prefetch" href="/blog/assets/js/54.9313319c.js"><link rel="prefetch" href="/blog/assets/js/55.faf72d77.js"><link rel="prefetch" href="/blog/assets/js/56.288c2a31.js"><link rel="prefetch" href="/blog/assets/js/57.ff8e5cad.js"><link rel="prefetch" href="/blog/assets/js/58.83078140.js"><link rel="prefetch" href="/blog/assets/js/59.d8000f20.js"><link rel="prefetch" href="/blog/assets/js/6.14082e79.js"><link rel="prefetch" href="/blog/assets/js/60.e1385031.js"><link rel="prefetch" href="/blog/assets/js/61.da8fd279.js"><link rel="prefetch" href="/blog/assets/js/62.771d72d3.js"><link rel="prefetch" href="/blog/assets/js/63.16e424a3.js"><link rel="prefetch" href="/blog/assets/js/64.7dddec9e.js"><link rel="prefetch" href="/blog/assets/js/65.b0194110.js"><link rel="prefetch" href="/blog/assets/js/66.dc565beb.js"><link rel="prefetch" href="/blog/assets/js/67.86fdf6b3.js"><link rel="prefetch" href="/blog/assets/js/68.befdade2.js"><link rel="prefetch" href="/blog/assets/js/69.0eac1d9e.js"><link rel="prefetch" href="/blog/assets/js/7.17690230.js"><link rel="prefetch" href="/blog/assets/js/70.f61998a0.js"><link rel="prefetch" href="/blog/assets/js/71.323a3780.js"><link rel="prefetch" href="/blog/assets/js/72.da41f1f2.js"><link rel="prefetch" href="/blog/assets/js/73.8fe01899.js"><link rel="prefetch" href="/blog/assets/js/74.b6b7b48f.js"><link rel="prefetch" href="/blog/assets/js/75.88aaeadc.js"><link rel="prefetch" href="/blog/assets/js/76.b2e6f2a3.js"><link rel="prefetch" href="/blog/assets/js/77.67a43ac8.js"><link rel="prefetch" href="/blog/assets/js/78.26196c46.js"><link rel="prefetch" href="/blog/assets/js/79.bc83b6fd.js"><link rel="prefetch" href="/blog/assets/js/8.09f0712f.js"><link rel="prefetch" href="/blog/assets/js/80.d9b19317.js"><link rel="prefetch" href="/blog/assets/js/81.fc6152a8.js"><link rel="prefetch" href="/blog/assets/js/82.7f86ed77.js"><link rel="prefetch" href="/blog/assets/js/83.aabf3857.js"><link rel="prefetch" href="/blog/assets/js/84.dc521503.js"><link rel="prefetch" href="/blog/assets/js/85.bab04dce.js"><link rel="prefetch" href="/blog/assets/js/86.857cac8d.js"><link rel="prefetch" href="/blog/assets/js/87.8d67107d.js"><link rel="prefetch" href="/blog/assets/js/88.260a0fae.js"><link rel="prefetch" href="/blog/assets/js/9.aa07467f.js"><link rel="prefetch" href="/blog/assets/js/90.3e64ade8.js"><link rel="prefetch" href="/blog/assets/js/91.4245eeab.js"><link rel="prefetch" href="/blog/assets/js/92.5c6ad43c.js"><link rel="prefetch" href="/blog/assets/js/93.fbc98665.js"><link rel="prefetch" href="/blog/assets/js/94.694ee727.js"><link rel="prefetch" href="/blog/assets/js/95.8c687498.js"><link rel="prefetch" href="/blog/assets/js/96.fd85a12d.js"><link rel="prefetch" href="/blog/assets/js/97.89d92a32.js"><link rel="prefetch" href="/blog/assets/js/98.b63d05dc.js"><link rel="prefetch" href="/blog/assets/js/99.e92448ca.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.a8e839f5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">Heshiyu's Blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link router-link-active">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link router-link-active">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>《算法》</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/skill/algorithm/basic/" class="sidebar-link">基本算法思想</a></li><li><a href="/blog/skill/algorithm/sort/" aria-current="page" class="sidebar-link">八大排序</a></li><li><a href="/blog/skill/algorithm/search/" class="sidebar-link">二分查找</a></li><li><a href="/blog/skill/algorithm/dp/" class="sidebar-link">动态规划</a></li><li><a href="/blog/skill/algorithm/leetcode/" class="sidebar-link">leetcode错题集</a></li><li><a href="/blog/skill/algorithm/time-complexity/" class="sidebar-link">时间复杂度</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="快速排序-稳定"><a href="#快速排序-稳定" class="header-anchor">#</a> 快速排序（稳定）</h1> <blockquote><p>时间复杂度：O(nlog2n)</p></blockquote> <h2 id="思想"><a href="#思想" class="header-anchor">#</a> 思想</h2> <p>选中一个<code>基准</code>值，遍历原数组与其比较，按<strong>小左大右</strong>进行划分，再分别进行 <code>递归</code>。直到还剩一个元素时返回拼接。</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token function-variable function">quickSort</span> <span class="token operator">=</span> <span class="token parameter">arr</span> <span class="token operator">=&gt;</span> arr<span class="token punctuation">.</span>length <span class="token operator">&lt;=</span> <span class="token number">1</span> <span class="token operator">?</span> arr <span class="token operator">:</span>
+      <span class="token function">quickSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=&gt;</span> x <span class="token operator">&lt;</span> arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=&gt;</span> x <span class="token operator">===</span> arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token function">quickSort</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">x</span> <span class="token operator">=&gt;</span> x <span class="token operator">&gt;</span> arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="大致步骤"><a href="#大致步骤" class="header-anchor">#</a> 大致步骤</h2> <ul><li>选择一个元素作为“基准”（pivot），</li> <li>所有小于“基准”的元素，移到“基准”的左边；所有大于“基准”的元素，都移到“基准”的右边</li> <li>对“基准”左、右两个子集，不断重复第一、二步，直到所有子集<code>只剩下一个元素</code>为止</li></ul></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间:</span> <span class="time">7/21/2020, 5:50:29 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/blog/assets/js/app.eef58a57.js" defer></script><script src="/blog/assets/js/2.0b00361f.js" defer></script><script src="/blog/assets/js/89.b75ce8eb.js" defer></script>
+  </body>
+</html>

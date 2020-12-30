@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>跨域资源共享（CORS） | Heshiyu&#39;s Blog</title>
+    <meta name="description" content=" ">
+    <meta name="generator" content="VuePress 1.3.1">
+    <link rel="icon" href="/blog/favicon.png">
+  <link rel="manifest" href="/blog/favicon.png">
+  <link rel="apple-touch-icon" href="/blog/favicon.png">
+  <link rel="mask-icon" href="/blog/favicon.png" color="#3eaf7c">
+  <meta http-quiv="pragma" cotent="no-cache">
+  <meta http-quiv="expires" cotent="0">
+  <meta http-quiv="pragma" cotent="no-cache, must-revalidate">
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.a8e839f5.css" as="style"><link rel="preload" href="/blog/assets/js/app.eef58a57.js" as="script"><link rel="preload" href="/blog/assets/js/2.0b00361f.js" as="script"><link rel="preload" href="/blog/assets/js/147.1675e503.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.90e2f954.js"><link rel="prefetch" href="/blog/assets/js/100.01fd7341.js"><link rel="prefetch" href="/blog/assets/js/101.8404d1ed.js"><link rel="prefetch" href="/blog/assets/js/102.ab6ce624.js"><link rel="prefetch" href="/blog/assets/js/103.17eda17e.js"><link rel="prefetch" href="/blog/assets/js/104.ffdadb32.js"><link rel="prefetch" href="/blog/assets/js/105.8beb0f3f.js"><link rel="prefetch" href="/blog/assets/js/106.aeaf090b.js"><link rel="prefetch" href="/blog/assets/js/107.3e2d2ed4.js"><link rel="prefetch" href="/blog/assets/js/108.6d9cddd8.js"><link rel="prefetch" href="/blog/assets/js/109.f666e33a.js"><link rel="prefetch" href="/blog/assets/js/11.3ef68b42.js"><link rel="prefetch" href="/blog/assets/js/110.bb1de2d0.js"><link rel="prefetch" href="/blog/assets/js/111.97bca696.js"><link rel="prefetch" href="/blog/assets/js/112.3c7bdbf0.js"><link rel="prefetch" href="/blog/assets/js/113.f4299bf2.js"><link rel="prefetch" href="/blog/assets/js/114.8132005c.js"><link rel="prefetch" href="/blog/assets/js/115.d4e3d192.js"><link rel="prefetch" href="/blog/assets/js/116.5e7051fe.js"><link rel="prefetch" href="/blog/assets/js/117.f781a94d.js"><link rel="prefetch" href="/blog/assets/js/118.ec003c44.js"><link rel="prefetch" href="/blog/assets/js/119.bfbb6f4f.js"><link rel="prefetch" href="/blog/assets/js/12.6e7b47b0.js"><link rel="prefetch" href="/blog/assets/js/120.de67238e.js"><link rel="prefetch" href="/blog/assets/js/121.930fdd22.js"><link rel="prefetch" href="/blog/assets/js/122.202660ed.js"><link rel="prefetch" href="/blog/assets/js/123.b81fe880.js"><link rel="prefetch" href="/blog/assets/js/124.d9c171b5.js"><link rel="prefetch" href="/blog/assets/js/125.b4326de7.js"><link rel="prefetch" href="/blog/assets/js/126.daa2d256.js"><link rel="prefetch" href="/blog/assets/js/127.1a225cdf.js"><link rel="prefetch" href="/blog/assets/js/128.fff38bb4.js"><link rel="prefetch" href="/blog/assets/js/129.33424099.js"><link rel="prefetch" href="/blog/assets/js/13.ed8ed002.js"><link rel="prefetch" href="/blog/assets/js/130.9fe642ea.js"><link rel="prefetch" href="/blog/assets/js/131.82b8eeba.js"><link rel="prefetch" href="/blog/assets/js/132.e5714876.js"><link rel="prefetch" href="/blog/assets/js/133.2960eeff.js"><link rel="prefetch" href="/blog/assets/js/134.84a03e3b.js"><link rel="prefetch" href="/blog/assets/js/135.da59fbb4.js"><link rel="prefetch" href="/blog/assets/js/136.4535c1e9.js"><link rel="prefetch" href="/blog/assets/js/137.6bcbd0e8.js"><link rel="prefetch" href="/blog/assets/js/138.48f25b8f.js"><link rel="prefetch" href="/blog/assets/js/139.86c4ad21.js"><link rel="prefetch" href="/blog/assets/js/14.761d901d.js"><link rel="prefetch" href="/blog/assets/js/140.90531fb0.js"><link rel="prefetch" href="/blog/assets/js/141.6d6559bb.js"><link rel="prefetch" href="/blog/assets/js/142.b07342fd.js"><link rel="prefetch" href="/blog/assets/js/143.93dce9fa.js"><link rel="prefetch" href="/blog/assets/js/144.d2479895.js"><link rel="prefetch" href="/blog/assets/js/145.d8d84e62.js"><link rel="prefetch" href="/blog/assets/js/146.1c044a9a.js"><link rel="prefetch" href="/blog/assets/js/148.7de9881a.js"><link rel="prefetch" href="/blog/assets/js/149.d9379d72.js"><link rel="prefetch" href="/blog/assets/js/15.5ee00ec1.js"><link rel="prefetch" href="/blog/assets/js/150.3500f2ae.js"><link rel="prefetch" href="/blog/assets/js/151.792187d2.js"><link rel="prefetch" href="/blog/assets/js/152.50c9b7c0.js"><link rel="prefetch" href="/blog/assets/js/153.4fd509a6.js"><link rel="prefetch" href="/blog/assets/js/154.aacb3d66.js"><link rel="prefetch" href="/blog/assets/js/155.01ce7e2b.js"><link rel="prefetch" href="/blog/assets/js/156.eb11e55d.js"><link rel="prefetch" href="/blog/assets/js/16.e11fe2ce.js"><link rel="prefetch" href="/blog/assets/js/17.f03aa942.js"><link rel="prefetch" href="/blog/assets/js/18.b754f134.js"><link rel="prefetch" href="/blog/assets/js/19.3eb28c46.js"><link rel="prefetch" href="/blog/assets/js/20.3f4da18b.js"><link rel="prefetch" href="/blog/assets/js/21.ccfdd87a.js"><link rel="prefetch" href="/blog/assets/js/22.9f59a296.js"><link rel="prefetch" href="/blog/assets/js/23.491b9632.js"><link rel="prefetch" href="/blog/assets/js/24.cb8c2634.js"><link rel="prefetch" href="/blog/assets/js/25.67012924.js"><link rel="prefetch" href="/blog/assets/js/26.37346f5f.js"><link rel="prefetch" href="/blog/assets/js/27.3d207f7b.js"><link rel="prefetch" href="/blog/assets/js/28.86d3c9e3.js"><link rel="prefetch" href="/blog/assets/js/29.d5874434.js"><link rel="prefetch" href="/blog/assets/js/3.dff0efc5.js"><link rel="prefetch" href="/blog/assets/js/30.71dfd815.js"><link rel="prefetch" href="/blog/assets/js/31.369ceb55.js"><link rel="prefetch" href="/blog/assets/js/32.16922a63.js"><link rel="prefetch" href="/blog/assets/js/33.a03df4e5.js"><link rel="prefetch" href="/blog/assets/js/34.62708090.js"><link rel="prefetch" href="/blog/assets/js/35.7b386dac.js"><link rel="prefetch" href="/blog/assets/js/36.176aed71.js"><link rel="prefetch" href="/blog/assets/js/37.42d38b9b.js"><link rel="prefetch" href="/blog/assets/js/38.008b7a75.js"><link rel="prefetch" href="/blog/assets/js/39.32ed347e.js"><link rel="prefetch" href="/blog/assets/js/4.29485c42.js"><link rel="prefetch" href="/blog/assets/js/40.30974858.js"><link rel="prefetch" href="/blog/assets/js/41.59214534.js"><link rel="prefetch" href="/blog/assets/js/42.02e14d29.js"><link rel="prefetch" href="/blog/assets/js/43.78523952.js"><link rel="prefetch" href="/blog/assets/js/44.0d6df329.js"><link rel="prefetch" href="/blog/assets/js/45.c2e44795.js"><link rel="prefetch" href="/blog/assets/js/46.6982a832.js"><link rel="prefetch" href="/blog/assets/js/47.4758d79f.js"><link rel="prefetch" href="/blog/assets/js/48.06bb5510.js"><link rel="prefetch" href="/blog/assets/js/49.6e968da0.js"><link rel="prefetch" href="/blog/assets/js/5.b3195c85.js"><link rel="prefetch" href="/blog/assets/js/50.9d6aaa8d.js"><link rel="prefetch" href="/blog/assets/js/51.e37f09b7.js"><link rel="prefetch" href="/blog/assets/js/52.30d14207.js"><link rel="prefetch" href="/blog/assets/js/53.d07910bc.js"><link rel="prefetch" href="/blog/assets/js/54.9313319c.js"><link rel="prefetch" href="/blog/assets/js/55.faf72d77.js"><link rel="prefetch" href="/blog/assets/js/56.288c2a31.js"><link rel="prefetch" href="/blog/assets/js/57.ff8e5cad.js"><link rel="prefetch" href="/blog/assets/js/58.83078140.js"><link rel="prefetch" href="/blog/assets/js/59.d8000f20.js"><link rel="prefetch" href="/blog/assets/js/6.14082e79.js"><link rel="prefetch" href="/blog/assets/js/60.e1385031.js"><link rel="prefetch" href="/blog/assets/js/61.da8fd279.js"><link rel="prefetch" href="/blog/assets/js/62.771d72d3.js"><link rel="prefetch" href="/blog/assets/js/63.16e424a3.js"><link rel="prefetch" href="/blog/assets/js/64.7dddec9e.js"><link rel="prefetch" href="/blog/assets/js/65.b0194110.js"><link rel="prefetch" href="/blog/assets/js/66.dc565beb.js"><link rel="prefetch" href="/blog/assets/js/67.86fdf6b3.js"><link rel="prefetch" href="/blog/assets/js/68.befdade2.js"><link rel="prefetch" href="/blog/assets/js/69.0eac1d9e.js"><link rel="prefetch" href="/blog/assets/js/7.17690230.js"><link rel="prefetch" href="/blog/assets/js/70.f61998a0.js"><link rel="prefetch" href="/blog/assets/js/71.323a3780.js"><link rel="prefetch" href="/blog/assets/js/72.da41f1f2.js"><link rel="prefetch" href="/blog/assets/js/73.8fe01899.js"><link rel="prefetch" href="/blog/assets/js/74.b6b7b48f.js"><link rel="prefetch" href="/blog/assets/js/75.88aaeadc.js"><link rel="prefetch" href="/blog/assets/js/76.b2e6f2a3.js"><link rel="prefetch" href="/blog/assets/js/77.67a43ac8.js"><link rel="prefetch" href="/blog/assets/js/78.26196c46.js"><link rel="prefetch" href="/blog/assets/js/79.bc83b6fd.js"><link rel="prefetch" href="/blog/assets/js/8.09f0712f.js"><link rel="prefetch" href="/blog/assets/js/80.d9b19317.js"><link rel="prefetch" href="/blog/assets/js/81.fc6152a8.js"><link rel="prefetch" href="/blog/assets/js/82.7f86ed77.js"><link rel="prefetch" href="/blog/assets/js/83.aabf3857.js"><link rel="prefetch" href="/blog/assets/js/84.dc521503.js"><link rel="prefetch" href="/blog/assets/js/85.bab04dce.js"><link rel="prefetch" href="/blog/assets/js/86.857cac8d.js"><link rel="prefetch" href="/blog/assets/js/87.8d67107d.js"><link rel="prefetch" href="/blog/assets/js/88.260a0fae.js"><link rel="prefetch" href="/blog/assets/js/89.b75ce8eb.js"><link rel="prefetch" href="/blog/assets/js/9.aa07467f.js"><link rel="prefetch" href="/blog/assets/js/90.3e64ade8.js"><link rel="prefetch" href="/blog/assets/js/91.4245eeab.js"><link rel="prefetch" href="/blog/assets/js/92.5c6ad43c.js"><link rel="prefetch" href="/blog/assets/js/93.fbc98665.js"><link rel="prefetch" href="/blog/assets/js/94.694ee727.js"><link rel="prefetch" href="/blog/assets/js/95.8c687498.js"><link rel="prefetch" href="/blog/assets/js/96.fd85a12d.js"><link rel="prefetch" href="/blog/assets/js/97.89d92a32.js"><link rel="prefetch" href="/blog/assets/js/98.b63d05dc.js"><link rel="prefetch" href="/blog/assets/js/99.e92448ca.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.a8e839f5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">Heshiyu's Blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link router-link-active">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/overview/" class="nav-link">
+  总览
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="前端积累" class="dropdown-title"><span class="title">前端积累</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          基础
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/html/" class="nav-link">
+  HTML
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/css/" class="nav-link">
+  CSS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/js/" class="nav-link">
+  JS
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/web/" class="nav-link router-link-active">
+  Web/浏览器
+</a></li></ul></li><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/react/" class="nav-link">
+  React
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/vue/" class="nav-link">
+  Vue
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/nodejs/" class="nav-link">
+  NodeJS
+</a></li></ul></li><li class="dropdown-item"><h4>
+          笔记
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/personal/" class="nav-link">
+  个人笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/project/" class="nav-link">
+  项目笔记
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/note/" class="nav-link">
+  读书/参会心得
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端周边
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/skill/computeracy/" class="nav-link">
+  计算机
+</a></li><li class="dropdown-subitem"><a href="/blog/skill/algorithm/" class="nav-link">
+  算法
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="工程产出" class="dropdown-title"><span class="title">工程产出</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          前端规范
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/standard/css/" class="nav-link">
+  CSS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/js/" class="nav-link">
+  JS规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/eslint/" class="nav-link">
+  ESLint &amp; Prettier规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/stylelint/" class="nav-link">
+  Stylelint规范
+</a></li><li class="dropdown-subitem"><a href="/blog/output/standard/git/" class="nav-link">
+  Git规范
+</a></li></ul></li><li class="dropdown-item"><h4>
+          项目沉淀
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/blog/output/fruit/template/" class="nav-link">
+  React工程模板
+</a></li><li class="dropdown-subitem"><a href="/blog/output/fruit/component-lib/" class="nav-link">
+  基于Antd的业务组件库
+</a></li></ul></li><li class="dropdown-item"><h4>
+          前端工程模板
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  单页项目（react16.9 + webpack4 + Typescript）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-subitem"><a href="https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  多页项目（react16.9 + webpack4）
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></li></ul></div></div><div class="nav-item"><a href="/blog/tool/" class="nav-link">
+  实用工具
+</a></div> <a href="https://github.com/Heshiyu1996" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>《Web/浏览器》</span> <!----></p> <!----></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Web</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/skill/web/diff/" class="sidebar-link">Diff、React Diff、Vue Diff</a></li><li><a href="/blog/skill/web/cdn/" class="sidebar-link">CDN</a></li><li><a href="/blog/skill/web/cors/" aria-current="page" class="active sidebar-link">跨域资源共享（CORS）</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/skill/web/cors/#简单请求" class="sidebar-link">简单请求</a></li><li class="sidebar-sub-header"><a href="/blog/skill/web/cors/#非简单请求" class="sidebar-link">非简单请求</a></li><li class="sidebar-sub-header"><a href="/blog/skill/web/cors/#解决跨域的一些方法" class="sidebar-link">解决跨域的一些方法</a></li><li class="sidebar-sub-header"><a href="/blog/skill/web/cors/#为什么form表单可以跨域" class="sidebar-link">为什么form表单可以跨域</a></li></ul></li><li><a href="/blog/skill/web/http/" class="sidebar-link">HTTP</a></li><li><a href="/blog/skill/web/web-vitals/" class="sidebar-link">Web Vitals</a></li><li><a href="/blog/skill/web/optimize/" class="sidebar-link">Web性能优化</a></li><li><a href="/blog/skill/web/ssr/" class="sidebar-link">浏览器/服务端渲染</a></li><li><a href="/blog/skill/web/web-attack/" class="sidebar-link">XSS、CSRF、SQL注入</a></li><li><a href="/blog/skill/web/web-storage/" class="sidebar-link">WebStorage</a></li><li><a href="/blog/skill/web/websocket/" class="sidebar-link">WebSocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>浏览器</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/skill/web/browser/" class="sidebar-link">浏览器基础</a></li><li><a href="/blog/skill/web/browser-cache/" class="sidebar-link">浏览器缓存机制</a></li><li><a href="/blog/skill/web/other/" class="sidebar-link">其他</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="跨域资源共享-cors"><a href="#跨域资源共享-cors" class="header-anchor">#</a> 跨域资源共享（CORS）</h1> <blockquote><p><code>CORS</code>是W3C标准，叫“跨域资源共享”。
+需要<code>浏览器</code>+<code>服务端</code>同时支持（IE10+），主要是在服务端增加一个 <strong>过滤拦截器</strong>。</p> <p>一共2类CORS请求：<code>简单请求</code>、<code>非简单请求</code></p></blockquote> <p></p><div class="table-of-contents"><ul><li><a href="#跨域资源共享-cors">跨域资源共享（CORS）</a><ul><li><a href="#简单请求">简单请求</a></li><li><a href="#非简单请求">非简单请求</a></li><li><a href="#解决跨域的一些方法">解决跨域的一些方法</a></li><li><a href="#为什么form表单可以跨域">为什么form表单可以跨域</a></li></ul></li></ul></div><p></p> <h2 id="简单请求"><a href="#简单请求" class="header-anchor">#</a> 简单请求</h2> <p>同时满足以下两种条件：</p> <p>条件一：请求方法：<code>HEAD</code>、<code>GET</code>、<code>POST</code></p> <p>条件二：HTTP头部信息（不能多于以下字段）</p> <ul><li><code>Accept</code></li> <li><code>Accept-Language</code></li> <li><code>Content-Language</code></li> <li><code>Last-Event-ID</code></li> <li><code>Content-Type</code> <ul><li>application/x-www-form-urlencoded</li> <li>multipart/form-data</li> <li>text/plain</li></ul></li></ul> <p><strong>简单请求的HTTP头部</strong>会自动添加一个<code>Origin</code>字段（表明请求来自哪个源）。</p> <p>若<code>Origin</code>指定的源：</p> <ul><li>在许可范围
+<ul><li>响应头信息<strong>会有</strong><code>Access-Control-Allow-Origin</code>（其值要么是<code>Origin</code>的值，要么是<code>*</code>）</li></ul></li> <li>不在许可范围
+<ul><li>响应头信息<strong>没有</strong><code>Access-Control-Allow-Origin</code>（能被<code>XMLHttpRequest</code>的<code>onerror</code>捕获）</li></ul></li></ul> <blockquote><p>有关Cookie（前提：源在许可范围内）</p> <ul><li>响应头信息会有<code>Access-Control-Allow-Credentials</code>（<code>true</code>：请求可以带Cookie；<code>false</code>：相反）</li> <li>响应头信息的<code>Access-Control-Allow-Origin</code>不能设为<code>*</code>，必须指定明确</li> <li>浏览器也要设置<code>xhr.withCredentials = true</code>才可以发Cookie，且只有用<code>服务器域名</code>设置的Cookie才会上传（其他域名的Cookie不会上传）</li></ul></blockquote> <h2 id="非简单请求"><a href="#非简单请求" class="header-anchor">#</a> 非简单请求</h2> <p><code>非简单请求</code>是指请求方法：<code>PUT</code>、<code>DELETE</code> 或者 Content-Type：<code>application/json</code>的请求，它会先发送一个<code>预检请求</code>（<code>OPTIONS</code>）。</p> <p><code>预检请求</code>的HTTP头部会自动添加一个<code>Origin</code>字段（表明请求来自哪个源），以及以下两个特殊字段：</p> <ul><li><code>Access-Control-Request-Method</code> <ul><li>列出<strong>接下来的CORS请求</strong>会用到哪些方法</li></ul></li> <li><code>Access-Control-Request-Headers</code> <ul><li>指定<strong>接下来的CORS请求</strong>会额外发送哪些自定义头部</li></ul></li></ul> <p>服务器收到<code>预检请求</code>后，</p> <ul><li>允许跨域
+<ul><li><code>Access-Control-Allow-Origin</code> <ul><li>表示允许访问的源（其值要么是<code>Origin</code>的值，要么是<code>*</code>）</li></ul></li> <li><code>Access-Control-Allow-Methods</code>: GET, POST, PUT
+<ul><li>表示允许的方法</li></ul></li> <li><code>Access-Control-Allow-Headers</code> <ul><li>表示允许访问的头部属性</li></ul></li></ul></li> <li>不允许跨域
+<ul><li>响应头信息没有任何CORS相关头信息字段(能被<code>XMLHttpRequest</code>的<code>onerror</code>捕获)</li></ul></li></ul> <p>注意：只要通过了“预检请求”，以后每次正常的CORS请求，都会跟<code>简单请求</code>一样了：</p> <ul><li>对于请求头部，会有一个<code>Origin</code>字段</li> <li>对于响应头部，也会有<code>Access-Control-Allow-Origin</code></li></ul> <h3 id="cors的特点"><a href="#cors的特点" class="header-anchor">#</a> CORS的特点：</h3> <ul><li>支持所有请求类型</li> <li>服务端只需将数据直接返回，<strong>不需特殊处理</strong></li></ul> <h2 id="解决跨域的一些方法"><a href="#解决跨域的一些方法" class="header-anchor">#</a> 解决跨域的一些方法</h2> <ul><li>JSONP</li> <li>CORS</li> <li>window.postMessage</li> <li>window.name</li> <li>Nginx</li></ul> <h3 id="jsonp"><a href="#jsonp" class="header-anchor">#</a> JSONP</h3> <p>原理：利用<code>&lt;script&gt;</code>标签，远程调用 JSON 文件来实现数据传递。</p> <p><code>JSONP</code>的特点：</p> <ul><li>只支持<code>GET</code>，不支持<code>POST</code>（相当于下载一个js文件，相当于浏览器输入一个url一样）</li> <li>服务端返回的数据不能是标准的json格式，而是通过callback包裹（需要客户端和服务端提前约定）</li> <li>安全问题</li> <li>要确定jsonp请求是否失败<strong>并不容易</strong></li></ul> <p><code>JSONP</code>使用步骤：</p> <p>1、定义一个callback：</p> <div class="language-html line-numbers-mode"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">var</span> <span class="token function-variable function">myHandler</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'获得从服务端的数据：'</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>2、发送请求给服务器</p> <h4 id="写法一-利用script标签的src属性"><a href="#写法一-利用script标签的src属性" class="header-anchor">#</a> 写法一：利用script标签的src属性</h4> <div class="language-html line-numbers-mode"><pre class="language-html"><code>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&amp;callback=myHandler<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h4 id="写法二-利用jquery的ajax方法"><a href="#写法二-利用jquery的ajax方法" class="header-anchor">#</a> 写法二：利用jQuery的ajax方法</h4> <div class="language-html line-numbers-mode"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    url<span class="token operator">:</span> <span class="token string">'http://www.baidu.com'</span><span class="token punctuation">,</span>
+    async<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    type<span class="token operator">:</span> <span class="token string">'get'</span><span class="token punctuation">,</span>
+    data<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'id'</span><span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    dataType<span class="token operator">:</span> <span class="token string">'jsonp'</span><span class="token punctuation">,</span> <span class="token comment">// 1、指定服务器返回的数据类型</span>
+    jsonpCallback<span class="token operator">:</span> <span class="token string">'myHandler'</span><span class="token punctuation">,</span> <span class="token comment">// 2、指定回调函数名称，要与服务器响应的文件里，调用的callback名称相同</span>
+
+    <span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>3、服务端（flightResult.aspx）组装好数据，返回以下js代码：</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token function">myHandler</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string">&quot;code&quot;</span><span class="token operator">:</span> <span class="token string">&quot;200&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;desc&quot;</span><span class="token operator">:</span> <span class="token string">'hello'</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;detail&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hehe&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>以上代码会用于调用<code>myHandler</code>这个回调函数。</p> <h4 id="安全性考虑"><a href="#安全性考虑" class="header-anchor">#</a> 安全性考虑</h4> <p>1、JSON劫持</p> <p>2、Callback可定义导致的安全问题
+<a href="https://www.cnblogs.com/52php/p/5677775.html" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/52php/p/5677775.html<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h3 id="cors"><a href="#cors" class="header-anchor">#</a> CORS</h3> <p>见上面一个知识点</p> <h3 id="window-postmessage"><a href="#window-postmessage" class="header-anchor">#</a> window.postMessage</h3> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">// 子iframe</span>
+window<span class="token punctuation">.</span>parent<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token string">'fullScreen'</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 父窗口</span>
+window<span class="token punctuation">.</span><span class="token function">onmessage</span><span class="token punctuation">(</span><span class="token string">'fullScreen'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="window-name-搭配iframe"><a href="#window-name-搭配iframe" class="header-anchor">#</a> window.name（搭配iframe）</h3> <p>因为在一个窗口的生命周期内，载入的所有页面共享一个window.name。</p> <div class="language-html line-numbers-mode"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>iframe<span class="token punctuation">&quot;</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>http://www.baidu.com/data.html<span class="token punctuation">&quot;</span></span> <span class="token attr-name">onload</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>getData()<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">function</span> <span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> iframe <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'iframe'</span><span class="token punctuation">)</span>
+        iframe<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> data <span class="token operator">=</span> iframe<span class="token punctuation">.</span>contentWindow<span class="token punctuation">.</span>name
+            <span class="token comment">// 获取data.html里的数据</span>
+        <span class="token punctuation">}</span>
+        iframe<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">&quot;b.html&quot;</span> <span class="token comment">// 转为和a同源的b.html</span>
+    <span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h3 id="nginx"><a href="#nginx" class="header-anchor">#</a> Nginx</h3> <p>利用Nginx通过<strong>反向代理</strong>来转发请求，来满足浏览器的同源策略，实现跨域。</p> <p>例如：</p> <p>前端<code>http://localhost:8080</code>，想请求<code>http://localhost:1234/api/basic/login</code>这个接口</p> <p>1、配置Nginx.conf，里面的定位规则：</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code>server <span class="token punctuation">{</span>
+    listen      <span class="token number">8080</span><span class="token punctuation">;</span>  #监听端口
+    server_name localhost<span class="token punctuation">;</span>
+
+    location <span class="token operator">/</span> <span class="token punctuation">{</span>
+        root html<span class="token punctuation">;</span> #文件根目录
+        index index<span class="token punctuation">.</span>html index<span class="token punctuation">.</span>htm<span class="token punctuation">;</span> #默认起始页
+    <span class="token punctuation">}</span>
+
+    #新增以下location定位规则
+    location <span class="token operator">/</span>rest <span class="token punctuation">{</span>
+        rewrite <span class="token operator">^</span><span class="token punctuation">.</span><span class="token operator">+</span>rest<span class="token operator">/</span><span class="token operator">?</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">)</span>$ <span class="token operator">/</span>$<span class="token number">1</span> <span class="token keyword">break</span><span class="token punctuation">;</span> #只取标志位$<span class="token number">1</span>，作为重定向地址
+        proxy_pass http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>localhost<span class="token operator">:</span><span class="token number">1234</span><span class="token punctuation">;</span> #表明该请求要代理到的主机
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+ # server：代表启动的一个服务
+ # location：代表定位规则
+    # rewrite：结合正则表达式、标志位，对url进行重写、重定向（语法：<span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">rewrite regex replacement [flag]</span><span class="token template-punctuation string">`</span></span>）
+        # 例如：<span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">rewrite ^.+rest/?(.*)$ /$1 break</span><span class="token template-punctuation string">`</span></span>，
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>2、前端访问时，url填写<code>/rest/api/basic/login</code>即可。</p> <h2 id="为什么form表单可以跨域"><a href="#为什么form表单可以跨域" class="header-anchor">#</a> 为什么form表单可以跨域</h2> <p>因为原页面用 form 提交到另一个域名之后，原页面的脚本无法获取新页面中的内容。</p> <p>所以浏览器认为这是安全的。</p> <p>而 AJAX 是可以读取响应内容的，因此浏览器不能允许你这样做。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间:</span> <span class="time">7/21/2020, 5:50:29 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/blog/skill/web/cdn/" class="prev">
+        CDN
+      </a></span> <span class="next"><a href="/blog/skill/web/http/">
+        HTTP
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/blog/assets/js/app.eef58a57.js" defer></script><script src="/blog/assets/js/2.0b00361f.js" defer></script><script src="/blog/assets/js/147.1675e503.js" defer></script>
+  </body>
+</html>
