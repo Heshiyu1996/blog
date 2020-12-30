@@ -11,8 +11,8 @@
  - **device-width**: 设备的屏幕宽度
  - **device-height**: 设备的屏幕宽度
  - **device-pixel-ratio**: DPR
- - **aspect-ratio**: 可视宽度 / 可视高度
- - **device-aspect-ratio**: 屏幕宽度 / 屏幕高度
+ - aspect-ratio: 可视宽度 / 可视高度
+ - device-aspect-ratio: 屏幕宽度 / 屏幕高度
 
 > 一般可以搭配`min-`、`max`前缀以表示`最小不低于`、`最大不超过`等含义。
 
@@ -71,6 +71,29 @@ screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-
 }
 ```
 
+#### iphone在其他浏览器的适配
+##### Safari
+```css
+/* iphone x/xs & iphone xr & iphone xs max */
+@media screen and (device-width: 375px) and (height: 635px) and (-webkit-device-pixel-ratio: 3),
+    screen and (device-width: 414px) and (height: 703px) and (-webkit-device-pixel-ratio: 2),
+    screen and (device-width: 414px) and (height: 719px) and (-webkit-device-pixel-ratio: 3)
+ {
+    /* ... */
+}
+```
+##### Weixin
+
+```css
+/* iphone xr */
+@media screen and (device-width: 375px) and (height: 635px) and (-webkit-device-pixel-ratio: 3),
+    screen and (device-width: 414px) and (height: 808px) and (-webkit-device-pixel-ratio: 2),
+    screen and (device-width: 414px) and (height: 719px) and (-webkit-device-pixel-ratio: 3)
+ {
+    /* ... */
+}
+```
+
 #### 各型号iphone参数对比：
 ![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045058944/f607/2f6a/43d1/d8858781428430c46145d481b509840f.png)
 
@@ -97,17 +120,51 @@ screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-
 }
 ```
 
-## 利用js来计算目标节点定位
-> 有时可以通过js来计算定位，搭配`position: fiexed`，可以省去很多css适配工作。
+## 开发问题
+### Q1、媒体查询使用
+1. 定位某一种机型：`device-width`、`device-height`以及`dpr`
+> 因为不管网页在哪里被打开，`device-width`只跟设备有关（同一个设备，这个值不变）
 
-例子：需要处理 **图中绿色DOM节点** 在页面定位适配。
+2. 定位某种机型在某浏览器下：`width`、`height`以及`dpr`
 
-<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045160953/f1b5/c031/1088/4619541d7407e87affa68ea088214ebb.png" width="200px" />
+### Q2、开发小程序的兼容方案
+iOS：
+ - 先按照`device-width`、`device-height`进行开发
+    - 效果预览：Chrome模拟器、MusicDevtools小程序预览
+ - 再适配：H5
+    - 效果预览：微信内置浏览器、云音乐App内置浏览器
+ - 最后适配：自带浏览器
+    - 效果预览：Safari
 
-发现，“绿色节点”距离上、下节点（皆为绝对定位的节点）的距离相近
- - 先通过上、下DOM节点的`getBoundingClientRect()`，获取`y`定位
-    - <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045216239/643e/c7a0/ed9e/609c19b22be3a6e5ecf6c17aa7ca530d.png" width="250px" />
- - 再通过`((顶部y + 顶部height) + 底部y) / 2`，得到中位数，设为绿色节点的y
- - 绿色节点再通过`transform: translateY(-50%)`可定位至上、下DOM节点中间
+### Q3、ipxr、ipxsMax设备屏幕可见宽度/高度相同，为什么还需要写两套样式？
+原因：
+ - “设备宽度/高度”指的是：**设备屏幕可见宽度/高度**（单位是缩放为100%时的“css像素”）
+ - 但实际上它们的ppi不同，所以设备像素个数、大小不一样：
+    - ipxr的分辨率：828 * 1792px（设备像素）
+    - ipxs Max的分辨率：1242 * 2688px（设备像素）
 
-注意：有时可能需要处理个别小屏手机进行粗粒度较大的适配（如针对绿色节点中的图片进行缩放等）
+![alt](https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5079712508/b98e/13f6/bfdd/562e03b1923b796994f109aa4b206dda.png)
+
+所以同样设定同样的`css值`时，它们可能最终呈现的样式可能不太一样，需要分别做适配：
+```css
+/* iphone xr */
+@media screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+    .title {
+        /* DPR为2，会用 2 * 2 个设备像素去呈现 */
+        width: 1px;
+        height: 1px;
+    }
+}
+
+/* iphone xs Max */
+@media screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+    .title {
+        /* DPR为3，会用 6 * 6 个设备像素去呈现 */
+        width: 2px;
+        height: 2px;
+    }
+}
+```
+
+## 参考资料
+ - [name="viewport" width="device-width" 到底都是啥](https://blog.csdn.net/lamanchas/article/details/78473249)
