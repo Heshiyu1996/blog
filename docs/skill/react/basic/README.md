@@ -284,6 +284,7 @@ useRef：
 
 以下打印了两者的`.current`属性：
 ![alt](./img/img-3.png)
+> 对于`Class Component`需要注意：方法要bind到组件实例上，否则无法通过`.current`读取到方法（若是箭头函数写法则可忽略）
 
 ### 将ref作用于函数式组件（forwardRef搭配useImperativeHandle）
 若ref用于`函数式组件`，因为它没有实例，react会提示你用`forwardRef`
