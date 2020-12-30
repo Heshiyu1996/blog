@@ -106,16 +106,16 @@ let getName = document.cookie.split(';').split('=')[1]
 
 ## 图示
 #### localStorage：同源、不同窗口，都可以共享
-![alt](./img/webStorage-1.png)
+![alt](./img/web-storage-1.png)
 
-![alt](./img/webStorage-2.png)
+![alt](./img/web-storage-2.png)
 
 #### sessionStorage：仅单个窗口内，可以共享
-![alt](./img/webStorage-3.png)
+![alt](./img/web-storage-3.png)
 
-![alt](./img/webStorage-4.png)
+![alt](./img/web-storage-4.png)
 
-![alt](./img/webStorage-5.png)
+![alt](./img/web-storage-5.png)
 
 ## cookie和session的区别
 `cookie`
