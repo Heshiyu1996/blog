@@ -312,3 +312,37 @@ onInput = (ev) => {
  - `dev分支`上即可获得最新的`master`
 
 ![alt](./img/img-2.png)
+
+
+## Android下line-height文字垂直居中偏移问题
+在移动端开发，Android的单行文字无法在容器中完美垂直居中。
+> 常见于一些 tag 和 按钮
+
+问题根源：设定同一`font-size`的文字，**在不同字体里的高度是不一样的**。
+
+### 调研
+ - 所有内联元素都有两个高度：`content-area`（基于字体度量）、`virtual-area`（有效高度，即line-height）
+ - `content-area`在内部渲染时已经发生偏移，而css的居中方案只会控制整个`content-area`的居中
+ - `line-height: normal`是基于字体度量计算出来的
+
+### 分析
+需要针对`content-area`、`virtual-area`两类高度进行垂直居中。
+
+### 解决方案
+针对`content-area`的居中（二选一）：
+ - 方案1：`line-height: normal`
+ - 方案2：设置`<html lang="zh-cmn-Hans">`、`font-family: sans-sarif`（sans-sarif表示黑体）
+
+针对`virtual-area`的居中（二选一）：
+ - 方案1：父容器`position: relative`，子元素`position: absolute; left: 50%; top: 50%; transtorm: translate(-50%, -50%);`
+ - 方案2：父容器声明为Flex容器，并`align-items: center`
+
+## iOS：position: fixed滑动不固定
+范围： 部分iOS机型（目前发现iOS<=13.6）
+
+在滚动容器内，子元素使用了`position: fixed`，出现滑动不固定
+
+### 解决
+ - 法一：在使用了`position: fixed`元素上加上`transform: translateZ(0)`
+ - 法二：将`fixed`元素移出 滚动视图 外
+ 
