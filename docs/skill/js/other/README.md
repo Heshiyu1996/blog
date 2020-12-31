@@ -170,40 +170,44 @@ myFunc('heshiyu') // 'hehsiyu'
  3个方法的作用：
    - 改变`this`的指向；
    - 支持`传入参数`；
-   - `call`、`apply`返回函数结果；`bind`返回新函数
  
  特点：
-   - `call`：只能一个参数一个参数传
-   - `apply`：只支持传一个数组（`arguments`）
+   - `call`：**返回函数结果**。只能一个参数一个参数传
+   - `apply`：**返回函数结果**。只支持传一个数组（`arguments`）
+   - `bind`：**返回新函数**。只能一个参数一个参数传
 
 ### 用法
 ```js
 var x = 2020
-var fn = function ()  {
-    return this.x
+var fn = function (num1, num2)  {
+    console.log(this.x, num1, num2)
+}
+var arrowFn = (num1, num2) => {
+    console.log(this.x, num1, num2)
 }
 var obj = {
     x: 1996
 }
 
-let resultA1 = fn.call(this, 1, 2)
-console.log(result1) // 2020
-let resultA2 = fn.call(obj, 1, 2)
-console.log(result2) // 1996
+fn.call(this, 1, 2) // 2020 1 2
+fn.call(obj, 1, 2) // 1996 1 2
+arrowFn.call(obj, 1, 2) // 2020 1 2 （箭头函数）
 
-let resultB1 = fn.apply(this, [1, 2])
-console.log(resultB1) // 2020
-let resultB2 = fn.apply(obj, [1, 2])
-console.log(resultB2) // 1996
+fn.apply(this, [1, 2]) // 2020 1 2
+fn.apply(obj, [1, 2]) // 1996 1 2
+arrowFn.apply(obj, [1, 2]) // 2020 1 2（箭头函数）
 
 let newFunc1 = fn.bind(this, 1, 2)
-console.log(newFunc()) // 2020
-let newFunc2 = fn.bind(obj), 1, 2)
-console.log(newFunc()) // 1996
+newFunc1() // 2020 1 2
+let newFunc2 = fn.bind(obj, 1, 2)
+newFunc2() // 1996 1 2
+let newFunc3 = arrowFn.bind(obj, 1, 2)
+newFunc3() // 2020 1 2（箭头函数）
 ```
 > 注意： 箭头函数里的this，在定义时就会确定了（为外层的this）
 
 ### 实现call
+将`myCall`方法绑定在每个函数的原型（`prototype`）上
  ```js
  Function.prototype.myCall = function(obj, ...arg) {
      let result
@@ -215,15 +219,30 @@ console.log(newFunc()) // 1996
      }
      // 1、改变`this`指向
      // 要让传入的obj成为：函数调用时的this值
+     // 这里的this指的是：调用myCall的函数（即下方示例的fn）
      obj._fn_ = this
-     result = obj._fn_(...arg) // 2、支持`传入参数`
+     // 2、支持`传入参数`
+     // 这样就可以看作是在obj对象下，执行的fn
+     result = obj._fn_(...arg)
      delete obj._fn_
      return result // 3、利用变量保存函数的返回值
  }
  ```
+ 调用`myCall`：
+ ```js
+ var obj = {
+    x: 1996
+}
+var fn = function ()  {
+    return this.x
+}
+
+fn.myCall(obj); // 改变调用fn方法时的this指向为obj
+ ```
+
 ### 实现apply
  ```js
- // 注意，第二个参数是一个数组
+ // 注意：apply的第二个参数是一个数组
  Function.prototype.myApply = function(obj, arr) {
      return this.myCall(obj, ...arr)
  }
@@ -231,8 +250,10 @@ console.log(newFunc()) // 1996
 ### 实现bind
  ```js
  Function.prototype.myBind = function(obj, ...arg) {
+     // 可能调用新函数时还会传入参数（会接在原来的参数后面）
      return (...arg2) => {
          let args = arg.concat(arg2)
+
          // 以下和实现call的一样
          let result
          // 0、传参检测
@@ -241,8 +262,8 @@ console.log(newFunc()) // 1996
          } else {
              obj = Object(obj)
          }
-     // 1、改变`this`指向
-     // 要让传入的obj成为：函数调用时的this值
+        // 1、改变`this`指向
+        // 要让传入的obj成为：函数调用时的this值
          obj._fn_ = this
          result = obj._fn_(...args) // 2、支持`传入参数`
          delete obj._fn_
@@ -252,7 +273,7 @@ console.log(newFunc()) // 1996
  ```
 
 ## new操作符经历了哪些步骤
- - 创建了一个`新的对象`
+ - 创建一个`新的对象`
  - 将`构造函数的作用域`赋值给`新的对象`（此时this指向新的对象）
  - 执行`构造函数`里的代码（为这个新对象添加属性）
  - 返回一个`新的对象`
@@ -274,15 +295,43 @@ console.log(newFunc()) // 1996
 ## window对象和document对象的区别
  `window`对象表示：浏览器中打开的窗口；
 
- `document`对象表示：当前页面；它是`window`的一个对象属性
+ `document`对象表示：当前页面；它是`window`下的一个对象属性
 
 
 ## let、var
-var：方法内部是局部变量，外部是全局变量（**var存在变量提升，但赋值undefined**）
+**var**：方法内部是局部变量，外部声明是全局变量（会挂在`window`上）
+> 方法内部var**存在变量提升**：在声明前就可以用，只不过值为undefined
 
-> 不使用var，全局
+> 不使用任何声明（var/let/const），就不存在变量提升，但会一直留在内存里（挂载了`window`上）
 
-**let声明的变量存在变量提升**， 但是由于 **死区** 我们无法在声明前访问这个变量
+```js
+function fn () {
+    // 使用var声明
+    console.log(typeof name1, name1); // 'undefined' undefined
+    // 直接赋值变量
+    console.log(typeof name2, name2); // Uncaught ReferenceError: name2 is not defined
+    // 没有声明
+    console.log(typeof name3, name3); // Uncaught ReferenceError: name3 is not defined
+
+    var name1 = 1;
+    name2 = 2; // 这种声明会挂在`window`中（即若声明前访问，第一次为undefined，第二次才有值）
+}
+fn()
+```
+
+**let**：声明局部变量，即使在方法外声明，也不会挂在`window`上
+> 由于 **死区**，无法在声明前访问
+
+```js
+function fn () {
+    console.log(typeof name1, name1); // Uncaught ReferenceError: Cannot access 'name1' before initialization
+    console.log(typeof name2, name2);
+
+    let name1 = 1;
+    name2 = 2;
+}
+fn()
+```
 
 `setTimeout`与`var/let`：
 ```js
