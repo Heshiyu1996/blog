@@ -302,7 +302,7 @@ fn.myCall(obj); // 改变调用fn方法时的this指向为obj
 **var**：方法内部是局部变量，外部声明是全局变量（会挂在`window`上）
 > 方法内部var**存在变量提升**：在声明前就可以用，只不过值为undefined
 
-> 不使用任何声明（var/let/const），就不存在变量提升，但会一直留在内存里（挂载了`window`上）
+> 不使用任何声明（var/let/const），**即不存在变量提升，也不会挂载window下**
 
 ```js
 function fn () {
@@ -314,7 +314,7 @@ function fn () {
     console.log(typeof name3, name3); // Uncaught ReferenceError: name3 is not defined
 
     var name1 = 1;
-    name2 = 2; // 这种声明会挂在`window`中（即若声明前访问，第一次为undefined，第二次才有值）
+    name2 = 2; // 这种声明不会变量提升
 }
 fn()
 ```
@@ -325,10 +325,8 @@ fn()
 ```js
 function fn () {
     console.log(typeof name1, name1); // Uncaught ReferenceError: Cannot access 'name1' before initialization
-    console.log(typeof name2, name2);
 
     let name1 = 1;
-    name2 = 2;
 }
 fn()
 ```
@@ -374,15 +372,14 @@ for (let i = 0; i < 10; i++) {
     - 返回：被移除掉的项（array）
  - sort()
     - 参数：（可选）比较函数（function）
-        - sort((a, b) => a - b) // 满足a-b，就交换，所以是升序（例子：[12, 2]）
-        - sort((a, b) => 1) // 不管a和b谁大，每次都交换，就是倒序（相当于reserve）
+        - `sort((a, b) => a - b)` // 升序（例子：[1, 2, 3]），这里的function不能直接返回boolean
     - 不传参数：按照`字符编码的顺序`进行排序
  - reverse()
 
 ### 非变异方法
  - slice()
-    - 参数1：截取的起始下标，闭区间
-    - 参数2：截取的终止下标，开区间（不指定，就是后面所有）
+    - 参数1：起始下标，闭区间
+    - 参数2：终止下标，开区间（不指定，就是后面所有）
     - 返回：被截走的数组（array）
 
  - concat()
@@ -413,11 +410,24 @@ for (let i = 0; i < 10; i++) {
     - 参数3：数组本身
     - 返回：一个新数组，旧数组不变
 
-## 去重
+### 其它
+ - indexOf
+    - 参数：目标元素
+    - 返回：第一个目标元素下标，若找不到返回`-1`
+
+ - findIndex
+    - 参数：(item) => item === xxx
+    - 返回：满足函数的第一个值的下标
+
+
+## 数组去重
+以下两种方法，对于**字符串、数字**皆可。
+
 方法一：（利用对象属性）
 ```js
 function func1(arr) {
     let map = {}
+    // 从后向前遍历，以便于 arr.splice 不影响前面的元素
     for (let i = arr.length - 1; i >= 0; i--) {
         arr[i] in map ? arr.splice(i, 1) : (map[arr[i]] = true)
     }
@@ -464,38 +474,74 @@ const uniqueList = [...new Set(list)];
             console.log(i)
         }
         // error
+        // 原因：普通对象没有部署Iterator接口
     ```
-因为`for...of`循环本质上是**调用Iterator接口产生的遍历器**，所以它只适用于`部署了Iterator接口`的数据（例如：数组、字符串、Set、Map、arguments、NodeList等）
-> 普通对象没有部署Iterator接口
+因为`for...of`循环本质上是**调用Iterator接口下的遍历器**，所以它只适用于部署了 **Iterator接口的数据**
+> （例如：数组、字符串、Set、Map、arguments、NodeList等）
  
 ## Math.floor、parseInt
- 相同：都能实现数字的向下取整
+ 相同：都能实现数字的 **向下取整**
 
  不同：
  ```js
-    // Math.floor 不能解析（非纯数字的）字符串
     Math.floor(0.89) // 0
     Math.floor("3") // 3
+    // Math.floor 不能解析 非纯数字的 字符串
     Math.floor("760px") // NaN
 
-    // parseInt不能解析（非数字开头的）字符串
     parseInt(0.89) // 0
     parseInt("3") // 3
     parseInt("760px") // 760
  ```
 
 ## this的指向
- `this`是运行时基于函数的执行环境所决定的。
+`this`的指向是 **基于函数的执行环境** 所决定的。
 
- - 作为 **函数调用**，this指向window（非严格模式）；this指向undefined（严格模式）
+ - 作为 **函数调用**，this指向`window`（非严格模式）；this指向`undefined`（严格模式）
+```js
+    function func1 () {
+        console.log(this); // `window`
+    }
+    func1();
+```
+
+ - 作为 **某对象的方法调用**，this指向该对象（可通过call、apply、bind可以改变`this`指向）。
+ - 箭头函数 **没有自己的this**（也不能通过`call`等方法改变指向） ，它 **永远指向 “箭头函数在定义时的外层函数/对象”它所在的对象**
+```js
+    let obj = {
+        say() {
+            console.log(this);
+        },
+        baseSay: () => {
+            console.log(this);
+        }
+    }
+    let fakeObj = {
+        name: 1
+    };
+
+    obj.say(); // obj
+    obj.say.call(fakeObj); // fakeObj
+
+    obj.baseSay(); // window（指向“箭头函数在定义时的外层函数/对象”它所在的对象）
+    obj.baseSay.call(fakeObj); // window（call无法改变箭头函数this指向）
+```
+
  - 在 **构造函数里调用**，this指向新创建的对象
- - 作为 **某对象方法调用**，this指向该对象。
- - 使用call、apply、bind可以 **改变this指向**
- - 箭头函数 **没有自己的this** ，它指向箭头函数 **定义时外层函数所在的对象**
-
+```js
+    class Person() {
+        this.name = 'heshiyu';
+    }
+```
 
 ## this绑定规则的优先级
 优先级：**new绑定 > 显式绑定 > 隐式绑定 > 默认绑定**
+
+### 4种绑定
+ - **默认绑定**：此时this指向全局对象（若在严格模式下，this指向undefind）
+ - **隐式绑定**：此时this指向当前对象
+ - **显式绑定**：此时this指向`call`、`apply`、`bind`指定的对象
+ - **new绑定**：此时this指向新对象
 
 ```js
 var name = 'hehe'
@@ -514,16 +560,11 @@ var obj2 = {
     fn: fn
 }
 
-fn(); // 'hehe'，属于“默认绑定”。此时this指向全局对象（若在严格模式下，this指向undefind）
+fn(); // 'hehe'，属于“默认绑定”。此时this指向`Window`（严格模式下为undefind）
 obj1.fn(); // 'heshiyu'，属于“隐式绑定”。此时this指向obj1对象
 obj1.fn.call(obj2); // 'huangxiaoming'，属于“显式绑定”。此时this指向obj2对象
 ```
 
-### 4种绑定
- - **默认绑定**：此时this指向全局对象（若在严格模式下，this指向undefind）
- - **隐式绑定**：此时this指向当前对象
- - **显式绑定**：此时this指向`call`、`apply`、`bind`指定的对象
- - **new绑定**：此时this指向新对象
 
 ### 练一练
 ```js
@@ -548,11 +589,11 @@ func();
 ```js
 obj1.say() // 'obj1'。隐式绑定。this指向obj1
 
-obj2.say() // 'obj2'。同样隐式指定。this指向obj2
+obj2.say() // 'obj2'。同样隐式绑定。this指向obj2
 
-obj3.say() // 'obj2'。显示指定。bind改变了this指向为obj2，最后返回新函数
+obj3.say() // 'obj2'。显示绑定。“显示绑定”的优先级 > “隐式绑定”，同时bind改变了this指向为obj2，最后返回新函数
 
-func() // 'undefined'。默认指定。this指向全局。（若为严格模式，this指向undefined，会报错找不到name属性）
+func() // 'undefined'。默认绑定。this指向全局。（若为严格模式，this指向undefined，会报错找不到name属性）
 ```
 
 
