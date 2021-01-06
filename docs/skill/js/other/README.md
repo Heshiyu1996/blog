@@ -440,8 +440,9 @@ const list = [1, 1, 2, 3]
 const uniqueList = [...new Set(list)];
 ```
 
-## for...in和for...of
- - for...in *（读取对象或数组的key值）*
+## for...in、Object.keys、for...of
+ - for...in *（读取 对象 或 数组 的key值）*
+    - 可枚举的所有属性（包括“自有属性”、“继承属性”）
     ```js
         var arr = [1, 9, 6, 7]
         var obj = {
@@ -458,7 +459,26 @@ const uniqueList = [...new Set(list)];
         }
         // name
     ```
- - for...of *（读取数组的value值，且只能遍历部署了Iterator接口的数据）*
+ - Object.keys *（读取 对象 或 数组 的key值）*
+    - 可枚举的所有属性（仅“自有属性”）
+    ```js
+        var arr = [1, 9, 6, 7]
+        var obj = {
+            name: 'heshiyu'
+        }
+
+        for (var i in arr) {
+            console.log(i)
+        }
+        // 依次输出：0 1 2 3
+
+        for (var i in obj) {
+            console.log(i)
+        }
+        // name
+    ```
+ - for...of *（读取数组的value值）*
+    - 只能遍历 “部署了Iterator接口的数据”
     ```js
         var arr = [1, 9, 6, 7]
         var obj = {
@@ -478,6 +498,8 @@ const uniqueList = [...new Set(list)];
     ```
 因为`for...of`循环本质上是**调用Iterator接口下的遍历器**，所以它只适用于部署了 **Iterator接口的数据**
 > （例如：数组、字符串、Set、Map、arguments、NodeList等）
+
+> 类似地，Object.getOwnPropertyNames()：返回一个数组，数组里是对象中`所有自有`属性（不管是否可枚举）
  
 ## Math.floor、parseInt
  相同：都能实现数字的 **向下取整**
@@ -680,36 +702,36 @@ arr.constructor === Array // true
 ```
 
 ## script标签的加载规则
- 默认情况下，浏览器**同步加载JavaScript脚本**。
- > **渲染引擎**遇到`<script>`标签就会把控制权交给**JS引擎**去执行脚本，执行完毕再把控制权交给**渲染引擎**，继续向下渲染
-
- 当然，浏览器也**允许脚本异步加载**，下面是两种 **异步加载** 的语法：
+ <!-- > **渲染引擎**遇到`<script>`标签就会把控制权交给**JS引擎**去执行脚本，执行完毕再把控制权交给**渲染引擎**，继续向下渲染 -->
+ 
+ js脚本可分为 “加载”、“执行” 两阶段。
+ 
+ 其中，“加载”阶段 可以支持异步：
  ```js
- <script src="path/to/myModule.js" defer></script>
- <script src="path/to/myModule.js" async></script>
+// （默认）同步加载，会阻塞DOM渲染
+ <script></script>
+
+ // 异步加载。页面加载完后执行
+ <script src="./test.js" defer></script>
+
+ // 异步加载。js脚本加载完后立即执行
+ <script src="./test.js" async></script>
  ```
-前者（`defer`）指的是：当页面渲染完成，再执行；
 
-后者（`async`）指的是：一旦下载完成，渲染引擎就中断渲染，**执行这个脚本之后** 再继续渲染。
+![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5621228646/44e5/62ec/1441/570e80c035d2087cf6c9e30ed8c08560.png)
 
-另外，`defer`会按照它在页面中出现的顺序加载，`async`不能保证按顺序。
+`defer`会按照它在页面中出现的顺序加载，`async`不能保证按顺序。
 
 ## 扩展运算符（...）、Object.assign()
- `扩展运算符（...）`和`Object.assign()`可以对一个对象A进行一层的拷贝：
+对象浅拷贝：
+ - 扩展运算符（...）
+ - Object.assign()
  ```js
  {...obj2}
  
- // 等价于
  Object.assign({}, obj2)
  ```
-
- 
- 但如果对象A里面还包含子对象/子数组，那么这部分就只是`浅拷贝`！！
- 
-
- > 深拷贝：拷贝的是`值的副本`
- > 
- > 浅拷贝：拷贝的是`值的引用`
+ **浅拷贝**拷贝的是`值的引用`，**深拷贝**拷贝的是`值的副本`。
 
 ```js
 let o1 = { 
@@ -735,44 +757,28 @@ console.log(o1)
 // { name: 'I am new o1', address: { province: 'hz', city: 'qy' } }
 ```
 
-### 项目中的错误示范
-利用`扩展运算符（...）`拷贝的对象里的`子对象/子数组`是`浅拷贝`。
-```js
-// 有这么一个对象defaultStart
-let defaultStart = {
-    name: '',
-    children: []
-}
-
-// 第一次对newData进行拷贝
-let newData = { ...defaultStart }
-newData.children.push(cInfo)
-
-// 第二次对newData进行拷贝
-let newData = { ...defaultStart }
-newData.children.push(cInfo) // 注意！这时的children其实还是上次的children
-
-// 清除children的解决办法：
-// ① newData.children = []
-// ② newData.children.length = 0
-```
+### 堆、栈区别
 
 ## 深拷贝
-`若没有function`，可以使用：
+若被拷贝的对象内没有 `function` 属性，可以使用：
 ```js
 // 将对象进行序列化后，再反序列化。
-// 缺点：会忽略函数function
 JSON.parse(JSON.stringify(obj))
+
+// 缺点：会忽略函数function
 ```
 
-`若有function`，可以使用：
+或者 **通用的递归**：
 ```js
 export const deepClone = source => {
     if (!souce || typeof source !== 'object') {
         // 不是对象
         throw new Error('error arguments', 'shallowClone')
     }
+
     var targetObj = source.constructor === Array ? [] : {}
+
+    // 遍历key值
     for (var keys in source) {
         if(source.hasOwnProperty(keys)) {
             if(!source[keys] || typeof source[keys] !== 'object') {
@@ -822,7 +828,10 @@ arr.reduce((total, curVal) => (total + curVal), 10) // 16
 
 ## 函数的内部属性
 ### 函数内部属性一：arguments
-`arguments`是一个类数组对象，包含着：**传入函数中的所有参数**、**callee属性**、**length属性**。
+`arguments`是一个类数组对象，包含着：
+ - **传入函数中的所有参数**
+ - **callee属性**
+ - **length属性**
 
 ![alt](./img/Argument-1.png)
  - `传入的参数`：
@@ -831,35 +840,21 @@ arr.reduce((total, curVal) => (total + curVal), 10) // 16
     ![alt](./img/Argument-2.png)
  - `length属性`：返回 **实际传入参数的个数**
  - `callee属性`：是一个引用，指向 **当前所执行的函数**
-    - 在`'use strict'`下，该callee属性会被禁用
+> 在`'use strict'`下，该callee属性会被禁用
 ```js
-// 不足：函数的执行 与 函数名 紧密耦合。因为函数名最好别改，改了就会连同下面return的factorial也要改
+// 不足：函数的执行 与 函数名 紧密耦合。
+// 因为函数名一旦修改，就会连同下面 return的factorial 也要改
 function factorial(num) {
     if (num < 1) {
         return 1
     } else {
         return num * factorial(num - 1)
+        // 改成这样就不用担心“函数改名”问题了
         // return num * arguments.callee(num - 1)
     }
 }
-// arguments.callee优势，可以消除上面提到的紧密耦合
-```
-注意：通过 **函数声明** 来定义函数的效果 和 直接通过 **函数表达式** 来定义函数的效果，是`一样`的，（`函数名` 实际上也是一个 `指向函数对象的指针`）。
-```js
-var factorial = function(num) { ... }
 ```
 
-```js
-// 改用arguments.callee后
-var trueFactorial = factorial
-
-factorial = function() { // 切断了 变量factorial 和 函数对象的联系
-    return 0
-}
-
-trueFactorial(5) // 120
-factorial(5) // 0
-```
 ### 函数内部属性二：特殊对象this
 `this`指向的是：函数执行的环境对象（若在全局中，this的值是`window`）
 ```js
@@ -878,7 +873,10 @@ sayColor() // 'red'，因为在全局作用域
 o.sayColor = sayColor
 o.sayColor() // 'blue'，因为是在对象o的作用域
 ```
+
 > `函数名` 实际上是一个 `指向函数对象的指针`，所以这里`o.sayColor = sayColor`之后，即使在不同环境执行，全局的`sayColor`函数与`o.sayColor`函数指向的仍然是同一个函数。
+>
+> **函数声明** 定义的函数、直接通过 **函数表达式** 定义的函数，效果是一样的（`函数名` 实际上是一个 `指向函数对象的指针`）。
 
 ### 函数内部属性三：caller
 `caller`指向的是 **调用当前函数的父函数引用**（若在全局中调用当前函数，caller的值是`null`）
@@ -900,17 +898,10 @@ outer()
 ## 事件处理函数和默认行为的执行顺序
 大多数情况下，是先执行**事件处理函数**，再执行**默认行为**。
 
-> 理由：可以通过事件处理函数中，去阻止默认行为
+> 因为可以通过 “事件处理函数” 去阻止“默认行为”
 
 也有例外：
  - checkbox的**事件默认行为会先执行**。如果一旦阻止了默认行为，就会**恢复到执行默认行为之前的状态**（用户无感知）
-
-## for...in、Object.keys()、Object.getOwnPropertyNames()
-for...in是遍历对象中的`所有可枚举属性`（包括自有属性和继承属性）
-
-Object.keys()：返回一个数组，数组里是对象中`所有可枚举的自有属性`的名称
-
-Object.getOwnPropertyNames()：返回一个数组，数组里是对象中`所有的自有属性`（不管是否可枚举）
 
 ## 计算随机数0-5、95-99
 ```js
