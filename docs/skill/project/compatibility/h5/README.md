@@ -217,3 +217,26 @@ const doPreview = (index) => {
 ```jsx
 <AudioComponent ref={audioRef} />
 ```
+
+## 禁用微信调整字体大小
+```js
+(function disableWeixinTextAdjust() {
+    function handleFontSize() {
+        const WeixinJSBridge = window.WeixinJSBridge;
+        WeixinJSBridge.invoke('setFontSizeCallback', { fontSize: 0 });
+        WeixinJSBridge.on('menu:setfont', () => {
+            WeixinJSBridge.invoke('setFontSizeCallback', { fontSize: 0 });
+        });
+    }
+
+    if (typeof window.WeixinJSBridge === 'object'
+        && typeof window.WeixinJSBridge.invoke === 'function') {
+        handleFontSize();
+    } else if (document.addEventListener) {
+        document.addEventListener('WeixinJSBridgeReady', handleFontSize, false);
+    } else if (document.attachEvent) {
+        document.attachEvent('WeixinJSBridgeReady', handleFontSize);
+        document.attachEvent('onWeixinJSBridgeReady', handleFontSize);
+    }
+}());
+```
