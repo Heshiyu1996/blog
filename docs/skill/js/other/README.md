@@ -684,22 +684,6 @@ func() // 'undefined'。默认绑定。this指向全局。（若为严格模式�
 ## target、currentTarget
   - event.target：返回的是`触发事件`的元素
   - event.currentTarget：返回的是`绑定事件`的元素
- 
-## 检测变量类型
-（待补）
-- 方法一：
- `Object.prototype.toString.call(obj)`
- 
- 原因：`Array`、`function`是Object的实例，都重写了toString方法。根据原型链，直接调用的话，是对应的重写之后的toString方法，而不会去调用Object上原型的toString方法
-
- ```js
- Object.prototype.toString.call([]) // [object array]
- ```
-- 方法二：
-```js
-let arr = []
-arr.constructor === Array // true
-```
 
 ## script标签的加载规则
  <!-- > **渲染引擎**遇到`<script>`标签就会把控制权交给**JS引擎**去执行脚本，执行完毕再把控制权交给**渲染引擎**，继续向下渲染 -->
@@ -931,6 +915,7 @@ Math.floor(Math.random() * 5 + 95) // [95, 100)之间的整数，向下取整
     var _args = [...arguments]
 
     // 在内部声明一个函数，利用闭包的特性来保存
+    // 这里不能用箭头函数，否则arguments一直是第一次传入参数
     var _adder = function() {
         _args.push(...arguments)
         return _adder
@@ -987,13 +972,13 @@ Math.floor(Math.random() * 5 + 95) // [95, 100)之间的整数，向下取整
 ## ES6新数据结构Set、Map
 ### Set
 Set类似于**数组**，特点是里面的`值是唯一`的（即不会出现重复）、且`遍历顺序就是插入顺序`。
+
 ```js
 // 新建一个Set结构
 var set = new Set(['贺世宇', '作者'])
 ```
 
-它有两个实例属性：
- - constructor
+实例属性：
  - size
 
 它有4个操作方法、4个遍历方法
@@ -1037,7 +1022,7 @@ var map = new Map([
 // 
 ```
 
-它有实例属性：
+实例属性：
  - size
 
 它有5个操作方法、4个遍历方法：
@@ -1055,12 +1040,10 @@ var map = new Map([
     - forEach() // 第一个参数是迭代函数（val, key, map），接受第二个参数，用于绑定this
 
 和**普通对象**的区别：
- - key的类型：
-    - 
 | | Map | 普通对象 |
 |--|--|--|
 | key的类型 | 任意类型 | 只能是字符串 |
-| keys() | 变量.keys() | Object.keys(obj) |
+| 遍历key值 | 变量.keys() | Object.keys(obj) |
 | 遍历顺序 | 插入顺序 | 对象散列结构，无顺序
 
 和**WeakMap**的区别：
@@ -1080,7 +1063,9 @@ console.log(weakmap.has(keyObject)); // false
 ```
 
 ## ==和===的区别
-`==`（相等）和`===`（恒等）的区别，前者`会进行类型转换（1）`再对`值进行比较（2）`；后者`值进行比较（1）`，`再进行类型转换（2）`。
+`==`：先**类型转换**，再**比较值**；
+
+`===`：先**比较值**，再**转换类型**。
 
 ## JS的继承
  - 原型链
@@ -1089,8 +1074,9 @@ console.log(weakmap.has(keyObject)); // false
     - 原理：1、先创建父类的实例对象（调用super）；2、通过子类的构造函数修改this
 
 ### 组合继承：
-
-组合`原型继承、借用构造函数`，使得实例化的对象具有各自的实例属性（方法），也有公用的原型属性（方法）。
+组合`原型继承、借用构造函数`，使得 **实例化的对象** 具有：
+ - 各自的实例属性/方法
+ - 公用的原型属性/方法。
 
 ```js
 function Person() {
@@ -1107,18 +1093,24 @@ Student.prototype.constructor = Student // 将原型对象上的constructor重�
 var stu = new Student('heshiyu')
 ```
 
-## 垃圾回收机制
-JS垃圾回收机制：
- - 标记清除
-    -  **垃圾收集器** 会给内存中的所有变量加上标记。然后会去掉 **环境中的变量**、**被环境中变量引用的** 标记。此后，如果还有标记的，就视为**准备删除的变量**。
+## JS垃圾回收机制
+### 标记清除
+原理：将 **仍拥有标记的变量** 清除。
+> 主流浏览器都是使用 “标记清除”，只不过收集的间隔有所不同。
+ - 先给内存中的所有变量加上标记
+ - 然后会去掉：**环境中的变量**、**被环境中变量引用的** 的标记
+ - “垃圾收集器”会将 **仍存在标记的变量** 进行清除。
 
- - 引用计数
-    -  跟踪每个值**被引用的次数**。当声明一个变量，并将一个引用类型赋值给变量时，这个值的引用次数为1。相反，如果取消引用换成别的值了，那这个值就-1。垃圾收集器下次运行时，会释放那些引用次数为0的值所占的内存。
+### 引用计数
+原理：将 **被引用的次数为0的堆内存** 清除。
+ - 声明一个引用类型的变量时，对应堆内存的引用次数为1。
+ - 相反，如果取消了引用，那 原来这块堆内存的值 就-1。
+ - “垃圾收集器”会将 **引用次数为0的堆内存** 进行清除。
+
+> 若存在循环引用，那这两个对象引用次数是2，永远不会被回收
 
 ## toString()、valueOf()
-所有对象（**undefined、null除外**）都继承了这两个转换方法：
- - toString()：返回对象的字符串表示
- - valueOf()：返回对象的字符串、数值或布尔值表示
+所有（**undefined、null除外**）都继承了这两个方法。
 
 ```js
 var a = 3,
@@ -1128,12 +1120,12 @@ var a = 3,
     e = function(){ console.log('example') },
     f = ['test', 'example']
 
-a.toString() // '3'
-b.toString() // '3'
-c.toString() // 'true'
+a.toString() // '3'（重写版）
+b.toString() // '3'（重写版）
+c.toString() // 'true'（重写版）
 d.toString() // '[object Object]'
-e.toString() // function(){ console.log('example') }
-f.toString() // 'text,example'。相当于arr.join(',')
+e.toString() // function(){ console.log('example') }（重写版）
+f.toString() // 'text,example'。相当于arr.join(',')（重写版）
 
 a.valueOf() // 3
 b.valueOf() // '3'
@@ -1142,6 +1134,39 @@ d.valueOf() // {test: "123", example: 123}
 e.valueOf() // function(){ console.log('example') }
 f.valueOf() // ['test', 'example']
 ```
+
+
+### toString()
+返回"该对象的字符串表示"
+ > 如果此方法在 “自定义对象中” 未被覆盖，toString() 返回 `"[object type]"`，其中 `type` 是对象的类型。
+### 使用toString()检测对象类型
+- 方法一：
+ `Object.prototype.toString.call(obj)`
+ 
+#### 为什么用`call`？
+原因：`Number`、`String`、`Boolean`、`function`、`Array`是Object的实例，都重写了toString方法。根据原型链，直接调用的话，是对应的重写之后的`toString`，而不会去调用Object上原型的toString方法
+
+```js
+ Object.prototype.toString.call([]) // [object array]
+```
+- 方法二：
+```js
+let arr = []
+arr.constructor === Array // true
+```
+
+### valueOf()
+返回“该对象的原始值”
+### 不同类型对象下valueOf()方法的返回值
+| 对象 | 返回值 |
+| -- | -- |
+| String | 字符串 |
+| Number | 数值 |
+| Boolean | 布尔值 |
+| Object | 对象本身 |
+| Array | 返回数组的对象本身 |
+| Date | 返回从 1970年 1 月 1 日午夜开始计的毫秒数 |
+| Function | 函数本身 |
 
 ## 类数组对象、可遍历对象
 从`普通数组`开始说起：
