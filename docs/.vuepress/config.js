@@ -2,7 +2,7 @@ const head = require('./head')
 const nav = [
     { text: '总览', link: '/overview/' },
     {
-        text: '前端积累', items: [
+        text: '基础', items: [
             {
                 text: '基础', items: [
                     { text: 'HTML', link: '/skill/html/' },
@@ -19,54 +19,54 @@ const nav = [
                 ],
             },
             {
-                text: '笔记', items: [
-                    { text: '个人笔记', link: '/skill/personal/' },
-                    { text: '项目笔记', link: '/skill/project/' },
-                    { text: '读书/参会心得', link: '/skill/note/' }
+                text: '其它', items: [
+                    { text: '计算机', link: '/skill/computeracy/' },
+                    // { text: '算法', link: '/skill/algorithm/' }
                 ]
             },
-            {
-                text: '前端周边', items: [
-                    { text: '计算机', link: '/skill/computeracy/' },
-                    { text: '算法', link: '/skill/algorithm/' }
-                ]
-            }
         ]
     },
     {
-        text: '工程产出', items: [
-            { text: '前端规范', items: [
-                    { text: 'CSS规范', link: '/output/standard/css/' },
-                    { text: 'JS规范', link: '/output/standard/js/' },
-                    { text: 'ESLint & Prettier规范', link: '/output/standard/eslint/' },
-                    { text: 'Stylelint规范', link: '/output/standard/stylelint/' },
-                    { text: 'Git规范', link: '/output/standard/git/' },
-                    // { text: '接口规范', link: '/output/standard/interface/' }
+        text: '业务', items: [
+            {
+                text: '实践', items: [
+                    { text: 'H5开发', link: '/business/practice/h5/' },
+                    { text: 'PC开发', link: '/business/practice/pc/' },
+                    { text: '其它', link: '/business/practice/other/' },
                 ]
             },
-            { 
-                text: '项目沉淀',
-                items: [
-                    { text:'React工程模板', link: '/output/fruit/template/' },
-                    { text:'基于Antd的业务组件库', link: '/output/fruit/component-lib/' },
-                    // { text: '【组件库】sy-ui', link: 'https://github.com/Heshiyu1996/sy-ui' }
-                ] 
-            },
-            { 
-                text: '前端工程模板',
-                items: [
-                    { text: '单页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js' },
-                    { text: '单页项目（react16.9 + webpack4 + Typescript）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts' },
-                    { text: '多页项目（react16.9 + webpack4）', link: 'https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js' },
+            {
+                text: '工具', items: [
+                    { text: '工程工具', link: '/business/tool/' },
                 ]
-            }
+            },
         ]
     },
-    { text: '实用工具', link: '/tool/' },
+    {
+        text: '周边', items: [
+            { 
+                text: '产出',
+                items: [
+                    { text:'前端规范', link: '/other/output/standard/' },
+                    { text:'前端工程模板（React）', link: '/other/output/fruit/template/' },
+                    // { text:'基于Antd的业务组件库', link: '/other/fruit/component-lib/' },
+                ] 
+            },
+            {
+                text: '心得', items: [
+                    { text: '读书/参会心得', link: '/other/feeling/' }
+                ]
+            },
+        ]
+    },
+    { text: '工具', link: '/tool/' },
 ]
 
 const sidebar = {
+    // 总览
     '/overview/': ['/overview/'],
+
+    // 基础-HTML
     '/skill/html': [
         {
             title: '《HTML》',
@@ -77,6 +77,8 @@ const sidebar = {
             ]
         }
     ],
+    
+    // 基础-CSS
     '/skill/css': [
         {
             title: '《CSS》',
@@ -92,6 +94,8 @@ const sidebar = {
             ]
         }
     ],
+
+    // 基础-JS
     '/skill/js': [
         {
             title: '《JS》',
@@ -110,6 +114,8 @@ const sidebar = {
             ]
         }
     ],
+
+    // 基础-NodeJS
     '/skill/nodejs': [
         {
             title: '《NodeJS》',
@@ -122,6 +128,8 @@ const sidebar = {
             ]
         }
     ],
+
+    // 基础-Web
     '/skill/web': [
         {
             title: '《Web/浏览器》',
@@ -154,6 +162,7 @@ const sidebar = {
         },
     ],
 
+    // 基础-React
     '/skill/react': [
         {
             title: '《React》',
@@ -172,6 +181,8 @@ const sidebar = {
             ]
         }
     ],
+
+    // 基础-Vue
     '/skill/vue': [
         {
             title: '《Vue》',
@@ -200,72 +211,8 @@ const sidebar = {
             ]
         }
     ],
-    '/skill/personal': [
-        {
-            title: '《个人笔记》',
-            collapsable: false,
-            children: [
-                'personal/2020-q3/',
-            ]
-        }
-    ],
-    '/skill/project': [
-        {
-            title: '《项目笔记》',
-            collapsable: false
-        },
-        {
-            title: '工具实践',
-            collapsable: false,
-            children: [
-                'project/webpack/',
-                'project/babel/',
-                'project/package/',
-                'project/npm/',
-                'project/mp/',
-                'project/chrome-extension/',
-                'project/rollup/',
-            ]
-        },
-        {
-            title: '项目踩坑',
-            collapsable: false,
-            children: [
-                'project/react-project-note/',
-                'project/prettier-vue-cli/',
-                'project/compatibility/pc/',
-                'project/compatibility/h5/',
-                'project/other/'
-            ]
-        }
-    ],
-    '/skill/note': [
-        {
-            title: '《读书/参会心得》',
-            collapsable: false,
-        },
-        {
-            title: '读书心得',
-            collapsable: false,
-            children: [
-                'note/webpack5/',
-                'note/hooks-vs-class/',
-                'note/vue-composition-api-rfc/',
-                'note/complete-intro-react/',
-                'note/webpack-experience/',
-                'note/react-deep-learning/',
-                'note/links/'
-            ]
-        },
-        {
-            title: '参会心得',
-            collapsable: false,
-            children: [
-                'note/d2-2019/',
-                'note/vue-conf-2018/',
-            ]
-        }
-    ],
+
+    // 基础-计算机
     '/skill/computeracy': [
         {
             title: '《计算机知识》',
@@ -275,45 +222,115 @@ const sidebar = {
             ]
         }
     ],
-    '/skill/algorithm': [
+
+    // // 基础-算法
+    // '/skill/algorithm': [
+    //     {
+    //         title: '《算法》',
+    //         collapsable: false,
+    //         children: [
+    //             'algorithm/basic/',
+    //             'algorithm/sort/',
+    //             'algorithm/search/',
+    //             'algorithm/dp/',
+    //             'algorithm/leetcode/',
+    //             'algorithm/time-complexity/',
+    //         ]
+    //     }
+    // ],
+
+    // '/skill/personal': [
+    //     {
+    //         title: '《个人笔记》',
+    //         collapsable: false,
+    //         children: [
+    //             'personal/2020-q3/',
+    //         ]
+    //     }
+    // ],
+
+    // 业务-实践
+    '/business/practice': [
         {
-            title: '《算法》',
+            title: '实践',
             collapsable: false,
             children: [
-                'algorithm/basic/',
-                'algorithm/sort/',
-                'algorithm/search/',
-                'algorithm/dp/',
-                'algorithm/leetcode/',
-                'algorithm/time-complexity/',
+                'practice/h5/',
+                'practice/pc/',
+                'practice/other/',
             ]
-        }
+        },
     ],
 
-    '/output/': [
+    // 业务-工程工具
+    '/business/tool': [
         {
-            title: '前端规范',
+            title: '工程工具',
             collapsable: false,
             children: [
-                'standard/css/',
-                'standard/js/',
-                'standard/eslint/',
-                'standard/stylelint/',
-                'standard/git/',
-                // 'standard/interface/'
+                'tool/webpack/',
+                'tool/babel/',
+                'tool/npm/',
+                'tool/mp/',
+                'tool/chrome-extension/',
+                'tool/rollup/',
+            ]
+        },
+    ],
+
+    // 周边-产出
+    '/other/output': [
+        {
+            title: '《前端规范》',
+            collapsable: false,
+            children: [
+                'output/standard/css/',
+                'output/standard/js/',
+                'output/standard/eslint/',
+                'output/standard/stylelint/',
+                'output/standard/git/',
+                'output/standard/interface/'
             ]
         },
         {
-            title: '项目沉淀',
+            title: '《前端工程模板》',
             collapsable: false,
             children: [
-                'fruit/template/',
-                'fruit/component-lib/',
-                // ['https://github.com/Heshiyu1996/sy-ui','个人组件库']
+                'output/fruit/template/',
+            ]
+        },
+    ],
+
+    // 周边-心得
+    '/other/feeling': [
+        {
+            title: '《读书/参会心得》',
+            collapsable: false,
+        },
+        {
+            title: '读书心得',
+            collapsable: false,
+            children: [
+                'feeling/webpack5/',
+                'feeling/hooks-vs-class/',
+                'feeling/vue-composition-api-rfc/',
+                'feeling/complete-intro-react/',
+                'feeling/webpack-experience/',
+                'feeling/react-deep-learning/',
+                'feeling/links/'
+            ]
+        },
+        {
+            title: '参会心得',
+            collapsable: false,
+            children: [
+                'feeling/d2-2019/',
+                'feeling/vue-conf-2018/',
             ]
         }
     ],
 
+    // 实用工具
     '/tool/': [
         {
             title: '《实用工具》',
@@ -364,7 +381,7 @@ module.exports = {
         sidebarDepth: 1, // 侧边栏显示2级
 
         lastUpdated: '更新时间',
-        repo: 'https://github.com/Heshiyu1996',
+        // repo: 'https://github.com/Heshiyu1996',
 
         editLinks: false,
         editLinkText: ' ',

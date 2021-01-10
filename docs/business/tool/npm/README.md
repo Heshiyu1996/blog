@@ -42,3 +42,7 @@ source ~/.profile
     - yarn.lock
  - 更简洁的输出
  - 语义化的命令
+
+ ## package.json
+ [查看package.json](./package)
+ 

@@ -1,4 +1,4 @@
-# React前端工程模板
+# React前端工程脚手架
 > 主要技术： react(16.9.0) + antd(3.23.3) + webpack(4.39.1) + react-router-dom(5.0.1) + react-loadable(5.5.0)
 
 [[toc]]
@@ -159,3 +159,10 @@ yarn start:cache
 可以针对项目对 权限设置 的要求，适当搭配使用。
 
 [查看详情](./DEMO.md)
+
+
+## 链接
+ - [单页项目（react16.9 + webpack4](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js')
+ - [单页项目（react16.9 + webpack4 + Typescript](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts')
+ - [多页项目（react16.9 + webpack4](https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js')
+ - [搭建踩坑笔记](./react-project-note)
