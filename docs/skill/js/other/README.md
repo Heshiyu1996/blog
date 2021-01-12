@@ -298,41 +298,90 @@ fn.myCall(obj); // 改变调用fn方法时的this指向为obj
  `document`对象表示：当前页面；它是`window`下的一个对象属性
 
 
-## let、var
-**var**：方法内部是局部变量，外部声明是全局变量（会挂在`window`上）
-> 方法内部var**存在变量提升**：在声明前就可以用，只不过值为undefined
+## var、let、const
+分别通过：**作用域**、**变量提升**、**能否修改** 3 方面分析。
+### 作用域
+**var** 是函数作用域。
+ - 在 函数内部，它会声明出 “局部变量”
+ - 在 函数外部，它会声明出 “全局变量”（会挂在`window`上）
 
-> 不使用任何声明（var/let/const），**即不存在变量提升，也不会挂载window下**
+**let**、**const** 是块级作用域。
+ - 声明的变量，仅在 块级内部有效
 
 ```js
-function fn () {
-    // 使用var声明
+// var：函数作用域（在函数内部都有效）
+(function letTest() {
+  var y = 1;
+  {
+    var y = 2;  // 与“块外”且“函数内”的y，是相同的变量
+    console.log(y);  // 2
+  }
+  console.log(y);  // 2
+})()
+
+// let、const：块级作用域（仅在块级内有效）
+(function letTest() {
+  const x = 1;
+  {
+    const x = 2;  // 不同的变量
+    console.log(x);  // 2
+  }
+  console.log(x);  // 1
+})()
+```
+
+### 变量提升
+**var** 存在变量提升：在声明前就可以用，但值为undefined。
+
+**let**、**const** 不存在变量提升。
+
+```js
+// var声明：存在变量提升，但未undefined
+(function fn () {
     console.log(typeof name1, name1); // 'undefined' undefined
-    // 直接赋值变量
-    console.log(typeof name2, name2); // Uncaught ReferenceError: name2 is not defined
-    // 没有声明
-    console.log(typeof name3, name3); // Uncaught ReferenceError: name3 is not defined
 
     var name1 = 1;
+})()
+
+// let声明，不存在变量提升（const是一样的error）
+(function fn () {
+    console.log(typeof name2, name2); // Uncaught ReferenceError: Cannot access 'name2' before initialization
+
+    let name2 = 1;
+})()
+```
+
+#### 其它情况
+当不使用任何声明符，都会error。
+
+```js
+// 直接赋值变量
+(function fn () {
+    console.log(typeof name2, name2); // Uncaught ReferenceError: name2 is not defined
+
     name2 = 2; // 这种声明不会变量提升
-}
-fn()
+})()
+
+// 没有声明
+(function fn () {
+    console.log(typeof name3, name3); // Uncaught ReferenceError: name3 is not defined
+})()
 ```
 
-**let**：声明局部变量，即使在方法外声明，也不会挂在`window`上
-> 由于 **死区**，无法在声明前访问
+### 可修改
+**var** 定义出来的变量 可以随意修改。
 
+**let** 定义出来的变量 可以随意修改。
+
+**const** 定义出来的变量 不可随意修改（“引用类型”是指针不能修改）
+
+### 其它
+#### 利用setTimeout输出当前的i
+现象：
+ - var定义：i 均为 最后一个数
+ - let定义：i 均为 正确的数
 ```js
-function fn () {
-    console.log(typeof name1, name1); // Uncaught ReferenceError: Cannot access 'name1' before initialization
-
-    let name1 = 1;
-}
-fn()
-```
-
-`setTimeout`与`var/let`：
-```js
+// 使用 var 定义
 for (var i = 0; i < 10; i++) {
     setTimeout(function() {
         console.log(i) // 10 10 10 10 10
@@ -341,6 +390,7 @@ for (var i = 0; i < 10; i++) {
 ```
 
 ```js
+// 使用 let 定义
 for (let i = 0; i < 10; i++) {
     setTimeout(function() {
         console.log(i) // 0 1 2 3 4 ...
@@ -349,8 +399,8 @@ for (let i = 0; i < 10; i++) {
 ```
 
 原因：
- - `setTimeout`是在`下一轮事件循环开始时`触发
- - `let`在循环里`每次迭代`都会创建一个新的作用域
+ - `setTimeout`是在 **下一轮事件循环开始时** 触发
+ - `let`在循环体内会创建一个**新的块级作用域**
 
 ## ES5、ES6、ES7的区别
 ### ES7
@@ -1201,65 +1251,71 @@ console.log(...objLikeArr) // Uncaught TypeError: Found non-callable @@iterator
 #### 如何展开类数组对象？
 思想：**先转换成可遍历对象，再展开**。
 ```js
-// 方法一：通过 `Array.from()` 对它转换后，再进行展开：
-console.log(...Array.from(objLikeArr)) // 1 2
-
-// 方法二：通过 `Array.prototype.slice.call()` 对它转换后，再进行展开：
+// 方法一：通过 `Array.prototype.slice.call()` 对它转换后，再进行展开：
 console.log(...Array.prototype.slice.call(objLikeArr)) // 1 2
+
+// 方法二：通过 `Array.from()` 对它转换后，再进行展开：
+// `Array.from`除了可以对 `类数组对象` 进行转换成数组，
+console.log(...Array.from(objLikeArr)) // 1 2
 ```
 
 #### Array.from
-`Array.from`除了可以对 `类数组对象` 进行转换成数组，也可以对 `NodeList` 、 `Set实例` 进行转换
-> Array.from(document.querySelectorAll('div'))
->
-> Array.from(new Set([1, 1, 3]))
+`Array.from`也可以对 `NodeList` 、 `Set实例` 进行转换：
+```js
+// NodeList
+Array.from(document.querySelectorAll('div'))
+
+// Set实例
+Array.from(new Set([1, 1, 3]))
+```
 
 ### 可遍历对象
 **可遍历对象** 指的是：
  - 部署了 `Iterator` 接口
-> 如：Array、Map、Set、String、函数的arguments对象、NodeList对象
+> 如：Array、Map、Set、String、arguments对象、NodeList对象
 
-也就是普通的情况，展开可遍历对象的方式：
+展开可遍历对象的方式：
  - 扩展运算符（...)
- - Array.from()
+ - ...Array.from()
 
 
 ## [ ].find()、[ ].findIndex()和[ ].filter()
 ```js
+// find：找到符合条件的第一个元素
 [1, 3, 5, 8].find(x => x > 3)
 // 5
 
+// findIndex：找到符合条件的第一个元素下标
 [1, 3, 5, 8].findIndex(x => x > 3)
 // 2
 
+// filter：找到符合条件的子集
 [1, 3, 5, 8].filter(x => x > 3)
 // [5, 8]
 ```
 
-## 判断对象是否为空对象
+## 判断对象是否为空对象{}
 ```js
-// way1: 将对象序列化成字符串
-if (JSON.stringify(obj) === '{}') {
+// 方法一:
+if (!Object.keys(obj).length) {}
 
-}
-
-// way2:
-if (!Object.keys(obj).length) {
-
-}
+// 方法二: 将对象序列化成字符串
+if (JSON.stringify(obj) === '{}') {}
 ```
 
 ## Object.defineProperty
-> 详细定义对象
+> 对象里的属性并不只有`属性名`和`属性值`那么简单。
 
-### 通过Object.defineProperty给对象添加属性
- 对象里的属性并不只有`属性名`和`属性值`那么简单。
+`Object.defineProperty`可以给对象添加属性，这个属性可以 **更定制化地** 去定义。
 
-`Object.defineProperty(obj, prop, descriptor)`
-
-其中，第三个参数`descriptor`（描述符）可以分为：
-  - 数据描述符
-  - 访问器描述符
+```js
+Object.defineProperty(obj, prop, descriptor)
+```
+ - **obj**: 被操作的对象
+ - **prop**: 要添加的 key 值
+ - **descriptor**: 属性描述符，可以分为：
+   - 数据描述符
+   - 访问器描述符
 
  | | configurable | enumerable | value | writable | get | set |
  | - | - | - | - | - | - | - |
@@ -1270,23 +1326,25 @@ if (!Object.keys(obj).length) {
   - 当描述符省略了字段的规则：configurable、enumerable、writable（默认false）；value、get、set（默认为undefined）
   - 使用`直接赋值`的方式创建对象的属性，enumerable为true
 
-#### writable
-能否 **修改** 对象里的这个属性。
-> writable属性若为fasle，则不能修改对象里的这个属性。（不会报错，但值也不会变）
+### writable（可修改性）
+能否 **修改** 这个属性。
+> 为true时进行值的修改，不会报错，但值也不会变
+
 ```js
-var o = {} // Creates a new object
+var o = {}; // Creates a new object
 
 Object.defineProperty(o, 'a', {
   value: 37,
   writable: false
-})
+});
 
-o.a = 25 // 不会报错，但值也不会变
+o.a = 25; // 不会报错，但值也不会变
+console.log(o.a); // 37
 ```
 
-#### enumerable
-能否 **枚举** 对象里的这个属性。
-> enumerable属性若为false,则不能再`for...in`或`Object.keys()`中被枚举。
+### enumerable（可枚举性）
+能否 **枚举** 到这个属性。
+> 若为false，则不能在 `for...in` 或 `Object.keys()` 中被枚举。
 ```js
 var o = {}
 Object.defineProperty(o, "a", { value : 1, enumerable:true })
@@ -1300,9 +1358,10 @@ for (var i in o) {
 // 'a' 'e'
 ```
 
-#### configurable
-能否 **删除** 对象里的这个属性。
-> configurable属性若为false，则表示：1、该对象里的这个属性不能被删除；2、除了`value`、`writable`以外的其他特性能否被修改。
+### configurable（可配置性）
+- 能否 **删除** 这个属性
+- 能否 操作这个属性的 **描述符（除value、writable）** 。
+
 ```js
 var o = {}
 Object.defineProperty(o, 'a', {
@@ -1315,14 +1374,6 @@ delete o.a // 返回false,删除不成功
 ```
 
  [configurable、enumerable和writable](http://www.softwhy.com/article-9359-1.html)
-
-
-## var和const的区别
-**var** 是函数作用域。
- > 值可以修改，允许变量提升，允许多次定义；
-
-**const** 是块级作用域。
- > 值不可以修改，存在暂时性死区，不允许多次定义；
 
 ## with函数
 `with`函数可以将某个对象添加到作用域链的顶部
