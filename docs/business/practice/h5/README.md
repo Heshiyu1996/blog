@@ -240,3 +240,46 @@ const doPreview = (index) => {
     }
 }());
 ```
+
+## Animation动画
+
+### APNG和WEBP
+iOS：APNG（Animated Portable Network Graphics），是PNG的位图动画扩展
+14年在iOS8 Safari中支持APNG
+17年CHrome支持APNG
+支持：除IE和EDGE
+ - 支持24位真彩色图片，且支持8位Alpha透明通道
+ - 体积会比WEBP、GIF更小
+Android：WEBP
+
+### Lottie
+以Json形式存储动画。
+> 主要动画思想：绘制某个图层不断地改变CSS属性
+ - 动效：AE -> JSON
+ - 开发： JSON -> 动画
+
+```js
+import lottie from 'lottie-web';
+import animationJsonData from 'xxx-demo.json'; // json文件
+
+lottie.loadAnimation({
+    container: document.getElementById('myDom'),
+    animationData: animationJsonData,
+    renderer: 'svg', // 渲染模式：undefined（表示html） | svg | canvas
+    autoplay: true, // 默认自动播放
+    loop: true // 循环
+});
+```
+
+#### 不足
+包本身体积较大（Gzip: 39k）
+
+### SVG
+
+### GIF
+只支持8位256种颜色，且不支持Alpha透明通道
+ - 所以存在边缘毛刺、白边
+![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5736661570/0473/0d3b/f005/c22a432f057f13bab80b7472e7e0e01f.png)
+
+### 参考链接
+ - [剖析 lottie-web 动画实现原理](https://mp.weixin.qq.com/s/yUrrXpZRs-fnlTLohPMLEQ)
