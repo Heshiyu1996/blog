@@ -350,23 +350,27 @@ fn.myCall(obj); // 改变调用fn方法时的this指向为obj
     let name2 = 1;
 })()
 ```
+:::tip
+当不使用任何声明符：**全局作用域，但不存在变量提升**
 
-#### 其它情况
-当不使用任何声明符，都会error。
-
+##### 全局作用域
 ```js
-// 直接赋值变量
+(function fn () {
+    name1 = 2; // 这种声明的范围是全局作用域
+})()
+
+console.log(name1); // 2
+```
+
+##### 不存在变量提升
+```js
 (function fn () {
     console.log(typeof name2, name2); // Uncaught ReferenceError: name2 is not defined
 
     name2 = 2; // 这种声明不会变量提升
 })()
-
-// 没有声明
-(function fn () {
-    console.log(typeof name3, name3); // Uncaught ReferenceError: name3 is not defined
-})()
 ```
+:::
 
 ### 可修改
 **var** 定义出来的变量 可以随意修改。
@@ -1304,47 +1308,56 @@ if (JSON.stringify(obj) === '{}') {}
 ```
 
 ## Object.defineProperty
-> 对象里的属性并不只有`属性名`和`属性值`那么简单。
+> 对象里的 属性值 并不只有 `值` 那么简单。
 
 `Object.defineProperty`可以给对象添加属性，这个属性可以 **更定制化地** 去定义。
 
 ```js
-Object.defineProperty(obj, prop, descriptor)
+Object.defineProperty(obj, key, descriptor)
 ```
  - **obj**: 被操作的对象
- - **prop**: 要添加的 key 值
+ - **key**: 要添加的 key 值
  - **descriptor**: 属性描述符，可以分为：
-   - 数据描述符
+   - 数据描述符：不具有`writable`、`value`、`get`、`set`中的任何一个
    - 访问器描述符
 
- | | configurable | enumerable | value | writable | get | set |
+ | | configurable | enumerable | writable | value | get | set |
  | - | - | - | - | - | - | - |
- | 数据描述符 | √ | √ | √ | √ | × | × |
- | 访问器描述符 | √ | √ | × | × | √ | √ |
+ | 默认值 | false | false | false | undefined | undefined | undefined |
+ | 数据描述符 | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+ | 访问器描述符 | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 
-  - 如果一个描述符不具有`value、writable、get、set`任何一个关键字，那就默认是`数据描述符`。
-  - 当描述符省略了字段的规则：configurable、enumerable、writable（默认false）；value、get、set（默认为undefined）
+  - 描述符的默认值：
+  ```js
+    var o = {};
+
+    // 省略了描述符
+    // 效果：configurable、enumerable、writable（均为false）；
+    // value、get、set（均为undefined）
+    Object.defineProperty(o, 'a', {});
+  ```
   - 使用`直接赋值`的方式创建对象的属性，enumerable为true
 
 ### writable（可修改性）
 能否 **修改** 这个属性。
-> 为true时进行值的修改，不会报错，但值也不会变
+> 为 false 时进行值的修改，不会报错，但值也不会变
 
 ```js
 var o = {}; // Creates a new object
 
 Object.defineProperty(o, 'a', {
-  value: 37,
+  value: 1,
   writable: false
 });
 
-o.a = 25; // 不会报错，但值也不会变
-console.log(o.a); // 37
+o.a = 2; // 不会报错，但值也不会变
+console.log(o.a); // 1
 ```
 
 ### enumerable（可枚举性）
 能否 **枚举** 到这个属性。
 > 若为false，则不能在 `for...in` 或 `Object.keys()` 中被枚举。
+
 ```js
 var o = {}
 Object.defineProperty(o, "a", { value : 1, enumerable:true })
@@ -1360,13 +1373,13 @@ for (var i in o) {
 
 ### configurable（可配置性）
 - 能否 **删除** 这个属性
-- 能否 操作这个属性的 **描述符（除value、writable）** 。
+- 能否 操作这个属性的 **（除value、writable以外的）描述符** 。
 
 ```js
 var o = {}
 Object.defineProperty(o, 'a', {
     get() {
-        return 1
+        return 1;
     },
     configurable: false
 })
