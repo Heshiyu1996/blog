@@ -12,7 +12,7 @@
 
 ## CSS3的新属性
 CSS3样式提纲：
- - 圆角（border-radius）、阴影（box-shadow、text-shadow）、渐变（gradient）、滤镜（filter）、文字省略（text-overflow: ellipsis）
+ - 圆角（border-radius）、阴影（box-shadow）、滤镜（filter）、文字省略（text-overflow）、渐变（gradient）、
  - 动画（animation）
  - 过渡（transition）、变换（transform）
  - 新增盒模型——弹性盒模型（Flexbox）
@@ -180,13 +180,13 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
 
 /* 2 */
 .child {
-   visibility: hidden;
+   position: absolute;
+   top: -999999px;
 }
 
 /* 3 */
 .child {
-   position: absolute;
-   top: -999999px;
+   visibility: hidden;
 }
 
 /* 4 */
@@ -202,18 +202,14 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
 | 占据空间 | 不占据 | 占据 |
 | 重排、重绘 | 重排又重绘 | 仅重绘 |
 | 子孙元素 | 都不可见 | 可设置部分可见<br>（`visibility: visible`） |
-| 过渡效果 | 影响 | 不影响 |
- <!-- - `display: none`的元素不**占据空间**，`visibility: hidden`的元素**占据空间**；
- - `display: none`会触发**重排（repain）和重绘（reflow）**，`visibility: hidden`只会触发重绘（reflow）
- - `display: none`的子、孙元素全都不可见，`visibility: hidden`的子孙元素可以设置`visibility: visible`来显示。
- - `display: none`会影响CSS的`transition`**过渡效果**，`visibility: hidden`不会 -->
+| transition效果 | 影响 | 不影响 |
 
 
 
 ## z-index和position的关系
-`z-index`用于设置元素的堆叠顺序，堆叠顺序大的会处于堆叠顺序小的前面
+`z-index`用于设置元素的堆叠顺序，堆叠顺序大 会处于 堆叠顺序小 的前面
 
-它只在`position`为`absolute`、`relative`或`fixed`的元素上有效
+> 它只在`position`为`absolute`、`relative`或`fixed`的元素上有效
 
 ## 纯CSS画三角形
  原理：

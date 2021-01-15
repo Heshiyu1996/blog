@@ -1421,3 +1421,15 @@ componentWillUnmount() {
     document.body.style.overflow = '';
 }
 ```
+
+## 向下、向上取整
+`Math.ceil`: 向上
+
+`Math.floor`: 向下
+
+```js
+let num = 1.1;
+
+Math.ceil(num); // 2
+Math.floor(num); // 1
+```
