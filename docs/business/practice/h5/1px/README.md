@@ -1,0 +1,78 @@
+# 1px问题
+在移动端上，有时候明明设置`border: 1px`，但对于**视觉同事会认为线条比较粗** （如下图）。
+
+<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5830194970/4778/cbb1/829e/d60110eee1b1caef21725b6dc9927c4e.png" width="300px" />
+
+## 原因
+ 1. `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">`
+    - 定义了页面的 `viewport`宽度 为 设备宽度，初始缩放值 和 最大缩放值 都为 1，同时禁用了用户缩放。
+  2. dpr导致。
+    - 对于Retina屏，使用了 **多个设备像素** 去呈现
+    ```css
+        .border {
+            /* 在 DPR 为 2 时，会用 2 个设备像素 去渲染这个border height */
+            border: 1px solid white;
+        }
+    ```
+> 更多：[像素dpr](/skill/css/px/#dpr)
+
+## 解决
+### 媒体查询、小数
+- 安卓、低版本IOS（8以下）不兼容小数。
+```css
+    .border {
+        border: 1px solid red;
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        .border {
+            border: 0.5px solid red;
+        }
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+        .border {
+            border: 0.33333px solid red;
+        }
+    }
+```
+
+### flexible.js
+    - 动态计算出 `viewport` 中 `scale` 缩放。
+    ```js
+    scale = 1 / devicePixelRatio
+
+    metaElem = document.createElement('meta')
+    metaElem.setAttribute('name', 'viewport')
+    metaElem.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
+    ```
+
+ - **伪类 + transform**
+    > 伪元素`::before`、`::after`可以独立于当前元素，单独对其进行缩放而不影响元素本身的缩放。
+    > 
+    > 单引号、多引号就可以使用，但单引号对于ie兼容性更好些
+
+    - 利用js判断是否Retina屏；（若是，加上一个class）
+    - 把`原先元素border去掉`，利用伪类`:after`重做border，并`transform: scale(0.5)`
+    ```js
+    // 利用js判断是否Retina屏
+    if (window.devicePixelRatio && devicePixelRatio >= 2) {
+        document.querySelector('div').className = 'scale-1px'
+    }
+    ```
+    ```css
+    .scale-1px {
+        position: relative;
+        border: none;
+    }
+
+    .scale-1px:after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 1px solid red;
+        width: 200%;
+        height: 200%;
+        transform: scale(0.5);
+        transform-origin: left top;
+    }
+    ```

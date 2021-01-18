@@ -256,6 +256,7 @@ const sidebar = {
             collapsable: false,
             children: [
                 'h5/responsive/',
+                'h5/1px/',
                 'h5/',
             ]
         },
