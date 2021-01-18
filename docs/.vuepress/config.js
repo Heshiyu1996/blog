@@ -249,18 +249,32 @@ const sidebar = {
     //     }
     // ],
 
-    // 业务-实践
-    '/business/practice': [
+    // 业务-H5开发
+    '/business/practice/h5': [
         {
-            title: '实践',
+            title: 'H5开发',
             collapsable: false,
             children: [
-                'practice/h5/',
-                'practice/pc/',
-                'practice/other/',
+                'h5/responsive/',
+                'h5/',
             ]
         },
     ],
+
+    // 业务-PC开发
+    '/business/practice/pc': [
+        {
+            title: 'PC开发',
+            collapsable: false,
+            children: [
+                'pc/',
+            ]
+        },
+    ],
+
+    // 业务-其它
+    '/business/practice/other/': ['/business/practice/other/'],
+
 
     // 业务-工程工具
     '/business/tool': [
@@ -419,7 +433,7 @@ module.exports = {
     postcss: {
       plugins: [
         require('css-prefers-color-scheme/postcss'),
-        require('autoprefixer')
+        // require('autoprefixer')
       ]
     }
 };
