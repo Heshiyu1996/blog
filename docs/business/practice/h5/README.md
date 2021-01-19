@@ -209,3 +209,90 @@ lottie.loadAnimation({
 
 ### 参考链接
  - [剖析 lottie-web 动画实现原理](https://mp.weixin.qq.com/s/yUrrXpZRs-fnlTLohPMLEQ)
+
+## 曾经的lib-flexible
+用来解决H5页面终端适配
+
+> 好处：你不需要考虑如何对元素进行折算，可以根据对应的视觉稿，直接切入。
+
+通过 JS 来 动态改写 `viewport` 的 meta 标签。
+ - 动态改写`<meta>`标签
+ - 给`<html>`元素添加 data-dpr 属性，并且动态改写 data-dpr 的值
+ - 给`<html>`元素添加 font-size 属性，并且动态改写 font-size 的值
+
+### 前提
+ - 视窗Viewport：
+    - 在桌面浏览器中，viewport就是浏览器窗口的宽度高度。但在移动端设备上就有点复杂。
+    - 移动端的viewport太窄，为了能更好为CSS布局服务，所以提供了两个viewport:虚拟的visual viewport和布局的layout viewport。
+ - viewport的meta标签:
+    - 主要用来告诉浏览器 如何规范的渲染Web页面，而你则需要告诉它 视窗有多大 。
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+```
+以 屏幕设备宽度 来定义视窗宽度，网页的比例、最大比例是 100%；
+
+### flexible
+```js
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+```
+ 1. 在所有资源加载之前执行这个JS
+ 2. 执行这个JS后，会在`<html>`元素上增加一个 data-dpr 属性，以及一个 font-size 样式。
+ 3. JS会根据不同的设备添加不同的data-dpr值，比如说2或者3
+ 4. 同时会给`<html>`加上对应的font-size的值，比如说75px。
+
+效果：可以使用 rem单位 来设置
+
+#### 手动设置 dpr
+可以手动设置meta来控制dpr值，如：
+```html
+<meta name="flexible" content="initial-dpr=2" />
+```
+不建议：一旦设定，都会强制认为其dpr就是该固定值；同时，Flexible对 Android 不会判断（始终认为 dpr 是 1 ）
+
+```js
+if (!dpr && !scale) {
+    var isAndroid = win.navigator.appVersion.match(/android/gi);
+    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+    var devicePixelRatio = win.devicePixelRatio;
+    if (isIPhone) {
+        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
+            dpr = 3;
+        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+            dpr = 2;
+        } else {
+            dpr = 1;
+        }
+    } else {
+        // 其他设备下，仍旧使用1倍的方案
+        dpr = 1;
+    }
+    scale = 1 / dpr;
+}
+```
+
+### 文本字号不建议使用rem
+ - 不希望文本在 Retina屏幕 下变小
+ - 希望在大屏手机上看到更多文本
+ - 不希望出现13px和15px这样的奇葩尺寸
+
+综上，考虑文本还是使用px作为单位
+
+只不过使用`[data-dpr]`属性来 区分不同dpr下的文本字号大小（依旧使用 `px`）。
+
+```css
+div {
+    width: 1rem; 
+    height: 0.4rem;
+    font-size: 12px; /* 默认写上dpr为1的fontSize */
+}
+[data-dpr="2"] div {
+    font-size: 24px;
+}
+[data-dpr="3"] div {
+    font-size: 36px;
+}
+```
+
+## 参考地址
+- [使用Flexible实现手淘H5页面的终端适配](https://github.com/amfe/article/issues/17)
