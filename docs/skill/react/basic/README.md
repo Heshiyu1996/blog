@@ -94,7 +94,6 @@ const MyContext = React.createContext();
 
 这样就可以通过 `this.context` 取到 `<Context.Provider>` 提供的 `value`
 
-以下 Way1、Way2 是等价的：
 ```js
 class MyClass extends React.Component {
   static contextType = MyContext;
@@ -248,7 +247,7 @@ class MyComponent extends React.Component {
   }
 }
 ```
-也正是React的生命周期，让`createRef`只执行了一次。
+也正是因为在 `constructor`内，让 `createRef` 只执行了一次。
 
 但实际上，每次调用它都会**重新生成一个ref对象**（引用地址会发生改变），[What's the difference between useRef and createRef?](https://stackoverflow.com/questions/54620698/whats-the-difference-between-useref-and-createref)
 
@@ -260,42 +259,43 @@ function App() {
     const inputRef = useRef(null); // <-- 通过useRef创建ref对象
 }
 ```
-在函数式组件内，通过`useRef`返回的ref对象可以在整个生命周期内保持不变。
+在函数式组件内，通过`useRef`返回的ref对象可以**在整个生命周期内保持不变**。
 
 
 #### 结论
 createRef：
  - 一般用于`Class Component`
- - 每次重新渲染都会使得引用地址发生变化（在生命周期内定义时除外）
+ - 每次重新渲染**都会使得引用地址发生改变**（在 `constructor` 内定义时除外）
 
 useRef：
  - 一般用于`函数式组件`
- - 每次重新渲染不会导致引用地址发生改变
+ - 每次重新渲染**不会导致引用地址发生改变**
 
 ### ref的作用
- - 当`ref`用于HTML元素时，其`.current`属性为`对应的DOM元素`
- - 当`ref`用于`Class Component`时，其`.current`属性为`组件的实例`
+ - 当 `ref` 用于 “HTML元素” 时，其 `.current` 属性为**DOM元素**
+ - 当 `ref` 用于 “组件” 时，其 `.current` 属性为 **组件实例**
 
 以下打印了两者的`.current`属性：
 ![alt](./img/img-3.png)
-> 对于`Class Component`需要注意：方法要bind到组件实例上，否则无法通过`.current`读取到方法（若是箭头函数写法则可忽略）
+> 对于 “组件” 需要注意：方法要 bind 到组件实例上（或使用箭头函数），否则无法通过 `.current` 读取到方法
 
 ### 将ref作用于函数式组件（forwardRef搭配useImperativeHandle）
-若ref用于`函数式组件`，因为它没有实例，react会提示你用`forwardRef`
+因为“函数式组件”不存在实例，所以需要**转发`ref`**
 
-那就需要将`forwardRef`搭配`useImperativeHandle`使用，来转发这个ref
+**做法**：`forwardRef`搭配`useImperativeHandle`使用
 
-但最终，还是需要让ref来指向一个DOM元素或者`Class Component`。
+但最终，还是需要让 `ref` 来指向一个DOM元素或者`组件`。
 
 #### 转发ref
-假设有一个`函数式组件CustomInput`
+假设有一个`函数式组件CustomInput`，通过 `转发ref` 可以将它内部的 `ref` “暴露” 给父组件。
 
 ```js
+// CustomInput.js
 const CustomInput = forwardRef((props, ref) => {
-    const inputRef = useRef();
+    const inputRef = useRef(); // 1. 定义一个ref
     
     useImperativeHandle(ref, () => 
-        // 这个返回的对象表示：向父组件暴露的属性
+        // 3. 这个返回的对象表示：向父组件暴露的属性
         ({
             focus: () => {
                 inputRef.current.focus();
@@ -303,15 +303,31 @@ const CustomInput = forwardRef((props, ref) => {
         })
     );
 
-    // 最终还是需要让ref来指向一个DOM元素（或一个Class Component）
+    // 2. 让 ref 指向一个DOM元素（或一个 “组件”）
     return <input ref={inputRef} />;
 })
 ```
-这样，当父组件（即：引用`<CustomInput ref={myRef} />`的那个组件）就可以通过`myRef.current`来拿到`CustomInput`里的input元素了。
+
+```js
+// Parent.js
+const myRef = useRef(); // 1. 定义一个ref
+
+console.log(myRef);
+/*
+ *   current: {
+ *      focus: ƒ focus() {}
+ *   }
+ */
+
+ // 2. 给 子组件 赋值 myRef
+<CustomInput ref={myRef} />
+```
 
 ## ReactDOM.createPortal
 > [React Portals](https://reactjs.org/docs/portals.html)
 
-看官方文档上的意思，它可以在dom上挂载“表现在外层”，但它事件冒泡还是能够在原来声明处被父容器捕获到
+特点：
+ - 可以挂载在 根节点 的直接下一层
+ - “事件冒泡”是按照声明处位置的规则
 
 ![alt](./img/img-4.png)
