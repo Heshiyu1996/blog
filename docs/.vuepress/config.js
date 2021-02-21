@@ -103,6 +103,7 @@ const sidebar = {
             children: [
                 'js/async-plan/',
                 'js/design-patterns/',
+                'js/sort/',
                 'js/dom/',
                 'js/event-loop/',
                 'js/modular/',
