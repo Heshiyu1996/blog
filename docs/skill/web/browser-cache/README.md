@@ -16,32 +16,30 @@
 通过JS来实现 资源请求的拦截、修改，从而更精细地缓存、复用资源。
 > （只能针对https）
 
-## 字段说明
+## 浏览器缓存
 ### 强缓存
-**Response Header**
-
-优先级从高到低：
-
-| 字段名称 | 说明 | 适用http版本 | 特点
-| ----- |:---:|:---:|:---:|
-| Pragma | 值为`no-cache`时，表示禁用缓存 | 1.0、1.1 | 优先级最高 |
-| Cache-Control | 值为缓存过期时间 | **仅1.1** | 配置选项较多 |
-| Expires | 值为缓存过期时间 | 1.0、1.1 | 服务器、客户端时间可能对不上 |
+| 字段名称 | 说明 | 适用http版本 |
+| ----- |:---:|:---:|
+| Cache-Control | 指定“缓存策略”(可缓存性、到期时间) | **仅HTTP/1.1** | 
+| Expires | 设定“缓存过期时间”(服务器、客户端时间可能对不上) | HTTP/1.0、HTTP/1.1 |
 
 注意：
  - 因为`Expires`既适用于1.0，也适用于1.1，所以大多数情况下会同时使用 `Expires`、`Cache-Control`
 
+
 #### Cache-Control选项说明
-在**Request Header**、**Response Header**都可以使用`Cache-Control`，区别在于：
- - 前者：声明**本次**请求的缓存策略；
- - 后者：**浏览器会判别这些响应值来决定资源缓存的状态**
+在 **Request Header**、**Response Header** 都可以使用`Cache-Control`，区别在于：
+ - 前者：指定 **此资源在本次请求的缓存策略**；
+    > 如: 强制刷新F5时，请求头是`cache-control: no-cache` 告知服务器本次需要请求最新资源
+ - 后者：告知 浏览器 针对 此资源 的缓存策略
 
-在**Request Header**中使用：
-![alt](./img/browser-cache-1.png)
+#### Pragma
+HTTP/1.0 中规定的 Request Header 字段，但不存在于响应头。
 
+早于`cache-control`，与`cache-control: no-cache`相同，表示使用缓存前需重新验证。
 
-在**Response Header**中使用：
-![alt](./img/browser-cache-2.png)
+若不考虑向后兼容，可以用`cache-control`取代。
+> **建议只在需要兼容 HTTP/1.0 时使用**。
 
 ### 协商缓存
 **Response Header**
@@ -79,17 +77,18 @@
  - 减少用户访问延时
  - 减少源服务器的负载
 
-## from memory cache与from disk cache
+## memory cache和disk cache
 Network的Size栏会有三种情况：
  - from memory cache
  - from disk cache
  - 资源大小
-![alt](./img/browser-cache-3.png)
+
+<img src="./img/browser-cache-3.png" width="450px" />
 
 | 状态 | 类型 | 说明
 | ----- |:---:|:---:|
-| 200 | from memory cache | 不访问服务器，缓存在**内存**中。浏览器关闭后，数据**将被释放**（一般为js、图片） |
-| 200 | from disk cache | 不访问服务器。缓存在**硬盘**中。浏览器关闭后，数据**依然存在**（一般为css） |
+| 200 | from memory cache | 不访问服务器，缓存在**内存**中。<br />浏览器关闭后，数据**将被释放**（一般为js、图片） |
+| 200 | from disk cache | 不访问服务器。缓存在**硬盘**中。<br />浏览器关闭后，数据**依然存在**（一般为css） |
 | 304 | 资源大小 | 命中**协商缓存**，使用本地资源（CDN上的资源） |
 
 ## 拓展：强缓存的应用
