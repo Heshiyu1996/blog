@@ -29,9 +29,9 @@
 
 #### Cache-Control选项说明
 在 **Request Header**、**Response Header** 都可以使用`Cache-Control`，区别在于：
- - 前者：指定 **此资源在本次请求的缓存策略**；
+ - 前者：指定 **这个资源在本次请求的缓存策略**；
     > 如: 强制刷新F5时，请求头是`cache-control: no-cache` 告知服务器本次需要请求最新资源
- - 后者：告知 浏览器 针对 此资源 的缓存策略
+ - 后者：告知 浏览器 针对 这个资源 的缓存策略
 
 #### Pragma
 HTTP/1.0 中规定的 Request Header 字段，但不存在于响应头。

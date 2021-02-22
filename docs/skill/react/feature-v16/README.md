@@ -58,13 +58,13 @@ const prevCalcValue = usePrevious(calcValue);
 
 
 
-## 函数组件 与 class组件
-|方面| 函数组件 | class组件 |
+## 函数式组件 与 Class组件
+|   | 函数式组件 | Class组件 |
 |:--- |:---|:---|
-| 定义方式 | 被定义为一个**纯函数**。<br />它接收一个props对象，并返回`React Element` | 被定义为一个**class**。<br />它继承于`React.Component`，并 **通过render函数** 返回`React Element` |
-| render行为<br /> | 每次组件触发更新：<br />**拥有完全独立的函数作用域**，<br />返回相应的`React Element` | 每次组件触发更新：<br /> **调用`render()`**，<br />返回`React Element` <br />（对于同一处调用的class组件，**只有一个class实例**被创建/使用，后续的render**只会改变this.props、this.state的值**） |
+| 定义 | 被定义为一个**纯函数**。<br />它接收一个props对象，并返回`React Element` | 被定义为一个**Class**。<br />它继承于`React.Component`，并 **通过render函数** 返回`React Element` |
 | 状态 | 没有自身的state。<br />（**在v16.8添加了hooks，可以使用useState钩子去管理state**） | 拥有自身的state |
 | 生命周期 | 没有生命周期。<br />（**在v16.8后可通过`useEffect`去模拟部分生命周期**） | 有 |
+| render行为<br /> | 每次组件触发更新：<br />**拥有完全独立的函数作用域**，<br />返回相应的`React Element` | 每次组件触发更新：<br /> **调用`render()`**，<br />返回`React Element` <br />（对于同一处调用的class组件，**只有一个class实例**被创建/使用，后续的render**只会改变this.props、this.state的值**） |
 
 <!-- **定义方式**：
  - `函数组件`被定义为一个纯函数，它接收一个props对象，并返回一个`React Element`

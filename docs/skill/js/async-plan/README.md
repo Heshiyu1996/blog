@@ -257,11 +257,10 @@ Generator是一个异步操作的容器，它的自动执行需要一种机制�
     - 将异步操作包装成Promise对象，在then方法里交回执行权
 
 ## Async、Await
-`async`是一个函数修饰符，表示函数里有异步操作
- > `async`函数会返回一个`Promise`对象，可以使用`then`添加回调函数；
+`async`是一个函数修饰符，表示函数里有异步操作。
+ > 返回: `Promise`对象
 
-`await`表示紧跟在后面的表达式需要等待结果；
- > 后面跟也是`Promise`，
+`await`后面紧跟 Promise对象。
 
  好处：
   - 简洁。易于阅读和理解
@@ -271,14 +270,11 @@ Generator是一个异步操作的容器，它的自动执行需要一种机制�
 
 
 ### async
-async是Generator函数的语法糖。它会返回一个promise对象（并且会等到内部所有await后面的Promise对象执行完才会发生状态改变）
-```js
-async function f() {
-    return 'Hello world'
-}
-f().then(v => console.log(v)) // 'Hello world'
-```
-可见，函数f内部return返回的值，会被then方法回调函数接收到。
+async是Generator函数的语法糖。
+
+它会返回一个 promise 对象，并且**会等到内部“所有await紧跟的Promise对象”执行完才会发生状态改变**
+> 另一方面，当函数内部 await 紧跟的 Promise对象 只要有一个reject了，也会使得 **async函数所返回的Promise对象** 变成 reject。
+
 
 #### async的使用形式
 ```js
@@ -287,6 +283,9 @@ async function func1 () { ... }
 
 // 函数表达式
 var func1 = async function () { ... }
+
+// 箭头函数
+var func1 = async () => { ... }
 
 // 对象的方法
 var obj = {
@@ -297,9 +296,6 @@ var obj = {
 class Storage {
     async func1() { ... }
 }
-
-// 箭头函数
-var func1 = async () => { ... }
 ```
 
 #### async函数的实现原理
@@ -318,32 +314,56 @@ function func1(args) {
 ```
 其中spawn函数
 ```js
+// genF 表示 generator函数
 function spawn(genF) {
     return new Promise((resolve, reject) => {
-        var gen = genF()
+        // 1. 执行generator函数，返回一个遍历器
+        /**
+         * gen:
+         *  {
+         *    next: function, // 执行到下一个yield前的代码，并返回yield紧跟的值
+         *    throw: function
+         *  }
+         **/
+        var gen = genF();
+
         function step(nextF) {
             try {
-                var next = nextF()
+                var next = nextF();
             } catch(e) {
-                return reject(e)
+                return reject(e);
             }
+
             if (next.done) {
-                return resolve(next.value)
+                return resolve(next.value) // asyn 的内部返回值会作为then的回调入参
             }
 
             Promise.resolve(next.value).then(v => {
-                step(function() { return gen.next(v) })
-            }, e => {
-                step(function() { return gen.throw(e) })
+                step(function() { 
+                    return gen.next(v);
+                })
+            }).catch(e => {
+                step(function() { 
+                    return gen.throw(e);
+                })
             })
         }
 
-        step(function() { return gen.next(undefined) })
+        step(function() { 
+            return gen.next(undefined);
+        });
     })
 }
 ```
 因为立即resolved的Promise是在`本轮事件循环的末尾执行`，所以最好前面加个`return`
 
+##### asyn的内部返回值会作为then的回调入参
+```js
+async function f() {
+    return 'Hello world'
+}
+f().then(v => console.log(v)) // 'Hello world'
+```
 #### async的错误处理机制
 由`async函数的实现原理`可知，函数内部await 后面跟的Promise只要有一个reject了，那就会使得 **async函数所返回的Promise对象** 也被reject。
 

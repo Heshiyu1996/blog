@@ -66,9 +66,9 @@
 ## 解决跨域的一些方法
  - JSONP
  - CORS
- - window.postMessage
- - window.name
  - Nginx
+ - 【iframe】window.postMessage
+ - 【iframe】window.name
 
 ### JSONP
 原理：利用`<script>`标签，远程调用 JSON 文件来实现数据传递。
@@ -138,72 +138,123 @@ myHandler({
 2、Callback可定义导致的安全问题
 [https://www.cnblogs.com/52php/p/5677775.html](https://www.cnblogs.com/52php/p/5677775.html)
 
-
-### CORS
-见上面一个知识点
-
-### window.postMessage
-```js
-// 子iframe
-window.parent.postMessage('fullScreen', *)
-
-// 父窗口
-window.onmessage('fullScreen', () => { ... })
-
-```
-
-### window.name（搭配iframe）
-因为在一个窗口的生命周期内，载入的所有页面共享一个window.name。
-```html
-<body>
-    <iframe id="iframe" src="http://www.baidu.com/data.html" onload="getData()" />
-</body>
-
-<script>
-    function getData() {
-        var iframe = document.getElementById('iframe')
-        iframe.onload = function() {
-            var data = iframe.contentWindow.name
-            // 获取data.html里的数据
-        }
-        iframe.src = "b.html" // 转为和a同源的b.html
-    }
-</script>
-```
-
 ### Nginx
-利用Nginx通过**反向代理**来转发请求，来满足浏览器的同源策略，实现跨域。
+利用Nginx通过 **反向代理** 来转发请求，来满足浏览器的同源策略，实现跨域。
 
 例如：
 
 前端`http://localhost:8080`，想请求`http://localhost:1234/api/basic/login`这个接口
 
 1、配置Nginx.conf，里面的定位规则：
-```js
+```conf
+# 代表启动的一个服务
 server {
     listen      8080;  #监听端口
     server_name localhost;
 
+    # 定位规则
     location / {
         root html; #文件根目录
         index index.html index.htm; #默认起始页
     }
 
-    #新增以下location定位规则
+    # 定位规则
     location /rest {
-        rewrite ^.+rest/?(.*)$ /$1 break; #只取标志位$1，作为重定向地址
-        proxy_pass http://localhost:1234; #表明该请求要代理到的主机
+        # 结合正则表达式、标志位，对url进行重写、重定向
+        rewrite ^.+rest/?(.*)$ /$1 break; # 只取标志位 $1 ，作为重定向地址
+        proxy_pass http://localhost:1234; # 该请求要代理到的主机
     }
 }
-
- # server：代表启动的一个服务
- # location：代表定位规则
-    # rewrite：结合正则表达式、标志位，对url进行重写、重定向（语法：`rewrite regex replacement [flag]`）
-        # 例如：`rewrite ^.+rest/?(.*)$ /$1 break`，
 ```
 
 2、前端访问时，url填写`/rest/api/basic/login`即可。
 
+
+### 【iframe】window.postMessage
+```html
+<!-- a.html （端口: 3000） -->
+<body>
+    <iframe id="frame" src="http://localhost:4000/b.html" onload="sendData()" />
+
+    <script type="text/javascript">
+        function sendData() {
+            // A1. 拿到 iframe 页面中的 window 对象（通过 frame.contentWindow）
+            let iframeWindow = document.querySelector('#frame').contentWindow;
+            // A2. 向 端口为4000 的域发送内容 "hi"
+            iframeWindow.postMessage('hi', 'http://localhost:4000')
+
+            // B1. 监听 iframe 的消息
+            window.onmessage = function(e){
+                console.log(e.data);
+            }
+        }
+    }
+    </script>
+</body>
+```
+
+```html
+<!-- b.html （端口: 4000） -->
+<body>
+    This is B page.
+    <script type="text/javascript">
+        // A1. 监听 父窗口 的消息
+        window.onmessage = function(e) {
+            // A2. 接收 父窗口 传来的数据
+            console.log('父级传来的数据', e.data);
+
+            // B2. 向 端口为3000 的域（即父级）发送内容 "你好"
+            e.source.postMessage('你好', 'http://localhost:3000');
+        }
+    </script>
+</body>
+```
+
+### 【iframe】window.name
+在一个 window 的生命周期内，载入的所有页面的 `window.name` 都不会改变（除非手动设置）。
+> 通过 iframe 加载 “要跨域的页面”，将要跨域的数据写到iframe内的 window.name；再将 iframe.src 改为当前域下的其他页面，再次读取 iframe.contentWindow.name 。
+
+示例: 将 `localhost:4000/b.html` 的数据传递到 `localhost:3000/a.html`。
+
+```html
+<!-- localhost:4000/b.html -->
+<script>
+    var person = {
+      name: 'heshiyu',
+      age: 24,
+    };
+
+    // 修改 window.name
+    window.name = JSON.stringify(person);
+</script>
+```
+
+```html
+<!-- localhost:3000/a.html -->
+<body>
+    <iframe id="frame" src="http://localhost:4000/b.html" onload="sendData()" />
+
+    <script type="text/javascript">
+        function sendData() {
+            let iframe = document.querySelector('#frame');
+
+            // onload次数标志（第二次及以后才能读取 iframe.contentWindow.name）
+            let flag = 0;
+
+            iframe.onload = function () {
+                if (!flag) {
+                    flag = 1;
+                    // 将 iframe 地址转到同域下
+                    iframe.contentWindow.location = 'http://localhost:3000/proxy.html';
+                } else {
+                    console.log('刚刚端口4000跨域传的数据', iframe.contentWindow.name);
+                }
+            }
+        }
+    }
+    </script>
+</body>
+```
 
 
 ## 为什么form表单可以跨域
@@ -212,3 +263,7 @@ server {
 所以浏览器认为这是安全的。
 
 而 AJAX 是可以读取响应内容的，因此浏览器不能允许你这样做。
+
+
+## 参考
+ - [nginx解决跨域问题](https://segmentfault.com/a/1190000019227927)

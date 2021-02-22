@@ -495,59 +495,50 @@ const uniqueList = [...new Set(list)];
 ```
 
 ## for...in、Object.keys、for...of
- - for...in *（读取 对象 或 数组 的key值）*
-    - 可枚举的所有属性（包括“自有属性”、“继承属性”）
+### 枚举key值
+ - for...in（包括“自有属性”、“继承属性”）
+ - Object.keys（仅“自有属性”）
     ```js
-        var arr = [1, 9, 6, 7]
-        var obj = {
+        // for...in
+
+        let name = 'heshiyu'
+        for (let i in name) {
+            console.log(i) // 依次输出: 0 1 2
+        }
+
+        let arr = [1, 9, 6, 7]
+        for (let i in arr) {
+            console.log(i) // 依次输出：0 1 2 3
+        }
+
+        let obj = {
             name: 'heshiyu'
         }
-
-        for (var i in arr) {
-            console.log(i)
+        for (let i in obj) {
+            console.log(i) // 依次输出：name
         }
-        // 依次输出：0 1 2 3
-
-        for (var i in obj) {
-            console.log(i)
-        }
-        // name
     ```
- - Object.keys *（读取 对象 或 数组 的key值）*
-    - 可枚举的所有属性（仅“自有属性”）
-    ```js
-        var arr = [1, 9, 6, 7]
-        var obj = {
-            name: 'heshiyu'
-        }
 
-        for (var i in arr) {
-            console.log(i)
-        }
-        // 依次输出：0 1 2 3
-
-        for (var i in obj) {
-            console.log(i)
-        }
-        // name
-    ```
+### 枚举value值
  - for...of *（读取数组的value值）*
-    - 只能遍历 “部署了Iterator接口的数据”
+    > 只能遍历 “部署了Iterator接口的数据”
     ```js
-        var arr = [1, 9, 6, 7]
-        var obj = {
+        let name = 'heshiyu'
+        for (let i of arr) {
+            console.log(i) // 依次输出：h e s h i y u
+        }
+
+        let arr = [1, 9, 6, 7]
+        for (let i of arr) {
+            console.log(i) // 依次输出：1 9 6 7
+        }
+
+        let obj = {
             name: 'heshiyu'
         }
-
-        for (var i of arr) {
-            console.log(i)
+        for (let i of obj) {
+            console.log(i) // error
         }
-        // 依次输出：1 9 6 7
-
-        for (var i of obj) {
-            console.log(i)
-        }
-        // error
         // 原因：普通对象没有部署Iterator接口
     ```
 因为`for...of`循环本质上是**调用Iterator接口下的遍历器**，所以它只适用于部署了 **Iterator接口的数据**
@@ -571,9 +562,15 @@ const uniqueList = [...new Set(list)];
  ```
 
 ## this的指向
-`this`的指向是 **基于函数的执行环境** 所决定的。
 
- - 作为 **函数调用**，this指向`window`（非严格模式）；this指向`undefined`（严格模式）
+“`this`的指向”可以分为 2 种情况：非箭头函数、箭头函数。
+
+### 非箭头函数
+由 **函数的执行环境** 决定的。
+
+常见的几种情况：全局函数内、构造函数内、对象方法内、箭头函数内。
+
+ - 在 **全局函数** 内，this指向`window`（非严格模式）；this指向`undefined`（严格模式）
 ```js
     function func1 () {
         console.log(this); // `window`
@@ -581,8 +578,15 @@ const uniqueList = [...new Set(list)];
     func1();
 ```
 
- - 作为 **某对象的方法调用**，this指向该对象（可通过call、apply、bind可以改变`this`指向）。
- - 箭头函数 **没有自己的this**（也不能通过`call`等方法改变指向） ，它 **永远指向 “箭头函数在定义时的外层函数/对象”它所在的对象**
+ - 在 **构造函数** 内，this 指向 **新创建的对象**
+```js
+    class Person() {
+        this.name = 'heshiyu';
+    }
+```
+
+ - 在 **对象的方法** 内，this 指向 **该对象**（可通过call、apply、bind可以改变`this`指向）。
+
 ```js
     let obj = {
         say() {
@@ -603,11 +607,26 @@ const uniqueList = [...new Set(list)];
     obj.baseSay.call(fakeObj); // window（call无法改变箭头函数this指向）
 ```
 
- - 在 **构造函数里调用**，this指向新创建的对象
-```js
-    class Person() {
-        this.name = 'heshiyu';
+### 箭头函数
+**箭头函数**，不会创建自己的 this，它只会从自己的作用域链的上一层继承 this。
+
+例子：https://juejin.cn/post/6844903573428371464
+
+```javascript
+function fn0() {
+    return {
+        fn1: function () {
+            var obj = {
+                a: function() { console.log(this) },
+                b: {
+                    c: () => console.log(this)
+                }
+            }
+            return obj;
+        }
     }
+}
+fn0().fn1().b.c() // 得到的{fn1: f}对象
 ```
 
 ## this绑定规则的优先级
@@ -800,35 +819,39 @@ console.log(o1)
 ## 深拷贝
 若被拷贝的对象内没有 `function` 属性，可以使用：
 ```js
-// 将对象进行序列化后，再反序列化。
+// 先序列化，再反序列化。
 JSON.parse(JSON.stringify(obj))
-
-// 缺点：会忽略函数function
 ```
 
-或者 **通用的递归**：
+或者 **使用递归**：
 ```js
-export const deepClone = source => {
-    if (!souce || typeof source !== 'object') {
-        // 不是对象
-        throw new Error('error arguments', 'shallowClone')
+// 时间复杂度: O(nlogn)
+// for(O(n))内有递归(O(logn))
+let deepClone = (source) => {
+    // 若不是引用类型，直接返回本身
+    if (!source || typeof source !== 'object') {
+        return source;
     }
+    
+    // 要拷贝的引用类型是“数组”，还是“对象”
+    let targetObj = source.contructor === Array ? [] : {};
 
-    var targetObj = source.constructor === Array ? [] : {}
-
-    // 遍历key值
-    for (var keys in source) {
-        if(source.hasOwnProperty(keys)) {
-            if(!source[keys] || typeof source[keys] !== 'object') {
-                targetObj[keys] = source[keys]
-            } else {
-                targetObj[keys] = source[keys].constructor === Array ? [] : {}
-                targetObj[keys] = deepClone(source[keys])
-            }
+    // 遍历key
+    // for...in可遍历出: “自有属性”、“继承属性”
+    for (let key in source) {
+        // 若当前key值不是自有属性，直接跳过
+        if (!source.hasOwnProperty(key)) continue;
+        
+        // 若当前key值对应的值不是引用类型
+        if (!source[key] || typeof source[key] !== 'object') {
+            targetObj[key] = source[key];
+        } else {
+            targetObj[key] = deepClone(source[key]);
         }
     }
-    return targetObj
-}
+
+    return targetObj;
+};
 ```
 
 ## 暂时性死区（TDZ）
@@ -1114,6 +1137,23 @@ console.log(weakmap.get(keyObject)); // { score: 100 }
 
 keyObject = null; // 将这个对象置为null，无人引用
 console.log(weakmap.has(keyObject)); // false
+```
+
+### 遍历value值（for...of）
+对于`Map对象`，如果需要遍历`value`时，可以使用`map.entries()`：
+```js
+var map = new Map();
+
+map.set(7, [7]);
+// Map(1) {7 => Array(1)}
+
+map.set(19, [19]);
+// Map(2) {7 => Array(1), 19 => Array(1)}
+
+// 使用`map.entries()`
+for (let [key, value] of map.entries()) {
+    console.log(value);
+}
 ```
 
 ## ==和===的区别
