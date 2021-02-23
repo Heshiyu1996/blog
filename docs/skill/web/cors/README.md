@@ -1,71 +1,106 @@
 # 跨域资源共享（CORS）
-> `CORS`是W3C标准，叫“跨域资源共享”。
-> 需要`浏览器`+`服务端`同时支持（IE10+），主要是在服务端增加一个 **过滤拦截器**。
-> 
-> 一共2类CORS请求：`简单请求`、`非简单请求`
-
 [[toc]]
+## 定义
+**跨域资源共享（CORS）** 是一种 **基于HTTP头部** 的跨域机制。
 
-## 简单请求
- 同时满足以下两种条件：
+> 服务端可以通过 CORS 来指定哪些源站可以访问。
 
- 条件一：请求方法：`HEAD`、`GET`、`POST`
+特点：
+  - 支持所有请求类型
+  - 服务端只需将数据直接返回，**不需特殊处理**
 
- 条件二：HTTP头部信息（不能多于以下字段）
+## 类型
+有两类 CORS 请求：简单请求、非简单请求。
+### 简单请求
+应该同时满足以下两种条件：
+
+1. 请求方法：`HEAD`、`GET`、`POST`
+
+2. **人为设置** 的HTTP头部字段范围
  - `Accept`
  - `Accept-Language`
  - `Content-Language`
- - `Last-Event-ID`
  - `Content-Type`
-    - application/x-www-form-urlencoded
-    - multipart/form-data
     - text/plain
+    - multipart/form-data
+    - application/x-www-form-urlencoded
 
-**简单请求的HTTP头部**会自动添加一个`Origin`字段（表明请求来自哪个源）。
+### 与服务端通信
+原理：
+ - **Request Header**，携带 `Origin`
+ - **Response Header**，下发 `Access-Control-Allow-Origin`
 
-若`Origin`指定的源：
- - 在许可范围
-    - 响应头信息**会有**`Access-Control-Allow-Origin`（其值要么是`Origin`的值，要么是`*`）
- - 不在许可范围
-    - 响应头信息**没有**`Access-Control-Allow-Origin`（能被`XMLHttpRequest`的`onerror`捕获）
+<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7602167601/64ed/8659/4609/c2e44c62e581d4d506d7971b0748e71f.png" width="400px" />
+
+```js
+/* 例如：站点 http://foo.example 想要访问 http://bar.other 的资源 */
+
+// Request Header
+Origin: http://foo.example
+
+
+// Response Header（允许 http://foo.example 访问 ）
+Access-Control-Allow-Origin: http://foo.example
+
+// Response Header（允被 任意外域 访问 ）
+Access-Control-Allow-Origin: *
+```
+> 若不允许跨域，**Response Header** 则没有 `Access-Control-Allow-Origin`，同时会触发 xhr 的 `onerror`。
+
+
+
+## 非简单请求
+除了“简单请求”外，都属于“非简单请求”。
+> 注意：常见的 `Content-Type: application/json` 的请求也是非简单请求。
+
+### 与服务器通信
+**非简单请求** 会先发送一个`预检请求（OPTIONS）`。
+
+对于预检请求，**Request Header** 也会自动加上以下字段：
+ - `Origin`: 表明请求源
+ - `Access-Control-Request-Method`: 列出 **接下来的CORS请求** 会用到哪些方法
+ - `Access-Control-Request-Headers`: 列出 **接下来的CORS请求** 会额外发送哪些自定义头部
+
+<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7602183006/a573/8a60/5d3a/fd88c161425e28375d47ac3f3a61600c.png" width="400px" />
+
+ 服务器收到`预检请求`后，若允许跨域：
+ - `Access-Control-Allow-Origin`: 表示允许访问的源（其值要么是`Origin`的值，要么是`*`）
+ - `Access-Control-Allow-Methods`: 表示允许访问的方法
+ - `Access-Control-Allow-Headers`: 表示允许访问的Header字段
+ - `Access-Control-Max-Age`: 表示预检请求的有效期
+    
+> 若不允许跨域，**Response Header** 则没有以上字段，同时会触发 xhr 的 `onerror`
+
+一旦通过了 **预检请求**，只要在有效期内，请求方式就与 **简单请求** 一样了：
+ - **Request Header**，携带 `Origin`
+ - **Response Header**，下发 `Access-Control-Allow-Origin`
+ 
+
 
 > 有关Cookie（前提：源在许可范围内）
 >    - 响应头信息会有`Access-Control-Allow-Credentials`（`true`：请求可以带Cookie；`false`：相反）
 >    - 响应头信息的`Access-Control-Allow-Origin`不能设为`*`，必须指定明确
 >    - 浏览器也要设置`xhr.withCredentials = true`才可以发Cookie，且只有用`服务器域名`设置的Cookie才会上传（其他域名的Cookie不会上传）
 
-## 非简单请求
-`非简单请求`是指请求方法：`PUT`、`DELETE` 或者 Content-Type：`application/json`的请求，它会先发送一个`预检请求`（`OPTIONS`）。
+## 携带Cookie
+对于跨域请求，浏览器一般不会携带Cookie。需要额外设置。
 
-`预检请求`的HTTP头部会自动添加一个`Origin`字段（表明请求来自哪个源），以及以下两个特殊字段：
- - `Access-Control-Request-Method`
-    - 列出**接下来的CORS请求**会用到哪些方法
- - `Access-Control-Request-Headers`
-    - 指定**接下来的CORS请求**会额外发送哪些自定义头部
+客户端需要：
 
- 服务器收到`预检请求`后，
- - 允许跨域
-    - `Access-Control-Allow-Origin`
-        - 表示允许访问的源（其值要么是`Origin`的值，要么是`*`）
-    - `Access-Control-Allow-Methods`: GET, POST, PUT
-        - 表示允许的方法
-    - `Access-Control-Allow-Headers`
-        - 表示允许访问的头部属性
- - 不允许跨域
-    - 响应头信息没有任何CORS相关头信息字段(能被`XMLHttpRequest`的`onerror`捕获)
+```js
+xhr.withCredentials = true;
+```
 
- 注意：只要通过了“预检请求”，以后每次正常的CORS请求，都会跟`简单请求`一样了：
-  - 对于请求头部，会有一个`Origin`字段
-  - 对于响应头部，也会有`Access-Control-Allow-Origin`
-  
- 
-### CORS的特点：
-  - 支持所有请求类型
-  - 服务端只需将数据直接返回，**不需特殊处理**
+服务端需要：
+ - 在 **Response Header** 下发 `Access-Control-Allow-Credentials: true`
+ - 在 **Response Header** 下发 `Access-Control-Allow-Origin` 不能为“`*`”，而是具体的 `Origin` 值。
 
-## 解决跨域的一些方法
+
+
+
+## 解决跨域的其它方法
+除了 CORS ，还有：
  - JSONP
- - CORS
  - Nginx
  - 【iframe】window.postMessage
  - 【iframe】window.name
@@ -76,7 +111,7 @@
 
  `JSONP`的特点：
   - 只支持`GET`，不支持`POST`（相当于下载一个js文件，相当于浏览器输入一个url一样）
-  - 服务端返回的数据不能是标准的json格式，而是通过callback包裹（需要客户端和服务端提前约定）
+  - 服务端返回的数据需要通过 callback 包裹（需要客户端和服务端提前约定）
   - 安全问题
   - 要确定jsonp请求是否失败**并不容易**
 

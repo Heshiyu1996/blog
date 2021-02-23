@@ -376,7 +376,7 @@ const sidebar = {
 }
 
 module.exports = {
-    title: 'Heshiyu\'s Blog',
+    title: ' ',
     description: ' ',
     head, // 注入到当前页面的 HTML <head> 中的标签
 

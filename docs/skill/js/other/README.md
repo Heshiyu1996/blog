@@ -566,9 +566,9 @@ const uniqueList = [...new Set(list)];
 “`this`的指向”可以分为 2 种情况：非箭头函数、箭头函数。
 
 ### 非箭头函数
-由 **函数的执行环境** 决定的。
+非箭头函数的 `this指向` 由 **函数的执行环境** 决定的。
 
-常见的几种情况：全局函数内、构造函数内、对象方法内、箭头函数内。
+常见的几种情况：全局函数内、构造函数内、对象方法内。
 
  - 在 **全局函数** 内，this指向`window`（非严格模式）；this指向`undefined`（严格模式）
 ```js
@@ -684,9 +684,9 @@ func();
 ```js
 obj1.say() // 'obj1'。隐式绑定。this指向obj1
 
-obj2.say() // 'obj2'。同样隐式绑定。this指向obj2
+obj2.say() // 'obj2'。因为 非箭头函数this指向由执行环境 决定，此时可理解为 obj2的隐式绑定，所以this指向obj2
 
-obj3.say() // 'obj2'。显示绑定。“显示绑定”的优先级 > “隐式绑定”，同时bind改变了this指向为obj2，最后返回新函数
+obj3.say() // 'obj2'。bind改变了this指向为obj2，属于“显式绑定” > “隐式绑定”
 
 func() // 'undefined'。默认绑定。this指向全局。（若为严格模式，this指向undefined，会报错找不到name属性）
 ```
