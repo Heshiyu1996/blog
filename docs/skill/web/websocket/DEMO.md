@@ -87,6 +87,7 @@ class WebSocketClass {
     }
 
     // 关闭方式检测（手动/异常）
+    // 注意：在断网时，可能不会触发 `onclose事件` （如: Chrome）
     _closeHandle(error = 'err') {
         this.heartChecker && this.heartChecker.stop();
         this.isWorking ? this._reConnect() : console.log(`${this.name}已正常手动关闭`); // 若异常关闭ws，启动重连机制
