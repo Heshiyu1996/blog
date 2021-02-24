@@ -3,54 +3,70 @@
 
 [[toc]]
 
-## 特点一：浅合并
+## 特点
+1. 浅合并
+
+2. 批量更新策略
+
+### 浅合并
+```jsx
+this.setState({ comments }); // ===> this.setState({ ...this.state, comments })
+```
 `this.setState({ comments })` 完整保留了 `this.state.posts`，但完全替换换了 `this.state.comments`。
 
-## 特点二：批量更新策略
-### 现象
-**在合成事件（或生命周期钩子函数）中，对同一个state基于上一次的值多次setState，只有一次的效果**
+### 批量更新策略
+### 原理
+当 React 在触发 合成事件（或生命周期） 时，会初始化一个 **事务**。
 
 ```js
 class App extends Component {
+    state = { 
+        val: 0
+    }
 
-  state = { val: 0 }
+    componentDidMount () {
+        this.setState({ val: this.state.val + 1 });
+        console.log('第 1 次 val: ', this.state.val);
+        this.setState({ val: this.state.val + 1 });
+        console.log('第 2 次 val: ', this.state.val);
 
-  batchUpdates = () => {
-    this.setState({ val: this.state.val + 1 })
-    this.setState({ val: this.state.val + 1 })
-    this.setState({ val: this.state.val + 1 })
- }
+        setTimeout(() => {
+            this.setState({ val: this.state.val + 1 });
+            console.log('第 3 次 val: ', this.state.val);
+            this.setState({ val: this.state.val + 1 });
+            console.log('第 4 次 val: ', this.state.val);
+        }, 0)
+    }
 
-  render() {
-    return (
-      <div onClick={this.batchUpdates}>
-        {`Counter is ${this.state.val}`} // 1
-      </div>
-    )
-  }
+    render() {
+        return null;
+    }
 }
+
+// 0 0 2 3
+// 解释：
+// 前两次 isBatchingUpdates === true，没有更新 state，输出 0 0
+// 后两次 同步更新，输出 2 3
 ```
 
 ### 更新机制
-当调用`setState`时：
- - 把 `newState` 放入到 `当前组件实例` 下的更新队列
+调用`setState`时：
+ - 根据 `isBatchingUpdates` 判断 “是否处于 `批量更新` 的过程”
+    - 若是，将 setState结果 放到 `dirtyComponents` 中（还未应用到组件）
 
- - 判断：是否处于 `批量更新` 的过程
-    - 若是，把 组件实例 push到 `dirtyComponents` 中，等待更新
+ - 否则，调用 `batchedUpdates` 进行 `批量更新`
+    - “批量更新”做法: 设置 `isBatchingUpdates = true`，通过 `transaction.perform()` 发起事务 
 
- - 否则，进行 `批量更新`，设置 状态标识位，调用 `transaction.perform()`
-
- - 遍历`dirtyComponents`，调用`updateComponent`
-
- - 事务结束时，会将 所有临时state 合并、计算出最新state（`flushBatchedUpdates`），调用生命周期方法来更新组件，`isBatchingUpdates = false`
+ - 事务结束时，`isBatchingUpdates = false`，遍历所有 `dirtyComponents`，调用 `updateComponent` 刷新组件，并执行 `pendingCallbacks`（即 setState 中的 callback）
 
  ![alt](./img/img-1.png)
+
 
 :::tip
 **事务（Transaction）** 用 Wrapper 封装要执行的方法，暴露一个`perform`方法来调用原方法。
 > 在Wrapper里定义 `initialize` 和 `close` 方法：它们 **分别** 会在 `指定方法` 执行前、执行后执行。
 ```
-* <pre>
+ * 
  *                       wrappers (injected at creation time)
  *                                      +        +
  *                                      |        |
@@ -73,7 +89,7 @@ class App extends Component {
  *                    | +---+ +---+   +---------+   +---+ +---+ |
  *                    |  initialize                    close    |
  *                    +-----------------------------------------+
- * </pre>
+ * 
 ```
 :::
 
@@ -88,7 +104,7 @@ class App extends Component {
     - **避免不必要的重新渲染**，从而提升性能。
 
  - **setState是异步还是同步的？**
-    - 同步的。但有时（合成事件、生命周期）表现出来是异步。
+    - 对于 **合成事件、生命周期**，是异步；对于 `setTimeout`、`addEventListener` 是 同步 的。
 
  - **为什么在setTimeout方法中调用setState表现出来是同步？**
     - 因为setTimeout已经完成了原组件的更新流程，不会放入`dirtyComponents`
@@ -104,3 +120,4 @@ class App extends Component {
  - [【React进阶系列】 setState机制](https://segmentfault.com/a/1190000016805467#item-7)
  - [把setState整明白](https://www.jianshu.com/p/885743d7a094)
  - [React - setState源码分析（小白可读）](https://juejin.im/post/5aa25967518825558251f61f#heading-6)
+ - [[第10期] 了解 React setState 运行机制](https://cloud.tencent.com/developer/article/1592636)

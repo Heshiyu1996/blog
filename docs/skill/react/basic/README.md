@@ -162,10 +162,11 @@ export default withContext(MyComponent);
 
 
 ## 合成事件
-**React合成事件** 返回的是 `SyntheticEvent实例`，能够**兼容不同浏览器**。
+**React的合成事件** 是 React 为了解决 “跨浏览器的事件处理” 而进行包装的一类事件。
+> 如：onClick、onChange
 
-**触发时机：** 冒泡阶段（如：onClick、onChange）
-> 如果**需要注册 捕获阶段 的事件处理函数**，可以在事件名后紧接`Capture`（如：onClickCapture）
+**触发时机：** 冒泡阶段。
+> 如果需要在 **捕获阶段** 触发，可以在 `事件名+Capture`（如：onClickCapture）
 
 ### 合成事件、原生事件的区别 
 | 特点 | 原生事件 | 合成事件 |
@@ -175,21 +176,20 @@ export default withContext(MyComponent);
 | 阻止默认行为 | 返回`false` | 显式调用 `ev.preventDefault()` |
 
 ### SyntheticEvent实例
+在合成事件的事件处理函数内，会传递进一个 `SyntheticEvent实例`。
+
  - 兼容所有浏览器
  - 拥有原生事件接口（`stopPropagation` 、 `preventDefault`）
  - 由于合并而来，可能会被重用 **（即在事件回调触发完毕后，所有属性都会失效）**
 
 <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7114440836/02c8/18a3/3f38/568eede47e6e2353b339335214ad2bc2.png" width="350px" />
 
+
+
 ## 触发Render的方式
- - 首次加载（`ReactDOM.render()`）
- - setState()
- - props发生改变
- - forceUpdate()
-
-其中，`setState`、`props`发生改变都可以通过 `shouldComponentUpdate` 决定 **是否执行render**。
-> 注意：`shouldComponentUpdate` 只能决定是否执行 render ，但数据依然是会被更新的
-
+ - 执行 `ReactDOM.render`
+ - state、props发生改变（可以通过 `shouldComponentUpdate` 决定是否执行render；值依旧是会改变的）
+ - forceUpdate
 
 
 ## 函数内部的this绑定
