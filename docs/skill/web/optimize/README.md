@@ -72,7 +72,7 @@
  - `fetchStart`：浏览器发起首个请求的时刻
  - `domLoading`：浏览器开始解析渲染DOM的时刻
  - `domContentLoadedEventEnd`：DOM解析完成的时刻（代表`DOMContentLoaded`事件完成）
- - `loadEventEnd`：window.onload事件回调函数执行完成的时刻
+ - `loadEventEnd`：load事件回调函数执行完成的时刻
 
 #### 相关时间计算
  - DNS查询耗时 = domainLookupEnd - domainLookupStart
@@ -86,12 +86,12 @@
 
 > 注意，对于前端性能监测，一般会忽略 `发起首个请求之前` 的耗费时间
 
-> DOMContentLoaded指页面元素加载完毕，可正常交互，**但资源（如图片）可能还未加载完成**；onload指页面上 **所有资源都加载完成**。
 
 #### 静态资源的时间计算
 `window.performance.getEntries()`用来统计静态资源相关的时间信息。
 
-
+#### DOMContentLoaded vs load
+> DOMContentLoaded指页面元素加载完毕，可正常交互，**但资源（如图片）可能还未加载完成**；load指页面上 **所有资源都加载完成**。
 
 ### Chrome Devtools Performance的性能监测
 `Chrome DevTools Performance功能`也可以分析 **运行时性能表现**，对问题进行定位、分析和优化。
