@@ -50,7 +50,7 @@ React、Vue都**采用Virtual DOM来实现对真实DOM的映射**，所以React 
 > 算法复杂度为O(n)
 
 React diff（v16前）基于三个策略：
- - 忽略DOM节点的跨层级操作（因为特别少）
+ - 忽略DOM节点的跨层级移动
  - 拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构
  - 同一层级的一组子节点，通过`key`值进行区分
 
@@ -67,9 +67,7 @@ React diff（v16前）基于三个策略：
 > React只会对相同颜色方框内的DOM节点进行比较（即同一个父节点下的所有子节点）。
 
 **建议：**
- - 应保持DOM结构的稳定（尽可能少地动态操作DOM结构）
- - 减少节点数
- - 可通过CSS隐藏/显示节点，而不是真正移除/添加DOM节点
+尽量保持 DOM结构 的稳定，避免 移除/添加DOM节点 （可用 CSS 代替）
 
 #### 对于跨层级的节点，只有 创建 和 删除 操作
 ![alt](./img/img-2.png)
@@ -84,33 +82,34 @@ React diff（v16前）基于三个策略：
  - 如果不是，则将该组件判断为`dirty component`，从而替换整个组件（因为React认为：不同类型的组件，DOM树相同的情况非常少）
 
 ![alt](./img/img-3.png)
-> 当component D改变为component G时，即使这两个component结构相似。但React会认为**D和G是不同类型的组件**，就不会比较二者的结构：直接删除component D，重新创建component G以及其子节点。
+> 当component D改变为component G时，React会认为 **D和G是不同类型的组件** ，就不会比较二者的结构。从而直接 “删除component D”，“重新创建component G以及其子节点”。
 
 **建议：**
- - 对于同一类型的组件，可以通过`shouldComponentUpdate()`来判断该组件是否需要diff
- - 对于类似的结构应尽量封装成组件，既减少代码量，又能减少component diff的性能损耗。
+ - 当明确知道是 “同一类型的组件” 时，可以通过 `shouldComponentUpdate()` 来指定该组件是否需要diff
+ - 对于类似的结构应尽量封装成组件，既减少代码量，又能减少 component diff 带来的性能损耗。
 
 
 ### element diff
-**比较范围：** 同一层级的节点之间。
+**比较范围：** 同一层级下的节点之间。
 
-React diff提供了三种“同层级节点”的操作：`插入`、`删除`、`移动`。
+React Element Diff 会进行 3 类操作：**插入、删除、移动**。
 
 **步骤：**
- - 对新集合中的节点进行循环遍历`for (name in nextChildren)`
- - 先判断 **新旧集合中是否存在相同的节点**（通过唯一的`key`值）`if(prevChild === nextChild)`，如果不存在，则进行 `插入`；
- - 如果旧集合中存在，则比较 `当前节点在旧集合中的位置（child._mountIndex）` 与 `访问过的节点，在旧集合中最右的位置（lastInddex）`
- - `if(child._mountIndex > lastIndex)`，说明**当前访问节点在旧集合中的位置 就比 上一个节点位置 靠后，则该节点不会影响其他节点的位置，不需执行移动操作**；否则进行移动
+ - 循环遍历 新集合的节点
+ - 判断 **新旧集合是否存在相同的节点**（通过唯一的`key`值）；如果不存在，则直接 **插入**；
+ - 否则，会比较 `该节点在 旧集合中的位置（child._mountIndex）` 与 `遍历已访问过的节点，在旧集合中最右的位置（lastIndex）`
+ - `if (child._mountIndex >s lastIndex)`，说明 该节点在 旧集合中的位置 就比 上一个节点位置 的后面，并且该节点不会影响其他节点的位置，**不需要移动**；
+ - 否则，进行**移动**
 
 
 ![alt](./img/img-4.png)
 > React diff 的执行情况：B、D不作任何操作，A、C进行移动即可。
 
 **建议：**
- - 给同一层级的同组子节点设置`key`值
- - 尽量减少类似将最后一个节点移动到列表首部的操作
+ - 同一层级下的子节点 需要设置 `key` 值
+ - 尽量减少类似 “将最后一个节点 移动到 列表首部” 这样的操作
 
-**注意：** 这种方式和Vue不太一样。Vue采用的是由**两端至中间**，先是4种比较方式，都匹配不上，就是key比较。
+> React Element Diff 和 Vue 不太一样。Vue采用的是：由**两端至中间**，先是4种比较方式，都匹配不上，就是key比较。
 
 
 ### React更新阶段
@@ -294,12 +293,17 @@ return (
 
 
 ## [Vue] Virtual DOM Diff
-Vue和React一样，只进行**同层比较，忽略跨级操作**。
+Vue 和 React一样，只进行 **同层比较，忽略跨级操作** 。
 
-当响应式属性`setter`执行`Dep.notify()`时，就会开始执行`patch`，一边比较新、旧节点，一边给`真实DOM`打补丁。
+> 不同层级不比，不同类型不比
+
+当响应式属性 `setter` 执行 `Dep.notify()` 时，就会开始执行 `patch` 。
+> 一边比较新、旧节点，一边给 `真实DOM` 打补丁。
 
 ```js
 function patch (oldVnode, vnode) {
+    // sameVnode 会当两节点的 key && sel（即元素的css选择器） 相同时，认为是同一类型节点。
+    // 此时才需要 “深入比较”
     if (sameVnode(oldVnode, vnode)) {
         patchVnode(oldVnode, vnode)
     } else {
@@ -316,17 +320,7 @@ function patch (oldVnode, vnode) {
     return vnode
 }
 ```
-
-`sameVnode`会当两节点的`key` && `sel`相同时，认为是同一类型节点。此时不需要移动。
-```js
-function sameVnode(oldVnode, vnode){
-  //两节点key值相同，并且sel属性值相同，即认为两节点属同一类型，可进行下一步比较
-    return vnode.key === oldVnode.key && vnode.sel === oldVnode.sel
-}
-```
-也就是说，即便同一个节点，只是className不同，Vue也会认为是两个不同类型的节点，从而**直接用新节点替换整个老节点**。
-
-> 这和React Diff实现不同，react对于同一节点元素认为是同一类型节点，只更新其节点上的属性。
+这和 React Diff 实现不同，react 对于 “同一类型节点” 的认定标准 是 “同一个Class实例化出来的节点元素”。
 
 ### patchVnode
 两个节点值得比较时，会调用`patchVnode`
@@ -349,7 +343,7 @@ patchVnode (oldVnode, vnode) {
         // 情况四：只有新节点具有子节点，因为vnode.el引用了老的dom节点，createEle会在老dom上添加子节点
             createEle(vnode) //create el's children dom
         }else if (oldCh){
-        // 情况五：新节点没有子节点，老节点有子节点，直接删除老节点
+        // 情况五：只有老节点具有子节点，直接删除老节点
             api.removeChildren(el)
         }
     }
@@ -357,40 +351,61 @@ patchVnode (oldVnode, vnode) {
 ```
 
 ### updateChildren
-当两个节点值得比较，且它们都有子节点，且不一样时，调用`updateChildren`。
+当新、旧节点都 “具有不一样子节点” 时，调用 `updateChildren` 深入比较 **（Vue diff核心）**。
 
 **步骤**：
- - `oldCh`和`newCh`各有两个头尾的变量`StartIdx`和`EndIdx`
- - 依次进行4次比较：**旧头新头、旧尾新尾、旧头新尾、旧尾新头** 它们是否为同一类型节点。若是，则 **“这一对值得比较”**，开始`patchVnode`
- - 若4次匹配不上，开始比较`key`值
- - 会从 用`key`值生成的对象`oldKeyToIdx` 中查找匹配节点
- - 最后变量会往中间靠拢，当`StartIdx`>`EndIdx`时结束比较。
+ - `oldCh` 和 `newCh` 各有 2 个头尾指针：`StartIdx` 和 `EndIdx`
+ - 依次进行4次比较：**旧头新头、旧尾新尾、旧头新尾、旧尾新头** 是否为 “同一类型节点”。若是，则证明 **这一对节点值得比较**，开始 `patchVnode`
+ - 若 4 次都匹配不上，开始比较`key`值
+ - 会从 用 `key` 值生成的对象 `oldKeyToIdx` 中查找匹配节点
+ - 最后变量会往中间靠拢，当 `StartIdx` > `EndIdx` 时结束比较。
 
-![alt](./img/img-7.png)
+<img src="./img/img-7.png" width="400px" />
 
 **总结遍历过程，有3种DOM操作**：
- - 当`oldStartVnode`、`newEndVnode`值得比较，说明`oldStartVnode.el`需要移动到`oldEndVnode.el`后边
- - 当`oldEndVnode`、`newStartVnode`值得比较，说明`oldEndVnode.el`需要移动到`oldStartVnode.el`前边
- - 当`newCh`的节点`oldCh`没有，将新节点插入到`oldStartVnode.el`前边
+> oldVnode 对应的 Dom 总是存在，newVnode 的 dom 是不存在的。所以节点的移动只能采取 “移动到 旧尾后/旧头前”。
+ - 当 **旧头新尾** 是 “同一类型节点”，说明 newVnode 右移了，所以 “旧头” 需要移动到 “旧尾” 后边
+ - 当 **旧尾新头** 是 “统一类型节点”，说明 newVnode 左移了，所以 “旧尾” 需要移动到 “旧头” 前边
+ - 当 某个节点 `newVnode` 有，但 `oldVnode` 没有，将 该节点 插入到 `旧头` 前边
 
 **结束时，分2种情况**：
- - `oldStartIdx > oldEndIdx`，表示`oldCh`先遍历完，此时`newStartIdx`和`newEndIdx`之间的vnode是新增的，调用`addVnodes`。新节点被插入到子节点的末尾
- - `newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`和`oldEndIdx`之间的vnode在新的节点里已经不存在了，调用`removeVnodes`将它们从DOM里删除。
+ - `oldStartIdx > oldEndIdx`，表示`oldCh`先遍历完，此时`newStartIdx`和`newEndIdx`之间的vnode是新增的。此时，调用`addVnodes`，将 新节点 插入到 子节点 的末尾
+ - `newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`和`oldEndIdx`之间的vnode在新的节点里已经不存在了。此时，调用`removeVnodes`将它们从DOM里删除。
 
 ### 总结Vue Diff流程
 ![alt](./img/img-13.png)
 
 #### Demo
-假设现在有个父节点`<div class="parent"></div>`，下面有`a、b、c、d`这四个不同的子节点。突然发生一次`patch`，改变了子节点的内容。
+当下面的结构的子节点的内容发生改变时：
+```html
+<!-- 没有设置 key -->
+<div class="parent">
+    <!-- before -->
+    <div class="a">a</div>
+    <div class="b">b</div>
+    <div class="c">c</div>
+    <div class="d">d</div>
+
+    <!-- after：变成了 b e d c -->
+    <div class="b">b</div>
+    <div class="e">e</div>
+    <div class="d">d</div>
+    <div class="c">c</div>
+</div>
+```
+
+两组子节点如果发生改变，那 diff算法 的步骤也是不一样的。
 
 ### 没有设置key
+对于 class 为 `parent` 这组节点：
  - 执行`patch`
- - 先从父节点开始，比较其`oldVnode`、`newVnode`，发现**值得比较**。
- - 传入父节点的新、旧Vnode节点，执行`patchVnode`
- - 先是将真实dom（`oldVnode.el`）赋值给`vnode.el`、`el`。作用是当el发生变化，`vnode.el`会同时变化
+ - 先从父节点开始，比较其 `oldVnode` 、 `newVnode` ，发现 **值得比较**。
+ - 传入父节点的新、旧Vnode节点，执行 `patchVnode`
+ <!-- - 先是将真实dom（`oldVnode.el`）赋值给`vnode.el`、`el`。作用是当el发生变化，`vnode.el`会同时变化 -->
  - 判断情况一：引用不一致，发生了变化
  - 判断情况二：不为文本节点，继续判断
- - 判断情况三：新、旧子节点都有各自且不同的子节点，调用`updateChildren`比较（Vue diff核心，即头尾的4次比较）
+ - 判断情况三：新、旧子节点都有各自且不同的子节点，调用 `updateChildren` 比较（Vue diff核心，即头尾的4次比较）
+ - 开始遍历 新集合 中的节点
  - 对于`b`节点：
     - 依次比较`旧头新头`、`旧尾新尾`、`旧头新尾`、`旧尾新头`，发现都不值得比较；
     - 开始比较`key`
@@ -402,14 +417,14 @@ patchVnode (oldVnode, vnode) {
     - 发现`key`值不存在，执行`insertBefore`，将`新头`插入到`旧头`前面
     - `newStartIdx++`，新头下标继续往后。为`d`节点
  - 对于`d`节点：
-    - 发现`旧尾新头`为同一类型节点，**值得比较**；
-    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`新头`前面
+    - 发现`旧尾新头`为同一类型节点，**值得比较**，说明 newVnode左移；
+    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`旧头`前面
     - `newStartIdx++`、`oldEndIdx--`，新头下标继续往后、旧尾下标往前。此时新头为`c`，旧尾为`c`
  - 对于`c`节点：
-    - 发现`旧尾新头`为同一类型节点，**值得比较**；
-    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`新头`前面
+    - 发现`旧尾新头`为同一类型节点，**值得比较**，说明 newVnode左移；
+    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`旧头`前面
     - `newStartIdx++`、`oldEndIdx--`，新头下标继续往后、旧尾下标往前。
-    - 此时`newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`、`oldEndIdx`之间的节点`a`、`b`已经不存在了，调用`removeVnodes`将它们从DOM里删除
+ - 此时`newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`、`oldEndIdx`之间的节点`a`、`b`已经不存在了，调用`removeVnodes`将它们从DOM里删除
 
 ![alt](./img/img-8.png)
 
@@ -419,10 +434,11 @@ patchVnode (oldVnode, vnode) {
  - 执行`patch`
  - 先从父节点开始，比较其`oldVnode`、`newVnode`，发现**值得比较**。
  - 传入父节点的新、旧Vnode节点，执行`patchVnode`
- - 先是将真实dom（`oldVnode.el`）赋值给`vnode.el`、`el`。作用是当el发生变化，`vnode.el`会同时变化
+ <!-- - 先是将真实dom（`oldVnode.el`）赋值给`vnode.el`、`el`。作用是当el发生变化，`vnode.el`会同时变化 -->
  - 判断情况一：引用不一致，发生了变化
  - 判断情况二：不为文本节点，继续判断
  - 判断情况三：新、旧子节点都有各自且不同的子节点，调用`updateChildren`比较（Vue diff核心，即头尾的4次比较）
+ - 开始遍历 新集合 中的节点
  - 对于`b`节点：
     - 依次比较`旧头新头`、`旧尾新尾`、`旧头新尾`、`旧尾新头`，发现都不值得比较；
     - **开始比较`key`**（`key`值设置与否，不同在于这一步！！）
@@ -438,13 +454,13 @@ patchVnode (oldVnode, vnode) {
     - `newStartIdx++`，新头下标继续往后。为`d`节点
  - 对于`d`节点：
     - 发现`旧尾新头`为同一类型节点，**值得比较**；
-    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`新头`前面
+    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`旧头`前面
     - `newStartIdx++`、`oldEndIdx--`，新头下标继续往后、旧尾下标往前。此时新头为`c`，旧尾为`c`
  - 对于`c`节点：
     - 发现`旧尾新头`为同一类型节点，**值得比较**；
-    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`新头`前面
+    - 开始执行`patchVnode`，发现引用一致没有变化，将`旧尾`插入到`旧头`前面
     - `newStartIdx++`、`oldEndIdx--`
-    - 此时`newStartIdx > newEndIdx`，表示`newCh`先遍历完，此时`oldStartIdx`、`oldEndIdx`之间的节点`a`、`b`已经不存在了，调用`removeVnodes`将它们从DOM里删除
+    - 此时`newStartIdx > newEndIdx`，表示`newCh`先遍历完，对于`oldStartIdx`、`oldEndIdx`之间的节点`a`、`b`已经不存在了，调用`removeVnodes`将它们从DOM里删除
 
 
 ![alt](./img/img-9.png)
