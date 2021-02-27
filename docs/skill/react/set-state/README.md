@@ -76,10 +76,30 @@ class App extends Component {
  - **为什么在setTimeout方法中调用setState表现出来是同步？**
     - 因为setTimeout已经完成了原组件的更新流程，不会放入`dirtyComponents`
 
- - **setState中传入一个Function，为何里面的state值是最新的？**
-    - 函数接收的state是上轮更新过的state。
+ - **setState中传入一个 Function，为何里面的state值是最新的？**
+    - 函数接收的 state 是上轮更新过的state。
     ```js
-    this.setState(prevState => ({ count: prevState.count + 1 }))
+    // this.setState(prevState => ({ count: prevState.count + 1 }))
+
+    enqueueSetState(publicInstance, partialState, callback, callerName) {
+        // ...  
+
+        const currentState = this._renderer._newState || publicInstance.state;
+
+        // 若 setState 传入的是 Function，那 state 则是 currentState （即上一轮更新过的 state）
+        if (typeof partialState === 'function') {
+            partialState = partialState.call(
+                publicInstance,
+                currentState,
+                publicInstance.props,
+            );
+        }
+        this._renderer._newState = {
+            ...currentState,
+            ...partialState,
+        };
+        this._renderer.render(this._renderer._element, this._renderer._context);
+    }
     ```
 
 ### 事务（Transaction）

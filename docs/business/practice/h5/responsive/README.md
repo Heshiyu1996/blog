@@ -86,3 +86,34 @@
 可以根据实际情况采取合适的方案，也可采用多套配合（如网易新163就是：**媒体查询 + rem + vw**）
 
 但以上都 **无法解决[1px问题](/business/practice/h5/#_1px问题)**。
+
+
+
+
+## css样式适配Trick：通过js计算
+### 起因
+在还原样式（广播电台）时，发现：在原工程里使用了大量媒体查询进行样式定位。
+> [ src/views/Music.sass](https://g.hz.netease.com/cloudmusic-frontend/DI-FM/-/blob/master/src/views/Music.scss)
+
+### 分析
+处理样式适配的一贯作法是通过媒体查询，目的是尽可能适配到大众型号场景。但对于某些特殊场景，也可以尝试**用js来计算目标节点定位**。
+> 同时搭配`position: fiexed`，可以省去很多css适配工作。
+
+例子：需要处理 **图中绿色DOM节点** 在页面定位适配。
+
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045160953/f1b5/c031/1088/4619541d7407e87affa68ea088214ebb.png" width="200px" />
+
+### 解决
+发现，“绿色节点”距离上、下节点（皆为`fixed定位`的节点）的距离相同
+ - 先通过上、下DOM节点的`getBoundingClientRect()`，获取`y`定位
+    - <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045216239/643e/c7a0/ed9e/609c19b22be3a6e5ecf6c17aa7ca530d.png" width="250px" />
+ - 再通过`((顶部y + 顶部height) + 底部y) / 2`，得到中位数，设为绿色节点的`y`、`height`数值
+ - 绿色节点再通过`transform: translateY(-50%)`可定位至上、下DOM节点中间
+
+### 注意
+有时可能需要处理在*个别小屏手机*进行粗粒度较大的适配（如针对绿色节点中的图片进行缩放等）。
+
+### 业务反馈
+在业务中使用还是谨慎考虑，可能出现：
+ - 渲染时机一旦错误就会导致最终定位错误
+ - 部分机型还是需要媒体查询进行更加精准的适配

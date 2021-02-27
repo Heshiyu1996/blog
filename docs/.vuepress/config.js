@@ -30,8 +30,9 @@ const nav = [
         text: '业务', items: [
             {
                 text: '实践', items: [
-                    { text: 'H5开发', link: '/business/practice/h5/' },
-                    { text: 'PC开发', link: '/business/practice/pc/' },
+                    { text: 'H5', link: '/business/practice/h5/' },
+                    { text: 'PC', link: '/business/practice/pc/' },
+                    { text: 'RN', link: '/business/practice/rn/' },
                     { text: '其它', link: '/business/practice/other/' },
                 ]
             },
@@ -253,11 +254,12 @@ const sidebar = {
     // 业务-H5开发
     '/business/practice/h5': [
         {
-            title: 'H5开发',
+            title: 'H5',
             collapsable: false,
             children: [
                 'h5/responsive/',
                 'h5/1px/',
+                'h5/hybrid/',
                 'h5/',
             ]
         },
@@ -266,10 +268,21 @@ const sidebar = {
     // 业务-PC开发
     '/business/practice/pc': [
         {
-            title: 'PC开发',
+            title: 'PC',
             collapsable: false,
             children: [
                 'pc/',
+            ]
+        },
+    ],
+
+    // 业务-RN
+    '/business/practice/rn': [
+        {
+            title: 'RN',
+            collapsable: false,
+            children: [
+                'rn/',
             ]
         },
     ],
@@ -288,6 +301,8 @@ const sidebar = {
                 'tool/babel/',
                 'tool/npm/',
                 'tool/mp/',
+                'tool/lerna/',
+                'tool/git/',
                 'tool/chrome-extension/',
                 'tool/rollup/',
             ]
