@@ -273,6 +273,8 @@ const sidebar = {
             children: [
                 'h5/responsive/',
                 'h5/1px/',
+                'h5/flexible/',
+                'h5/animation/',
                 'h5/hybrid/',
                 'h5/',
             ]

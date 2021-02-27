@@ -15,33 +15,34 @@ if (window.devicePixelRatio && window.devicePixelRatio >= 2)
   - 事件冒泡：**touchstart -> touchmove -> touchend -> click**
 
 **解决方式：**
-  - ① 原生解决：监听`touchstart事件`、`touchend`事件之间的**移动距离、时间差**。若很短，则主动进行`click`事件，并阻止`touchend`的默认行为。
-
-  - ② 利用Zepto.js中的`tap`事件代替
-    - 原理：Zepto会给`document`绑定一系列`touch事件`来实现`自定义tab`。当`touchend`回调触发时，代表一次点击结束。所以不会出现延迟。
-    - 缺点：会发生`点透事件`
-
-  - ③ 用`touchstart`替代`click`
-    - 优点：解决了 **延时、点透** 事件
-    - 缺点：具有滚动（`touchmove`）情况，还是需要使用`click`
-
-  - ④ 禁用缩放：
+  - ① 禁用缩放：
+    - 缺点：不支持缩放
   ```html
     <meta name="viewport" content="user-scalable=no">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1">
-    <!-- 缺点：不支持缩放了 -->
-    <!-- 在微信的输入框聚焦时，会放大 -->
   ```
+
+  - ② 用`touchstart`替代`click`
+    - 优点：解决了 **延时、点透** 事件
+    - 缺点：具有滚动（`touchmove`）情况，还是需要使用`click`
+
+  - ③ 判定`touchend` - `touchstart`：监听`touchstart事件`、`touchend`事件之间的**移动距离、时间差**。若很短，则主动进行`click`事件，并阻止`touchend`的默认行为。
+
+  - ④ 利用 Zepto.js 中的`tap`事件代替
+    - 原理：Zepto会给`document`绑定一系列`touch事件`来实现`自定义tab`。当`touchend`回调触发时，代表一次点击结束。所以不会出现延迟。
+    - 缺点：会发生`点透事件`
  
 ### “点透事件”
  原理：因为Zepto.js的`tap`事件是通过`touch`事件模拟的，故`tap`要冒泡到`document`才触发
+
  原因：
   - 有两层A、B（A盖在上面）
-  - 在`touchstart`阶段就隐藏了A；
-  - 当`click`被触发时，能够使下面的B“被点击”
+  - 在 `touchstart` 阶段就隐藏了A；
+  - 当 `click` 被触发时，能够使下面的B“被点击”
   - **touchstart -> touchmove -> touchend -> click**
  
  解决办法：为元素绑定`touchend`事件，并在内部加上`e.preventDefault()`，从而阻止`click`事件的产生
+
 <!-- 
 ### “滑动事件”
  通过`touchstart`、`touchend`来计算此次的滑动方向。
@@ -167,110 +168,6 @@ const doPreview = (index) => {
 }());
 ```
 
-## Animation动画
-
-### APNG和WEBP
-iOS：APNG（Animated Portable Network Graphics），是PNG的位图动画扩展
-14年在iOS8 Safari中支持APNG
-17年CHrome支持APNG
-支持：除IE和EDGE
- - 支持24位真彩色图片，且支持8位Alpha透明通道
- - 体积会比WEBP、GIF更小
-Android：WEBP
-
-### Lottie
-以Json形式存储动画。
-> 主要动画思想：绘制某个图层不断地改变CSS属性
- - 动效：AE -> JSON
- - 开发： JSON -> 动画
-
-```js
-import lottie from 'lottie-web';
-import animationJsonData from 'xxx-demo.json'; // json文件
-
-lottie.loadAnimation({
-    container: document.getElementById('myDom'),
-    animationData: animationJsonData,
-    renderer: 'svg', // 渲染模式：undefined（表示html） | svg | canvas
-    autoplay: true, // 默认自动播放
-    loop: true // 循环
-});
-```
-
-#### 不足
-包本身体积较大（Gzip: 39k）
-
-### SVG
-
-### GIF
-只支持8位256种颜色，且不支持Alpha透明通道
- - 所以存在边缘毛刺、白边
-![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5736661570/0473/0d3b/f005/c22a432f057f13bab80b7472e7e0e01f.png)
-
-### 参考链接
- - [剖析 lottie-web 动画实现原理](https://mp.weixin.qq.com/s/yUrrXpZRs-fnlTLohPMLEQ)
-
-## 曾经的lib-flexible
-用来解决H5页面终端适配
-
-> 好处：你不需要考虑如何对元素进行折算，可以根据对应的视觉稿，直接切入。
-
-通过 JS 来 动态改写 `viewport` 的 meta 标签。
- - 动态改写`<meta>`标签
- - 给`<html>`元素添加 data-dpr 属性，并且动态改写 data-dpr 的值
- - 给`<html>`元素添加 font-size 属性，并且动态改写 font-size 的值
-
-### 前提
- - 视窗Viewport：
-    - 在桌面浏览器中，viewport就是浏览器窗口的宽度高度。但在移动端设备上就有点复杂。
-    - 移动端的viewport太窄，为了能更好为CSS布局服务，所以提供了两个viewport:虚拟的visual viewport和布局的layout viewport。
- - viewport的meta标签:
-    - 主要用来告诉浏览器 如何规范的渲染Web页面，而你则需要告诉它 视窗有多大 。
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-```
-以 屏幕设备宽度 来定义视窗宽度，网页的比例、最大比例是 100%；
-
-### flexible
-```js
-<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
-```
- 1. 在所有资源加载之前执行这个JS
- 2. 执行这个JS后，会在`<html>`元素上增加一个 data-dpr 属性，以及一个 font-size 样式。
- 3. JS会根据不同的设备添加不同的data-dpr值，比如说2或者3
- 4. 同时会给`<html>`加上对应的font-size的值，比如说75px。
-
-效果：可以使用 rem单位 来设置
-
-#### 手动设置 dpr
-可以手动设置meta来控制dpr值，如：
-```html
-<meta name="flexible" content="initial-dpr=2" />
-```
-不建议：一旦设定，都会强制认为其dpr就是该固定值；同时，Flexible对 Android 不会判断（始终认为 dpr 是 1 ）
-
-```js
-if (!dpr && !scale) {
-    var isAndroid = win.navigator.appVersion.match(/android/gi);
-    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
-    var devicePixelRatio = win.devicePixelRatio;
-    if (isIPhone) {
-        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
-        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {                
-            dpr = 3;
-        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
-            dpr = 2;
-        } else {
-            dpr = 1;
-        }
-    } else {
-        // 其他设备下，仍旧使用1倍的方案
-        dpr = 1;
-    }
-    scale = 1 / dpr;
-}
-```
-
 ### 文本字号不建议使用rem
  - 不希望文本在 Retina屏幕 下变小
  - 希望在大屏手机上看到更多文本
@@ -306,23 +203,23 @@ div {
 ```
 
 ## position: fixed在iOS滑动不固定
-范围： 部分iOS机型（目前发现iOS<=13.6）
+范围： 部分iOS机型（目前发现 `iOS <= 13.6`）
 
-在滚动容器内，子元素使用了`position: fixed`，出现滑动不固定
+在 “滚动容器” 内，子元素使用了 `position: fixed` ，出现滑动不固定。
 
 ### 解决
- - 法一：在使用了`position: fixed`元素上加上`transform: translateZ(0)`
- - 法二：将`fixed`元素移出 滚动视图 外
+ - 法一：在使用了 `position: fixed` 元素上加上 `transform: translateZ(0)`
+ - 法二：将`fixed`元素移出 滚动容器 外
 
 
 ## Android下line-height文字垂直居中偏移问题
-在移动端开发，Android的单行文字无法在容器中完美垂直居中。
+在移动端开发，Android的单行文字无法在容器中垂直居中。
 > 常见于一些 tag 和 按钮
 
 问题根源：设定同一`font-size`的文字，**在不同字体里的高度是不一样的**。
 
 ### 调研
- - 所有内联元素都有两个高度：`content-area`（基于字体度量）、`virtual-area`（有效高度，即line-height）
+ - 所有 “内联元素” 都有两个高度：`content-area`（基于字体度量）、`virtual-area`（有效高度，即line-height）
  - `content-area`在内部渲染时已经发生偏移，而css的居中方案只会控制整个`content-area`的居中
  - `line-height: normal`是基于字体度量计算出来的
 

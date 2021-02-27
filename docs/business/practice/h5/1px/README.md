@@ -7,7 +7,7 @@
  1. `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">`
     - 定义了页面的 `viewport`宽度 为 设备宽度，初始缩放值 和 最大缩放值 都为 1，同时禁用了用户缩放。
  2. dpr导致。
-- 对于Retina屏，会使用 **多个设备像素** 去渲染
+    - 对于Retina屏，会使用 **多个设备像素** 去渲染
 ```css
     .border {
         /* 在 DPR 为 2 时，会用 2 个设备像素 去渲染这个border height */
@@ -16,7 +16,11 @@
 ```
 > 更多：[像素dpr](/skill/css/px/#dpr)
 
+综上，是由于设定了缩放值 `<meta>`，以及 `dpr` 导致。
+
 ## 解决
+有 3 个解决方式：媒体查询 + 小数、flexible、伪类 + transform。
+
 ### 媒体查询、小数
 不建议：低版本的安卓、IOS（8以下）不兼容小数。
 ```css
@@ -81,5 +85,5 @@ if (window.devicePixelRatio && devicePixelRatio === 2) {
 ### 对于圆边框的 1px 解决方案
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5838737157/7e50/1d9b/1e6b/f154c570ad248662b4a4e0225d35d942.png" width="400px" />
 
- - 方法一：采用伪类 + box-sizing: border-box
+ - 方法一：采用 伪类 + `box-sizing: border-box`
  - 方法二：根据设备DPR计算出 `viewport` 中的 `scale` 缩放
