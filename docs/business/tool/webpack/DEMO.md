@@ -173,3 +173,96 @@ const plugin = new HtmlWebpackPlugin({
  - 不支持__proto__
  - 不支持default关键字
  
+
+
+
+## webpack插件：style-loader和mini-css-extract-plugin的区别？
+### 起因
+在mrc上开发组件时，编写Demo发现：在js里import的样式没有生效。
+> 组件脚手架：[reactcomponent-templatetool](https://g.hz.netease.com/NeteaseMusicUI/reactcomponent-templatetool)、[webpack.config.js](https://g.hz.netease.com/NeteaseMusicUI/reactcomponent-templatetool/-/blob/master/template/demo/webpack.config.js)
+
+```js
+<!-/demo/app.js-->
+import 'antd-mobile/dist/antd-mobile.css'; // 无效
+import './index.less'; // 无效
+```
+
+### 配置
+webpack.config.js
+```js
+const config = {
+    module: {
+        rules: [
+            {
+                test: /\.(less|css)$/,
+                use: [
+                    // 原始配置：无其它配置
+                    // 现象：样式引入不正常
+                    MiniCssPlugin.loader,
+                    
+                    // 改进配置：引入style-loader，移除mini-css-extract-plugin
+                    // 现象：样式正常
+                    {
+                        loader: 'style-loader'
+                    }
+                    
+                    // 疑问配置：
+                    // 现象：样式引入不正常
+                    // {
+                    //     loader: 'style-loader'
+                    // },
+                    // MiniCssPlugin.loader,
+
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    },
+                    {
+                        loader: 'less-loader'
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+通过调研发现：脚手架目前的配置仅仅是将`.css`抽离，并最终未插入到页面中，导致样式未生效。
+
+##### 深入调研
+**style-loader**、**mini-css-extract-plugin**都可用于处理“在`.js`中import导入的样式文件”。
+
+不同点：
+
+**style-loader**：
+ - 打包机制：打包到“声明'import样式文件'的同一个`.js`文件”中。
+ - 调用时机：页面运行js时，样式会自动插入到`<style>`
+
+![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4951379992/fa3b/1652/5416/4a84d03d13108a24ddb05d086287e8d0.png)
+
+总结：需运行`.js`时才插入样式，无法抽离/压缩css代码
+
+**mini-css-extract-plugin**
+ - 打包机制：将同一个`.js`里所有`通过import导入的样式文件`都打包到同一个`.css`文件
+   > 这里css的文件名可通过`plugins`下实例插件时，传入配置项`filename`进行定义。
+ - 调用时机：需结合`html-webpack-plugin`使用，最后会以`<link>`形式将样式插入到页面。
+ 
+![alt](https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4951271228/d70c/0108/77cd/08c40dbee3d11ee6721a655e290bc185.png)
+
+
+总结：
+ - 可以将`样式`从`.js`中抽离，也可结合`optimization.splitChunks.cacheGroups`压缩css，并合并到一个`.css`上；
+ - 插入样式到页面。需结合`html-webpack-plugin`
+ - 开启HMR。需对loader进行配置`hrm: true`
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+new HtmlWebpackPlugin({
+    template: path.join(__dirname, '../demo/index.html'),
+    filename: 'index.html',
+    chunks: ['test'] // <-- 打包文件名
+}),
+```
+
