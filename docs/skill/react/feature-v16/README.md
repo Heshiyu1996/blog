@@ -66,28 +66,11 @@ const prevCalcValue = usePrevious(calcValue);
 | 生命周期 | 没有生命周期。<br />（**在v16.8后可通过`useEffect`去模拟部分生命周期**） | 有 |
 | render行为<br /> | 每次组件触发更新：<br />**拥有完全独立的函数作用域**，<br />返回相应的`React Element` | 每次组件触发更新：<br /> **调用`render()`**，<br />返回`React Element` <br />（对于同一处调用的class组件，**只有一个class实例**被创建/使用，后续的render**只会改变this.props、this.state的值**） |
 
-<!-- **定义方式**：
- - `函数组件`被定义为一个纯函数，它接收一个props对象，并返回一个`React Element`
- - `class组件`被定义为一个class，它继承于`React.Component`，并**通过render函数**去返回`React Element`
-
-**render行为**：
- - 函数组件：每次组件触发更新，都会 **拥有完全独立的函数作用域**，返回相应的`React Element`
- - class组件：每次组件触发更新，都会调用`render()`，返回`React Element`
-    - 对于同一处调用的class组件，**只有一个class实例**被创建/使用，后续的render**只会改变this.props、this.state的值**
-
-**状态**：
- - 函数组件：没有自身的内部状态state。**在react16.8添加了hooks，可以使用useState钩子去管理state；使用useEffect钩子去执行副作用**
- - class组件：拥有自身内部state
-
-**生命周期**：
- - 函数组件：没有生命周期。v16.8后可通过`useEffect`去模拟部分生命周期
- - class组件：有 -->
-
 ## React Hooks的优缺点
 **优点：**
  - 状态逻辑复用
     - 通过组合`useState`、`useEffect`等去实现状态逻辑复用、避免分散在各个生命周期中
- - 函数式编程
+ - 更贴合 函数式编程 思想
 
 **缺点：**
  - 调用顺序：

@@ -132,8 +132,8 @@
  - 使用CDN
  - 使用SSR
 
-## 前端框架的优化手段
-### React
+<!-- ## 前端框架的优化手段 -->
+<!-- ### React
  - Key：使用Key值可在 `Element Diff阶段` 尽可能复用旧节点
  - shouldComponentUpdate：使用`shouldComponentUpdate()`可在`Component Diff阶段`，尽可能节省 **对于同一类型组件的Diff时间损耗**
  - PureComponent、useMemo
@@ -141,15 +141,15 @@
  - 减少DOM数量：使用`<></>`或`React.Fragment`
  - 异步加载/懒加载：使用`React.lazy()`、`React.Suspense`或第三方包`react-loadable`
  - SSR
- - 通过时间分片Fiber
+ - 通过时间分片Fiber -->
 
-### Vue
+<!-- ### Vue
  - Key：使用过Key值可在`Vue Diff阶段` 尽可能复用旧节点
  - v-if和v-show：`v-if`是真正的条件渲染，适合不需频繁切换条件的场景；`v-show`只是切换display属性，适合频繁切换条件的场景
  - js事件的销毁：手动移除原生js事件的监听，以免造成内存泄露。
  - Object.freeze：对于纯粹的数据展示，可适当冻结对象，禁止Vue劫持数据
  - 懒加载：图片、路由
- - SSR
+ - SSR -->
 
 ## 懒加载实现
 原理：通过监听`scroll`事件，以及元素的`getBoundingClientReact()`来判断它的“进入视窗状态”，实时赋值`src`属性。

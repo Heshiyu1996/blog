@@ -180,6 +180,7 @@ const sidebar = {
                 'react/react-composition/',
                 'react/hooks/',
                 'react/redux/',
+                'react/optimize/',
                 'react/error-usage/'
             ]
         }
@@ -201,6 +202,7 @@ const sidebar = {
                 'vue/question/',
                 'vue/keep-alive/',
                 'vue/component-lib/',
+                'vue/optimize/',
             ]
         },
         {

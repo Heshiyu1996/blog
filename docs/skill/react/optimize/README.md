@@ -2,17 +2,21 @@
 > 这里会记录下一些有关React的性能优化知识
 
 ## Key
-`key`能让组件保持结构对的稳定性
+`key` 可以在 `Element Diff阶段` 尽可能复用旧节点，从而减少 Diff 时间。
 
 ## shouldComponentUpdate
-相当关于`React.Memo`（是一个高阶组件，内置了useMemo方法来缓存）
+指定 `shouldComponentUpdate` 可以在 `Component Diff阶段` 对 “同一类型组件” 直接跳过Diff，从而减少 Diff 时间。
+> 声明 `PureComponent` 时，会以 “浅层比较” 的方式，来比较 `props`、`state`，从而实现类似 `shouldComponentUpdate` 的效果。
+
 
 ## 避免使用匿名函数
-每次渲染都会重新生成该函数
+尽量避免每次渲染都**重新声明不同的函数引用**。
 
-## 延迟加载不是立即需要的组件
-`React.lazy(() => import('...'))`;
+## 延迟加载
+通过 `React.lazy` 将 非必要组件 进行拆包，从而实现延迟加载。
 
-## 使用React.Fragment避免添加额外DOM
+## 减少DOM数量
+`<> </>`、`React.Fragment`
 
-缺点：需手动引入所有Icon
+## SSR
+提升页面首屏渲染性能。
