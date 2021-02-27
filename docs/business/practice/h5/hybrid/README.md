@@ -1,44 +1,42 @@
 # hybrid应用
 > hybrid app 结合了 native app良好用户交互体验 和 web app跨平台开发的优势 ，能够显著节省移动应用开发的时间和成本，hybrid app得到越来越多公司的青睐。
 
+## 问题：排查RPC回调是否正常
+### 背景
+针对小程序 `mp.view.queryDidChanged` RPC协议的回调下发问题。
 
+ - 前端侧：没有触发RPC回调；
+ - 客户端侧：已经监听成功并下发了回调信息。
 
-#### 问题：排查RPC回调是否正常
-##### 背景
-针对小程序`mp.view.queryDidChanged`RPC协议的回调下发问题。
-
- - 前端侧的表现：没有触发RPC回调；
- - 客户端侧说已经监听成功并下发了回调信息。
-
-##### 分析
- - 最初是因为@mnb/mnb-music没有`on`方法（无任何报错，v2.0后支持）
+### 分析
+ - 最初是因为 `@mnb/mnb-music` 没有`on`方法（无任何报错，v2.0后支持）
  - 接着升级包后，客户端反馈已能监听事件，但紧接着就解绑了
  - 由于协议在`mp.view`容器下，且本地无法模拟“通过小程序打开，并切换同AppID下不同参数的情况”（尝试使用MusicDevTools，但每次退出小程序都不会保活（就算加了reuse也无效）
- - 计划在测试环境排查日志。改变了`window.MNBCallback`的this指向后，查看到的RPC回调日志如下：
+ - 计划在测试环境排查日志。改变了 `window.MNBCallback` 的this指向后，查看到的RPC回调日志如下：
 
-![alt](https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5180461967/8499/a309/1230/600050f3140f3ad4517d97d398b27c6a.png)
+<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5180461967/8499/a309/1230/600050f3140f3ad4517d97d398b27c6a.png" width="375px" />
 
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5180465777/1fd8/91ff/be5d/2ea48a886353feb1abc9b20a5a458311.png" width="375px" />
 
-![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5180465777/1fd8/91ff/be5d/2ea48a886353feb1abc9b20a5a458311.png)
  - 发现“并无”打印出相应的回调记录
  - 经过执行以下语句模拟客户端执行回调，发现协议回调可正常执行。同时也看到打印出真实的报错日志
-```
+```js
 MNBCallback("",null,{"query":"channelId=19147"},{"objectId":null,"event":"queryDidChange","class":"mp.view","keepLive":false})
 ```
  
-##### 总结
+### 总结
  - 该协议正常
  - cello脚手架内的mnb-music版本较低（需2.0以上才支持mnb.on方法）
  - queryDidChange回调里执行了有错误逻辑的业务代码，导致mnb内对于该次回调的日志无法打印
 
 
-#### 问题：直播流播放器error后在客户端底层会把实例销毁，后续操作无法进行
-长时间断网，客户端会抛出onWaiting -> onError。error后这个播放器实例就会下架。
+## 直播流播放器抛出error后，后续操作无法进行
+长时间断网，客户端会抛出onWaiting -> onError。error后这个播放器实例就会摧毁。
 
 这种情况需要前端重新setInfo以实例化
 
  - JSBridge没有提供playerState为error情况（客户端所述，实际为idle，但对于业务只判断这个状态是不可取的）
- - 通过onError触发后重置播放状态，并记录error;用户每次播放时校验error以进行正常播放还是setInfo
+ - 通过onError触发后重置播放状态，并记录error; 用户每次播放时校验error以进行正常播放还是setInfo
 
 
 
