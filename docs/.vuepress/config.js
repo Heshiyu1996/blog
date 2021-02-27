@@ -27,9 +27,9 @@ const nav = [
         ]
     },
     {
-        text: '业务', items: [
+        text: '实践', items: [
             {
-                text: '实践', items: [
+                text: '平台', items: [
                     { text: 'H5', link: '/business/practice/h5/' },
                     { text: 'PC', link: '/business/practice/pc/' },
                     { text: 'RN', link: '/business/practice/rn/' },
@@ -251,7 +251,7 @@ const sidebar = {
     //     }
     // ],
 
-    // 业务-H5开发
+    // 实践-H5开发
     '/business/practice/h5': [
         {
             title: 'H5',
@@ -265,7 +265,7 @@ const sidebar = {
         },
     ],
 
-    // 业务-PC开发
+    // 实践-PC开发
     '/business/practice/pc': [
         {
             title: 'PC',
@@ -276,7 +276,7 @@ const sidebar = {
         },
     ],
 
-    // 业务-RN
+    // 实践-RN
     '/business/practice/rn': [
         {
             title: 'RN',
@@ -287,11 +287,11 @@ const sidebar = {
         },
     ],
 
-    // 业务-其它
+    // 实践-其它
     '/business/practice/other/': ['/business/practice/other/'],
 
 
-    // 业务-工程工具
+    // 实践-工程工具
     '/business/tool': [
         {
             title: '工程工具',
@@ -305,6 +305,20 @@ const sidebar = {
                 'tool/git/',
                 'tool/chrome-extension/',
                 'tool/rollup/',
+            ]
+        },
+    ],
+
+    // 实践-复盘
+    '/business/analyse': [
+        {
+            title: '复盘',
+            collapsable: false,
+            children: [
+                'analyse/broadcast-radio/',
+                'analyse/music-reach-cms/',
+                'analyse/music-mobile-h5/',
+                'analyse/rpc-audio/',
             ]
         },
     ],

@@ -120,6 +120,12 @@
 
 ## CSS适配-工程实践
 
+### css适配
+一开始以为只做了简单的用JS定位，走查后兼容性bug较多。
+ - 移动端safari底部导航遮挡
+ - 对mnb包（mnb.getPageInfo获取系统栏/导航栏）不熟悉
+ - 全面屏适配（safe-area-inset-bottom）不熟悉
+
 ### 日后参考
  - 先实现一款（如ipx）比较完美适配
  - ipx其它系列（ip6/7/8 -> ip6/7/8p -> ip5/5se -> ipx/xs & ipxr & ipxs max）
