@@ -169,19 +169,30 @@ const sidebar = {
     '/skill/react': [
         {
             title: '《React》',
+            collapsable: false
+        },
+        {
+            title: '基础部分',
             collapsable: false,
             children: [
                 'react/basic/',
                 'react/feature-v16/',
-                'react/fiber/',
                 'react/life-cycle/',
-                'react/set-state/',
-                'react/react-ssr/',
-                'react/react-composition/',
-                'react/hooks/',
+                'react/hooks-usage/',
                 'react/redux/',
+                'react/react-composition/',
+                'react/react-ssr/',
                 'react/optimize/',
                 'react/error-usage/'
+            ]
+        },
+        {
+            title: '源码部分',
+            collapsable: false,
+            children: [
+                'react/set-state/',
+                'react/fiber/',
+                'react/hooks/',
             ]
         }
     ],
