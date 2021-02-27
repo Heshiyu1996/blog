@@ -3,6 +3,22 @@
 
 [[toc]]
 
+## React.createElement
+`React.createElement` 可以创建并返回指定类型的 **新React元素**。
+> 使用 `JSX` 编写的代码 会被 Babel 转换成调用 `React.createElement` 的形式。
+
+<img src="./img/img-5.png" width="800px" />
+
+### 用法
+```js
+React.createElement(
+    type, // 可以是`div`，也可以是 React组件类型
+    [props],
+    [...children]
+)
+```
+
+
 ## 单向数据流
 **单向数据流**：把整个react应用看作一个瀑布，那props就是瀑布水流的额外水源。
 ```jsx
@@ -54,7 +70,7 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
 
 
 ## React.Context
-Context可以用来共享“全局”（一个组件树）的数据。
+通过 `Context` 可以为 一个组件树（或子组件树） 去共享一些“全局”的数据。
 
 ### 创建Context对象
 ```js
@@ -162,7 +178,7 @@ export default withContext(MyComponent);
 
 
 ## 合成事件
-**React的合成事件** 是 React 为了解决 “跨浏览器的事件处理” 而进行包装的一类事件。
+**React的合成事件** 是 React 为了解决 **“跨浏览器的事件处理”** 而进行事件包装。
 > 如：onClick、onChange
 
 **触发时机：** 冒泡阶段。

@@ -15,7 +15,7 @@ this.setState({ comments }); // ===> this.setState({ ...this.state, comments })
 `this.setState({ comments })` 完整保留了 `this.state.posts`，但完全替换换了 `this.state.comments`。
 
 ### 批量更新策略
-为了避免不必要的重新渲染，进而影响页面的渲染效率，React 对于 `setState` 采用了 **批量更新策略**。
+为了避免不必要的重新渲染，React 对于 `setState` 采用了 **批量更新策略**。
 
 例子：
 ```js
@@ -104,7 +104,7 @@ class App extends Component {
 
 ### 事务（Transaction）
 :::tip
-**事务（Transaction）** 用 Wrapper 封装要执行的方法，暴露一个`perform`方法来调用原方法。
+**事务（Transaction）** 用 Wrapper 封装要执行的方法，暴露一个`perform`方法来调用。
 > 在Wrapper里定义 `initialize` 和 `close` 方法：它们 **分别** 会在 `指定方法` 执行前、执行后执行。
 ```
  * 
