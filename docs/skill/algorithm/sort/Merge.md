@@ -1,5 +1,5 @@
 # 归并排序（不稳定）
-> 时间复杂度：O(nlog2n)
+> 时间复杂度：O(nlogn)
 
 ## 思想
 先 **“分”**：`mergeSort`，将原数组分成两个组数，再各自分两个数组……直到分出只剩一个元素为止
@@ -7,24 +7,27 @@
 后 **“治”**：`merge`，将两个数组进行排序，最后合并成一个数组
 
 ```js
-function mergeSort(arr) {
-    let len = arr.length;
-    if (len <= 1) return arr;
+// “分”：不断分割两个数组，直到只剩一个元素
+function mergeSort(list) {
+    if (list.length <= 1) return list;
 
-    let mid = Math.floor(len / 2),
-        left = arr.slice(0, mid),
-        right = arr.slice(mid);
+    let mid = Math.floor(list.length / 2),
+        left = list.slice(0, mid),
+        right = list.slice(mid);
     
     return merge(mergeSort(left), mergeSort(right));
 }
 
+// “合”：合并两个数组
 function merge(left, right) {
     let result = [];
 
+    // 遍历 left、right，进行合并
     while (left.length > 0 && right.length > 0) { // 注意此处条件为 left.length > 0 && right.length > 0
         result.push(left[0] < right[0] ? left.shift() : right.shift());
     }
 
+    // 最后不确定 left right 的剩余情况，直接拼接
     return result.concat(left).concat(right);
 }
 ```

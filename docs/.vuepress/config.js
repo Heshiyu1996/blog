@@ -21,7 +21,7 @@ const nav = [
             {
                 text: '其它', items: [
                     { text: '计算机', link: '/skill/computeracy/' },
-                    // { text: '算法', link: '/skill/algorithm/' }
+                    { text: '算法', link: '/skill/algorithm/' }
                 ]
             },
         ]
@@ -225,21 +225,21 @@ const sidebar = {
         }
     ],
 
-    // // 基础-算法
-    // '/skill/algorithm': [
-    //     {
-    //         title: '《算法》',
-    //         collapsable: false,
-    //         children: [
-    //             'algorithm/basic/',
-    //             'algorithm/sort/',
-    //             'algorithm/search/',
-    //             'algorithm/dp/',
-    //             'algorithm/leetcode/',
-    //             'algorithm/time-complexity/',
-    //         ]
-    //     }
-    // ],
+    // 基础-算法
+    '/skill/algorithm': [
+        {
+            title: '《算法》',
+            collapsable: false,
+            children: [
+                // 'algorithm/basic/',
+                'algorithm/sort/',
+                // 'algorithm/search/',
+                // 'algorithm/dp/',
+                // 'algorithm/leetcode/',
+                // 'algorithm/time-complexity/',
+            ]
+        }
+    ],
 
     // '/skill/personal': [
     //     {

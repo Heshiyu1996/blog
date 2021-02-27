@@ -2,34 +2,41 @@
 > 时间复杂度：O(n²)
 
 ## 思路
- - 定义两个指针`preIndex`（已排队列的尾指针）、`curValue`（当前待排值）。
- - 遍历`待排队列`，根据`preIndex`（从后向前）、`curValue` 与 `当前preIndex对应值` 大小比较
- - 根据情况不断调整`已排队列的尾部`的值
- - 最后将`curValue`放到`已排队列的尾部`。
-```js
-const insertSort = arr => {
-    let prevIdx,
-        curVal,
-        len = arr.length;
-    
-    for (let i = 1; i < len; i++) {
-        prevIdx = i - 1;
-        curVal = arr[i];
+不断通过构建 **有序序列**：对于 未排序数据，在 已排序序列 中 **从后向前 扫描，找到相应位置并插入**。
 
-        while (prevIdx >= 0 && curVal < arr[prevIdx]) {
-            arr[prevIdx + 1] = arr[prevIdx];
+## 大致步骤
+ 1. 从第一个元素开始（第二元素可以认为已被排序）
+ 2. 取出下一个元素，在 已排序序列中 从后向前扫描
+ 3. 如果 “已排序的该元素” 大于 “新元素”，将该元素移到下一个位置
+ 4. 重复步骤3，直到找到 已排序的元素 小于或等于 新元素的位置
+ 5. 将新元素插到该位置后，插入完成
+ 6. 继续取下一个元素（重复 2 ~ 5）
+
+```js
+const insertSort = list => {
+    // prevIdx 表示 已排序序列的尾指针
+    let prevIdx;
+    // curVal 表示 当前待排元素值
+    let curVal;
+    
+    for (let i = 1; i < list.length; i++) {
+        prevIdx = i - 1;
+        curVal = list[i];
+
+        while (prevIdx >= 0 && curVal < list[prevIdx]) {
+            // 如果 “已排序的该元素” 大于 “新元素”，将该元素移到下一个位置
+            list[prevIdx + 1] = list[prevIdx];
             prevIdx--;
         }
 
-        arr[prevIdx + 1] = curVal; // 注意此处为 prevIdx + 1，因为就算不移动，也是要插入到 prevIdx 的后一位
+        // 直到找到 已排序元素 小于或等于 新元素 的位置，将新元素插到该 “位置后”
+        // 注意此处为 prevIdx + 1，因为就算不移动，也是要插入到 prevIdx 的后一位
+        list[prevIdx + 1] = curVal;
     }
 
-    return arr;
+    return list;
 }
 ```
-
-## 大致步骤
-从`无序序列`中依次选择一个元素，按它的大小在`已排序列`中**从后向前扫描**，插入到相应位置。直到所有的记录都插入为止。
 
 ## 具体步骤
 例子：[1, 9, 7, 6]
