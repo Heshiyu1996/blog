@@ -151,6 +151,7 @@ const sidebar = {
                 'web/web-attack/',
                 'web/web-storage/',
                 'web/websocket/',
+                'web/nginx/',
             ]
         },
         {

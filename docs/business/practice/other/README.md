@@ -222,56 +222,6 @@ file-saver
  - import的模块名只能是字符串常量
 
 
-## Nginx
-```js
-server {
-    server_name www.baidu.com;
-    listen 80;
-
-    location /api/auth {
-        proxy_pass http://10.1.2.3:8800;
-    }
-
-    // 定位规则
-    location /product.html {
-        // 静态资源根目录
-        root /home/static/baidu/build;
-        // 首页
-        index product.html
-        // 重定向
-        try_files $uri /product.html
-    }
-}
-```
-
-### Nginx实现负载均衡的4种模式
-Nginx是一个非常高效的HTTP负载均衡器，它的作用是 **分发请求到各个应用服务器**，从而提高web应用性能。
-
-#### 配置
-```
-#  首先，你要有两台或以上可以提供相同服务的Web服务器,不然这个负载均衡配置就没有意义！
-#  在配置过程中只需要改代理服务器的配置就行，其他服务器不用管。
--    vim /usr/local/nginx/conf/nginx.conf
-    #   在http下添加如下代码
-        upstream item { # item名字可以自定义
-            server 192.168.101.60:81 参数;
-            server 192.168.101.77:80 参数;
-            # 负载均衡模式(非必选项)
-        }
-    #   在server 80下添加如下代码
-        location /{
-            proxy_pass http://item;     # item是在上面命名的
-        }
--   配置 'upstream' 的时候,可以把你的代理服务器也加在里面用来做 'web' 服务器, 但是端口就不用在用80了。
--   重启你的nginx组件，现在负载均衡就已经可以用了
-```
-
-#### 4种模式
- - 轮询（默认）：请求会随机分发到配置的服务器上
- - 权重分配：通过配置`weight`，权重越高，被分发到的概率也越高
- - 哈希分配：通过声明`ip_hash`，根据客户端IP来分发同一台服务器（可解决session共享）
- - 最少连接分配：通过声明`least_conn`，根据当前连接数最少的服务器进行分发
-
 ## keydown、keyup、keypress
 `keydown`、`keyup`是捕获了键盘的按键操作
 
