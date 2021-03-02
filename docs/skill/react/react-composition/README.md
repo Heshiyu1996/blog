@@ -4,7 +4,9 @@
 [[toc]]
 
 ## HOC
-**高阶组件（HOC）** 是个 纯函数 ，作用是： **传入一个 “组件”，并返回一个 “新组件”**。
+**高阶组件（HOC）** 是个 纯函数 。
+
+当调用这个函数时，**传入一个 “组件”，会返回一个 “新组件”**。
 
 > 常见的HOC：`connect`(Redux)
 
@@ -13,6 +15,9 @@ const withContext = Component => props => (
     <Consumer>{value => <Component {...props} {...value} />}</Consumer>
 );
 ```
+
+特点：**可以把组件之间 可复用的代码、逻辑 抽离到 HOC 当中**。
+> 如：withContext、withLoadData
 
 ### 注意
  - `ref` 不会被传递（会挂到 HOC 上，而不是被包裹的组件）

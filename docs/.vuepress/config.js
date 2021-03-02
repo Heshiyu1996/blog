@@ -163,6 +163,13 @@ const sidebar = {
                 'web/other/'
             ]
         },
+        {
+            title: 'Hybrid',
+            collapsable: false,
+            children: [
+                'web/jsbridge/',
+            ]
+        },
     ],
 
     // 基础-React
@@ -177,6 +184,7 @@ const sidebar = {
             children: [
                 'react/basic/',
                 'react/feature-v16/',
+                'react/ref/',
                 'react/life-cycle/',
                 'react/hooks-usage/',
                 'react/redux/',
