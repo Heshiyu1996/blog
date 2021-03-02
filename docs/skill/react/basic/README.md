@@ -265,74 +265,62 @@ newObj.id = 2;
 this.setState({ obj: newObj }); // 由于 newObj、obj 引用地址相同，shadowEqual结果相同
 ```
 
-## shallowEqual（浅比较）
- - 对于 “基础类型”，值完全相等
- - 对于 “引用类型”，引用相等
-```js
-const hasOwn = Object.prototype.hasOwnProperty
+## shallowEqual（浅比较）、deepEqual（深比较）
+> 不管浅、深比较，步骤大致相同（除了对比 `key` 的 `value` 这一步）。
 
-// is 方法 和 === 相比：修复了 NaN 和 +-0 的情况
+ 1. 先比较 “基本数据类型”（通过 `is`）
+
+ 2. 比较两者是否为 `null`
+
+ 3. 比较两者 key值长度
+
+ 4. 遍历其中一个 obj 的 key（基准是另外一个 obj）
+    - 检查 key 是否存在于 基准对象
+    - 浅比较：**判断两个对象对应 key 的 value 是否相等**（通过 `is`）
+    - 深比较：**判断两个对象对应 key 的 value 是否相等**（通过 递归调用`equal`）
+
+```js
+// is 方法 和 === 相比：修复了 NaN 和 +-0 的情况。
+// 针对“基本数据类型”的判定是准确的
 function is(x, y) {
-  if (x === y) {
-    return x !== 0 || y !== 0 || 1 / x === 1 / y
-  } else {
-    return x !== x && y !== y
-  }
-}
-
-export default function shallowEqual(objA, objB) {
-  if (is(objA, objB)) return true
-
-  if (typeof objA !== 'object' || objA === null ||
-      typeof objB !== 'object' || objB === null) {
-    return false
-  }
-
-  const keysA = Object.keys(objA)
-  const keysB = Object.keys(objB)
-
-  // 比较key的数量
-  if (keysA.length !== keysB.length) return false
-
-  // 比较各key值是否相等
-  for (let i = 0; i < keysA.length; i++) {
-    if (!hasOwn.call(objB, keysA[i]) ||
-        !is(objA[keysA[i]], objB[keysA[i]])) {
-      return false
+    // 引用 / 值 相等
+    if (x === y) {
+        // 处理 +0 === 0 的情况（我们希望返回false）
+        return x !== 0 || 1 / x === 1 / y
+    } else {
+        // 处理 NaN === NaN（我们希望返回 true）
+        return x !== x && y !== y
     }
-  }
-
-  return true
 }
-```
 
-## deepEqual（深比较）
-```js
+export default function equal(objA, objB) {
+    // 1. 先比较 “基本数据类型 ” 的值（通过 is）
+    // 对于 “引用数据类型”，这里会返回 false（因为误判，所以下面要“补充相关判定逻辑”）
+    if (is(objA, objB)) return true;
 
-/*
- * @param x {Object} 对象1
- * @param y {Object} 对象2
- * @return  {Boolean} true 为相等，false 为不等
- */
-export const deepEqual = (x, y) => {
-  // 指向同一内存时
-  if (x === y) return true;
-  
-  if ((typeof x === "object" && x !== null) && (typeof y === "object" && y !== null)) {
+    // --- 过滤掉 “基本数据类型” 后，接下来就是对象的比较 ---
 
-    if (Object.keys(x).length !== Object.keys(y).length) return false;
+    // 2. 比较两者是否为 null
+    if (objA === null || objB === null) return false;
 
-    for (var prop in x) {
-      if (y.hasOwnProperty(prop)) {  
-        if (!deepEqual(x[prop], y[prop])) return false;
-      } else {
-        return false;
-      }
+    // 3. 比较两者 key值长度
+    if (Object.keys(objA).length !== Object.keys(objB).length) return false;
+
+    // 4. 遍历其中一个 obj 的 key（基准是另外一个 obj）
+    for (var key in objA) {
+        // 5. 检查是否存在于 基准对象
+        if (!objB.hasOwnProperty(key)) return false;
+
+        // shallowEqual（浅比较）
+        // 6. 判断两个对象对应 key 的 value
+        // 【注意】与 “深比较” 的区别在这里，只比较一次，不用递归比较
+        if (!is(objA[key], obj[key])) return false;
+
+        // deepEqual（深比较）
+        // 6. 递归调用，判断两对象对应 key 的 value
+        // if (!equal(objA[key], objB[key])) return false;
     }
 
     return true;
-  } else {
-    return false;
-  }
 }
 ```
