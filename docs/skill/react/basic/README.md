@@ -246,99 +246,6 @@ class HomeIndex extends Component {
 ## 为什么React要用className？
 因为`class`在JavaScript里是关键字，而JSX是JavaScript的扩展。
 
-## ref对象
-ref对象：是[可变的](/skill/js/other/#可变（mutable）和不可变（immutable）对象的区别)对象（每次都是修改其下的`.current`属性），并且在整个生命周期内保持不变。
-
-### 通过createRef和useRef来创建ref对象
-这两种方式都可以创建ref对象，但有区别。
-
-#### createRef
-一般我们会在`constructor`里定义ref对象：
-```js
-class MyComponent extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.inputRef = React.createRef(); // <-- 通过createRef创建ref对象
-  }
-}
-```
-也正是因为在 `constructor`内，让 `createRef` 只执行了一次。
-
-但实际上，每次调用它都会**重新生成一个ref对象**（引用地址会发生改变），[What's the difference between useRef and createRef?](https://stackoverflow.com/questions/54620698/whats-the-difference-between-useref-and-createref)
-
-由于引用地址发生变化，对于函数式组件就需要使用`useRef`
-
-#### useRef
-```js
-function App() {
-    const inputRef = useRef(null); // <-- 通过useRef创建ref对象
-}
-```
-在函数式组件内，通过`useRef`返回的ref对象可以**在整个生命周期内保持不变**。
-
-
-#### 结论
-createRef：
- - 一般用于`Class Component`
- - 每次重新渲染**都会使得引用地址发生改变**（在 `constructor` 内定义时除外）
-
-useRef：
- - 一般用于`函数式组件`
- - 每次重新渲染**不会导致引用地址发生改变**
-
-### ref的作用
- - 当 `ref` 用于 “HTML元素” 时，其 `.current` 属性为**DOM元素**
- - 当 `ref` 用于 “组件” 时，其 `.current` 属性为 **组件实例**
-
-以下打印了两者的`.current`属性：
-![alt](./img/img-3.png)
-> 对于 “组件” 需要注意：方法要 bind 到组件实例上（或使用箭头函数），否则无法通过 `.current` 读取到方法
-
-### 将ref作用于函数式组件（forwardRef搭配useImperativeHandle）
-因为“函数式组件”不存在实例，所以需要**转发`ref`**
-
-**做法**：`forwardRef`搭配`useImperativeHandle`使用
-
-但最终，还是需要让 `ref` 来指向一个DOM元素或者`组件`。
-
-#### 转发ref
-假设有一个`函数式组件CustomInput`，通过 `转发ref` 可以将它内部的 `ref` “暴露” 给父组件。
-
-```js
-// CustomInput.js
-const CustomInput = forwardRef((props, ref) => {
-    const inputRef = useRef(); // 1. 定义一个ref
-    
-    useImperativeHandle(ref, () => 
-        // 3. 这个返回的对象表示：向父组件暴露的属性
-        ({
-            focus: () => {
-                inputRef.current.focus();
-            }
-        })
-    );
-
-    // 2. 让 ref 指向一个DOM元素（或一个 “组件”）
-    return <input ref={inputRef} />;
-})
-```
-
-```js
-// Parent.js
-const myRef = useRef(); // 1. 定义一个ref
-
-console.log(myRef);
-/*
- *   current: {
- *      focus: ƒ focus() {}
- *   }
- */
-
- // 2. 给 子组件 赋值 myRef
-<CustomInput ref={myRef} />
-```
-
 ## ReactDOM.createPortal
 > [React Portals](https://reactjs.org/docs/portals.html)
 
@@ -347,3 +254,85 @@ console.log(myRef);
  - “事件冒泡”是按照声明处位置的规则
 
 ![alt](./img/img-4.png)
+
+## 不建议直接修改this.state
+会导致 `PureComponent` 可能不会触发重新渲染。
+
+```js
+const newObj = this.state.obj;
+newObj.id = 2;
+
+this.setState({ obj: newObj }); // 由于 newObj、obj 引用地址相同，shadowEqual结果相同
+```
+
+## shallowEqual（浅比较）
+ - 对于 “基础类型”，值完全相等
+ - 对于 “引用类型”，引用相等
+```js
+const hasOwn = Object.prototype.hasOwnProperty
+
+// is 方法 和 === 相比：修复了 NaN 和 +-0 的情况
+function is(x, y) {
+  if (x === y) {
+    return x !== 0 || y !== 0 || 1 / x === 1 / y
+  } else {
+    return x !== x && y !== y
+  }
+}
+
+export default function shallowEqual(objA, objB) {
+  if (is(objA, objB)) return true
+
+  if (typeof objA !== 'object' || objA === null ||
+      typeof objB !== 'object' || objB === null) {
+    return false
+  }
+
+  const keysA = Object.keys(objA)
+  const keysB = Object.keys(objB)
+
+  // 比较key的数量
+  if (keysA.length !== keysB.length) return false
+
+  // 比较各key值是否相等
+  for (let i = 0; i < keysA.length; i++) {
+    if (!hasOwn.call(objB, keysA[i]) ||
+        !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false
+    }
+  }
+
+  return true
+}
+```
+
+## deepEqual（深比较）
+```js
+
+/*
+ * @param x {Object} 对象1
+ * @param y {Object} 对象2
+ * @return  {Boolean} true 为相等，false 为不等
+ */
+export const deepEqual = (x, y) => {
+  // 指向同一内存时
+  if (x === y) return true;
+  
+  if ((typeof x === "object" && x !== null) && (typeof y === "object" && y !== null)) {
+
+    if (Object.keys(x).length !== Object.keys(y).length) return false;
+
+    for (var prop in x) {
+      if (y.hasOwnProperty(prop)) {  
+        if (!deepEqual(x[prop], y[prop])) return false;
+      } else {
+        return false;
+      }
+    }
+
+    return true;
+  } else {
+    return false;
+  }
+}
+```
