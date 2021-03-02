@@ -1,61 +1,78 @@
-# React复用
+# HOC
 > 组件是React代码复用的基本单元。
 
 [[toc]]
 
 ## HOC
-高阶组件（HOC）是**以 组件 为参数、以 新组件 为返回值** 的一个纯函数。
+**高阶组件（HOC）** 是个 纯函数 ，作用是： **传入一个 “组件”，并返回一个 “新组件”**。
 
-> 是将组件包装成新组件，HOC是个纯函数，没有副作用。
+> 常见的HOC：`connect`(Redux)
 
-不应该修改原组件，而应该使用组合的方式，通过将组件包装在容器组件中实现功能：
 ```js
-// HOC是个纯函数
-const withMouse = Component => {
-    return class extends React.Component {
-        state = { x: 0, y: 0 };
-
-        handleMouseMove = ev => {
-            this.setState({
-                x: ev.clientX,
-                y: ev.clientY
-            })
-        }
-
-        render() {
-            return (
-                <div style={{ height: '100vh' }} onMouseMove={this.handleMouseMove}>
-                    <Component {...this.props} mouse={thhis.state} />
-                </div>
-            )
-        }
-    }
-}
-
-class App extends React.Component {
-    render() {
-        // 从props里取公共的撞他逻辑
-        const { x, y } = this.props.mouse;
-
-        return (
-            <div>
-                <h1>The mouse position is ({x}, {y})</h1>
-            </div>
-        )
-    }
-}
-
-const AppWithMouse = withMouse(App) // 将旧组件传入HOC，获得新组件
+const withContext = Component => props => (
+    <Consumer>{value => <Component {...props} {...value} />}</Consumer>
+);
 ```
 
-### 注意事项
- - 组件经HOC包装后，原静态方法将丢失
-    - 解决：需在HOC内指定静态方法到新组件上。
+### 注意
+ - `ref` 不会被传递（会挂到 HOC 上，而不是被包裹的组件）
+    - 解决：`React.forwardRef`
+ 
+ - 原组件的 静态方法 会丢失
+    - 解决：需准确指定 静态方法 到 新组件 上。
+ 
+ - 避免 render 中使用 HOC （会生成一个新组件引用）
+    - 解决：通过 “生命周期” 或 “构造函数” 调用
 
- - 不会传递Ref
-    - 因为`ref`实际上不是props，会由React专门处理。
-    - 同时，如果将`ref`添加到HOC的返回组件中，`ref`会指向容器组件，而不是被包装的组件
-    - 解决：React.forwardRef
+
+#### 转发ref
+```jsx
+import React from "react";
+
+const Enhance = (WrappedComponent) => {
+    class MyHoc extends React.Component {
+        render() {
+            // return <WrappedComponent />;
+            const { forwardRef } = this.props;
+            return <WrappedComponent ref={forwardRef} />;
+    }
+  }
+
+    // return MyHoc;
+    // 转发 ref
+    return React.forwardRef((props, ref) => {
+        return <MyHoc forwardRef={ref} />;
+    });
+};
+
+export default Enhance;
+```
+这里， Api `forwardRef` 接收一个渲染函数。这个渲染函数会接收 `props`、`ref`，并返回一个 `React节点`。
+
+
+#### 原组件的静态方法会丢失
+丢失：
+```jsx
+// 1. 原组件MyComponent 存在 静态函数 staticMethod
+MyComponent.staticMethod = function() {/*...*/}
+
+// 2. 用 HOC 将 原组件MyComponent进行包裹，生成一个新组件
+const EnhancedComponent = hoc(MyComponent);
+
+// 3. 新组件 EnhancedComponent.staticMethod 不存在
+typeof EnhancedComponent.staticMethod === 'undefined' // true
+```
+解决：
+```jsx
+function hoc (Component) {
+    // 新组件Enhance
+    class Enhance extends React.Component { /* ... */ }
+
+    // 指定将 staticMethods 方法拷贝给 新组件Enhance
+    Enhance.staticMethod = Component.staticMethod;
+    return Enhance;
+}
+```
 
 ## Render Prop
 Render prop是一个 **用于告知组件需要渲染什么内容的函数prop**。
