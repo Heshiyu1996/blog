@@ -197,6 +197,7 @@ export default withContext(MyComponent);
  - 兼容所有浏览器
  - 拥有原生事件接口（`stopPropagation` 、 `preventDefault`）
  - 由于合并而来，可能会被重用 **（即在事件回调触发完毕后，所有属性都会失效）**
+ - 获取底层原生事件（`nativeEvent`属性）
 
 <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7114440836/02c8/18a3/3f38/568eede47e6e2353b339335214ad2bc2.png" width="350px" />
 

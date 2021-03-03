@@ -1,4 +1,4 @@
-# HOC
+# HOC、render prop
 > 组件是React代码复用的基本单元。
 
 [[toc]]
@@ -19,7 +19,51 @@ const withContext = Component => props => (
 特点：**可以把组件之间 可复用的代码、逻辑 抽离到 HOC 当中**。
 > 如：withContext、withLoadData
 
-### 注意
+### 示例
+包装 `Input`组件 以实现 “函数防抖” 效果的 HOC 组件。
+
+```jsx
+import React from "react";
+import debounce from 'lodash.debounce';
+
+const EnhanceDebounce = (WrappedComponent) => {
+    class MyHoc extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                value: ''
+            }
+        }
+
+        // 组件卸载时，取消防抖
+        componentWillUnmount() {
+            this.handleChange.cancel();
+        }
+
+        // 输入函数通过防抖
+        handleChange = debounce(() => {
+            this.setState({ value: e.target.value });
+        }, 800);
+
+        render() {
+            return (
+                <WrappedComponnet
+                    defaultValue={this.state.value}
+                    onChange={this.handleChange}
+                    {...this.props}
+                />
+            )
+        }
+    }
+
+    return MyHoc;
+};
+
+export default EnhanceDebounce;
+```
+
+
+### 缺点
  - `ref` 不会被传递（会挂到 HOC 上，而不是被包裹的组件）
     - 解决：`React.forwardRef`
  
@@ -40,8 +84,8 @@ const Enhance = (WrappedComponent) => {
             // return <WrappedComponent />;
             const { forwardRef } = this.props;
             return <WrappedComponent ref={forwardRef} />;
+        }
     }
-  }
 
     // return MyHoc;
     // 转发 ref
@@ -79,8 +123,8 @@ function hoc (Component) {
 }
 ```
 
-## Render Prop
-Render prop是一个 **用于告知组件需要渲染什么内容的函数prop**。
+## render Prop
+`render prop` 同样也是 提高组件复用 和 抽象 手段。
 
 提供一个带有函数prop的`<Mouse>`组件，它能够动态决定需要渲染什么内容：
 ```js
@@ -98,25 +142,32 @@ class Mouse extends React.Component {
     render() {
         return (
             <div style={{ height: '100vh' }} onMouseMove={this.handleMouseMove}>
+                /* 提供 render 方法 可以让 `<Mouns>` 能够 动态决定 需要渲染什么内容 */
                 {this.props.render(this.state)}
             </div>
         )
     }
 }
+```
 
+```js
 class MouseTracker extends React.Component {
     render() {
         return (
             <div>
                 <h1>移动鼠标！</h1>
+                
                 <Mouse render={mouse => (
                     <Cat mouse={mouse} />
                 )} />
+
             </div>
         )
     }
 }
+```
 
+```js
 class Cat extends React.Component {
     render() {
         const mouse = this.props.mouse;
@@ -138,3 +189,23 @@ class Cat extends React.Component {
 )}/>
 ```
 解决：将函数定义为实例方法。
+
+
+## HOC和render prop的缺点
+**多个组件间的逻辑复用**：
+ - 嵌套地狱
+    - 当嵌套层级过多时，追溯数据源会变的困难
+ 
+ - 性能
+    - 额外的组件实例存在性能开销
+
+ - 命名重复
+    - 在同个组件使用多个HOC，不排除这些 **HOC里的方法** 存在命名冲突问题
+
+**单个组件中的逻辑复用**
+ - 可能拆散在各个生命周期
+
+
+## 参考
+ - [React Hooks 深入系列 —— 设计模式](https://muyunyun.cn/posts/32fb0f08/)
+ 
