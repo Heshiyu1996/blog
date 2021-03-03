@@ -242,6 +242,7 @@ const sidebar = {
             title: '《计算机知识》',
             collapsable: false,
             children: [
+                'computeracy/process/',
                 'computeracy/scheduling-strategy/',
             ]
         }
