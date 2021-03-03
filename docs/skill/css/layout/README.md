@@ -92,26 +92,6 @@
 
 以下为 **5种** 实现方式：
 
-#### 表格布局
-```css
-.container {
-    display: table;
-    width: 100%; /* 注意，这里因为是table，所以width是100% */
-    height: 100px;
-}
-
-.left,
-.center,
-.right {
-    display: table-cell;
-}
-
-.left,
-.right {
-    width: 200px;
-}
-```
-
 #### 定位方式
 ```css
 .container {
@@ -131,7 +111,7 @@
 }
 
 .right {
-    right: 0;
+    right: 0; /* 通过绝对定位的 right: 0 撑开 */
 }
 
 .center {
@@ -161,7 +141,7 @@
 }
 .center {
     height: 100px;
-    margin: 0 200px;
+    margin: 0 200px; /* 通过margin撑开 */
 }
 ```
 
@@ -179,6 +159,26 @@
 
 .center {
     flex: 1;
+}
+```
+
+#### 表格布局
+```css
+.container {
+    display: table;
+    width: 100%; /* 注意，这里因为是table，所以width是100% */
+    height: 100px;
+}
+
+.left,
+.center,
+.right {
+    display: table-cell;
+}
+
+.left,
+.right {
+    width: 200px;
 }
 ```
 

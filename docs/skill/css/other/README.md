@@ -330,7 +330,7 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
     - 因为`高度不能直接设置百分比`。把参考物换成`父容器top-wrapper`可以通过`margin-top`实现，即每个小方块`margin-top: 2.67%`（也是相对于父容器top-wrapper宽度），实现垂直间距
 
 
-## CSS选择器
+## CSS关系选择器
 ### >（子选择器）
  - 注意：不包括 **孙元素**
  ```html
@@ -391,3 +391,14 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
 </style>
  ```
  ![alt](./img/Selector-3.png)
+
+
+## CSS选择器权重
+从小到大：
+```
+标签选择器（`h1`） < 类选择器（`.example`） < ID选择器（`#example`） < style < !important
+```
+
+> 匹配选择器(`>`、`+`、`~`) 对优先级没有影响
+
+当圈中一样时，最后声明的会生效。
