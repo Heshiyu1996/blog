@@ -51,11 +51,11 @@ metaElem.setAttribute('name', 'viewport')
 metaElem.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
 ```
 
-### 伪类 + transform
+### 伪元素 + transform
 > 单独缩放 伪元素 不会影响 元素本身 的缩放。
 
 - 先判断是否为 Retina屏 （若是，加上一个class）
-- 把`原先元素border去掉`，利用伪类`:after`重做border，并`transform: scale(0.5)`
+- 把`原先元素border去掉`，利用 伪元素`:after` 重做border，并`transform: scale(0.5)`
 ```js
 // 利用 js 判断是否为 dpr为 2 的Retina 屏
 if (window.devicePixelRatio && devicePixelRatio === 2) {

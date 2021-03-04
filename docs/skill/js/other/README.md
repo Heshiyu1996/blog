@@ -1473,3 +1473,98 @@ let num = 1.1;
 Math.ceil(num); // 2
 Math.floor(num); // 1
 ```
+
+## 尾递归
+ - **尾调用** 是函数在 `return` 时 单纯调用 另一个函数
+ - **尾递归** 是函数在 `return` 时 单纯调用 自身
+ 
+（注意：单纯调用，指“不带别的操作”）
+
+**特点：** **尾递归** 只会存一条调用记录，永远不会发生 **栈溢出**。
+> 普通递归 非常耗费内存，因为需要同时保存 成千上百条 调用记录（容易发生“栈溢出”）。
+
+
+### 改写成尾递归
+**尾递归** 往往需要改写 递归 函数，确保最后一步 只调用自身 。
+> 做法：把所有用到的 “内部变量” 改成 “函数的入参”。
+
+```js
+// 普通递归：最多需要保存 n 个调用记录。复杂度 O(n)
+function factorial(n) {
+    if (n === 1) return 1;
+    return n * factorial(n - 1);
+}
+factorial(5); // 120
+
+
+// 尾递归：只保留一个调用记录。复杂度 O(1)
+function factorial(n, total) {
+    if (n === 1) return total;
+    return factorial(n - 1, n * total);
+}
+factorial(5, 1); // 120
+
+
+// 尾递归（更直观的形式）：
+function tailFactorial(n ,total) {
+    if (n === 1) return total;
+    return tailFactorial(n - 1, n * total);
+}
+function factorial(n) {
+    return tailFactorial(n, 1);
+}
+factorial(5); // 120
+```
+
+### 尾调用优化
+**尾调用优化** 可以理解为，调用 `g(3)` 后，`函数f` 就结束了，所以执行到最后一步，完全可以删除 `f()` 的调用记录，只保留 `g(3)` 的调用记录。
+
+ES6的 **尾调用优化** 只在 “严格模式” 下生效。
+> 因为在 “严格模式”下， `arguments`、`caller`（返回调用当前函数的那个函数），会禁用这 2 个参数
+
+```js
+function f() {
+  return g(3);
+}
+f();
+
+// 等同于
+g(3);
+```
+
+### 示例
+将以下代码改成 **尾递归**。
+```
+要求：扁平化数组
+
+输入：[a,[b,[c]]] 
+[a,a,v]
+
+输入：[[[[a]]], b, c]
+输出：[a, b, c]
+```
+```js
+function searchArr (arr) {
+    let ans = [];
+    
+    const search = (list) => {
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].constructor !== Array) {
+                ans.push(list[i]);
+                continue;
+            }
+            search(list[i]);
+        }
+    }
+    
+    search(arr);
+
+    console.log(ans);
+    return ans;
+}
+
+searchArr(['a', ['b', ['c']]]);
+```
+
+### 参考
+ - [尾调用优化](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)
