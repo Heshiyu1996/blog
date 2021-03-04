@@ -19,14 +19,6 @@ React.createElement(
 ```
 
 
-## 单向数据流
-**单向数据流**：把整个react应用看作一个瀑布，那props就是瀑布水流的额外水源。
-```jsx
-<Component data={this.state.data}>
-```
- - `Component`组件内部不知道`data`来源
- - 任何state总是 所属于某个特定的组件，而且 从该state派生的任何数据 或 UI（Any data or UI derived from that state）只能影响在它们下方的组件
-
 ## 受控组件与非受控组件
 ### 受控组件
 由 `state` 管理 value，由 `事件处理函数` 去修改 state。
@@ -66,115 +58,6 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
 
 
 
-
-
-
-## React.Context
-通过 `Context` 可以为 一个组件树（或子组件树） 去共享一些“全局”的数据。
-
-### 创建Context对象
-```js
-const MyContext = React.createContext();
-```
-
-
-### 定义Context.Provider
-```jsx
-<MyContext.Provider value={myValue}>
-    /* ... */
-</MyContext.Provider>
-```
-`Provider` 的 `value`属性 会传递给 `Consumer`组件。
-
-> 当 value 值变化时，它内部的所有 `Consumer`组件 都会**重新渲染**。
-
-
-
-### 订阅Context
-订阅 context 的方法(3种)：
- - `<Context.Consumer>`
- - `Class.contextType`（Class组件）
- - `useContext`（Hook组件）
-> 它们都不会受到中间组件 周期`shouldComponentUpdate` 的影响，即子组件依旧能触发更新。
-
-#### <Context.Consumer>
-```jsx
-<MyContext.Consumer>
-    {value => /* */}
-</MyContext.Consumer>
-```
-指定子组件为一个 函数 。回调里的 `value` 对应最近的 `<Context.Provider>` 提供的 `value`。
-
-#### Class.contextType
-对于 Class组件，可以通过 `contextType`，可以将 `Context对象` 挂载到 class 上，以订阅 context 变更。
-
-这样就可以通过 `this.context` 取到 `<Context.Provider>` 提供的 `value`
-
-```js
-class MyClass extends React.Component {
-  static contextType = MyContext;
-
-  render() {
-    let value = this.context;
-  }
-}
-```
-
-
-#### useContext
-对于 函数式组件，可以通过 `useContext` 订阅到 context 变更：
-
-```js
-function ThemedButton(props) {
-    const value = useContext(MyContext); // 把Context对象传入useContext
-}
-```
-
-### 最佳实践
-**withContext.js**：
-```js
-import React from 'react';
-
-// 1. 创建 Context 对象
-const Context = React.createContext({}); 
-
-// 2. 获取 Provider、Consumer 组件
-const { Provider, Consumer } = Context;
-
-// 3. 定义 HOC，使用 Consumer 包裹
-const withContext = Component => props => (
-    <Consumer>{value => <Component {...props} {...value} />}</Consumer>
-);
-
-// 4. 导出 Provider组件 以及 HOC 组件，分别给 顶层组件、消费组件 使用。
-export { Provider, withContext };
-```
-
-**app.js（顶层组件）**：
-```js
-import { Provider } from '@/components/withContext';
-
-ReactDOM.render(
-    <Provider
-        value={{
-            userInfo,
-            currentId,
-            setCurrentId
-        }}>
-        <Index />
-    </Provider>,
-    document.getElementById('app')
-);
-```
-
-**my-component.js（消费组件）**：
-```js
-import { withContext } from '@/components/withContext';
-
-function MyComponent(props) {} // 经过 HOC，props内可读取到 <Context.Provider> 提供的 value
-
-export default withContext(MyComponent);
-```
 
 
 ## 合成事件

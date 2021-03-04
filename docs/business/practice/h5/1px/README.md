@@ -54,8 +54,9 @@ metaElem.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' +
 ### 伪元素 + transform
 > 单独缩放 伪元素 不会影响 元素本身 的缩放。
 
-- 先判断是否为 Retina屏 （若是，加上一个class）
-- 把`原先元素border去掉`，利用 伪元素`:after` 重做border，并`transform: scale(0.5)`
+- 先判断是否为 “Retina屏” （若是，加上一个class）
+
+- 把`原先元素border去掉`，利用 伪元素`::after` 重做border，并缩放 `transform: scale(0.5)`
 ```js
 // 利用 js 判断是否为 dpr为 2 的Retina 屏
 if (window.devicePixelRatio && devicePixelRatio === 2) {
@@ -64,11 +65,24 @@ if (window.devicePixelRatio && devicePixelRatio === 2) {
 ```
 
 ```css
+/* 
+ * 父元素 
+ * 1. 相对定位
+ * 2. 去掉border
+ */
 .scale-1px {
-    position: relative;
-    border: none;
+    position: relative; /* 相对定位 */
+    border: none; /* 去掉border */
 }
 
+/* 
+ * 伪元素 
+ * 1. 绝对定位，定位父容器左上角
+ * 2. 定义 1px 的 border
+ * 3. 将宽高放大 200%
+ * 4. 缩小 0.5
+ * 5. transform-origin: left top
+ */
 .scale-1px:after {
     content: ' ';
     position: absolute;

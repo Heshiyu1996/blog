@@ -1,9 +1,9 @@
-# Redux
+## Redux
 > Redux 是一个 Web应用 的**状态管理方案**。
 
 [[toc]]
 
-## 基本组成
+### 基本组成
  - **store**：一个状态容器（全局唯一），存储所有状态（state）。
  - **state**：状态
  - **action**：View 发出的一种 **能让 state 发生变化** 的通知
@@ -16,14 +16,14 @@
 
 <img src="./img/img-2.png" width="300" /> vs <img src="./img/img-3.png" width="300" />
 
-## 三个原则
+### 三个原则
  - **单一数据源：** 整个应用只有唯一的 `Store`；
 
  - **State只读：** 唯一改变 `state` 的方法就是 `dispatch` 一个 `action`
 
  - **纯行为函数：** 只能通过一个 纯函数`reducer`  来描述修改。
 
-## 特点
+### 特点
  - 遵循单向数据流
  - 每一个 state 的变化可预测
  - 状态可统一处理“修改前的校验”
@@ -33,12 +33,12 @@
 
 
 
-## react-redux
+### react-redux
 在 React 里使用 Redux。
 
 部分概念和上面提到的差不多，除此之外，还有一些新的概念：
 
-#### Provider
+##### Provider
 `<Provider>`是一个容器。
 
 **原理：通过React `Context`实现。**
@@ -52,10 +52,16 @@ function Provider({ store, context, children }) {
 ```
 在业务组件内与 `connect` 配合，可以实现 **跨层级数据传递**。
 
-#### connect
+##### connect
 是一个高阶组件，接收 2 个函数：
  - `mapStateToProps`：将需要的 `state` 注入到组件的props中
+
  - `mapDispatchToProps`：将 `dispatch` 注入到组件的props中
+ ```js
+ const mapStateToProps = state => {
+     
+ }
+ ```
 
 除了上面的作用，还有当 `state` 发生变化时，通知关联的组件更新。
 
@@ -65,7 +71,7 @@ import React from "react";
 import {PropTypes} from 'prop-types'
 
 // connect是个纯函数，它返回一个组件的类定义
-const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent => {
+const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent) => {
     class Connect extends Component {
         constructor() {
             super()
@@ -97,13 +103,49 @@ const connect = (mapStateToProps, mapDispatchToProps) => (WrappedComponent => {
     }
 
     return Connect
-})
+}
 
 export default connect
 ```
 
+##### 使用示例
+```js
+import React from "react";
+import { connect } from "react-redux";
+import { changeColorAction } from "./../../redux/action";
 
-### [实践] react-redux
+class Header extends React.Component {
+  setColor = () => {
+    const { changeColor } = this.props;
+    changeColor("blue");
+  };
+
+  render() {
+    const { themeColor } = this.props;
+
+    return (
+      <div>
+        目前的颜色为：{themeColor}
+        <button onClick={this.setColor}>改为蓝色</button>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  themeColor: state.themeColor
+});
+const mapDispatchToProps = (dispatch) => ({
+  changeColor: (color) => {
+    dispatch(changeColorAction(color));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+```
+
+
+#### [实践] react-redux
 1、**新建`reducer.js`**：接收 action、state，返回新的 state
 
 2、**实例化`store`**：向 `createStore` 传入 `reducer`
@@ -114,5 +156,5 @@ export default connect
 
 [react-redux-demo](https://codesandbox.io/s/react-redux-demo-k1jbe)
 
-## 参考链接
+### 参考链接
  - [从 Redux 设计理念到源码分析](https://mp.weixin.qq.com/s/8A-uOiuiMpAfhX0S6YwhbA)

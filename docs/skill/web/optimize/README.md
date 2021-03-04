@@ -65,14 +65,16 @@
 ![alt](./img/img-1.png)
 
 
-![alt](./img/img-2.png)
+<!-- ![alt](./img/img-2.png) -->
+<img src="https://www.w3.org/TR/navigation-timing/timing-overview.png" width="700px" />
 
 几个重要的时间属性：
- - `navigationSart`：触发上一个文档unload的时刻（若上一个文档为空，值为`fetchStart`）
- - `fetchStart`：浏览器发起首个请求的时刻
- - `domLoading`：浏览器开始解析渲染DOM的时刻
+ - `navigationSart`：上一个文档unload的时刻（若上一个文档为空，值为`fetchStart`）
+ - `fetchStart`：浏览器已经准备好去使用HTTP请求抓取文档之时（下一步是检查缓存之前）
+ - `domLoading`：开始解析DOM的时刻
  - `domContentLoadedEventEnd`：DOM解析完成的时刻（代表`DOMContentLoaded`事件完成）
- - `loadEventEnd`：load事件回调函数执行完成的时刻
+ - `loadEventStart`：load事件触发的时刻
+ - `loadEventEnd`：load事件结束的时刻
 
 #### 相关时间计算
  - DNS查询耗时 = domainLookupEnd - domainLookupStart
@@ -81,8 +83,11 @@
  - 解析dom树耗时 = domComplete - domInteractive
 
  - **白屏时间 = domLoading - navigationSart**
- - **用户可操作时间 = domContentLoadedEventEnd - navigationSart**
- - **总下载时间= loadEventEnd - navigationSart**
+ - **DomReady = domContentLoadedEventEnd - navigationSart**
+    - 即：DOM解析完成、同步资源（如defer脚本）加载执行完成 的时间。
+ - **总下载时间 = loadEventEnd - navigationSart**
+ - **页面完全加载时间 = loadEventStart - fetchStart**
+    - 即：首次渲染时间 + DOM解析耗时 + 同步JS执行耗时 + 资源加载耗时
 
 > 注意，对于前端性能监测，一般会忽略 `发起首个请求之前` 的耗费时间
 

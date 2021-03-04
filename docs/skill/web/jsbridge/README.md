@@ -1,20 +1,4 @@
 # JSBridge通信原理
-
-:::tip
-背景
-#### Scheme注册
-App 安装后会在手机系统上注册一个 `Scheme`（比如：`weixin://`、`orpheus://`）。所以在浏览器里访问这个 scheme 地址，系统就会唤起App
-
-#### iOS里WebView的种类
-iOS 里有 2 种 WebView：`UIWebView`、`WKWebView`。
-
-其中， `WKWebView` 是 iOS8 之后出现的
- - 优点：占用内存更少，能够更好地支持 HTML5，性能更强大
- - 缺点：不支持缓存、需要自己注入Cookie、拦截 Post 请求时无法解析参数
-:::
-
-
-
 ## JS调用Native
 JS 调用 Native，有 3 种 通信方法：
  - 拦截 Scheme
@@ -69,9 +53,9 @@ JS 调用 Native，有 3 种 通信方法：
 
 它结合了 **Scheme协议 + 向JS上下文注入对象/方法**。
 
-因为 Android 和 iOS 不一样的通信方式，需要封装，然后给外部提供一致的 API。
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7738019941/98ac/8b08/f7db/c6c0c0fcf626b529a2db479a8bde34e5.png" width="400px" />
 
- - Android：通过注解暴露给 JS
+
 
 <!-- 
 ### 基础API
@@ -80,3 +64,17 @@ JS 调用 Native，有 3 种 通信方法：
  - hasHandler(name)
 
  - registerHandler(name) -->
+
+## 其他
+:::tip
+背景
+#### Scheme注册
+App 安装后会在手机系统上注册一个 `Scheme`（比如：`weixin://`、`orpheus://`）。所以在浏览器里访问这个 scheme 地址，系统就会唤起App
+
+#### iOS里WebView的种类
+iOS 里有 2 种 WebView：`UIWebView`、`WKWebView`。
+
+其中， `WKWebView` 是 iOS8 之后出现的
+ - 优点：占用内存更少，能够更好地支持 HTML5，性能更强大
+ - 缺点：不支持缓存、需要自己注入Cookie、拦截 Post 请求时无法解析参数
+:::
