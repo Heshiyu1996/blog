@@ -152,6 +152,7 @@ const sidebar = {
                 'web/web-storage/',
                 'web/websocket/',
                 'web/nginx/',
+                'web/pwa/',
             ]
         },
         {
