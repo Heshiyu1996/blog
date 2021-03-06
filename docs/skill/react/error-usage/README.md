@@ -63,3 +63,63 @@ Hooks可以用来实现绝大部分class能解决的事情，但也有许多不�
 ```
 
 法2：组件改成class写法
+
+## React合成事件、生命周期、原生事件下的setState
+先点击 `test` 按钮，再点击 `test1` 按钮。求输出
+```js
+import React from "react";
+import "./styles.css";
+
+export default class App extends React.Component {
+  state = {
+    count: 0
+  };
+  componentDidMount() {
+    this.setState({ count: this.state.count + 1 });
+    console.log("1: ", this.state.count);
+
+    this.setState({ count: this.state.count + 2 });
+    console.log("2: ", this.state.count);
+
+    this.setState({ count: this.state.count + 1 });
+    console.log("3: ", this.state.count);
+
+    setTimeout(() => {
+      console.log("4: ", this.state.count);
+      this.setState({ count: this.state.count + 1 });
+      console.log("5: ", this.state.count);
+    }, 0);
+
+    document.getElementById("test1").addEventListener("click", () => {
+      this.setState({ count: this.state.count + 1 });
+      console.log("7", this.state.count);
+    });
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+    console.log("6", this.state.count);
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <div onClick={this.increment}>test</div>
+        <div id="test1">test1</div>
+      </div>
+    );
+  }
+}
+
+```
+
+```
+// 输出
+1:  0
+2:  0
+3:  0
+4:  1
+5:  2
+6:  2
+7:  4
+```
