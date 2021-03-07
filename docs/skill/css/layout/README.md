@@ -92,7 +92,31 @@
 
 以下为 **5种** 实现方式：
 
+#### Flex布局
+**思路**：
+ 1. 父容器 `flex`
+ 2. 子元素 需要固定的设置 `width`，需要自适应的设置 `flex: 1`
+```css
+.container {
+    display: flex;
+    height: 100px;
+}
+
+.left,
+.right {
+    width: 200px;
+}
+
+.center {
+    flex: 1;
+}
+```
+
 #### 定位方式
+**思路**：
+ 1. 父容器 `relative`
+ 2. 子元素 `absolute`；其中，需要固定的设置 `width`，需要自适应的设置 `left`、`right` 进行适应。
+
 ```css
 .container {
     position: relative;
@@ -123,10 +147,14 @@
 ```
 
 #### 浮动方式
+**思路：**
+ 1. 不需要父容器，但要更换DOM排列：left、right、center
+ 2. 需要固定的元素设置 `width`、`float`一左一右；需要自适应的通过 `margin` 撑开
+
 ```css
 /* 
  * 注：因为浮动元素的前一个元素若为非浮动，则会紧贴底部
- * 所以这种方式需更换DOM的排列顺序：left、right、cente
+ * 所以这种方式需更换DOM的排列顺序：left、right、center
  */
 .left,
 .right {
@@ -142,23 +170,6 @@
 .center {
     height: 100px;
     margin: 0 200px; /* 通过margin撑开 */
-}
-```
-
-#### Flex布局
-```css
-.container {
-    display: flex;
-    height: 100px;
-}
-
-.left,
-.right {
-    width: 200px;
-}
-
-.center {
-    flex: 1;
 }
 ```
 

@@ -835,7 +835,7 @@ let deepClone = (source) => {
     }
     
     // 要拷贝的引用类型是“数组”，还是“对象”
-    let targetObj = source.contructor === Array ? [] : {};
+    let targetObj = Array.isArray(source) ? [] : {};
 
     // 遍历key
     // for...in可遍历出: “自有属性”、“继承属性”
@@ -1072,18 +1072,11 @@ var set = new Set(['贺世宇', '作者'])
     - entries()
     - forEach() // 接受第二个参数，用于绑定this
 
-用处：`去除数组中重复成员`：
+用处：**对数组去重**：
 ```js
 var arr = [1, 3, 3, 5]
 
-// 方法一：
-var s = new Set()
-arr.forEach(x => s.add(x))
-var brr = Array.from(s)
-
-// 方法二：
 var crr = [...new Set(arr)]
-
 ```
 ### Map
 Map类似于**对象**，也是键值对集合。特点是里面的`键（key）不仅限于字符串`、且`遍历顺序就是插入顺序`。**（可保证键值唯一）**
@@ -1545,6 +1538,7 @@ g(3);
 输出：[a, b, c]
 ```
 ```js
+// 普通递归：
 function searchArr (arr) {
     let ans = [];
     
@@ -1565,6 +1559,25 @@ function searchArr (arr) {
 }
 
 searchArr(['a', ['b', ['c']]]);
+
+// 尾递归：
+function searchArr (arr, ans) {
+    
+    const search = (list, ans) => {
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].constructor !== Array) {
+                ans.push(list[i]);
+                continue;
+            }
+            return search(list[i], ans);
+        }
+        return ans;
+    }
+    
+    return search(arr, ans);
+}
+
+searchArr(['a', ['b', ['c']]], []);
 ```
 
 ### 参考

@@ -45,7 +45,7 @@
     - 如果遇到Promise.then之类的`微任务`，将其送进`微任务队列`
  - 4、若 当前执行栈 为空，**JS引擎** 会去检查`微任务队列`是否有任务在排队
  - 5、执行`微任务队列`中的`微任务`（先进先出）
- - 6、`微任务队列中`的`微任务`全部执行完毕，本轮事件循环结束
+ - 6、`微任务队列中`的`微任务`全部执行完毕，**本轮事件循环结束**
  - 7、回到第2步，检查`宏任务队列`中是否有未执行的`宏任务`，继续下一轮循环
 
 > 注意：`Ajax请求完毕后`触发的回调函数会进入`宏任务队列`
@@ -120,21 +120,26 @@ console.log('h')
 
 ## Node事件循环
 Node中的事件循环有6个阶段：
- - timers
-    - 执行 `setTimeout` 回调
- - I/O callbacks
-    - 处理上一轮循环中未执行的 I/O
- - idle、prepare（内部使用）
-    - node 内部使用
- - poll
-    - 获取新的 I/O
- - check
-    - 执行 `setImmediate` 回调
- - close callbacks
-    - 执行 socket 的 `close` 回调
+ - **timers**：执行 `setTimeout`、`setInterval` 回调
+
+ - **I/O callbacks**：处理上一轮循环中 少量 未执行的 I/O 回调
+ 
+ - **idle、prepare**：内部使用
+
+ - **poll**：执行 I/O 回调
+
+ - **check**：执行 `setImmediate` 回调
+
+ - **close callbacks**：执行一些关闭回调（如：socket的 `close` 回调）
 
 <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7721374670/7ac5/762e/6b78/cdcb48bbdc54dc48212fb346c3ceefd1.png" width="300px" />
 
+### process.nextTick
+独立于 事件循环 之外，有一个自己的队列。
+
+**执行时机**：每个阶段执行完之后、并且 微任务队列 执行前
+
 ### 与 浏览器事件循环 的不同
- - 浏览器端，微任务 在当前宏任务执行完、下个宏任务之前，去执行
- - Node中，微任务 在 **事件循环的各个阶段之间** 执行
+ - 浏览器端，“微任务” 在 “本轮事件循环结束前” 执行完
+ - Node 11 以前，微任务 在 **事件循环的各个阶段之间** 执行
+ - Node 11 及以后，与 浏览器端 一致。

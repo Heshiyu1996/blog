@@ -407,6 +407,7 @@ width（height）包括了padding、border，（`margin依旧独立`），故**�
  - **伪类**：定义元素的特殊状态
  - **伪元素**：添加装饰内容
 
+它们的区别：
 ```css
 /* 伪类 */
 button:hover {}
