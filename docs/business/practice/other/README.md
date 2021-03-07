@@ -274,3 +274,26 @@ onInput = (ev) => {
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7600366717/cf55/2983/8938/5b4020f2e61a95b969a75903602c952d.png" width="500px" />
 
 > 实际下发的 `coverImgId` 是 109951165342936376
+
+
+## 页面通信
+> 问题：从页面 A 打开一个新页面 B，B 页面关闭（包括意外崩溃），如何通知 A 页面？
+ - B：正常关闭
+ - B：意外崩溃
+
+### B正常关闭
+**思路**：
+ 1. B 关闭前，会触发 `beforeUnload` 事件
+ 2. A 通过监听 `hashchange`，`window.location.hash` 获取参数
+
+> 也可修改 LocalStorage，A 监听 `storage`
+
+### B意外崩溃
+**思路**：
+ 1. B 通过 `ServiceWorker` 启动一个心跳检测
+ 2. 检测到崩溃，发送给 A
+
+## 交叉观察者（IntersetionObserver）
+一般 懒加载 可通过 `监听滚轮` + `节流`（防止高频）。
+
+也可通过 交叉观察者（IntersetionObserver）来监听 “目标元素” 与 “父元素” 的交叉状态。

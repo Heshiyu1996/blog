@@ -82,10 +82,10 @@
  - request请求耗时 = responseEnd - requestStart
  - 解析dom树耗时 = domComplete - domInteractive
 
- - **白屏时间 = domLoading - navigationSart**
- - **DomReady = domContentLoadedEventEnd - navigationSart**
-    - 即：DOM解析完成、同步资源（如defer脚本）加载执行完成 的时间。
- - **总下载时间 = loadEventEnd - navigationSart**
+ - **白屏时间 = domLoading - fetchSart**
+ - **DomReady（用户可操作时间） = domContentLoadedEventEnd - fetchSart**
+    - 即：DOM解析耗时 + 同步JS加载耗时（如defer脚本）
+ - **总下载时间 = loadEventEnd - fetchSart**
  - **页面完全加载时间 = loadEventStart - fetchStart**
     - 即：首次渲染时间 + DOM解析耗时 + 同步JS执行耗时 + 资源加载耗时
 

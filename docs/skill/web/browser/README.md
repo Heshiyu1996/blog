@@ -23,7 +23,7 @@
 > 解决：替换资源的url即可，因为html一般是不会被强缓存的。
 
  ## 输入URL，会发生什么？（完整的http过程）
- 1、浏览器输入url
+ 1、浏览器输入 url
 
  2、浏览器检查`强缓存`（Expires、Cache-control）
 
@@ -43,12 +43,17 @@
 
  10、浏览器进行`解析HTML（构造DOM树）`、`下载资源`、`构造CSSOM树`、`执行JS脚本`
  
- > HTML解析器会根据HTML文档，从上往下进行解析
- > 
- > DOM的渲染，是在加载完`<head>`里的css、js后开始执行的
- > 
- > 所以，最好不要把js放在`<head>`(特别是操作DOM的js)
- > 
- > 对于没有声明defer、async的`<script>`就会按顺序直接加载、执行。`JS引擎`会抢夺`HTML解析器`的控制权。直到加载、执行完才会把控制权交给`渲染引擎`
+### 说明
+  - **HTML解析器**：会 从上往下 解析 “HTML文档”
+ 
+  - **对于 DOM** ：通过 解析（`parse`），变成 DOM树
+ 
+  - **对于 CSS** ：通过 解析（`parse`），变成 CSSOM树
+    - CSS 不会阻塞 DOM解析，但会 阻塞 JS 执行
+
+  - **对于 JS** ：通过 加载（`fetch`），变成 AST。然后执行（`execute`）
+    - 声明 `defer`、`async` 可实现 异步加载（`fetch`）
+    
+    - “JS 的执行” 会 阻塞 DOM解析
 
 ![alt](./img/img-1.svg)
