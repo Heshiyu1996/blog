@@ -190,6 +190,7 @@ const sidebar = {
                 'react/feature-v16/',
                 'react/ref/',
                 'react/life-cycle/',
+                'react/events/',
                 'react/context/',
                 'react/hooks-usage/',
                 'react/redux/',

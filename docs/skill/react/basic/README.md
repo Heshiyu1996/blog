@@ -12,11 +12,20 @@
 ### 用法
 ```js
 React.createElement(
-    type, // 可以是`div`，也可以是 React组件类型
+    type, // 可以是`div`，也可以是 React组件（React底层 通过 “首字母大小写” 区分）
     [props],
     [...children]
 )
 ```
+
+### 问题
+#### React组件首字母大写
+因为，`React.createElement` 对于 `type` 字段的 “大小写” 会 **会用来判断是 HTML标签，还是 React组件。**
+> 否则会在 Babel转译 过程就开始错了。
+
+#### 为什么要import React from 'react'
+因为 React组件是 `JSX` 写的，而 `JSX` 本质上是 `React.createElement` 的语法糖。
+> 所以使用了 JSX，就是在使用 React，所以就要引入 react
 
 
 ## 受控组件与非受控组件
@@ -57,38 +66,9 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
 在非受控组件中，表单数据是由`DOM节点`来处理。
 
 
-
-
-
-## 合成事件
-**React的合成事件** 是 React 为了解决 **“跨浏览器的事件处理”** 而进行事件包装。
-> 如：onClick、onChange
-
-**触发时机：** 冒泡阶段。
-> 如果需要在 **捕获阶段** 触发，可以在 `事件名+Capture`（如：onClickCapture）
-
-### 合成事件、原生事件的区别 
-| 特点 | 原生事件 | 合成事件 |
-| --- | ------- | ------ |
-| 兼容性 | 不兼容跨浏览器 | 返回的是`SyntheticEvent实例`，能够兼容不同浏览器 |
-| 绑定事件处理函数 | 传入字符串 | 传入函数 |
-| 阻止默认行为 | 返回`false` | 显式调用 `ev.preventDefault()` |
-
-### SyntheticEvent实例
-在合成事件的事件处理函数内，会传递进一个 `SyntheticEvent实例`。
-
- - 兼容所有浏览器
- - 拥有原生事件接口（`stopPropagation` 、 `preventDefault`）
- - 由于合并而来，可能会被重用 **（即在事件回调触发完毕后，所有属性都会失效）**
- - 获取底层原生事件（`nativeEvent`属性）
-
-<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7114440836/02c8/18a3/3f38/568eede47e6e2353b339335214ad2bc2.png" width="350px" />
-
-
-
 ## 触发Render的方式
  - 执行 `ReactDOM.render`
- - state、props发生改变（可以通过 `shouldComponentUpdate` 决定是否执行render；值依旧是会改变的）
+ - state、props发生改变（但可以通过 `shouldComponentUpdate` 返回 `false` 来阻止render；值依旧是会改变的）
  - forceUpdate
 
 

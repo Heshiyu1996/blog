@@ -46,11 +46,11 @@ Node：
  - [中间件的特点、洋葱模型](http://localhost:8080/blog/skill/nodejs/koa/#koa2%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6)
 
 ## 二、框架
- - 生命周期
- - 什么情况会触发Render
+ - [生命周期](/blog/skill/react/life-cycle)
+ - [什么情况会触发Render](/blog/skill/react/basic/#触发render的方式)
  - setState原理
  - React的Hooks和class比较
- - React合成事件的理解、触发时机（冒泡）、与"原生事件"的区别/触发顺序（原生先）
+ - [React事件系统（合成事件的理解、触发时机、与"原生事件"的区别/触发顺序）](/blog/skill/react/events)
  - Diff算法具体
  - Fiber
  - React跨组件通信（context、数据管理工具）
@@ -61,9 +61,9 @@ Node：
  - 底层API（React.createElement）
  - 如何实现对象的浅、深比较
  - useCallback的内部实现
- - 为什么React组件要用大写
- - 为什么写Class组件时要 import React from ‘react’
- - Class组件的方法为什么要用bind绑定？
+ - [为什么React组件要用大写](/blog/skill/react/basic/#react-createelement)
+ - [为什么写Class组件时要 import React from ‘react’](/blog/skill/react/basic/#react-createelement)
+ - [Class组件的方法为什么要用bind绑定？](/blog/skill/react/basic/#为什么react组件的方法需要bind)
 
 ## 三、项目
 通用：
