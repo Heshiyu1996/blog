@@ -72,41 +72,6 @@ console.log(this.input.current.value) // this.input.current拿到DOM节点
  - forceUpdate
 
 
-## 函数内部的this绑定
-当调用一个组件内部 且 没有绑定到组件 `this` 上的方法时，这个方法内部读取到的 `this` 将为 `undefined`。
-### 利用bind
-```jsx
-class HomeIndex extends Component {
-    constructor(props) {
-        super(props);
-        // 调用 .bind，将 addCount 绑定到 this 上
-        this.addCount = this.addCount.bind(this);
-    }
-
-    addCount() {}
-
-    render() {
-        return <button onClick={this.addCount}>Click</button>;
-    }
-}
-```
-
-### 利用箭头函数
-```jsx
-class HomeIndex extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    // 利用 箭头函数，将 addCount 绑定到 this 上
-    addCount = () => {}
-
-    render() {
-        return <button onClick={this.addCount}>Click</button>;
-    }
-}
-```
-
 ## 为什么React要用className？
 因为`class`在JavaScript里是关键字，而JSX是JavaScript的扩展。
 
@@ -188,3 +153,92 @@ export default function equal(objA, objB) {
     return true;
 }
 ```
+
+## 为什么React组件的方法需要bind
+**原因：“隐式绑定” 导致了 “React组件的方法” 丢失上下文**。
+> 将 方法 作为 参数 传递给另一个函数时，会丢失上下文
+
+```jsx
+// 现象：“生命周期”、“render”、“生命周期内直接调用 `this.addCount`” 都可以正常读取 `this`。
+class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: 'heshiyu'
+        }
+    }
+
+    componentDidMount() {
+        // 生命周期内 可读取到 this
+        console.log(this.state, 1);
+        
+        // 这样也可以读取到 this
+        this.addCount();
+    }
+
+    addCount() {
+        console.log(this.state, 2);
+    }
+
+    render() {
+        // render内 可读取到 this
+        console.log(this.state, 3); 
+        return <button onClick={this.addCount}>Click</button>;
+    }
+}
+```
+
+经过 JSX编译 后：
+```js
+const Home = function (_Component) {
+  _inherits(Deom, _Component);
+  function Home() {
+    _classCallCheck(this, Home);
+    return  _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+  Home.prototype.addCount = function addCount() {
+    console.log(this);
+  }
+  Home.prototype.render = function render() {
+    this.addCount();
+    // <-- 经过 JSX，会编译成 React.createElement
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'button',
+      // ↓ 注意这里，直接将 this.addCount 传给 onClick
+      { onClick: this.addCount },
+      'Click',
+    )
+  }
+  return Demo;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"])
+```
+
+等价于：
+```js
+var age = 1;
+var obj = {
+    age: 2,
+    display: function () {
+        console.log(this.age);
+    }
+}
+function createElement({ onClick }){
+   onClick(); // 实际上执行的是 onClick
+}
+// obj.display 以 “参数” 的形式传入 createElement，会丢失上下文
+createElement({
+    onClick: obj.display
+});
+
+// 输出: 1
+```
+
+### 解决方式
+ 1. 箭头函数
+ 2. `constructor` 内绑定
+ 3. `render` 内绑定（不推荐）
+
+
+## 参考链接
+ - [React基础12 React中的this绑定](https://duola8789.github.io/2019/05/12/01%20%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/03%20React/React01%20%E5%9F%BA%E7%A1%80/React%E5%9F%BA%E7%A1%8012%20React%E4%B8%AD%E7%9A%84this%E7%BB%91%E5%AE%9A/)
+ 
