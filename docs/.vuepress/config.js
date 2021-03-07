@@ -55,7 +55,8 @@ const nav = [
             },
             {
                 text: '心得', items: [
-                    { text: '读书/参会心得', link: '/other/feeling/' }
+                    { text: '读书/参会心得', link: '/other/feeling/' },
+                    { text: '梳理', link: '/other/review/' },
                 ]
             },
         ]
@@ -398,6 +399,17 @@ const sidebar = {
             children: [
                 'feeling/d2-2019/',
                 'feeling/vue-conf-2018/',
+            ]
+        }
+    ],
+
+    // 周边-梳理
+    '/other/review': [
+        {
+            title: '梳理',
+            collapsable: false,
+            children: [
+                'review/',
             ]
         }
     ],
