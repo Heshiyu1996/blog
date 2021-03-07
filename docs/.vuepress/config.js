@@ -170,6 +170,8 @@ const sidebar = {
             collapsable: false,
             children: [
                 'web/jsbridge/',
+                'web/h5-webcache/',
+                'web/mini-program/',
             ]
         },
     ],
