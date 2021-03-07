@@ -75,13 +75,13 @@ Node：
  - Babel用来做什么事情？babel-polyfill是做什么的？如何按需引入
  - SASS相关配置
  - dpr怎么计算？
- - import 和 require 有什么区别？
- - 离线包的工作原理
- - RN的好处在哪？
- - 小程序和H5的区别在哪？
+ - [import 和 require 有什么区别？](http://localhost:8080/blog/skill/js/modular/#commonjs%E5%92%8Ces6-module%E7%9A%84%E5%8C%BA%E5%88%AB)
+ - [离线包的工作原理](/blog/skill/web/h5-webcache/)
+ - [RN的好处在哪？](/blog/business/practice/rn/#rn的优点)
+ - [小程序和H5的区别在哪？](/blog/skill/web/mini-program)
  - 多并发请求的处理？（客户端：强缓存/协商缓存、CDN；服务端：Nginx）
- - SSR的原理、好处、注意事项（为什么其他页面不用SSR？）
- - 【Node】如果遇到不支持的对象（如window、document），在Node这边如何解决？
+ - [SSR的原理、好处、注意事项（为什么其他页面不用SSR？）](/blog/skill/react/react-ssr)
+ - [【Node】如果遇到不支持的对象（如window、document），在Node这边如何解决？](/blog/skill/react/react-ssr/#node无法访问window对象)
 
 实践：
  - 移动端的性能优化、检测方案

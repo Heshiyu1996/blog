@@ -53,6 +53,24 @@ JS 调用 Native，有 3 种 通信方法：
 
 它结合了 **Scheme协议 + 向JS上下文注入对象/方法**。
 
+### 通信建立步骤
+#### JS SDK启动阶段
+1. App 启动时，加载 handler 列表
+2. WebView 初始化时，加载 JS SDK
+3. App 在 web页面 加载完成时，注入 `WebViewBridge`，并通知 JS SDK 连接已建立
+4. JS SDK 创建 Native SDK 运行时需要的上下文对象
+
+#### JS SDK使用阶段
+1. JS调用协议（指定 `callback`）
+2. JS SDK 生成 `callbackId`，作为 `key` 缓存 `callback`
+3. JS SDK 调用 `WebViewBridge.postMessage`
+4. Native SDK收到请求，找到对应 handler 去处理
+5. handler 处理完后回调 Native SDK 结果 `result` 和 `error`
+6. SDK 调用 全局Callback，向 JS SDK 下发 `callbackId`、`result`、`error`
+7. JS SDK 根据 `callbackId` 找到 `callback`，并传入 `result`、`error` 执行
+
+
+
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7738019941/98ac/8b08/f7db/c6c0c0fcf626b529a2db479a8bde34e5.png" width="400px" />
 
 

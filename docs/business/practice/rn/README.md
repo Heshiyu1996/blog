@@ -1,4 +1,19 @@
 # RN
+> RN是跨平台移动端开发框架。
+
+[[toc]]
+
+## RN的优点
+1. 跨平台兼容性
+    - 编写一套代码，部署到 iOS、Android
+2. 用户体验上，与 “原生应用” 几乎相同
+    - 最终产出是真正的移动应用
+3. 学习成本低
+    - React、CSS即可开发
+
+### 缺点
+对于 “复杂应用” 的开发效率较低，甚至需要 “原生开发” 来实现。
+
 ## React Native 容器生命周期
 
 ```js
@@ -113,10 +128,6 @@ if (isAndroid) {
 不行再尝试手动指定监听文件夹：
  - 在 `metro.config.js`的`watchFolders`手动加`-core、-rn、-h5`或`-rn、-h5`
 
-else...
-
-
-
  1. Clear watchman watches: `watchman watch-del-all`.
   2. Delete the `node_modules` folder: `rm -rf node_modules && npm install`.
   3. Reset Metro Bundler cache: `rm -rf /tmp/metro-bundler-cache-*` or `npm start -- --reset-cache`.
@@ -125,6 +136,7 @@ else...
 
 
 ### package.json内的main字段
+```
 error: bundling failed: Error: While trying to resolve module `@music/rpc-audio-rn` from file `/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-demo/src/pages/home/index.js`, the package `/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-rn/package.json` was successfully found. However, this package itself specifies a `main` module field that could not be resolved (`/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-rn/dist/index.js`. Indeed, none of these files exist:
 
   * `/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-rn/dist/index.js(.native||.ios.js|.native.js|.js|.ios.json|.native.json|.json|.ios.ts|.native.ts|.ts|.ios.tsx|.native.tsx|.tsx)`
@@ -139,7 +151,7 @@ error: bundling failed: Error: While trying to resolve module `@music/rpc-audio-
     at Generator.next (<anonymous>)
     at asyncGeneratorStep (/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-demo/node_modules/metro/src/DeltaBundler/traverseDependencies.js:87:24)
     at _next (/Users/heshiyu/pros/rpc-audio/packages/rpc-audio-demo/node_modules/metro/src/DeltaBundler/traverseDependencies.js:107:9)
-
+```
 
 ### 修改了.babelrc配置不生效
 需要清除RN缓存
