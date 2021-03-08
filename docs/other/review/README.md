@@ -107,7 +107,8 @@ Node：
  - 一串整型数字的最长连续子序列长度（输入：4125678；输出：4）
  - 实现一个EventEmitter类（具有on、off、emit方法）
  - React合成事件、生命周期、原生事件下的setState
- - 实现compose函数
+ - [实现compose函数](/skill/algorithm/compose/)
+
 
 ## 五、开放性问题
  - 你认为你在业务的贡献、产出？

@@ -21,7 +21,7 @@ const nav = [
             {
                 text: '其它', items: [
                     { text: '计算机', link: '/skill/computeracy/' },
-                    { text: '算法', link: '/skill/algorithm/' }
+                    { text: '编程', link: '/skill/algorithm/' }
                 ]
             },
         ]
@@ -262,6 +262,7 @@ const sidebar = {
             children: [
                 // 'algorithm/basic/',
                 'algorithm/sort/',
+                'algorithm/compose/',
                 // 'algorithm/search/',
                 // 'algorithm/dp/',
                 // 'algorithm/leetcode/',
