@@ -5,30 +5,30 @@
 
 ## 一、基础
 CSS：
- - [CSS权重（父嵌子，子哪个权重比较大）](https://heshiyu1996.github.io/blog/skill/css/other/#css%E9%80%89%E6%8B%A9%E5%99%A8%E6%9D%83%E9%87%8D)
- - [CSS实现两列布局](https://heshiyu1996.github.io/blog/skill/css/layout/#%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E6%A1%88)
- - [伪类、伪元素的区别](https://heshiyu1996.github.io/blog/skill/css/other/#%E4%BC%AA%E7%B1%BB%E3%80%81%E4%BC%AA%E5%85%83%E7%B4%A0)
+ - [CSS权重（父嵌子，子哪个权重比较大）](/skill/css/other/#css%E9%80%89%E6%8B%A9%E5%99%A8%E6%9D%83%E9%87%8D)
+ - [CSS实现两列布局](/skill/css/layout/#%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E6%A1%88)
+ - [伪类、伪元素的区别](/skill/css/other/#%E4%BC%AA%E7%B1%BB%E3%80%81%E4%BC%AA%E5%85%83%E7%B4%A0)
 
 JS：
- - [排序算法、复杂度](https://heshiyu1996.github.io/blog/skill/algorithm/sort/)
- - [尾递归是什么？](https://heshiyu1996.github.io/blog/skill/js/other/#%E5%B0%BE%E9%80%92%E5%BD%92)
- - [Sort方法的运用](https://heshiyu1996.github.io/blog/skill/js/sort/#%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
- - [深拷贝、复杂度](https://heshiyu1996.github.io/blog/skill/js/other/#%E6%B7%B1%E6%8B%B7%E8%B4%9D)
- - [“恒等”和“等于”的区别](https://heshiyu1996.github.io/blog/skill/js/other/#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB)
+ - [排序算法、复杂度](/skill/algorithm/sort/)
+ - [尾递归是什么？](/skill/js/other/#%E5%B0%BE%E9%80%92%E5%BD%92)
+ - [Sort方法的运用](/skill/js/sort/#%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
+ - [深拷贝、复杂度](/skill/js/other/#%E6%B7%B1%E6%8B%B7%E8%B4%9D)
+ - [“恒等”和“等于”的区别](/skill/js/other/#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB)
  - [Set、Map](http://heshiyu1996.github.io/blog/skill/js/other/#es6%E6%96%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84set%E3%80%81map)
  - [类数组](http://heshiyu1996.github.io/blog/skill/js/other/#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%AF%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1)
- - [this指向](https://heshiyu1996.github.io/blog/skill/js/other/#this%E7%9A%84%E6%8C%87%E5%90%91)
+ - [this指向](/skill/js/other/#this%E7%9A%84%E6%8C%87%E5%90%91)
  - ES7新功能，Async、Await
  - Async、Promise的执行顺序
  - 介绍下Promise，底层如何实现链式？
- - [如何理解TypeScript](https://heshiyu1996.github.io/blog/skill/js/typescript/#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3typescript)
- - [TS里interface、type的作用、区别（以及typeof）](https://heshiyu1996.github.io/blog/skill/js/typescript/#type%E4%B8%8Einterface)
+ - [如何理解TypeScript](/skill/js/typescript/#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3typescript)
+ - [TS里interface、type的作用、区别（以及typeof）](/skill/js/typescript/#type%E4%B8%8Einterface)
  - JS设计模式
  - JS正则
- - [JS事件循环](https://heshiyu1996.github.io/blog/skill/js/event-loop/#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-eventloop)
+ - [JS事件循环](/skill/js/event-loop/#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-eventloop)
  - PWA是什么
  - 原型链相关（用ES5实现一个Class；实现继承。Prototype、Constructor、obj）
- - [事件委托（addEventListener的参数）](https://heshiyu1996.github.io/blog/skill/js/other/#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98)
+ - [事件委托（addEventListener的参数）](/skill/js/other/#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98)
 
 Web：
  - Web攻击
@@ -41,9 +41,9 @@ Web：
  - JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）
 
 Node：
- - [Node事件循环](https://heshiyu1996.github.io/blog/skill/js/event-loop/#node%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)
- - [express和koa2的区别](http://localhost:8080/blog/skill/nodejs/koa/#koa2%E7%9A%84%E4%BC%98%E7%82%B9)
- - [中间件的特点、洋葱模型](http://localhost:8080/blog/skill/nodejs/koa/#koa2%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6)
+ - [Node事件循环](/skill/js/event-loop/#node%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)
+ - [express和koa2的区别](/skill/nodejs/koa/#koa2%E7%9A%84%E4%BC%98%E7%82%B9)
+ - [中间件的特点、洋葱模型](/skill/nodejs/koa/#koa2%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6)
 
 ## 二、框架
  - [生命周期](/blog/skill/react/life-cycle)
@@ -51,12 +51,12 @@ Node：
  - setState原理
  - React的Hooks和class比较
  - [React事件系统（合成事件的理解、触发时机、与"原生事件"的区别/触发顺序）](/blog/skill/react/events)
- - Diff算法具体
+ - [Diff算法具体](/blog/skill/web/diff)
  - Fiber
  - React跨组件通信（context、数据管理工具）
  - React性能优化
  - PureComponent、shouldComponentUpdate、React.memo
- - HOC的写法（几种）、作用、ref转发（以及用过哪些HOC）
+ - [HOC的写法（几种）、作用、ref转发（以及用过哪些HOC）](/skill/react/react-composition)
  - HOC、render prop、Hook的区别（render prop的缺点）
  - 底层API（React.createElement）
  - 如何实现对象的浅、深比较
@@ -75,7 +75,7 @@ Node：
  - Babel用来做什么事情？babel-polyfill是做什么的？如何按需引入
  - SASS相关配置
  - dpr怎么计算？
- - [import 和 require 有什么区别？](http://localhost:8080/blog/skill/js/modular/#commonjs%E5%92%8Ces6-module%E7%9A%84%E5%8C%BA%E5%88%AB)
+ - [import 和 require 有什么区别？](/skill/js/modular/#commonjs%E5%92%8Ces6-module%E7%9A%84%E5%8C%BA%E5%88%AB)
  - [离线包的工作原理](/blog/skill/web/h5-webcache/)
  - [RN的好处在哪？](/blog/business/practice/rn/#rn的优点)
  - [小程序和H5的区别在哪？](/blog/skill/web/mini-program)
@@ -85,8 +85,8 @@ Node：
 
 实践：
  - 移动端的性能优化、检测方案
-    - 性能优化的做法（具体成果），常用名词的含义（秒开率、大盘性能）
     - 性能优化：指标认识（FID采集时间、各指标标准、应对极端情况的采集）
+    - 性能优化的做法（具体成果），常用名词的含义（秒开率、大盘性能）
     - 性能优化：如何拆包、延迟加载（是否影响用户体验）
     - 性能优化：JS、CSS代码瘦身的有哪些做法
     - window.performance ，fetchStart的含义（计算白屏时间）

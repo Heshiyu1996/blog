@@ -19,6 +19,68 @@ const withContext = Component => props => (
 特点：**可以把组件之间 可复用的代码、逻辑 抽离到 HOC 当中**。
 > 如：withContext、withLoadData
 
+### HOC的两种写法
+实现 HOC 的方式有 2 种：
+ - 属性代理
+ - 反向继承
+
+#### 属性代理
+从 “组合” 的角度。
+
+**属性代理** 是最常见的实现方式。通过将组件包装在容器组件中。（父子组件）
+
+**缺点：**
+ - 会影响原组件某些生命周期方法
+ - 无法直接获取 `refs`
+
+```jsx
+const HOC = WrappedComponent => {
+    return class extends React.Component {
+        render() {
+            const newProps = { type: 'HOC' };
+            return <WrappedComponent {...this.props} {...newProps} />
+        }
+    }
+}
+
+function HOC(WrappedComponent) {
+    const newProps = { type: 'HOC' };
+    return props => <WrappedComponent {...props} {...newProps} />
+}
+```
+
+
+#### 反向继承
+从 “继承” 的角度。返回一个 **继承了子组件的类组件**。
+
+**特点：**
+ - 传入组件的生命周期 会被重写（但可通过 `super` 劫持）
+ ```jsx
+    componentDidMount(){
+      // 劫持 WrappedComponent 组件的生命周期
+      if (super.componentWillMount) {
+        super.componentWillMount.apply(this);
+      }
+      ...
+    }
+ ```
+
+```jsx
+const HOC = WrappedComponent => {
+    return class extends WrappedComponent {
+        render() {
+            return super.render();
+        }
+    }
+}
+```
+
+#### 两种写法的对比
+ - 属性代理 是从 “组合” 角度出发，有利于从外部去操作 `WrappedComponent`，可以操作的对象是 `props`、或者在 `WrappedComponent` 外面加一些拦截器、控制器等
+
+ - 反向继承 是从 “继承” 角度出发，是从内部去操作 `WrappedComponent`，可以操作组件内部的 `state`、生命周期、`render`函数等
+
+
 ### 示例
 包装 `Input`组件 以实现 “函数防抖” 效果的 HOC 组件。
 
@@ -208,4 +270,4 @@ class Cat extends React.Component {
 
 ## 参考
  - [React Hooks 深入系列 —— 设计模式](https://muyunyun.cn/posts/32fb0f08/)
- 
+ - [React高阶组件(HOC)的入门📖及实践💻](https://juejin.cn/post/6844904050236850184#heading-17)
