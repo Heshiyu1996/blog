@@ -11,7 +11,7 @@
 其中，对于 “宏任务队列”，是 **一个一个** 执行；对于 “微任务队列”，是 **一队一队** 执行。
 
 ### 宏任务（Macro Task）
-> 常见的有：script（整体代码）、setTimeout、setInterval、setImmediate、Ajax回调、I/O操作
+> 常见的有：script（整体代码）、setTimeout、setInterval、setImmediate、Ajax回调、I/O操作、DOM事件监听
 
 宏任务由 **事件触发线程** 维护。
 

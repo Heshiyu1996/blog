@@ -4,20 +4,21 @@
 
 [[toc]]
 
-## 指标定义
-**性能指标** 一般会关注 2 个层面：**Web-Vitals、重要时间指标**。
+## 性能指标
+一般会关注 2 个类指标：**web-vitals指标、传统指标**。
 
-### Web-Vitals
- - **LCP（Largest Contentful Paint）**：最大内容渲染
-    - 75% 用户小于 2 秒
- - **FCP（First Contentful Paint）**：首个内容渲染时间（即 “白屏时间”）
-    - 75% 用户小于 1 秒
- - **FID（First Input Delay）**：首次交互延时
-    - 75% 用户小于 100毫秒
- - **CLS（Cumulative Layout Shift）**：累计布局偏移
-    - 75% 用户小于 0.1
+### web-vitals指标
 
-### 时间指标
+| 展示名 | 字段名 | 达标标准 |
+| ----- |:---:|:---:|
+| LCP | 最大内容渲染 | 75% 用户小于 `2 秒` （云音乐内部定义阈值） |
+| FCP | 首个内容渲染 | 75% 用户小于 `1 秒` |
+| CLS | 累计布局偏移 | 75% 用户小于 `0.1` |
+| FID | 首次交互延时 | 75% 用户小于 `0.1 秒` |
+
+> [web-vitals指标详情](./../web-vitals/README.md)
+
+### 传统指标
  - **白屏时间**：开始解析渲染DOM的时间（即：`FCP`）
     - **domLoading - fetchStart**
  - **首屏时间**：“第一屏内容” 渲染完成的时间
@@ -27,10 +28,40 @@
  - **页面完全加载时间**：页面所有资源加载完成时间（ `load` 事件触发，也叫 “总下载时间” ）
     - **loadEventStart - fetchStart**
 
-## 指标收集
-有两个方式可以收集到指标数据：**window.performance.timing、web-vitals**
 
-### window.performance.timing
+## 首屏性能优化
+**首屏性能优化** 可以从 2 个方面进行：
+ - 资源加载
+ - HTML渲染
+
+> 具体方案还取决于：实际需求、优先级、综合成本、ROI等。
+
+### 资源加载
+**目标：体积更小的资源包。**
+ - 压缩、减包、拆包
+ - 懒加载
+ - 图片优化
+
+### HTML渲染
+**目标：更快地展示内容。**
+ - HTTP缓存
+ - CDN分发
+ - SSR
+ - （PWA）ServiceWorker + CacheStorage
+ - （Hybrid）H5离线包、数据预请求
+ - **Varnish**：缓存服务器的反向代理
+
+> 缓存触发顺序：ServiceWorker -> HTTP缓存 -> CDN -> Varnish
+
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7817696310/c927/6976/7ced/b09a94db66d40eba0eac5b2512c66fde.png" width="600px" />
+
+
+:::tip
+### 指标收集
+收集指标数据的 2 种方法：
+ - **window.performance.timing**
+ - **web-vitals**
+#### window.performance.timing
 `window.performance.timing` 可以获取 **页面渲染过程中，各个时间段的时间戳**。
 
 <!-- <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7801752160/a44d/26f6/b9ec/b37ba8a5e6a78d546cbdaf6ede82b25f.png" width="300px" /> -->
@@ -50,82 +81,10 @@
 > 
 > load：指页面上 **所有资源 都加载完成**。
 
-### web-vitals
+#### web-vitals
 `Web-Vitals` 底层是通过拿到 `PerformanceEntry`（性能数据的实例） 然后进行分析。
 > 如LCP：浏览器 会通过发送一个 `PerformanceEntry`（`type` 为 `largest-contentful-paint`）来标识最大的内容元素。
-
-## 首屏优化
-### 代码层面
-样式：
- - 图片压缩（webpack tiny）（LCP）
- - 图片懒加载（LCP）
- - 非首屏工具包的css拆包、
- - preload（CLS）
-
-JS：
- - **代码瘦身、拆包**
- - 延迟加载
-
-架构：
- - SSR
-
-### 缓存层面
- - 浏览器缓存（强缓存、协商缓存）
- - CDN
- - ServiceWorker
- - **Varnish**：缓存 服务器 返回的结果。当后续有相同的请求，Varnish不会再将这个请求转发到服务器，返回 上次缓存结果
- - （Hybrid应用）H5离线包
-
-
-<!-- 
-### 代码方面
- - 懒加载、按需加载
- - 减少DOM元素数量
- - 减少DOM访问
- - 使用css内联样式、放到页面顶部
- - 将js适当defer/async、放到页面底部
-
-### 工程方面
- - 合理拆包，代码分割
- - 打包，缩减代码体积
-
-### 请求方面
- - 减少DNS查询
- - 减少HTTP请求（因为数据在网络中的传输最大可消耗80%时间）
-    - 充分利用“强缓存/协商缓存”
-    - 雪碧图
- - 减小cookie大小
- - 使用`gzip`的压缩方式
- - 使用CDN
- - 使用SSR -->
-
-## 延迟加载
-### 图片的延迟加载
- - **[Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)**：异步检测 目标元素 和 父元素（或视窗） 相交的情况。
-
- - `scroll` + `getBoundingClientReact()`，实时赋值`src`属性。
-
-> Intersection Observer 注意兼容性。通过 npm包（`intersection-observer`） 进行polyfill
-
-## 预加载的实现
-原理：将所需资源提前请求加载到本地，这样后面在需要用到时就直接**从缓存取资源**。
-
-1、使用`display: none`
-
-2、使用`Image`对象
-```js
-let image = new Image();
-image.src = "images.1.png"
-```
-
-3、`<link>`的`preload`
-```html
-<link rel="preload" href="test.mp4" as="video" type="video/mp4">
-```
-这种方式有资源的类型要求。
-
-和懒加载的区别：预加载是提前加载、懒加载是延迟加载。
-
+:::
 
 ## 参考链接
  - [传统性能检测手段](./TRANDITION.md)
