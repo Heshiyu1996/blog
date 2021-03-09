@@ -15,8 +15,8 @@ JS：
  - [Sort方法的运用](/skill/js/sort/#%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
  - [深拷贝、复杂度](/skill/js/other/#%E6%B7%B1%E6%8B%B7%E8%B4%9D)
  - [“恒等”和“等于”的区别](/skill/js/other/#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB)
- - [Set、Map](http://heshiyu1996.github.io/blog/skill/js/other/#es6%E6%96%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84set%E3%80%81map)
- - [类数组](http://heshiyu1996.github.io/blog/skill/js/other/#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%AF%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1)
+ - [Set、Map](/skill/js/other/#es6%E6%96%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84set%E3%80%81map)
+ - [类数组](/skill/js/other/#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%AF%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1)
  - [this指向](/skill/js/other/#this%E7%9A%84%E6%8C%87%E5%90%91)
  - ES7新功能，Async、Await
  - Async、Promise的执行顺序
@@ -38,7 +38,7 @@ Web：
  - CORS跨域
  - 介绍下Nginx
  - 路由模式（History、Hash）
- - JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）
+ - [JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）](/skill/web/jsbridge)
 
 Node：
  - [Node事件循环](/skill/js/event-loop/#node%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)
@@ -46,12 +46,12 @@ Node：
  - [中间件的特点、洋葱模型](/skill/nodejs/koa/#koa2%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6)
 
 ## 二、框架
- - [生命周期](/blog/skill/react/life-cycle)
- - [什么情况会触发Render](/blog/skill/react/basic/#触发render的方式)
+ - [生命周期](/skill/react/life-cycle)
+ - [什么情况会触发Render](/skill/react/basic/#触发render的方式)
  - setState原理
  - React的Hooks和class比较
- - [React事件系统（合成事件的理解、触发时机、与"原生事件"的区别/触发顺序）](/blog/skill/react/events)
- - [Diff算法具体](/blog/skill/web/diff)
+ - [React事件系统（合成事件的理解、触发时机、与"原生事件"的区别/触发顺序）](/skill/react/events)
+ - [Diff算法具体](/skill/web/diff)
  - Fiber
  - React跨组件通信（context、数据管理工具）
  - React性能优化
@@ -61,9 +61,9 @@ Node：
  - 底层API（React.createElement）
  - 如何实现对象的浅、深比较
  - useCallback的内部实现
- - [为什么React组件要用大写](/blog/skill/react/basic/#react-createelement)
- - [为什么写Class组件时要 import React from ‘react’](/blog/skill/react/basic/#react-createelement)
- - [Class组件的方法为什么要用bind绑定？](/blog/skill/react/basic/#为什么react组件的方法需要bind)
+ - [为什么React组件要用大写](/skill/react/basic/#react-createelement)
+ - [为什么写Class组件时要 import React from ‘react’](/skill/react/basic/#react-createelement)
+ - [Class组件的方法为什么要用bind绑定？](/skill/react/basic/#为什么react组件的方法需要bind)
 
 ## 三、项目
 通用：
@@ -76,12 +76,12 @@ Node：
  - SASS相关配置
  - dpr怎么计算？
  - [import 和 require 有什么区别？](/skill/js/modular/#commonjs%E5%92%8Ces6-module%E7%9A%84%E5%8C%BA%E5%88%AB)
- - [离线包的工作原理](/blog/skill/web/h5-webcache/)
- - [RN的好处在哪？](/blog/business/practice/rn/#rn的优点)
- - [小程序和H5的区别在哪？](/blog/skill/web/mini-program)
+ - [离线包的工作原理](/skill/web/h5-webcache/)
+ - [RN的好处在哪？](/business/practice/rn/#rn的优点)
+ - [小程序和H5的区别在哪？](/skill/web/mini-program)
  - 多并发请求的处理？（客户端：强缓存/协商缓存、CDN；服务端：Nginx）
- - [SSR的原理、好处、注意事项（为什么其他页面不用SSR？）](/blog/skill/react/react-ssr)
- - [【Node】如果遇到不支持的对象（如window、document），在Node这边如何解决？](/blog/skill/react/react-ssr/#node无法访问window对象)
+ - [SSR的原理、好处、注意事项（为什么其他页面不用SSR？）](/skill/react/react-ssr)
+ - [【Node】如果遇到不支持的对象（如window、document），在Node这边如何解决？](/skill/react/react-ssr/#node无法访问window对象)
 
 实践：
  - 移动端的性能优化、检测方案

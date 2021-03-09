@@ -35,10 +35,9 @@ function compose (...funcs) {
         let i = length - 1;
         let result = funcs[i].apply(this, arg); //注意 arg 为数组，要用apply
 
-        // 3. 执行剩下的函数（因为 “其他函数” 只可接受一个参数，即上个函数的返回值）
-        while(i >= 0) {
+        // 3. 每次执行 i - 1，执行剩下的函数（因为 “其他函数” 只可接受一个参数，即上个函数的返回值）
+        while(--i >= 0) {
             result = funcs[i].call(this, result);
-            i--;
         }
         return result;
     }
