@@ -35,11 +35,14 @@ JS：
 
 Web：
  - Web攻击
- - HTTP缓存机制
+ - HTTP缓存机制（区别、优先级）
  - HTTP相关（HTTP、HTTPS、HTTP2.0）
  - 长轮询、短轮询、WebSocket
  - CORS跨域
  - 介绍下Nginx
+ - [为什么静态资源要放在多台CDN服务器上](/skill/web/cdn/#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B5%84%E6%BA%90%E8%A6%81%E7%94%A8%E5%A4%9A%E4%B8%AAcdn%E6%9C%8D%E5%8A%A1%E5%99%A8)
+ - PWA如何更新缓存
+ - 离线包的机制、时机、差量更新
  - 路由模式（History、Hash）
  - [JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）](/skill/web/jsbridge)
 
@@ -74,7 +77,7 @@ Node：
  - 移动端兼容性问题（1px的伪元素解决方案、Android单行字体行高）
  - 组件的设计原则
  - 脚手架里的各种工具（webpack、Babel、ESLint、Prettier、Stylelint、Husky）
- - Webpack是什么？用过哪些loader、plugins
+ - Webpack是什么？用过哪些loader、plugins（拆包）
  - Babel用来做什么事情？babel-polyfill是做什么的？如何按需引入
  - SASS相关配置
  - dpr怎么计算？
@@ -111,11 +114,15 @@ Node：
  - 实现一个EventEmitter类（具有on、off、emit方法）
  - React合成事件、生命周期、原生事件下的setState
  - [实现compose函数](/skill/algorithm/compose/)
+ - [实现add(1)(2)(3)()](/skill/algorithm/add-valueof)
+ - [实现request函数](/skill/algorithm/request/)
 
 
 ## 五、开放性问题
  - 你认为你在业务的贡献、产出？
  - 最近关注了哪些前端前沿技术（Web-Vitals、Webpack5 Module Federation）
  - 平时如何学习前端？
+ - Vue3有哪些新特性
+ - 自动化部署（ci、git 发http 到部署平台、webhook）
 
 

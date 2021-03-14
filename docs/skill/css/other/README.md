@@ -450,3 +450,17 @@ button::before {} /* 在头部创建一个伪元素 */
 最终渲染： `color: red`
 
 原因：最终渲染与 “class的声明顺序”无关 ，CSS文件内后面会覆盖前面的样式。
+
+
+## margin、padding百分比
+子元素的 `margin`、`padding` 都是相对于 **父容器** 宽度。
+
+```less
+.parent {
+    width: 100px;
+
+    .children {
+        margin-top: 50%; // 相对于 父容器 宽度
+    }
+}
+```

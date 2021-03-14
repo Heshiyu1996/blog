@@ -248,18 +248,19 @@ const sidebar = {
         }
     ],
 
-    // 基础-算法
+    // 基础-编程
     '/skill/algorithm': [
         {
-            title: '《算法》',
+            title: '《编程》',
             collapsable: false,
             children: [
                 // 'algorithm/basic/',
                 'algorithm/sort/',
                 'algorithm/compose/',
+                'algorithm/request/',
                 // 'algorithm/search/',
                 // 'algorithm/dp/',
-                // 'algorithm/leetcode/',
+                'algorithm/leetcode/',
                 // 'algorithm/time-complexity/',
             ]
         }
