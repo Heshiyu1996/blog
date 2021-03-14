@@ -3,29 +3,16 @@
 
 [[toc]]
 
- - 回调函数
-    - 缺点：回调地狱、不能捕获错误
+| 方案 | 优点 | 缺点 |
+| ----- |:---|:---|
+| callback |  | 1. 回调地狱<br/> 2. 捕获错误困难 |
+| Promise | 1. 解决回调地狱 | 1. 返回值传递<br/> 2. 异常不会向上抛出<br/> 3. 不方便调试 |
+| Generator | 1. 控制函数的执行 | 需要编写自动执行器 |
+| Async/Await | 1. Generator + 自动执行器<br />2. 更像同步写法 |  |
+| WebWorker | 实现JS多线程操作（受主线程控制） |  |
 
- - 事件监听
-    - 缺点：整个流程变成事件驱动，思路不太清晰
-
- - 发布订阅
-    - 优点：多了一个“消息中心”
-
- - Promise
-    - 优点：解决了回调地狱
-    - 缺点：1、无法取消Promise；2、错误需要通过回调函数来捕获
-
- - Generator
-    - 优点：控制函数的执行
-    - 缺点：要编写自动执行器
- - Async/Await
-    - 优点：1、Generator+自动执行器；2、更像同步写法
- - WebWorker
-    - 优点：开启了一个“新线程”
 
 ## Callback（回调函数）
- 如果是以前，可以用`回调函数`实现：
  ```js
  function runAsync(callback){
      if(/* 异步操作成功 */) {
@@ -34,23 +21,20 @@
  }
 
 // 传入一个匿名函数作为回调函数
- runAsync(funtion(data) {
+ runAsync(function(data) {
      console.log(data)
  })
  ```
- 缺点：
-  - 容易造成 **回调地狱**
-  - 影响阅读体验
 
 ## Promise
- Promise是一个容器，而且代表的是一个异步操作，有3种状态：
-  - `Pending（进行中）`
-  - `Fulfilled（已成功）`
-  - `Rejected（已失败）`
+`Promise` 可以理解为 **是一个代表异步操作的容器**，它有 3 种状态：
+  - `Pending`（进行中）
+  - `Fulfilled`（已成功）
+  - `Rejected`（已失败）
   
-  只有 **异步操作的结果** 可以决定当前是哪一种状态，任何其他操作都无法改变这个状态（也就是“承诺”的意思）。
+> Promise 的特点：只有 **异步操作的结果** 可以决定 Promise 是哪一种状态，任何其他操作都无法改变这个状态（也就是“承诺”的意思）。
   
-  并且，**它的状态可以影响后续的then行为**
+**它的状态可以影响后续的then行为**
  ```js
  // Promise的构造函数接收一个函数作为参数，这个函数又可以传入两个参数：resolve、reject；
  // 它们分别表示：异步操作执行后，Promise的状态变为Fulfilled/Rejected的回调函数。
@@ -63,11 +47,8 @@
      }
  })
  ```
- 优点：
-  - 解决了 **回调地狱**
-  - 方便阅读
 
- 缺点：
+**缺点：**
   - 返回值传递
     - 仍然需要创建`then`调用链，需要创建匿名函数，把返回值一层层传递给下一个`then`
   - 异常不会向上抛出
@@ -75,7 +56,7 @@
   - 不方便调试
     - 在某个`.then`设置断点，不能直接进到下一个`.then`方法
 
-对于Promise的异常捕获：
+**Promise的异常捕获：**
 
 `Promise.prototype.catch()`是`.then(null, function(err) { ... })`的别名
 ```js
@@ -92,7 +73,9 @@ p.then(data => console.log()})
 
 
 ### Promise.all()的用法、异常处理
-#### `Promise.all([])`接收一个数组，数组中每个元素都是`Promise的实例`。
+
+`Promise.all()` 接收一个数组，数组中每个元素都是 `Promise的实例` 。
+
 例如：
 ```js
 var p1 = new Promise((resolve, reject) => {
@@ -105,12 +88,13 @@ var p3 = new Promise((resolve, reject) => {
     setTimeout(resolve, 1000, 'third')
 })
 
+// 执行到这时，上面的 p1、p2、p3 早已经发出
 var p = Promise.all([p1, p2, p3])
 p.then(data => console.log(data)) // ['first', 'second', 'third']
 ```
 
- - 当`p1、p2、p3`都为**fulFilled**，**才**按`参数的顺序`传给p的回调函数then
- - 当`p1、p2、p3`其中一个为**rejected**，会把`第一个变rejected`的值传给p的回调函数catch
+ - 当 `p1、p2、p3` 都为**fulFilled**，会按照 `参数的顺序` 传给 `p` 的回调函数 `then`
+ - 当 `p1、p2、p3` **其中一个为rejected**，会把 `第一个变rejected` 的值传给 `p` 的回调函数 `catch`
 
 #### 异常处理
 因为`Promise.all()`方法是**一旦抛出其中一个异常**，那其他正常返回的数据也无法使用了
@@ -118,20 +102,20 @@ p.then(data => console.log(data)) // ['first', 'second', 'third']
  ![alt](././img/JSAsync-1.png)
 
 解决办法：
- - 方法一：改为串行调用（失去了并发优势）
- - 方法二：将p1、p2、p3这些promise`自身定义一个catch方法`。
-    - 那它被rejected时，也`不会触发Promise.all()的catch`。而是会`触发自身定义的catch`。因为他们自身定义的catch方法`返回的是一个新Promise实例`，`作为参数的这个promise`实际上指的会变成这个新实例，这个新实例会变成`resolved`。
- - 方法三：在Promise内，先用try-catch吃掉这个异常。在其catch内再调用resolve(err)，让外面的Promise“感觉”像是调用成功（和方法二的区别是，方法二是个新实例）
+ - 方法1：**定义 promise 内的 catch 方法，从而 catch 会返回一个新实例**
+ - 方法2：**定义 promise 内的 try-catch 方法，在 catch 内执行 resolve**
+
  ```js
- // 方法二：
+ // 方法1：定义 promise 内的 catch 方法，从而 catch 会返回一个新实例
  var p2 = new Promise((resolve, reject) => {
      setTimeout(resolve, 0, xxx)
  })
  .then(result => result)
  .catch(err => err)
  ```
+
  ```js
- // 方法三：
+ // 方法2：定义 promise 内的 try-catch 方法，在 catch 内执行 resolve
  var p2 = new Promise((resolve, reject) => {
      setTimeout(() => {
          try {
@@ -142,49 +126,46 @@ p.then(data => console.log(data)) // ['first', 'second', 'third']
      })
  })
  ```
+
  ![alt](./img/JSAsync-2.png)
-
- ### Promise源码思路
- ```js
- let p = new Promise((resolve, reject) => {
-     resolve('heshiyu')
- })
- p.then(res => console.log('heshiyu'))
- ```
- - 改变new Promise里的callback的this指向（指向实例本身以及实例本身定义的resolve、reject）
- - Promise的状态管理、改变
- - 保存子promise
- - then
-    - 回调接收两个参数
-    - 回调return value传给下一个promise
-    - 自身返回promise
- - done：循环children
- - handle：处理children，处理完改变children实现递归
-
- [es6 promise源码实现](https://segmentfault.com/a/1190000006103601)
  
- ### 实现Promise.all
- ```js
- // 会按顺序输出，不过以下是串行的：
+#### 实现Promise.all
+```js
  var mockAll = function (args) {
-    let values = [];
+    // 1. 定义 promise结果 数组
+    let result = [];
+
+    // 2. 返回一个 大Promise，不断填充res
     return new Promise((resolve, reject) => {
             let i = 0;
             next();
+
             function next() {
-                args[i].then(res => {
-                    values.push(res);
-                    i++;
-                    if (i === args.length) {
-                        resolve(values)
-                    } else {
-                        next()
-                    }
-                }).catch(err => reject(err))
+                // 3. 收集每个 子promise 的结果
+                args[i]
+                    .then(res => {
+                        result.push(res);
+                        i++;
+
+                        // 4. 当 i 为 子promise长度，表示收集完毕，执行resolve
+                        if (i === args.length) {
+                            resolve(result)
+                        } else {
+                            next()
+                        }
+                    })
+                    // 5. 当出现 catch，立马执行 reject
+                    .catch(err => reject(err))
             }
     })
 }
- ```
+```
+
+### Promise源码思路
+ - [detail](/skill/js/promise)
+ 
+
+
 
 
 ## Generator函数

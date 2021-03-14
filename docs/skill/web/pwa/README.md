@@ -31,7 +31,10 @@ PWA 具有 “渐进增强” 的特点：
 **用法**：
 ```js
 // 注册Service Worker
-navigator.serviceWorker.register('/m/music-mobile-sw.js');
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/m/music-mobile-sw.js');
+}
 
 // 通过 `self` 访问全局上下文
 // 监听 “注册完成” 事件
@@ -56,8 +59,20 @@ self.addEventListener('fetch', event => {});
 <img src="https://mdn.mozillademos.org/files/12634/sw-fetch.png" width="500px" />
 
 #### 具体步骤
- 
-通过 `window.caches.open(cacheName)` 可以获取/创建相应的 `Cache`实例。（一般是在 `Service Worker` 作用域下）
+:::tip
+`window.caches` 可获取 `CacheStorage对象`
+  - open(version): 创建/获取 指定版本下 的 `Cache实例`
+  - keys(): 获取所有 `Cache实例` 的版本
+  - delete(version)：删除 指定版本下 的 `Cache实例`
+  - match(request)：检查给定的 request 是否为 `Cache实例` 跟踪的 request
+
+`cache` 是 `Cache实例`
+ - addAll([path1, path2...]): 让 `Cache实例` 跟踪指定的 path
+ - push(request, response): 将 request、response 添加到 `Cache实例`
+:::
+
+通过 `window.caches.open(cacheName)` 可以获取/创建相应的 `Cache实例`。
+> 一般是在 `Service Worker` 作用域下
 
 其中，每个 `Cache`实例 可以 “根据 `Request` 作为 `key`，来存储 `Response`”
 ```json
@@ -68,46 +83,61 @@ Cache: {
 ```
 
 ```js
-const cacheWhitelist = ['page_v1']; // 缓存对应的key值
+const VERSION = 'v1';
+const offlinePath = './static/m1.jpg';
 
-// 1. 创建 `Cache`（时机：Service Worker 注册完成时）
+// 1. 创建 Cache
+// 时机：Service Worker 注册完成时
+// Api：
+//   - window.caches.open()
+//   - cache.addAll()
 self.addEventListener('install', event => {
-    caches.open(cacheWhitelist[0]).then(function (cache) {
-        // 对缓存做什么事情
+    window.caches.open(VERSION).then((cache) => {
+        // 指定 Cache实例 要跟踪的 request
         return cache.addAll([
-            offlineUrl
+            offlinePath
         ]);
     })
-    self.skipWaiting();
 });
 
-// 2. 更新Cache（时机：Service Worker 激活时）
+// 2. 更新 Cache
+// 时机：Service Worker 激活时
+// Api：
+//   - window.caches.keys()
+//   - window.caches.delete()
 self.addEventListener('activate', function (event) {
     event.waitUntil(
         // 获取所有Cache对象的key
-        caches.keys().then(function (keys) {
-            return Promise.all(keys.map(function (key) { // 清除旧版本缓存
-                if (key.indexOf('workbox-precache') === -1 && cacheWhitelist.indexOf(key) === -1) {
-                    return caches.delete(key);
+        window.caches.keys().then(function (cacheNames) {
+            return Promise.all(cacheNames.map((cacheName) => {
+                // 如果当前版本和缓存版本不一致
+                if (cacheName !== VERSION){
+                    return window.caches.delete(cacheName);
                 }
             }))
         })
     )
 });
 
-// 3. 离线缓存（时机：Service Worker 拦截到“其控制下的的资源”发送请求时）
-// 策略：优先使用网络，失败则使用缓存
+// 3. 返回 Cache （优先使用网络，失败则使用缓存）
+// 时机：捕获到请求
+// Api：
+//   - window.caches.match()
+//   - window.caches.open()
+//   - cache.push
 self.addEventListener('fetch', event => {
-    // request.mode = naivgate 存在浏览器兼容性问题，因此需要对 header 的 Accept：text/html 进行判断
-    if (event.request.mode === 'navigate' || (event.request.method === 'GET' && event.request.headers.get('accept').includes('text/html'))) {
-        event.respondWith(
-            fetch(event.request).catch(() => {
-                return caches.match(offlineUrl);
-            })
-        );
-    }
+    event.respondWith(
+        window.caches.match(event.request)
+        .catch(() => fetch(event.request))
+        .then(res => {
+            window.caches.open(VERSION).then(cache => cache.push(event.request, response))
+            return res.clone();
+        })
+        .catch(() => window.caches.match(offlinePath))
+    )
 });
 ```
+
 
 ### 通知推送
 通过 `Push API` 和 `Notification API` 实现。

@@ -29,7 +29,6 @@ JS：
  - JS设计模式
  - JS正则
  - [JS事件循环](/skill/js/event-loop/#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-eventloop)
- - PWA是什么
  - 原型链相关（用ES5实现一个Class；实现继承。Prototype、Constructor、obj）
  - [事件委托（addEventListener的参数）](/skill/js/other/#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98)
 
@@ -41,7 +40,7 @@ Web：
  - CORS跨域
  - 介绍下Nginx
  - [为什么静态资源要放在多台CDN服务器上](/skill/web/cdn/#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B5%84%E6%BA%90%E8%A6%81%E7%94%A8%E5%A4%9A%E4%B8%AAcdn%E6%9C%8D%E5%8A%A1%E5%99%A8)
- - PWA如何更新缓存
+ - [PWA是什么、如何更新缓存](/skill/web/pwa/#service-worker)
  - 离线包的机制、时机、差量更新
  - 路由模式（History、Hash）
  - [JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）](/skill/web/jsbridge)
