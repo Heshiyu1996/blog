@@ -433,3 +433,20 @@ button::before {} /* 在头部创建一个伪元素 */
 
 ```
 
+## class的声明顺序对最终无影响
+- 
+```css
+/* <p class="classB classA">123</p> */
+
+<style>
+  .classA {
+    color: blue;
+  }
+  .classB {
+    color: red;
+  }
+</style>
+```
+最终渲染： `color: red`
+
+原因：最终渲染与 “class的声明顺序”无关 ，CSS文件内后面会覆盖前面的样式。

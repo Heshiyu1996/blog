@@ -1,4 +1,4 @@
-# 浏览器缓存机制
+# HTTP缓存机制
 > 缓存和重用之前获取的资源对于性能优化很关键。
 [[toc]]
 
@@ -83,7 +83,7 @@ Network的Size栏会有三种情况：
  - from disk cache
  - 资源大小
 
-<img src="./img/browser-cache-3.png" width="450px" />
+<img src="./img/http-cache-3.png" width="450px" />
 
 | 状态 | 类型 | 说明
 | ----- |:---:|:---:|

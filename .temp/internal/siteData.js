@@ -4834,10 +4834,10 @@ export const siteData = {
     {
       "title": "浏览器缓存机制",
       "frontmatter": {},
-      "regularPath": "/skill/web/browser-cache/",
-      "relativePath": "skill/web/browser-cache/README.md",
+      "regularPath": "/skill/web/http-cache/",
+      "relativePath": "skill/web/http-cache/README.md",
       "key": "v-1741733c",
-      "path": "/skill/web/browser-cache/",
+      "path": "/skill/web/http-cache/",
       "headers": [
         {
           "level": 2,
@@ -7670,7 +7670,7 @@ export const siteData = {
           "collapsable": false,
           "children": [
             "web/browser/",
-            "web/browser-cache/",
+            "web/http-cache/",
             "web/other/"
           ]
         }

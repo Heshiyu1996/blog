@@ -116,7 +116,7 @@ export default {
   "v-7cf8745c": () => import("/Users/heshiyu/pros/blog/docs/skill/vue/question/README.md"),
   "v-11aaf21c": () => import("/Users/heshiyu/pros/blog/docs/skill/vue/vue-router/README.md"),
   "v-fc8b9884": () => import("/Users/heshiyu/pros/blog/docs/skill/web/README.md"),
-  "v-1741733c": () => import("/Users/heshiyu/pros/blog/docs/skill/web/browser-cache/README.md"),
+  "v-1741733c": () => import("/Users/heshiyu/pros/blog/docs/skill/web/http-cache/README.md"),
   "v-0be2cc4c": () => import("/Users/heshiyu/pros/blog/docs/skill/web/browser/README.md"),
   "v-083f8588": () => import("/Users/heshiyu/pros/blog/docs/skill/web/cors/README.md"),
   "v-289f68fc": () => import("/Users/heshiyu/pros/blog/docs/skill/web/cdn/README.md"),

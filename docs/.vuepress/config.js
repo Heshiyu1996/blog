@@ -8,7 +8,7 @@ const nav = [
                     { text: 'HTML', link: '/skill/html/' },
                     { text: 'CSS', link: '/skill/css/' },
                     { text: 'JS', link: '/skill/js/' },
-                    { text: 'Web/浏览器', link: '/skill/web/' },
+                    { text: 'Web', link: '/skill/web/' },
                 ]
             },
             {
@@ -135,33 +135,27 @@ const sidebar = {
     // 基础-Web
     '/skill/web': [
         {
-            title: '《Web/浏览器》',
+            title: '《Web》',
             collapsable: false
         },
         {
             title: 'Web',
             collapsable: false,
             children: [
-                'web/diff/',
+                'web/http-cache/',
                 'web/cdn/',
                 'web/cors/',
                 'web/http/',
                 // 'web/web-vitals/',
                 'web/optimize/',
                 'web/ssr/',
+                'web/diff/',
                 'web/web-attack/',
                 'web/web-storage/',
                 'web/websocket/',
                 'web/nginx/',
                 'web/pwa/',
-            ]
-        },
-        {
-            title: '浏览器',
-            collapsable: false,
-            children: [
                 'web/browser/',
-                'web/browser-cache/',
                 'web/other/'
             ]
         },

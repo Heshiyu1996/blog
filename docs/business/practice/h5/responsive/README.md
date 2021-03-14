@@ -24,6 +24,8 @@
 
 默认：1rem = 16px
 
+有 2 种实现方式： `js实现`、`纯css` 实现。
+
 ### 动态计算rem
 通过头部内嵌一段脚本，监听设备宽度的变化来动态改变根字体大小。
 
@@ -62,6 +64,14 @@
     window.addEventListener('resize', _setRootSize)
 })();
 ```
+
+### 纯CSS实现rem
+```css
+html {
+    font-size: calc(100vw/3.75)
+}
+```
+
 
 ## vw/vh
 `vw`、`vh`都是视口单位，分别等于视口宽度、高度的百分比。

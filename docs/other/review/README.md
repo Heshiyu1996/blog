@@ -8,6 +8,7 @@ CSS：
  - [CSS权重（父嵌子，子哪个权重比较大）](/skill/css/other/#css%E9%80%89%E6%8B%A9%E5%99%A8%E6%9D%83%E9%87%8D)
  - [CSS实现两列布局](/skill/css/layout/#%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E6%A1%88)
  - [伪类、伪元素的区别](/skill/css/other/#%E4%BC%AA%E7%B1%BB%E3%80%81%E4%BC%AA%E5%85%83%E7%B4%A0)
+ - [class的声明顺序对最终无影响](/skill/css/other/#class的声明顺序对最终无影响)
 
 JS：
  - [排序算法、复杂度](/skill/algorithm/sort/)
@@ -15,9 +16,11 @@ JS：
  - [Sort方法的运用](/skill/js/sort/#%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0)
  - [深拷贝、复杂度](/skill/js/other/#%E6%B7%B1%E6%8B%B7%E8%B4%9D)
  - [“恒等”和“等于”的区别](/skill/js/other/#%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB)
+ - [let未声明时提前输出](/skill/js/other/#var、let、const)
  - [Set、Map](/skill/js/other/#es6%E6%96%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84set%E3%80%81map)
  - [类数组](/skill/js/other/#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%AF%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1)
  - [this指向](/skill/js/other/#this%E7%9A%84%E6%8C%87%E5%90%91)
+ - [new操作符的原理](/skill/js/other/#new操作符经历了哪些步骤)
  - ES7新功能，Async、Await
  - Async、Promise的执行顺序
  - 介绍下Promise，底层如何实现链式？
@@ -32,7 +35,7 @@ JS：
 
 Web：
  - Web攻击
- - 强缓存/协商缓存
+ - HTTP缓存机制
  - HTTP相关（HTTP、HTTPS、HTTP2.0）
  - 长轮询、短轮询、WebSocket
  - CORS跨域

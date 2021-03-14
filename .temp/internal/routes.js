@@ -1318,15 +1318,15 @@ export const routes = [
   },
   {
     name: "v-1741733c",
-    path: "/skill/web/browser-cache/",
+    path: "/skill/web/http-cache/",
     component: GlobalLayout,
     beforeEnter: (to, from, next) => {
       ensureAsyncComponentsLoaded("Layout", "v-1741733c").then(next)
     },
   },
   {
-    path: "/skill/web/browser-cache/index.html",
-    redirect: "/skill/web/browser-cache/"
+    path: "/skill/web/http-cache/index.html",
+    redirect: "/skill/web/http-cache/"
   },
   {
     name: "v-0be2cc4c",

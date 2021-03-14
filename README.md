@@ -6,7 +6,7 @@
  - [Web Vitals](/skill/web/web-vitals)
 
 #### 2020-04-01
- - [浏览器缓存机制](./skill/web/browser-cache/)
+ - [浏览器缓存机制](./skill/web/http-cache/)
 
 #### 2020-03-23
  - [Complete intro react](./note/complete-intro-react/)

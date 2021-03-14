@@ -105,13 +105,13 @@ pageClass: p-overview-page
 
 
 
-## Web/浏览器 <Badge text="基础" type="success"/>
+## Web <Badge text="基础" type="success"/>
 ### Diff、React Diff、Vue Diff
 [查看](/skill/web/diff/)
 ### 浏览器
 [查看](/skill/web/browser/)
 ### 浏览器缓存机制
-[查看](/skill/web/browser-cache/)
+[查看](/skill/web/http-cache/)
 ### CDN
 [查看](/skill/web/cdn/)
 ### 跨域资源共享（CORS）
