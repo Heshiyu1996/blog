@@ -287,6 +287,7 @@ const sidebar = {
                 'h5/flexible/',
                 'h5/animation/',
                 'h5/hybrid/',
+                'h5/optimize/',
                 'h5/',
             ]
         },

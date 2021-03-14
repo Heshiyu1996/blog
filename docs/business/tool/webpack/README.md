@@ -262,7 +262,7 @@ optimization: {
                 test: /[\\/]node_modules[\\/]/,
                 priority: -10
             },
-        default: {
+            default: {
                 minChunks: 2,
                 priority: -20,
                 reuseExistingChunk: true
@@ -317,10 +317,13 @@ optimization: {
     - 这一点不是必须，因为复用的css文件比较少，且对于“全局复用样式”可以通过`style-resources-loader`
 
 ### 通过动态导入
-两种方式：1、`import()`；2、`require.ensure`（较少）
+两种方式：
+1. `import()`；
+2. `require.ensure`（较少）
 
 `import()`内部通过 `Promise` 来实现动态导入。
 
+<!-- 
 ```js
 module.exports = {
     entry: {
@@ -332,14 +335,13 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     }
 }
-```
-是在`import()`时，进行 **魔术注释** 指定 `非入口chunk` 的名称
+``` -->
+
 ```js
+// 可通过 **魔术注释** 指定 `非入口chunk` 的名称
 import(/* webpackChunkName: "pc-home" */ '@/view/pc/home')
 ```
-> 
-> 此处实验过，入口chunk也会应用chunkFilename的规则？
-
+<!-- 
 
 `npm run build`效果：
 ```
@@ -348,7 +350,7 @@ import(/* webpackChunkName: "pc-home" */ '@/view/pc/home')
 vendors~lodash.bundle.js   547 KiB  vendors~lodash  [emitted]  vendors~lodash
 Entrypoint index = index.bundle.js
 ```
-`vendors~lodash`，是因为webpack默认会对async包进行`SplitChunk`配置下的`vendors`缓存组。
+`vendors~lodash`，是因为webpack默认会对async包进行`SplitChunk`配置下的`vendors`缓存组。 -->
 
 ## 热编译的提速方案
 
