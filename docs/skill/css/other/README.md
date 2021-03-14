@@ -419,3 +419,17 @@ button:focus {} /* 聚焦态：input获得焦点 */
 button::after {} /* 在尾部创建一个伪元素 */
 button::before {} /* 在头部创建一个伪元素 */
 ```
+
+## :last-child
+一般会用 `:last-child` 来给最后一个元素写样式。
+
+不生效的情况：
+
+```css
+/* 若同兄弟节点中，最后一个不是item选择器的 */
+.item:last-child {
+    /* ... */
+}
+
+```
+

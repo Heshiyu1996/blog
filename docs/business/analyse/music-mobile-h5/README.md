@@ -9,14 +9,14 @@
 
 ## 职责
  - 性能指标分析;
- - 代码瘦身、内容按需加载;
+ - 优化措施（代码瘦身、内容按需加载、SSR）;
  - 性能验证;
  - 优化感官体验;
 
 ## 难点
 ### 性能指标分析
 #### 分析步骤
-1. 接入APM
+1. 接入APM，由APM的SDK进行收集上报
 2. 关注大盘 -> 具体页面
 3. 关注Web-Vitals核心指标集（`LCP`、`FID`、`CLS`）
 4. 渲染瀑布图（`DomReady`、`FCP`、`LCP`）、加载瀑布图（`DOM解析`、`defer脚本`、`资源加载`）
@@ -36,7 +36,15 @@
  - 仅基于 Chromium 内核的浏览器支持 WebVitals指标
  - 采集覆盖率 30%
 
-### 代码瘦身、延迟加载
+#### 加载、渲染指标说明
+ - **DomReady = domContentLoadedEventEnd - fetchStart**
+    - 即：DOM解析完成、同步资源（如defer脚本）加载执行完成 的时间。
+ - **页面完全加载时间 = loadEventStart - fetchStart**
+
+
+
+### 优化措施
+#### 代码瘦身、延迟加载
 1. 懒加载: `loadable-components`、`React.lazy`
 > `loadable-components` 是 react官方推荐的懒加载包，因为目前 `React.lazy` 尚不支持 node
 
@@ -88,6 +96,72 @@ export const AsyncLogin = () => new Promise((resolve) => {
 const AsyncLogoSong = loadable(() => import(/* webpackChunkName: "svg-logo-song" */ '@src/components/svgIcon/detail/LogoSong'));
 ```
 
+
+#### SSR
+
+
+
+## 离线包+SSR
+SSR：
+
+离线包：
+
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7817848745/2a14/fcfb/bf81/a735051a6342af5b048456d4f3f76372.png" width="500px" />
+
+
+## PWA+SSR
+PWA：作为 web 标准，通过纯 web 的方案去优化性能。
+
+**特点：**
+  - cacheStorage（图片、JS、CSS）
+  - 精细化控制缓存
+
+配合SSR：将后台直出的 html 缓存到 cacheStorage。下次请求时，优先从本地缓存取，同时发起 http 请求更新本地 html。
+
+配合CSR：将 html 页面缓存到 cacheStorage（通过 outerHTML），下次请求时，优先从本地缓存取，同时发起 http 请求更新本地 html
+
+
+
+## 延迟加载
+### 图片的延迟加载
+ - **[Intersection Observer API](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)**：异步检测 目标元素 和 父元素（或视窗） 相交的情况。
+    - `import { InView } from 'react-intersection-observer';`（impress打点）
+> Intersection Observer 注意兼容性。通过 npm包（`intersection-observer`） 进行polyfill
+
+
+ - `scroll` + `getBoundingClientReact()`，实时赋值`src`属性。
+
+
+## 预加载的实现
+原理：将所需资源提前请求加载到本地，这样后面在需要用到时就直接**从缓存取资源**。
+
+1、使用`display: none`
+
+2、使用`Image`对象
+```js
+let image = new Image();
+image.src = "images.1.png"
+```
+
+3、`<link>`的`preload`
+```html
+<link rel="preload" href="test.mp4" as="video" type="video/mp4">
+```
+这种方式有资源的类型要求。
+
+和懒加载的区别：预加载是提前加载、懒加载是延迟加载。
+
+<!-- 
+### 接口预加载
+客户端初始化WebView时，预先获取H5首屏的接口数据，并缓存在内存。H5直接使用缓存，提升首屏渲染速度。
+
+**时机**：
+ - 每次新开WebView加载H5时 -->
+
+
+
+
+
 ### 性能验证
 优化后，需要 关注整体指标的新表现 ，以 **验证本次优化是否有效** 。
 
@@ -120,3 +194,6 @@ const AsyncLogoSong = loadable(() => import(/* webpackChunkName: "svg-logo-song"
  - 按钮设为全透明，覆盖在按钮之上。（即使渲染失败，依然可以采用 原按钮 逻辑）
 
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7687321724/b56a/42be/ecd0/4eacd866d2a7c9e0312aa45497fdf946.png" width="300px" />
+
+
+

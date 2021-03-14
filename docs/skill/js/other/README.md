@@ -1578,6 +1578,7 @@ function searchArr (arr, ans) {
 
 searchArr(['a', ['b', ['c']]], []);
 ```
+对于 “尾递归” 的例子，还可以看[二分查找](/skill/algorithm/search)
 
 ### 参考
  - [尾调用优化](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)
