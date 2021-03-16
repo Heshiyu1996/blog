@@ -156,6 +156,7 @@ const sidebar = {
                 'web/nginx/',
                 'web/pwa/',
                 'web/browser/',
+                'web/history/',
                 'web/other/'
             ]
         },
