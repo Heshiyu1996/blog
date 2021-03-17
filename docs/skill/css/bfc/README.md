@@ -4,52 +4,72 @@
 [[toc]]
 
 ## 浮动
-浮动的目的：**一行显示多个div元素**
+浮动的目的：**脱离标准流，实现多列布局**。
 
- 规则：若元素A是浮动的：
- - 若他前一个元素也是浮动的，那会跟随前一个元素的**后边**
- - 若他前一个元素是在标准流的，那会和前一个元素的**底部对齐**
+### 浮动带来的问题
+**对于父元素**：
+  - “父元素的高度” 无法撑开
 
- 牢记：`clear`规则只能影响`使用清除的元素本身`（**可以使xx元素的左/右边不允许出现浮动元素**）
- 
- 例子：
- `div1`、`div2`都是浮动的，希望做到`div2`紧跟`div1`底部对齐
+**对于浮动元素自身**：
+  - 前面为 “浮动元素”：紧跟它后面
+  - 前面为 “标准块级元素”：紧贴它底部
+  - 前面为 “标准行内元素”：浮动到它前面
+
+**对于后面的元素**：
+  - 块级元素：被压在 “浮动元素” 下方
+  - 行内元素：会紧跟在 “浮动元素” 后面
+
+<img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7934563754/9ee9/606d/858c/4b98d69de201a93612b403447ddea6b2.png" width="400px" />
+
+
+### 清除浮动
+有 2 种方法：
+  - 在 父元素 最后添加子元素/伪元素（声明 `clear: both; display: block;`）
+
+  - 将 父元素 声明为 “BFC容器”（如：`overflow: hidden;`）
+  
+- [demo](https://codesandbox.io/s/broken-sound-94xl1?file=/src/styles.css)
+
+#### clear
+`clear` 只能影响 `应用的元素本身`
+> 即：可以使该元素的 左/右 不出现浮动元素
+
+##### 示例
+浮动元素 `div1`、`div2`，希望做到 `div2` 紧贴 `div1` 底部。
+
  ![alt](./img/BFC-1.png)
 
- 解决方法：
- ```css
+ ![alt](./img/BFC-2.png)
+
+**解决方法：对于 `div2` 声明 `clear: left`**
+
+```css
  .div2 {
     clear: left; /* 指定 div2元素左边 不允许出现浮动元素 */
  }
- ```
- ![alt](./img/BFC-2.png)
- 
-### 浮动会带来什么问题？
-  - 导致父元素高度无法撑开
-  - 影响后面的非浮动元素：
-    - 块级元素：压在浮动元素下方
-    - 内联元素：会跟随其后
-
-### 清除浮动
-  - 在父元素最后一个子元素后，再加一个子元素（或伪类），属性为`clear: both;`
-  - 将父元素声明为BFC容器（如`overflow: hidden;`、`float: left;`等）
+```
 
 ## 块级格式化上下文（BFC）
 `BFC`（Block Formatting Context）指的是 **块级格式化上下文** 。
-> 即：把BFC理解为一个封闭的大箱子，箱子内部的元素无论如何都不会影响到外部。
+> 即：把 BFC 理解为一个封闭的大箱子，箱子 内部的元素 不会影响到 外部 。
 
 ### 触发BFC的条件
  - 根元素（body）
- - 浮动元素（float）
- - 绝对定位元素（absolute、fixed）
- - display为`inline-block`、`table-cell`、`flex`
- - overflow为`hidden`、`scroll`、`auto`
+ - 浮动元素（`float`）
+ - 绝对定位元素（`absolute`、`fixed`）
+ - `display: inline-block`、`display: flex`
+ - `overflow: hidden`
 
 
 ### BFC的特性及应用
-触发了 BFC特性 的容器存在一些特性：**清除浮动、不被浮动元素覆盖、内部子元素外边距存在重叠**等。
+“BFC容器” 的特性：
+ - 清除浮动
 
-#### BFC容器可以清除浮动
+ - 不被浮动元素覆盖
+ 
+ - 内部子元素外边距存在重叠
+
+#### BFC容器清除浮动
 ```html
 <style>
    .parent {
@@ -63,12 +83,14 @@
       background: blue;
    }
 </style>
+
 <body>
     <div class="parent">
         <div class="child"></div>
     </div>
 </body>
 ```
+
  由下图可知，普通容器内的存在浮动元素，容器只剩下2px的边距高度。
 
  > 解决办法：触发 父元素parent 的BFC特性（overflow: hidden;）

@@ -82,6 +82,8 @@
 ### [扩展] 三列布局的实现
 要求：三个元素：左、中、右，其中左、右固定宽度为200px，中间宽度自适应。（元素高度100px）
 
+> [两列demo](https://codesandbox.io/s/hardcore-cookies-7z8wg?file=/src/App.js)
+
 ```html
 <div class="container">
     <div class="left"></div>
@@ -172,7 +174,7 @@
     margin: 0 200px; /* 通过margin撑开 */
 }
 ```
-
+<!-- 
 #### 表格布局
 ```css
 .container {
@@ -200,7 +202,7 @@
     grid-template-columns: 200px auto 200px;
     grid-template-rows: 100px;
 }
-```
+``` -->
 
 
 ## 参考链接
