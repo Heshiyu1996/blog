@@ -106,8 +106,10 @@ sass-loader、less-loader、css-loader、style-loader、babel-loader、vue-loade
 
 ### Plugins
 #### 常用的plugins
- - html-webpack-plugin：用于生成一个HTML文件，并将webpack最终生成的JS、CSS以及一些静态资源以`script`、`link`的形式插入到其中。
- - happypack：把任务分解给多个子进程去并发执行。
+ - `html-webpack-plugin`
+    - 生成一个HTML文件，并将 webpack 打包后最终生成的 `.js`、`.css` 以及一些 静态资源 ，以 `<script>`、`<link>` 的形式插入到其中。
+ - `mini-css-extract-plugin`
+    - 将 `.js` 内 `import` 的 样式文件 单独抽离到 一个 `.css` 上（需结合 `html-webpack-plugin` 使用）
 
 #### 特点
 1、`plugins`需要在`webpack.plugins`里实例化并注册；

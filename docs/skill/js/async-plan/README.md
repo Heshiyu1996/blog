@@ -171,49 +171,29 @@ p.then(data => console.log(data)) // ['first', 'second', 'third']
 - [generator](./generator/)
 
 ## Async、Await
-`async`是一个函数修饰符，表示函数里有异步操作。
- > 返回: `Promise`对象
+ - `async` 是一个函数修饰符，表示函数里有异步操作。
 
-`await`后面紧跟 Promise对象。
+ - `await` 后面紧跟 `promise对象`。
 
- 好处：
-  - 简洁。易于阅读和理解
-  - 错误处理。
-    - 可以被`try-catch`捕捉到
-  - 方便调试。
+**好处：**
+  - 阅读性较高
+  - 错误处理：可以被`try-catch`捕捉到
 
 
 ### async
-async是Generator函数的语法糖。
+`async` 是 “Generator函数” 的语法糖。
 
-它会返回一个 promise 对象，并且**会等到内部“所有await紧跟的Promise对象”执行完才会发生状态改变**
-> 另一方面，当函数内部 await 紧跟的 Promise对象 只要有一个reject了，也会使得 **async函数所返回的Promise对象** 变成 reject。
+它会返回一个 `promise对象`：
+> 状态转化时机：**“内部promise对象” 执行完**（最终状态类似`promise.all`）
+
+对于 `async` 有 2 个关键点：
+ - **实现原理**
+ - **错误处理**
 
 
-#### async的使用形式
-```js
-// 函数声明
-async function func1 () { ... }
+#### async的实现原理
+`async` 是 `Generator函数` + `自动执行器（spawn）` 的一个包装。
 
-// 函数表达式
-var func1 = async function () { ... }
-
-// 箭头函数
-var func1 = async () => { ... }
-
-// 对象的方法
-var obj = {
-    async func1() { ... }
-}
-
-// 类的方法
-class Storage {
-    async func1() { ... }
-}
-```
-
-#### async函数的实现原理
-async函数实际上是`Generator函数`和`自动执行器`的一个包装
 ```js
 async function func1(args) {
     // ...
@@ -226,7 +206,9 @@ function func1(args) {
     })
 }
 ```
-其中spawn函数
+
+其中，`spawn函数`：
+
 ```js
 // genF 表示 generator函数
 function spawn(genF) {
@@ -235,7 +217,7 @@ function spawn(genF) {
         /**
          * gen:
          *  {
-         *    next: function, // 执行到下一个yield前的代码，并返回yield紧跟的值
+         *    next: function, // 执行到下一个yield前的代码，并返回 yield 紧跟的值
          *    throw: function
          *  }
          **/
@@ -243,6 +225,14 @@ function spawn(genF) {
 
         function step(nextF) {
             try {
+                // 2. 执行 gen.next，拿到 next对象
+                /**
+                 * next:
+                 *  {
+                 *    value: any, // yield语句后面跟的表达式的值
+                 *    done: boolean //表示是否执行完
+                 *  }
+                 **/
                 var next = nextF();
             } catch(e) {
                 return reject(e);
@@ -263,63 +253,89 @@ function spawn(genF) {
             })
         }
 
+        // 2. 开始执行，传入 nextF
         step(function() { 
             return gen.next(undefined);
         });
     })
 }
 ```
-因为立即resolved的Promise是在`本轮事件循环的末尾执行`，所以最好前面加个`return`
+##### 说明
+1. `spawn` 接收一个 generator，返回一个 promise对象
+2. `promise`对象 会先拿到 `gen`（迭代器），开始调用 `step`
+3. `step` 内部会拿到 `next`，执行 `Promise.resolve`，并不断执行 `step`
+4. 当 `next.done === true` 时，表示执行结束，调用 `resolve` 返回最终结果。
 
-##### asyn的内部返回值会作为then的回调入参
-```js
-async function f() {
-    return 'Hello world'
-}
-f().then(v => console.log(v)) // 'Hello world'
-```
-#### async的错误处理机制
-由`async函数的实现原理`可知，函数内部await 后面跟的Promise只要有一个reject了，那就会使得 **async函数所返回的Promise对象** 也被reject。
+#### async的错误处理
+由上面可知，`async函数` 内部的promise 只要有一个 `rejected`了，那就会使得 **async函数所返回的Promise对象** 也被 `rejected`。
 
-如果不想整个async函数中断，有两个方法
+“错误处理” 有以下 2 个方法：
+ - `try-catch`
+ - 声明 `.catch`
+
+> 原理和 `Promise.all` 做法类似。
+
 ```js
 async function f () {
-    // 方法一：用try-catch捕获：“可能会抛出异常的await”
+    // 方法一：用 try-catch 捕获
     try {
         await Promise.reject('error')
     } catch(e) {
         console.log(e)
     }
 
-    // 方法二：对“可能会抛出异常的await”声明catch
+    // 方法二：声明catch
     await Promise.reject('error').catch(e => console.log(e))
-
-    return await Promise.resolve('Hello world')
 }
 ```
 
+
 ### await
-await后面跟的是一个Promise对象（如果不是，他会被转成一个立即resolve的Promise对象）
+`await` 后面跟的是一个 `promise对象`。
+> 如果不是 promise对象，它也会被转成一个 “立即resolve的promise对象”。
 
-#### 多个await并发、继发执行
-**并发执行：**
-> 常见场景：一组异步操作的按顺序输出
+#### 继发执行
+**继发**：即串行，先执行完 1，再执行 2。
 
-原理：每次迭代会生成新的async。（原理上只能保证同一个async内部的await是继发）
 ```js
-// ① forEach、map
-arr.forEach(async (doc) => {
-    await fetchUrl(doc)
-})
-// ② Promise.all
-let [foo, bar] = await Promise.all([getFoo(), getBar()])
-
+// 方法一：普通串行
+async function loadData() {
+    let res1 = await fetch(url1);
+    let res2 = await fetch(url2);
+    let res3 = await fetch(url3);
+}
 ```
 
-继发执行：
 ```js
-// for ... of
-for (let doc of arr) {
-    await fetchUrl(doc)
+// 方法二：for...of
+async function loadData() {
+    for (let url of arr) {
+        await fetch(url);
+    }
+}
+```
+
+#### 并发执行
+**并发**：一起执行 1 2。
+> 常见场景：一组异步操作的并发执行，并按顺序输出
+
+```js
+// 方法一：Promise.all
+let [foo, bar] = await Promise.all([getFoo(), getBar()]);
+```
+
+```js
+// 方法二：map + for...of
+// 原理：每次迭代会生成新的async。
+// 因为对于 “同一个async内部” 的 await 是继发；“不同的async内部” 的 await 不是。
+async function loadData(arr) {
+    const resultList = arr.map(async (doc) => {
+        return await fetchUrl(doc);
+    })
+
+    for (let result of resultList) {
+        // 这里使用 await 是保证在大的 async 下按顺序输出
+        console.log(await result);
+    }
 }
 ```

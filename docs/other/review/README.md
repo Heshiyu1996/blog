@@ -21,9 +21,9 @@ JS：
  - [类数组](/skill/js/other/#%E7%B1%BB%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E3%80%81%E5%8F%AF%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1)
  - [this指向](/skill/js/other/#this%E7%9A%84%E6%8C%87%E5%90%91)
  - [new操作符的原理](/skill/js/other/#new操作符经历了哪些步骤)
- - ES7新功能，Async、Await
+ - [ES7新功能，Async、Await](/skill/js/async-plan/#async、await)
  - Async、Promise的执行顺序
- - 介绍下Promise，底层如何实现链式？
+ - [介绍下Promise，底层如何实现链式？](/skill/js/promise)
  - [如何理解TypeScript](/skill/js/typescript/#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3typescript)
  - [TS里interface、type的作用、区别（以及typeof）](/skill/js/typescript/#type%E4%B8%8Einterface)
  - JS设计模式
@@ -72,14 +72,12 @@ Node：
 
 ## 三、项目
 通用：
- - 移动端响应式方案（rem原理）
- - 移动端兼容性问题（1px的伪元素解决方案、Android单行字体行高）
- - 组件的设计原则
- - 脚手架里的各种工具（webpack、Babel、ESLint、Prettier、Stylelint、Husky）
- - Webpack是什么？用过哪些loader、plugins（拆包）
- - Babel用来做什么事情？babel-polyfill是做什么的？如何按需引入
- - SASS相关配置
- - dpr怎么计算？
+ - [移动端响应式方案（rem原理）](/business/practice/h5/responsive/#rem)
+ - [移动端兼容性问题（1px的伪元素解决方案、Android单行字体行高）](/business/practice/h5/#android下line-height文字垂直居中偏移问题)
+ - [组件的设计原则](/skill/js/design-patterns/#js设计原则（solid）)
+ - [Webpack是什么？用过哪些loader、plugins（拆包）](/business/tool/webpack)
+ - [Babel用来做什么事情？babel-polyfill是做什么的？如何按需引入](/business/tool/babel)
+ - [dpr怎么计算？](/skill/css/px/#dpr)
  - [import 和 require 有什么区别？](/skill/js/modular/#commonjs%E5%92%8Ces6-module%E7%9A%84%E5%8C%BA%E5%88%AB)
  - [离线包的工作原理](/skill/web/h5-webcache/)
  - [RN的好处在哪？](/business/practice/rn/#rn的优点)

@@ -1,9 +1,9 @@
-# Babel7
+# Babel
 > 在项目中我们用到Babel的原因：
 > 
-> 1、【新语法】支持转译：比如：箭头函数、Class、扩展运算符（...）；
+> 1、【语法转译】利用 `presets` 进行转译：ES6新语法（箭头函数、扩展运算符）、JSX语法；
 > 
-> 2、【新API】利用`babel-polyfill`进行实现：比如：Array的includes、Promise（通过旧API）
+> 2、【API实现】利用 `plugins`（`babel-polyfill`） 进行实现：比如：Array的includes、Promise（通过旧API）
 
 [[toc]]
 
@@ -18,7 +18,7 @@
   - 生成（generating）
     - 按照新的AST生成ES5代码
 
-## plugins和presets
+## plugins
  `plugins`应用于整个过程（尤其是`transforming`）的插件。
 
  `presets`是一些预设的插件集。
@@ -31,6 +31,7 @@
 > 如：箭头函数、Class、扩展运算符（...）
 
 它包含了以下 **转译插件**：
+
 :::tip
 transform-arrow-functions {}
 
