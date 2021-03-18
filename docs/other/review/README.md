@@ -42,7 +42,7 @@ Web：
  - [为什么静态资源要放在多台CDN服务器上](/skill/web/cdn/#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B5%84%E6%BA%90%E8%A6%81%E7%94%A8%E5%A4%9A%E4%B8%AAcdn%E6%9C%8D%E5%8A%A1%E5%99%A8)
  - [PWA是什么、如何更新缓存](/skill/web/pwa/#service-worker)
  - 离线包的机制、时机、差量更新
- - 路由模式（History、Hash）
+ - [路由模式（History、Hash）](/skill/web/history)
  - [JSBridge的工作原理（两端的调用方式，callback是谁执行、如何执行）](/skill/web/jsbridge)
 
 Node：
@@ -53,19 +53,19 @@ Node：
 ## 二、框架
  - [生命周期](/skill/react/life-cycle)
  - [什么情况会触发Render](/skill/react/basic/#触发render的方式)
- - setState原理
- - React的Hooks和class比较
+ - [setState原理](/skill/react/set-state)
+ - [React的Hooks和class比较](/skill/react/feature-v16/#函数式组件-与-class组件)
  - [React事件系统（合成事件的理解、触发时机、与"原生事件"的区别/触发顺序）](/skill/react/events)
  - [Diff算法具体](/skill/web/diff)
- - Fiber
- - React跨组件通信（context、数据管理工具）
- - React性能优化
- - PureComponent、shouldComponentUpdate、React.memo
+ - [Fiber](/skill/react/fiber)
+ - [React跨组件通信（context、数据管理工具）](/skill/react/context)
+ - [React性能优化](/skill/react/optimize)
+ - [PureComponent、shouldComponentUpdate、React.memo](/skill/react/optimize/#shouldcomponentupdate)
  - [HOC的写法（几种）、作用、ref转发（以及用过哪些HOC）](/skill/react/react-composition)
- - HOC、render prop、Hook的区别（render prop的缺点）
- - 底层API（React.createElement）
- - 如何实现对象的浅、深比较
- - useCallback的内部实现
+ - [HOC、render prop、Hook的区别（render prop的缺点）](docs/skill/react/react-composition)
+ - [底层API（React.createElement）](/skill/react/basic/#react-createelement)
+ - [如何实现对象的浅、深比较](/skill/react/basic/#shallowequal（浅比较）、deepequal（深比较）)
+ - [useCallback的内部实现](/skill/react/hooks-usage/#依赖项-发生改变-是指改变了什么？)
  - [为什么React组件要用大写](/skill/react/basic/#react-createelement)
  - [为什么写Class组件时要 import React from ‘react’](/skill/react/basic/#react-createelement)
  - [Class组件的方法为什么要用bind绑定？](/skill/react/basic/#为什么react组件的方法需要bind)
@@ -92,10 +92,9 @@ Node：
     - [JS、CSS代码瘦身的有哪些做法（拆包、减包、压缩）](/business/practice/h5/optimize/#拆包、减包、压缩)
     - [懒加载（是否影响用户体验）](/business/practice/h5/optimize/#懒加载)
     - [如何优化首屏时间？（代码瘦身/拆包、延迟加载、强缓存、CDN、SSR、WebView-接入离线包）](/business/practice/h5/optimize/#移动端首屏性能优化)
+    - [图片压缩的方式（webpack、tiny、有损、无损）](/business/practice/h5/optimize/#资源加载)
     - 性能优化：以往传统的优化方式、手段是怎样的
-    - 性能优化：为什么用gzip进行比较？
     - 针对CSS如何拆包，CSS的加载时机？
-    - 图片压缩的方式（webpack、tiny、有损、无损）
     - 性能优化的做法（具体成果）
  - 大列表数据渲染性能做了哪些措施（虚拟列表）
  - 组件封装是做了哪些工作？（如何设计的组件，大致组成）

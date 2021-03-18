@@ -8,7 +8,7 @@ PWA（Progressive Web App）是指 “渐进式Web应用”。
 ## 和 Web App的区别
 PWA 具有 “渐进增强” 的特点：
 
-  - 离线存储
+ - 离线存储
  
  - 通知推送
 
@@ -20,8 +20,8 @@ PWA 具有 “渐进增强” 的特点：
 
 |   | 说明 |
 | ----- |:---|
-| 定义 | 相当于一个 Proxy，用于 监听、管理“请求和响应” |
-| 运行环境 | 运行在一个单独的线程下 |
+| 定义 | 相当于一个 `Proxy`，用于 监听、管理“请求和响应” |
+| 运行环境 | 运行在一个 单独的线程 下 |
 | 生命周期 | 1. 当 “浏览器进程” 关闭后，Service Worker线程 **会销毁**；<br/>2. 当 “网页” 关闭后，Service Worker线程 **不会被销毁** |
 | 作用 | 仅对 `https` 、 `http://localhost` 有效 |
 
@@ -52,7 +52,7 @@ self.addEventListener('fetch', event => {});
 
 
 ### 离线存储
-**原理**：在 `Service Worker` 线程下，调用 `cacheStorage` 的 Api，从而实现更精细化地控制缓存。
+**原理**：在 `Service Worker` 线程下，调用 `cacheStorage` 的 Api，从而实现 更精细化地 控制缓存。
 
 > 虽然 `cacheStorage` 定义在 `Service Worker` 规范下，但也可以不一定在下面用。只是搭配 `Service Worker` 的各个时机可以更好地控制缓存。
 

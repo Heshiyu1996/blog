@@ -125,16 +125,21 @@ export default EnhanceDebounce;
 ```
 
 
-### 缺点
+### HOC缺点
  - `ref` 不会被传递（会挂到 HOC 上，而不是被包裹的组件）
     - 解决：`React.forwardRef`
+
+ - 嵌套地狱
+    - 当嵌套层级过多时，追溯数据源会变的困难
  
+ - 命名冲突
+    - props属性名冲突，某个prop可能被多个HOC重复使用
+
  - 原组件的 静态方法 会丢失
     - 解决：需准确指定 静态方法 到 新组件 上。
- 
- - 避免 render 中使用 HOC （会生成一个新组件引用）
-    - 解决：通过 “生命周期” 或 “构造函数” 调用
 
+ - 性能
+    - 额外的组件实例存在性能开销
 
 #### 转发ref
 ```jsx
@@ -185,11 +190,12 @@ function hoc (Component) {
 }
 ```
 
-## render Prop
-`render prop` 同样也是 提高组件复用 和 抽象 手段。
+## render props
+`render props` 同样也是 提高组件复用 和 抽象 手段。
 
-提供一个带有函数prop的`<Mouse>`组件，它能够动态决定需要渲染什么内容：
-```js
+提供一个能接收 “指定prop” 的组件，这个组件能根据这个 prop 来 “动态决定” 需要渲染什么内容：
+
+```jsx
 class Mouse extends React.Component {
     constructor(props) {
         super(props);
@@ -204,7 +210,7 @@ class Mouse extends React.Component {
     render() {
         return (
             <div style={{ height: '100vh' }} onMouseMove={this.handleMouseMove}>
-                /* 提供 render 方法 可以让 `<Mouns>` 能够 动态决定 需要渲染什么内容 */
+                /* 提供 render 方法 可以让 `<Mouse>` 能够 “动态决定” 需要渲染什么内容 */
                 {this.props.render(this.state)}
             </div>
         )
@@ -241,6 +247,17 @@ class Cat extends React.Component {
 }
 ```
 
+### render props的优缺点
+#### 优点
+解决了 HOC 的 组件嵌套、命名冲突、ref传递
+
+#### 缺点
+ - 函数嵌套
+
+ - 无法在 return 语句外访问数据
+ 
+ 
+
 ### 注意事项
 #### Render Props和React.PureComponent搭配时，要小心使用
 若给render属性传入一个匿名函数，那每次`render`都会生成一个新的值。
@@ -253,19 +270,6 @@ class Cat extends React.Component {
 解决：将函数定义为实例方法。
 
 
-## HOC和render prop的缺点
-**多个组件间的逻辑复用**：
- - 嵌套地狱
-    - 当嵌套层级过多时，追溯数据源会变的困难
- 
- - 性能
-    - 额外的组件实例存在性能开销
-
- - 命名重复
-    - 在同个组件使用多个HOC，不排除这些 **HOC里的方法** 存在命名冲突问题
-
-**单个组件中的逻辑复用**
- - 可能拆散在各个生命周期
 
 
 ## 参考
