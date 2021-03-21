@@ -14,9 +14,10 @@
 
 ### JS调用Native
 JS 调用 Native，有 3 种 通信方法：
+
  - 拦截Scheme
     - **原理：** “客户端” 拦截跳转请求，并解析上面的参数。
-    - **缺点**：加载后立即通信会白屏（iOS）；长度限制；
+    - **缺点**：URL长度限制；加载后立即通信会白屏（iOS）；
 
  - 重写prompt
     - **原理：** JS 调用弹窗，会触发 WebView 的事件监听（`onJsPrompt`）。
@@ -63,31 +64,10 @@ mnb.addMethod({
 mnb.playSongs(params)
 ```
 
-#### 准备工作
-1. 引入封装了 JSSDK 的 npm 包。
-
-2. 注册并调用 Api 时，会调用 `postMessage`
-```js
-postMessage({
-    className,
-    method: schema,
-    params,
-    objectId
-}, onSuccess, onError);
-```
-
-3. `postMessage` 会先进行预处理：
-    - 参数合法化
-    - 生成调用序列号（前端维护），并保存 “调用的参数” 和 “回调”
-
-4. 随后，执行客户端调用 `execute`
-    - iOS（8及以上）：`window.webkit.messageHandlers.WebViewBridge.postMessage`
-    - Android：`window.prompt`
->  **`mnb` 在不同Native环境，采用不同底层调用方式**
 
 
-
-#### JS SDK启动阶段
+### JS SDK的生命周期
+加载阶段
 1. App 启动时，加载 handler 列表
 2. WebView 初始化时，加载 JS SDK
 3. App 在 web页面 加载完成时，注入 `WebViewBridge`，并通知 JS SDK 连接已建立
@@ -105,6 +85,30 @@ postMessage({
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7817203514/442b/a449/9afa/80ad78843de506ba0a2f7c5d16e272c0.png" width="500px" />
 
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7738019941/98ac/8b08/f7db/c6c0c0fcf626b529a2db479a8bde34e5.png" width="500px" />
+
+
+### JS SDK的封装逻辑
+1. 引入 “封装了 JSSDK 的” npm 包
+
+2. 注册并调用 Api 时，会调用 `beforePostMessage` 进行预处理：
+ - 参数合法化
+ - 生成调用序列号（由前端维护），并保存 “调用的参数” 、 “回调”
+
+```js
+beforePostMessage({
+    className,
+    method: schema,
+    params,
+    objectId
+}, onSuccess, onError);
+```
+
+3. 随后，调用 `execute` 进行 “客户端底层调用”
+    - iOS（8及以上）：`window.webkit.messageHandlers.WebViewBridge.postMessage`
+    - Android：`window.prompt`
+
+>  **不同的Native环境，采用不同底层调用方式**
+
 
 
 

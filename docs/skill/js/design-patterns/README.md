@@ -135,19 +135,21 @@ sub.setState(1); // Subject对象更新
 > 在发布-订阅模式，发布者（publishers）不会直接将消息发送给特定的订阅者
 
 ```js
-var Event = (function(){
-    var clientList = {}, // 订阅者列表
-        listen, // 订阅
-        trigger, // 触发通知
-        remove; // 移除订阅
+class Event {
+    constructor() {
+        this.clientList = {}; // 订阅者列表
+    }
 
-    listen = function(key, fn) {
+    // 事件监听
+    on = function(key, fn) {
         if(!clientList[key]){
             clientList[key] = []
         }
         clientList[key].push(fn)
     }
-    trigger = function() {
+
+    // 事件触发
+    emit = function() {
         var key = Array.prototype.shift.call(arguments)
             fns = clientList[key]
         if(!fns || fns.length === 0) {
@@ -158,7 +160,8 @@ var Event = (function(){
         }
     }
 
-    remove = function(key, fn) {
+    // 解除事件绑定
+    off = function(key, fn) {
         var fns = clientList[key]
         if(!fns) {    
             return false
@@ -174,18 +177,17 @@ var Event = (function(){
             }
         }
     }
+}
 
-    return {
-        listen,
-        trigger,
-        remove
-    }
-})()
+const event = new Event();
 
-Event.listen('squareMeter88', function (price) { // 订阅消息
-    console.log('价格1：'+price)
-})
-Event.trigger('squareMeter88', 20000) // 价格1: 20000
+const handler = (price) => console.log(`价格为：${price}`);
+
+event.on('squareMeter88', handler); // 监听事件
+
+event.emit('squareMeter88', 20000) // 触发事件，传入参数（20000）
+
+event.off('squareMeter88', handler) // 解除事件绑定
 ```
 
 

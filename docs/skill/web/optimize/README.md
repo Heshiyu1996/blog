@@ -33,20 +33,22 @@
 > **秒开率** 指的是 DomReady 在 `1s` 内的数据占比。
 
 ## 首屏性能优化
+> [detail](/business/practice/h5/optimize)
+
 **首屏性能优化** 可以从 2 个方面进行：
+ - 资源体积
  - 资源加载
- - HTML渲染
 
 > 具体方案还取决于：实际需求、优先级、综合成本、ROI等。
 
-### 资源加载
+### 资源体积
 **目标：体积更小的资源包。**
  - 拆包、减包、压缩
- - 懒加载
  - 图片优化
 
-### HTML渲染
+### 资源加载
 **目标：更快地展示内容。**
+ - 懒加载
  - HTTP缓存
  - CDN分发
  - SSR
@@ -54,7 +56,7 @@
  - （Hybrid）H5离线包、数据预请求
  - **Varnish**：缓存服务器的反向代理
 
-> 缓存触发顺序：ServiceWorker -> HTTP缓存 -> CDN -> Varnish
+> 缓存触发顺序：ServiceWorker -> HTTP缓存 -> 离线包 -> CDN -> Varnish
 
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7817696310/c927/6976/7ced/b09a94db66d40eba0eac5b2512c66fde.png" width="600px" />
 

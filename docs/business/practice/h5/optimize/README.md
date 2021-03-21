@@ -75,7 +75,7 @@ import(/* webpackChunkName: "u-comment" */ './components/comment')
  - SSR
  - （PWA）ServiceWorker + CacheStorage
  - （Hybrid）H5离线包、接口预加载
- <!-- - Varnish：缓存服务器的反向代理 -->
+ - Varnish：缓存服务器的反向代理
 
 ### 懒加载
 懒加载 也可以分为：**JS延迟加载**、**图片懒加载** 。

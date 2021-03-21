@@ -157,6 +157,7 @@ const sidebar = {
                 'web/pwa/',
                 'web/browser/',
                 'web/history/',
+                'web/audio-context/',
                 'web/other/'
             ]
         },
