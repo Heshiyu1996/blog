@@ -17,6 +17,8 @@
 ## 难点
 
 ### 数据通信方案制定
+目前项目规模：
+
  - 单向数据流
  - context
     - 搭配HOC，原生React支持。容易上手
@@ -24,7 +26,7 @@
     - 相对较重，并且全局范围内需要共享的状态不多
 
 ### 通用组件封装
- - 状态逻辑（useTable、usePrevious）
+ - 状态逻辑（[useTable](./DETAIL.md)、[usePrevious](./DETAIL.md)）
  - 工具函数：防抖函数、节流、深拷贝
 
 

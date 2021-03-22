@@ -7,7 +7,7 @@
 | 方案 | 优点 | 缺点 |
 | ----- |:---|:---|
 | callback |  | 1. 回调地狱<br/> 2. 捕获错误困难 |
-| Promise | 1. 解决回调地狱 | 1. 返回值传递<br/> 2. 异常不会向上抛出<br/> 3. 不方便调试 |
+| Promise | 1. 解决回调地狱 | 1. 异常不会向上抛出<br/> 2. 不方便调试 |
 | Generator | 1. 控制函数的执行 | 需要编写自动执行器 |
 | Async/Await | 1. Generator + 自动执行器<br />2. 更像同步写法 |  |
 
@@ -329,10 +329,12 @@ let [foo, bar] = await Promise.all([getFoo(), getBar()]);
 // 原理：每次迭代会生成新的async。
 // 因为对于 “同一个async内部” 的 await 是继发；“不同的async内部” 的 await 不是。
 async function loadData(arr) {
+    // “请求”是并发的
     const resultList = arr.map(async (doc) => {
         return await fetchUrl(doc);
     })
 
+    // 只是“输出”是继发的
     for (let result of resultList) {
         // 这里使用 await 是保证在大的 async 下按顺序输出
         console.log(await result);

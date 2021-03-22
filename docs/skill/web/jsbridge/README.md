@@ -70,8 +70,7 @@ mnb.playSongs(params)
 加载阶段
 1. App 启动时，加载 handler 列表
 2. WebView 初始化时，加载 JS SDK
-3. App 在 web页面 加载完成时，注入 `WebViewBridge`，并通知 JS SDK 连接已建立
-4. JS SDK 创建 Native SDK 运行时需要的上下文对象
+3. App 在 web页面 加载完成时，注入 `WebViewBridge`，向 “JS上下文” 注入对象、方法
 
 #### JS SDK使用阶段
 1. JS 调用协议（指定 `callback`）

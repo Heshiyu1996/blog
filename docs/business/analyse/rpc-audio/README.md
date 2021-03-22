@@ -6,7 +6,7 @@
  - 成果: 已承接云音乐App内部分播放场景(如排行榜、新歌发布⻚等);对⻬Native两端功能;提升音频RPC接入效率;提高工程维护性。
 
 ## 职责
- - 调研主流Audio Context;
+ - 调研Audio Context;
  - 组件设计与封装;
  - 多平台(RN、H5)拆包;
  - 跟进客户端RPC问题;
@@ -16,6 +16,12 @@
 <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7967604397/0251/f157/fd44/1bfabda833e745a965fdf708b2b922bc.png" width="400px" />
 
 ## 难点
+
+### 调研Audio Context
+> [detail](/skill/web/audio-context)
+
+
+
 ### 组件设计与封装
 组件设计原则
  - 单一原则：每个模块的职责单一
@@ -28,15 +34,26 @@
     - rpc-audio-h5、rpc-audio-rn，根据平台只引入其中一个
  - 依赖倒置原则：复杂模块应该依赖于抽象的接口，而不应该依赖于低级模块的具体实现
 
-### 设计模式
+#### 设计模式
 PlayerManager、EventManager、RPCManager
  - 工厂模式
  - 单例模式
     - 播放器实例（PlayerManager）：构造函数判断是否存在实例，若是则返回player
- - 观察者模式
  - 发布订阅模式
     - 事件管理实例（EventManager）：绑定（on）、触发（emit）、解绑（off）事件
+ - 观察者模式
  - 代理模式
 
-### AudioContext
-调研AudioContext
+### 多平台H5、RN拆包
+通过 lerna 进行集中管理 packages，进行拆包。
+
+**好处：**
+ - 统一管理各个子包（更新版本、发版）
+ - 本地开发，建立软链
+
+#### 软链失效
+若 `-core` 被 `-h5` 引用，但发现 `-5` 内的 `-core` 并非本地的。需检查 `-core` 的版本 是否和 `-h5` 内 `package-lock.json` 版本对上
+
+#### 软链建立后，Module找不到
+检查 `webpack.alias` 是否引用到，若是，需安装对应的包。
+> 这种情况下，报错显示的是alias，需注意映射

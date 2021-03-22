@@ -48,6 +48,8 @@
  - 6、`微任务队列中`的`微任务`全部执行完毕，**本轮事件循环结束**
  - 7、回到第2步，检查`宏任务队列`中是否有未执行的`宏任务`，继续下一轮循环
 
+**总结：** 先执行宏任务，然后执行该宏任务产生的微任务。微任务执行完毕后，回到宏任务进行下一轮循环。
+
 > 注意：`Ajax请求完毕后`触发的回调函数会进入`宏任务队列`
 
 参考链接：[JavaScript的Event Loop机制](https://www.jianshu.com/p/87a9e0068dd8)
@@ -119,6 +121,8 @@ console.log('h')
 
 
 ## Node事件循环
+事件循环是 node 处理非阻塞I/O 的机制。
+
 Node中的事件循环有6个阶段：
  - **timers**：执行 `setTimeout`、`setInterval` 回调
 
@@ -126,7 +130,7 @@ Node中的事件循环有6个阶段：
  
  - **idle、prepare**：内部使用
 
- - **poll**：执行 I/O 回调
+ - **poll**：检索新的I/O事件、 执行 I/O 回调
 
  - **check**：执行 `setImmediate` 回调
 
@@ -134,12 +138,49 @@ Node中的事件循环有6个阶段：
 
 <img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/7721374670/7ac5/762e/6b78/cdcb48bbdc54dc48212fb346c3ceefd1.png" width="300px" />
 
+**事件循环的阶段顺序：**
+
+输入数据 
+
+-> 轮询（poll） 
+
+-> 检查（check） 
+
+-> 关闭事件回调（close callback） 
+
+-> 定时器检测（timers） 
+
+-> I/O事件回调（I/O callbacks） 
+
+-> 闲置阶段（idle prepare） 
+
+-> 轮询（poll）
+
+日常开发中绝大部分异步任务都是在 poll、check、timers 这 3 个阶段处理。
+
+### poll
+poll是个至关重要的阶段：
+ 1. 是否存在定时器，且时间到了？
+    - 是：timers
+ 2. 是否有回调函数？
+    - 是：拿出队列中的方法依次执行
+ 3. setImmediate回调是否需要执行？
+    - 是：进入check
+ 4. 否，则一直poll。等待回调被加入到队列中，并立即执行回调
+
+<img src="https://ask.qcloudimg.com/http-save/yehe-5471653/8ev9bx6fbh.jpeg?imageView2/2/w/1620" width="500px" />
+
 ### process.nextTick
-独立于 事件循环 之外，有一个自己的队列。
+独立于 事件循环 的 任务队列。
 
 **执行时机**：每个阶段执行完之后、并且 微任务队列 执行前
 
 ### 与 浏览器事件循环 的不同
  - 浏览器端，“微任务” 在 “本轮事件循环结束前” 执行完
- - Node 11 以前，微任务 在 **事件循环的各个阶段之间** 执行
- - Node 11 及以后，与 浏览器端 一致。
+ - Node 11 之前，`nextTick`、`微任务` 在 **事件循环的各个阶段之间** 执行
+ - Node 11 之后，`nextTick` 是 `微任务` 的一种。都是在每个宏任务执行完后，会执行该宏任务对应的微任务（与 “浏览器事件循环” 类似）
+
+<img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/8021909839/77ba/5dd7/f4f0/0d5b79e87a732461e44aa23e547972df.png" width="400px" />
+
+## 参考
+- [node EventLoop](https://cloud.tencent.com/developer/article/1601176)

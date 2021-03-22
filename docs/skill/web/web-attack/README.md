@@ -39,12 +39,13 @@
 `httpOnly`：防止浏览器通过 `document.cookie` 读取 cookie。
 
 #### 资源加载
+- `Content-Security-Policy`。
+    > 让网站管理者去声明：**在指定页面中，浏览器能够加载哪些资源**。
+
 - `Content-Type: application/json; charset=utf-8`
     > 1、避免输出内容被HTML解析
     > 
     > 2、不使用：Content-Type: text/html; charset=utf-8
-- `Content-Security-Policy`。
-    > 让网站管理者去声明：**在指定页面中，浏览器能够加载哪些资源**。
 
 ### 常用转义规则
 以 “&” 开头，以 “;” 结尾

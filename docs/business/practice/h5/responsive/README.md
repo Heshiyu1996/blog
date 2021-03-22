@@ -12,8 +12,6 @@
  - media-feature-rule：查询规则
 
 ## 百分比
-也叫**流式布局**。
-
  - `width`: 相对于父容器width内容宽的百分比；
  - `height`: 相对于父容器height内容宽的百分比
  - `padding、margin`: 相对于父容器width内容宽的百分比（任意方向）

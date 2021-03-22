@@ -55,8 +55,8 @@ node渲染完后，给浏览器下发HTML字符串（**不包括事件绑定**�
 
 所以对于 “事件逻辑” 的处理，需要注意：
  1. 尽量放到 `componentDidMount` 触发
-    - node层的生命周期只走到 `componentWillMount`
-    - 客户端有完整生命周期，所以可以在 `componentDidMount` 处理
+    - **node层的生命周期只走到 `componentWillMount`**
+    - **客户端有完整生命周期**，所以可以在 `componentDidMount` 处理
  2. 保持 DOM 结构一致
     - 否则会报错 或 重新渲染
 

@@ -44,7 +44,7 @@
 
 
 ### 首屏性能优化
-> [detail](/skill/web/optimize/#首屏性能优化)
+> [detail](/business/practice/h5/optimize)
 
 ### 性能验证
 优化后，需要 关注整体指标的新表现 ，以 **验证本次优化是否有效** 。
