@@ -1543,3 +1543,23 @@ searchArr(['a', ['b', ['c']]], []);
 
 ### 参考
  - [尾调用优化](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)
+
+
+## stopPropagation
+```html
+ <a id="entry-settle" class="creator-company" href="https://music.163.com/musician/company" target="_blank">
+    <span id="mcnDetail" class="mcn-detail">
+        查看详情
+    </span>
+</a>
+```
+
+```js
+document.getElementById('mcnDetail').addEventListener("click", function(e) {
+    // 通过 阻止冒泡 无法阻止 外层a标签 的跳转
+    // 原因：a标签是通过href跳转，不是事件层面
+    // 解决：针对 a标签也通过 监听click 进行跳转，才可以实现阻止冒泡泡
+    e.stopPropagation();
+    window.open('https://music.163.com/m/at/604721b6e9c3acc4f5eb4a9f')
+});
+```
