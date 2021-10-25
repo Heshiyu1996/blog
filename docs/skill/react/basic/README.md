@@ -239,6 +239,15 @@ createElement({
  3. `render` 内绑定（不推荐）
 
 
+## extends
+React 可以通过 `extends` 来继承另一个 class组件。
+
+**特点：同名方法（包括生命周期）会被覆盖，不冲突的保留**
+
+另外，在子组件调用父组件方法时，不用关心子组件的**this指向**。
+
+> [Demo](https://jsbin.com/xixewox/edit?html,js,console,output)
+
 ## 参考链接
  - [React基础12 React中的this绑定](https://duola8789.github.io/2019/05/12/01%20%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/03%20React/React01%20%E5%9F%BA%E7%A1%80/React%E5%9F%BA%E7%A1%8012%20React%E4%B8%AD%E7%9A%84this%E7%BB%91%E5%AE%9A/)
  

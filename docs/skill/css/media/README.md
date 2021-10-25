@@ -95,7 +95,29 @@ screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-
 ```
 
 #### 各型号iphone参数对比：
-![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045058944/f607/2f6a/43d1/d8858781428430c46145d481b509840f.png)
+<!-- ![alt](https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/5045058944/f607/2f6a/43d1/d8858781428430c46145d481b509840f.png) -->
+
+**16：9**
+| 手机型号 | 屏幕尺寸 | 屏幕密度 | 开发尺寸 | 像素尺寸 | DPR |
+|--|--|--|--|--|--|
+| 4/4s | 3.5 英寸 | 326ppi | 320*480pt | 640*960px | @2x |
+| 5/5s/5c | 4 英寸 | 326ppi | 320*480pt | 640*1136px | @2x |
+| 6/6s/7/8 | 4.7 英寸 | 326ppi | 375*667pt | 750*1334px | @2x |
+| 6p/6sp/7p/8p | 5.5 英寸 | 401ppi | 414*736pt | 1242*2208px | @3x |
+
+**19.5 ：9**
+| 手机型号 | 屏幕尺寸 | 屏幕密度 | 开发尺寸 | 像素尺寸 | DPR |
+|--|--|--|--|--|--|
+| X | 5.8 英寸 | 458ppi | 375*812pt | 1125*2436px | @3x |
+| XS | 5.8 英寸 | 458ppi | 375*812pt | 1125*2436px | @3x |
+| XS Max | 6.5 英寸 | 458ppi | 414*896pt | 1242*2688px | @3x |
+| XR | 6.1 英寸 | 326ppi | 414*896pt | 828*1792px | @2x |
+| 11 | 6.1 英寸 | 326ppi | 414*896pt | 828*1792px | @2x |
+| 11Pro | 5.8 英寸 | 458ppi | 375*812pt | 1125*2436px | @3x |
+| 11Pro Max | 6.5 英寸 | 458ppi | 414*896pt | 1242*2688px | @3x |
+| 12 / 12pro / 13 / 13pro | 6.1 英寸 | 460ppi | 390*844pt | 1170*2532px | @3x |
+| 12mini / 13mini | 5.4 英寸 | 476ppi | 375*812pt | 1080*2340px | @3x |
+| 12Pro Max/13Pro Max | 6.7 英寸 | 458ppi | 428*926pt | 1284*2778px | @3x |
 
 ### Android
 ```css
@@ -168,3 +190,4 @@ iOS：
 
 ## 参考资料
  - [name="viewport" width="device-width" 到底都是啥](https://blog.csdn.net/lamanchas/article/details/78473249)
+ 

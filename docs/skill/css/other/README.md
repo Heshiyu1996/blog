@@ -464,3 +464,45 @@ button::before {} /* 在头部创建一个伪元素 */
     }
 }
 ```
+
+## image-rendering
+`image-rendering` 可以指定图像的缩放算法。
+
+**默认情况下，浏览器会采用标准的平滑缩放（通常是双线性插值`bi-linear interpolation`）。**
+
+
+> 例如，有一张 `100x100px` 的图片。如果开发者设置成 `200x200px`（或`50x50px`）。那么图片就会根据`image-rendering`指定的算法，进行缩小/放大到新尺寸。（没有缩放的图像不影响）
+
+### 属性值
+以下属性都可以禁止浏览器图像的平滑缩放。
+
+```css
+img { 
+	image-rendering: optimizeSpeed;             /* Firefox老版                     */
+ 	image-rendering: -moz-crisp-edges;          /* Firefox 6.0+                   */
+ 	image-rendering: -o-crisp-edges;            /* Opera                          */
+ 	image-rendering: -webkit-optimize-contrast; /* Webkit：Safari、Chrome          */
+ 	image-rendering: pixelated;                 /* Chrome as of 2019              */
+ 	image-rendering: optimize-contrast;         /* CSS3 提案                       */
+ 	-ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+}
+```
+
+### 适用于
+#### 元素
+- `<img>`
+- `<canvas>`
+- 拥有`background-image`属性的DOM
+
+#### 使用情况
+- 开发`canvas`时里，可能会实时缩放尺寸（需要保持canvas全屏时）
+- 二维码（需要全屏时）
+  - <img src="https://gw.alipayobjects.com/mdn/rms_67e4cb/afts/img/A*tGFaT7Q2sUAAAAAAAAAAAAAAARQnAQ" width="500px" />
+
+如果只是单纯展示一张静态图片，可能不需要设置该属性。
+
+
+### 参考链接
+- [image-rendering: pixelated](https://developers.google.com/web/updates/2015/01/pixelated)
+- [iamge-rendering](https://css-tricks.com/almanac/properties/i/image-rendering/)
+- [How to Disable Image Smoothing in Modern Web Browsers](https://nullsleep.tumblr.com/post/16417178705/how-to-disable-image-smoothing-in-modern-web)
