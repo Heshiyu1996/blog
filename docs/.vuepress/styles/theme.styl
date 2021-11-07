@@ -191,24 +191,69 @@ hr
 .home
   .hero
     img
-      height: 400px
+      height: 300px
       max-height none !important
+      margin-right: 120px !important
+      margin-top: 130px !important
+      margin-bottom: 100px !important
+      -moz-animation: myscale 10s infinite linear; /* Firefox */
+      -webkit-animation: myscale 10s infinite linear; /* Safari and Chrome */
+      -o-animation: myscale 10s infinite linear;
+      animation: myscale 10s infinite linear;
+  .hero::before {
+        content: " "
+        display: inline-block
+        position: absolute
+        top: 120px;
+        left: 32%;
+        width: 110px
+        height: 100px
+        background-image: url('/sun-light.png')
+        background-size: auto 100%;
+        -moz-animation: myopacity 5s infinite linear; /* Firefox */
+        -webkit-animation: myopacity 5s infinite linear; /* Safari and Chrome */
+        -o-animation: myopacity 5s infinite linear;
+        animation: myopacity 5s infinite linear;
+    }
   .hero::after {
         content: " "
         display: inline-block
         position: absolute
         top: 360px;
-        left: 20%;
+        left: 26%;
         width: 120px
         height: 150px
         background-image: url('/float-triangle.png')
         background-size: auto 100%;
-        -moz-animation: mymove 5s infinite linear; /* Firefox */
-        -webkit-animation: mymove 5s infinite linear; /* Safari and Chrome */
-        -o-animation: mymove 5s infinite linear;
-        animation: mymove 5s infinite linear;
+        -moz-animation: mymove 10s infinite linear; /* Firefox */
+        -webkit-animation: mymove 10s infinite linear; /* Safari and Chrome */
+        -o-animation: mymove 10s infinite linear;
+        animation: mymove 10s infinite linear;
     }
 
+@media (max-width: 719px)
+  .home
+    .hero
+      img
+        height: 8rem !important
+        margin-right: 20px !important
+        margin-top: 60px !important
+        margin-bottom: 30px !important
+    .hero::before {
+        top: 100px;
+        left: 20%;
+        width: 50px
+        height: 50px
+    }
+    .hero::after {
+        content: " "
+        display: inline-block
+        top: 12rem;
+        left: 2rem;
+        width: 3rem
+        height: 4rem
+    }
+    
 // 提示块:::tip:::
 .custom-block.warning
   color #d7b925
@@ -221,29 +266,6 @@ hr
 tr:nth-child(2n)
   background-color #383838
 
-
-@media (max-width: $MQMobile)
-  .home
-    .hero
-      img
-        height: 12rem
-        max-height none !important
-    .hero::after {
-        content: " "
-        display: inline-block
-        position: absolute
-        top: 14rem;
-        left: 6rem;
-        width: 3rem
-        height: 4rem
-        background-image: url('/float-triangle.png')
-        background-size: auto 100%;
-        -moz-animation: mymove 5s infinite linear; /* Firefox */
-        -webkit-animation: mymove 5s infinite linear; /* Safari and Chrome */
-        -o-animation: mymove 5s infinite linear;
-        animation: mymove 5s infinite linear;
-    }
-
 @keyframes mymove {
     0% {
         transform: translateY(-50%) rotate(5deg);
@@ -254,7 +276,7 @@ tr:nth-child(2n)
     }
 
     50% {
-        transform: translateY(23%) rotate(5deg);
+        transform: translateY(23%) rotate(15deg);
     }
 
     75% {
@@ -263,5 +285,57 @@ tr:nth-child(2n)
 
     100% {
         transform: translateY(-50%)  rotate(5deg);
+    }
+}
+
+@keyframes myopacity {
+    0% {
+        transform: rotate(5deg);
+        opacity: 1;
+    }
+
+    25% {
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: rotate(-5deg);
+        opacity: 0.3;
+    }
+
+    75% {
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: rotate(5deg);
+        opacity: 1;
+    }
+}
+
+@keyframes myscale {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(0.6);
+        opacity: 0.8;
+    }
+
+    75% {
+        transform: scale(0.8);
+        opacity: 0.3
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1
     }
 }
