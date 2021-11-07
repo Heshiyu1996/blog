@@ -1,11 +1,11 @@
 ---
-title: 知识总览
+title: 总览
 sidebarDepth: 2
 pageClass: p-overview-page
 ---
 
 
-::: tip ✨最近更新✨
+::: tip ✨ 最近更新
 
 #### 2021-03
  - [AudioContext](/skill/web/audio-context)
@@ -14,31 +14,22 @@ pageClass: p-overview-page
  - [PWA](/skill/web/pwa)
 <Badge text="基础" type="success"/>
  
- - [前端路由](/skill/web/history)
-<Badge text="基础" type="success"/>
- 
  - [JSBridge通信](/skill/web/jsbridge/)
 <Badge text="基础" type="success"/>
  
- - [H5离线包](/skill/web//h5-webcache/)
+ - [H5离线包](/skill/web/h5-webcache/)
 <Badge text="基础" type="success"/>
  
- - [小程序和H5的区别](/skill/web//mini-program/)
+ - [小程序和H5的区别](/skill/web/mini-program/)
 <Badge text="基础" type="success"/>
 
  - [React事件系统](/skill/react/events)
 <Badge text="框架" type="warning"/>
 
- - [Redux](/skill/react/redux)
-<Badge text="框架" type="warning"/>
-
  - [HOC、render prop](/skill/react/react-composition)
 <Badge text="框架" type="warning"/>
 
- - [React SSR](/skill/react/react-ssr)
-<Badge text="框架" type="warning"/>
-
- - [React性能优化](/skill/react/react-optimize)
+ - [React性能优化](/skill/react/optimize)
 <Badge text="框架" type="warning"/>
 
 #### 2021-02
@@ -51,92 +42,93 @@ pageClass: p-overview-page
  - [Nginx](/skill/web/nginx)
 <Badge text="基础" type="success"/>
 
-#### 2020-12
+<!-- #### 2020-12
  - [Web Vitals](/skill/web/web-vitals)
 <Badge text="笔记" type="error"/>
 
  - [像素](/skill/css/px)
-<Badge text="基础" type="success"/>
+<Badge text="基础" type="success"/> -->
 
-#### 2020-08
+<!-- #### 2020-08
  - [ref对象](/skill/react/basic/#ref对象)
-<Badge text="框架" type="warning"/>
+<Badge text="框架" type="warning"/> -->
 
-#### 2020-05
+<!-- #### 2020-05
  - [webpack4知识整理](/skill/project/webpack/)
-<Badge text="笔记" type="error"/>
+<Badge text="笔记" type="error"/> -->
 
-#### 2020-04
+<!-- #### 2020-04
  - [Web性能优化](/skill/web/optimize/)
 <Badge text="基础" type="success"/>
 
  - [Diff、React Diff、Vue Diff](/skill/web/diff/)
-<Badge text="基础" type="success"/>
+<Badge text="基础" type="success"/> -->
+:::
+
 
 #### 👍 前端知识架构
 > update by 2020-05-04
 
 ![alt](./img/FE.png)
-:::
 
 ## HTTP <Badge text="基础" type="success"/>
 ### WebWorker
-[查看](/skill/html/web-worker/)
+[👉 查看](/skill/html/web-worker/)
 ### 其他
-[查看](/skill/html/other/)
+[👉 查看](/skill/html/other/)
 
 
 
 
 ## CSS <Badge text="基础" type="success"/>
 ### CSS布局
-[查看](/skill/css/layout/)
+[👉 查看](/skill/css/layout/)
 ### BFC和浮动
-[查看](/skill/css/bfc/)
+[👉 查看](/skill/css/bfc/)
 ### 弹性盒模型（FlexBox）
-[查看](/skill/css/flex-box/)
+[👉 查看](/skill/css/flex-box/)
 ### Sass和Less的作用、区别
-[查看](/skill/css/sass-less/)
+[👉 查看](/skill/css/sass-less/)
 ### 媒体查询
-[查看](/skill/css/media/)
+[👉 查看](/skill/css/media/)
 ### 像素
-[查看](/skill/css/px/)
+[👉 查看](/skill/css/px/)
 ### 其他
-[查看](/skill/css/other/)
+[👉 查看](/skill/css/other/)
 
 
 
 
 ## JS <Badge text="基础" type="success"/>
 ### JS异步解决方案的发展历程
-[查看](/skill/js/async-plan/)
+[👉 查看](/skill/js/async-plan/)
 
 ### JS设计模式
-[查看](/skill/js/design-patterns/)
+[👉 查看](/skill/js/design-patterns/)
 
 ### Array.prototype.sort
-[查看](/skill/js/sort/)
+[👉 查看](/skill/js/sort/)
 
 ### 常用的DOM操作方法
-[查看](/skill/js/dom/)
+[👉 查看](/skill/js/dom/)
 
 ### 事件循环（EventLoop）
-[查看](/skill/js/event-loop/)
+[👉 查看](/skill/js/event-loop/)
 
 ### CommonJS、ES6模块规范
-[查看](/skill/js/modular/)
+[👉 查看](/skill/js/modular/)
 
 ### JS正则表达式
-[查看](/skill/js/regex/)
+[👉 查看](/skill/js/regex/)
 
 ### Class（类）
-[查看](/skill/js/class/)
+[👉 查看](/skill/js/class/)
 
 ### Typescript
-[查看](/skill/js/typescript/)
+[👉 查看](/skill/js/typescript/)
 
 ### 其他
-[查看](/skill/js/other)
+[👉 查看](/skill/js/other)
 
 
 
@@ -145,48 +137,48 @@ pageClass: p-overview-page
 ## Web <Badge text="基础" type="success"/>
 
 ### HTTP缓存机制
-[查看](/skill/web/http-cache/)
+[👉 查看](/skill/web/http-cache/)
 ### CDN
-[查看](/skill/web/cdn/)
+[👉 查看](/skill/web/cdn/)
 ### 跨域资源共享（CORS）
-[查看](/skill/web/cors/)
+[👉 查看](/skill/web/cors/)
 ### HTTP
-[查看](/skill/web/http/)
+[👉 查看](/skill/web/http/)
 ### Web性能优化
-[查看](/skill/web/optimize/)
+[👉 查看](/skill/web/optimize/)
 ### 浏览器/服务端渲染
-[查看](/skill/web/ssr/)
+[👉 查看](/skill/web/ssr/)
 ### Diff、React Diff、Vue Diff
-[查看](/skill/web/diff/)
+[👉 查看](/skill/web/diff/)
 ### XSS、CSRF、SQL注入
-[查看](/skill/web/web-attack/)
+[👉 查看](/skill/web/web-attack/)
 ### WebStorage
-[查看](/skill/web/web-storage/)
+[👉 查看](/skill/web/web-storage/)
 ### WebSocket
-[查看](/skill/web/websocket/)
+[👉 查看](/skill/web/websocket/)
 ### Nginx
-[查看](/skill/web/nginx/)
+[👉 查看](/skill/web/nginx/)
 ### PWA
-[查看](/skill/web/pwa/)
+[👉 查看](/skill/web/pwa/)
 ### 浏览器基础
-[查看](/skill/web/browser/)
+[👉 查看](/skill/web/browser/)
 ### 前端路由
-[查看](/skill/web/history/)
+[👉 查看](/skill/web/history/)
 ### AudioContext
-[查看](/skill/web/audio-context/)
+[👉 查看](/skill/web/audio-context/)
 ### 其他
-[查看](/skill/web/other)
+[👉 查看](/skill/web/other)
 
 
 
 ## Hybrid <Badge text="基础" type="success"/>
 ### JSBridge通信
-[查看](/skill/web/jsbridge/)
+[👉 查看](/skill/web/jsbridge/)
 
 ### H5离线包
-[查看](/skill/web//h5-webcache/)
+[👉 查看](/skill/web//h5-webcache/)
 ### 小程序和H5的区别
-[查看](/skill/web//mini-program/)
+[👉 查看](/skill/web//mini-program/)
 
 
 
@@ -194,23 +186,23 @@ pageClass: p-overview-page
 
 ## 计算机 <Badge text="基础" type="normal"/>
 ### 进程、线程
-[查看](/skill/computeracy/process/)
+[👉 查看](/skill/computeracy/process/)
 ### 单处理器进程的调度策略
-[查看](/skill/computeracy/scheduling-strategy/)
+[👉 查看](/skill/computeracy/scheduling-strategy/)
 
 
 
 ## 算法（基础） <Badge text="基础" type="normal"/>
-### [基本思想](/skill/algorithm/basic/)
-[查看](/skill/algorithm/basic/)
+### 基本思想
+[👉 查看](/skill/algorithm/basic/)
 ### 八大排序
-[查看](/skill/algorithm/sort/)
+[👉 查看](/skill/algorithm/sort/)
 ### 二分查找
-[查看](/skill/algorithm/search/)
+[👉 查看](/skill/algorithm/search/)
 ### 动态规划
-[查看](/skill/algorithm/dp/)
+[👉 查看](/skill/algorithm/dp/)
 ### 时间复杂度
-[查看](/skill/algorithm/time-complexity/)
+[👉 查看](/skill/algorithm/time-complexity/)
 
 
 
@@ -219,48 +211,48 @@ pageClass: p-overview-page
 
 ## 算法（进阶） <Badge text="基础" type="normal"/>
 ### 实现compose函数
-[查看](/skill/algorithm/compose/)
+[👉 查看](/skill/algorithm/compose/)
 ### 实现request
-[查看](/skill/algorithm/request/)
+[👉 查看](/skill/algorithm/request/)
 ### leetcode错题集
-[查看](/skill/algorithm/leetcode/)
+[👉 查看](/skill/algorithm/leetcode/)
 
 
 
 
 ## React <Badge text="框架" type="warning"/>
 ### React基础知识
-[查看](/skill/react/basic/)
+[👉 查看](/skill/react/basic/)
 ### React16基础知识
-[查看](/skill/react/feature-v16/)
+[👉 查看](/skill/react/feature-v16/)
 ### ref对象
-[查看](/skill/react/ref/)
+[👉 查看](/skill/react/ref/)
 ### React事件系统
-[查看](/skill/react/events/)
+[👉 查看](/skill/react/events/)
 ### 组件间通信
-[查看](/skill/react/context/)
+[👉 查看](/skill/react/context/)
 ### 生命周期
-[查看](/skill/react/life-cycle/)
+[👉 查看](/skill/react/life-cycle/)
 ### setState
-[查看](/skill/react/set-state/)
+[👉 查看](/skill/react/set-state/)
 ### Hooks的使用
-[查看](/skill/react/hooks-usage/)
+[👉 查看](/skill/react/hooks-usage/)
 ### Redux
-[查看](/skill/react/redux/)
+[👉 查看](/skill/react/redux/)
 ### HOC、render prop
-[查看](/skill/react/redux/)
+[👉 查看](/skill/react/redux/)
 ### React SSR
-[查看](/skill/react/redux/)
+[👉 查看](/skill/react/redux/)
 ### React性能优化
-[查看](/skill/react/optimize/)
+[👉 查看](/skill/react/optimize/)
 ### React常见的易错用法
-[查看](/skill/react/error-usage)
+[👉 查看](/skill/react/error-usage)
 ### setState
-[查看](/skill/react/set-state/)
+[👉 查看](/skill/react/set-state/)
 ### React Fiber
-[查看](/skill/react/fiber/)
+[👉 查看](/skill/react/fiber/)
 ### Hooks的管理机制
-[查看](/skill/react/hooks/)
+[👉 查看](/skill/react/hooks/)
 
 
 
@@ -268,27 +260,27 @@ pageClass: p-overview-page
 
 ## Vue <Badge text="框架" type="warning"/>
 ### Vue基础知识
-[查看](/skill/vue/basic/)
+[👉 查看](/skill/vue/basic/)
 ### 生命周期
-[查看](/skill/vue/life-cycle/)
+[👉 查看](/skill/vue/life-cycle/)
 ### Vue3.0新特性
-[查看](/skill/vue/feature-v3//)
+[👉 查看](/skill/vue/feature-v3//)
 ### KeepAlive
-[查看](/skill/vue/keep-alive/)
+[👉 查看](/skill/vue/keep-alive/)
 ### Vue性能优化
-[查看](/skill/vue/optimize/)
+[👉 查看](/skill/vue/optimize/)
 ### Vue常见的易错用法
-[查看](/skill/vue/question/)
+[👉 查看](/skill/vue/question/)
 ### [vue源码] 基本知识
-[查看](/skill/vue/build/)
+[👉 查看](/skill/vue/build/)
 ### [vue源码] 数据驱动（Data Driven）
-[查看](/skill/vue/data-driven/)
+[👉 查看](/skill/vue/data-driven/)
 ### [vue源码] 组件化（Component）
-[查看](/skill/vue/vue-router/)
+[👉 查看](/skill/vue/vue-router/)
 ### Vue Router实现思路
-[查看](/skill/vue/vue-router/)
+[👉 查看](/skill/vue/vue-router/)
 ### [组件库] 组件开发思路
-[查看](/skill/vue/component-lib/)
+[👉 查看](/skill/vue/component-lib/)
 
 
 
@@ -296,38 +288,38 @@ pageClass: p-overview-page
 
 ## NodeJS <Badge text="基础" type="success"/>
 ### NodeJS中的多进程、集群
-[查看](/skill/nodejs/multi-process/)
+[👉 查看](/skill/nodejs/multi-process/)
 ### koa2
-[查看](/skill/nodejs/koa/)
+[👉 查看](/skill/nodejs/koa/)
 ### Node-MySQL
-[查看](/skill/nodejs/node-mysql/)
+[👉 查看](/skill/nodejs/node-mysql/)
 ### 其他
-[查看](/skill/nodejs/other)
+[👉 查看](/skill/nodejs/other)
 
 
 
 ## H5 <Badge text="笔记" type="error"/>
 ### 移动端响应式布局方案
-[查看](/business/practice/h5/responsive/)
+[👉 查看](/business/practice/h5/responsive/)
 ### 1px问题
-[查看](/business/practice/h5/1px/)
+[👉 查看](/business/practice/h5/1px/)
 ### flexible.js
-[查看](/business/practice/h5/flexible/)
+[👉 查看](/business/practice/h5/flexible/)
 ### 动画
-[查看](/business/practice/h5/animation/)
+[👉 查看](/business/practice/h5/animation/)
 ### hybrid应用
-[查看](/business/practice/h5/hybrid/)
+[👉 查看](/business/practice/h5/hybrid/)
 ### 移动端首屏性能优化
-[查看](/business/practice/h5/optimize/)
+[👉 查看](/business/practice/h5/optimize/)
 ### 其它
-[查看](/business/practice/h5/)
+[👉 查看](/business/practice/h5/)
 
 
 
 
 ## PC <Badge text="笔记" type="error"/>
 ### PC兼容性方案
-[查看](/business/practice/pc/)
+[👉 查看](/business/practice/pc/)
 
 
 
@@ -335,11 +327,11 @@ pageClass: p-overview-page
 
 ## RN <Badge text="笔记" type="error"/>
 ### RN
-[查看](/business/practice/rn/)
+[👉 查看](/business/practice/rn/)
 ## RN <Badge text="笔记" type="error"/>
 
 ### 其它
-[查看](/business/practice/other/)
+[👉 查看](/business/practice/other/)
 
 
 
@@ -347,23 +339,23 @@ pageClass: p-overview-page
 
 ## 工程工具 <Badge text="笔记" type="error"/>
 <!-- ### SourceMap
-[查看](/skill/project/source-map/) -->
+[👉 查看](/skill/project/source-map/) -->
 ### webpack
-[查看](/business/tool/webpack/)
+[👉 查看](/business/tool/webpack/)
 ### Babel
-[查看](/business/tool/babel/)
+[👉 查看](/business/tool/babel/)
 ### NPM
-[查看](/business/tool/npm/)
+[👉 查看](/business/tool/npm/)
 ### 小程序
-[查看](/business/tool/mp/)
+[👉 查看](/business/tool/mp/)
 ### Lerna
-[查看](/business/tool/lerna/)
+[👉 查看](/business/tool/lerna/)
 ### Git
-[查看](/business/tool/git/)
+[👉 查看](/business/tool/git/)
 ### Chrome Extension
-[查看](/business/tool/chrome-extension/)
+[👉 查看](/business/tool/chrome-extension/)
 ### Rollup
-[查看](/business/tool/roll-up/)
+[👉 查看](/business/tool/roll-up/)
 
 
 
@@ -372,20 +364,20 @@ pageClass: p-overview-page
 
 ## 前端规范 <Badge text="笔记" type="error"/>
 ### CSS规范
-[查看](/other/output/standard/css/)
+[👉 查看](/other/output/standard/css/)
 ### JS规范
-[查看](/other/output/standard/js/)
+[👉 查看](/other/output/standard/js/)
 ### ESLint & Prettier规范
-[查看](/other/output/standard/eslint/)
+[👉 查看](/other/output/standard/eslint/)
 ### Stylelint规范
-[查看](/other/output/standard/stylelint/)
+[👉 查看](/other/output/standard/stylelint/)
 ### Git规范
-[查看](/other/output/standard/git/)
+[👉 查看](/other/output/standard/git/)
 
 
 ## 前端工程模板 <Badge text="笔记" type="error"/>
 ### React前端工程脚手架
-[查看](/other/output/fruit/template/)
+[👉 查看](/other/output/fruit/template/)
 
 
 
@@ -393,27 +385,27 @@ pageClass: p-overview-page
 
 ## 读书/参会心得 <Badge text="笔记" type="error"/>
 ### webpack5笔记
-[查看](/other/feeling/webpack5)
+[👉 查看](/other/feeling/webpack5)
 ### 使用Hooks而不是Class的6个理由
-[查看](/other/feeling/hooks-vs-class/)
+[👉 查看](/other/feeling/hooks-vs-class/)
 ### Vue Composition API RFC
-[查看](/skill/note/vue-composition-api-rfc/)
+[👉 查看](/skill/note/vue-composition-api-rfc/)
 ### Complete intro react
-[查看](/skill/note/complete-intro-react/)
+[👉 查看](/skill/note/complete-intro-react/)
 ### 《Webpack实战》 - 居玉浩
-[查看](/skill/note/webpack-experience/)
+[👉 查看](/skill/note/webpack-experience/)
 ### 《深入React技术栈》 - 陈屹
-[查看](/skill/note/react-deep-learning/)
+[👉 查看](/skill/note/react-deep-learning/)
 ### 优秀文章链接
-[查看](/skill/note/links)
+[👉 查看](/skill/note/links)
 
 ### D2-2019
-[查看](/skill/note/d2-2019)
+[👉 查看](/skill/note/d2-2019)
 ### vue-conf-2018
-[查看](/skill/note/vue-conf-2018)
+[👉 查看](/skill/note/vue-conf-2018)
 
 
 
 ## 面经梳理 <Badge text="笔记" type="error"/>
 ### 梳理
-[查看](/other/review/)
+[👉 查看](/other/review/)
