@@ -8,10 +8,10 @@ pageClass: p-overview-page
 ::: tip ✨ 最近更新
 
 #### 2021-03
- - [AudioContext](/skill/web/audio-context)
+ - [AudioContext](/skill/web/audio-context/)
 <Badge text="基础" type="success"/>
 
- - [PWA](/skill/web/pwa)
+ - [PWA](/skill/web/pwa/)
 <Badge text="基础" type="success"/>
  
  - [JSBridge通信](/skill/web/jsbridge/)
@@ -23,23 +23,23 @@ pageClass: p-overview-page
  - [小程序和H5的区别](/skill/web/mini-program/)
 <Badge text="基础" type="success"/>
 
- - [React事件系统](/skill/react/events)
+ - [React事件系统](/skill/react/events/)
 <Badge text="框架" type="warning"/>
 
- - [HOC、render prop](/skill/react/react-composition)
+ - [HOC、render prop](/skill/react/react-composition/)
 <Badge text="框架" type="warning"/>
 
- - [React性能优化](/skill/react/optimize)
+ - [React性能优化](/skill/react/optimize/)
 <Badge text="框架" type="warning"/>
 
 #### 2021-02
- - [媒体查询](/skill/css/media)
+ - [媒体查询](/skill/css/media/)
 <Badge text="基础" type="success"/>
  
- - [Array.prototype.sort](/skill/js/sort)
+ - [Array.prototype.sort](/skill/js/sort/)
 <Badge text="基础" type="success"/>
 
- - [Nginx](/skill/web/nginx)
+ - [Nginx](/skill/web/nginx/)
 <Badge text="基础" type="success"/>
 
 <!-- #### 2020-12
@@ -389,20 +389,20 @@ pageClass: p-overview-page
 ### 使用Hooks而不是Class的6个理由
 [👉 查看](/other/feeling/hooks-vs-class/)
 ### Vue Composition API RFC
-[👉 查看](/skill/note/vue-composition-api-rfc/)
+[👉 查看](/other/feeling/vue-composition-api-rfc/)
 ### Complete intro react
-[👉 查看](/skill/note/complete-intro-react/)
+[👉 查看](/other/feeling/complete-intro-react/)
 ### 《Webpack实战》 - 居玉浩
-[👉 查看](/skill/note/webpack-experience/)
+[👉 查看](/other/feeling/webpack-experience/)
 ### 《深入React技术栈》 - 陈屹
-[👉 查看](/skill/note/react-deep-learning/)
+[👉 查看](/other/feeling/react-deep-learning/)
 ### 优秀文章链接
-[👉 查看](/skill/note/links)
+[👉 查看](/other/feeling/links/)
 
 ### D2-2019
-[👉 查看](/skill/note/d2-2019)
+[👉 查看](/other/feeling/d2-2019/)
 ### vue-conf-2018
-[👉 查看](/skill/note/vue-conf-2018)
+[👉 查看](/other/feeling/vue-conf-2018/)
 
 
 
