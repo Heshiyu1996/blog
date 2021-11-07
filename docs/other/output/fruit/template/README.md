@@ -162,7 +162,7 @@ yarn start:cache
 
 
 ## 链接
- - [单页项目（react16.9 + webpack4](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js')
- - [单页项目（react16.9 + webpack4 + Typescript](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts')
- - [多页项目（react16.9 + webpack4](https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js')
+ - [单页项目（react16.9 + webpack4）](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/js')
+ - [单页项目（react16.9 + webpack4 + Typescript）](https://github.com/netease-frontend-institute/ehr-react-template/tree/single/ts')
+ - [多页项目（react16.9 + webpack4）](https://github.com/netease-frontend-institute/ehr-react-template/tree/multiple/js')
  - [搭建踩坑笔记](./react-project-note)

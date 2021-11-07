@@ -48,7 +48,7 @@ const nav = [
             { 
                 text: '产出',
                 items: [
-                    { text:'前端规范', link: '/other/output/standard/' },
+                    { text:'前端规范', link: '/other/output/standard/js/' },
                     { text:'前端工程模板（React）', link: '/other/output/fruit/template/' },
                     // { text:'基于Antd的业务组件库', link: '/other/fruit/component-lib/' },
                 ] 
@@ -359,8 +359,8 @@ const sidebar = {
             title: '《前端规范》',
             collapsable: false,
             children: [
-                'output/standard/css/',
                 'output/standard/js/',
+                'output/standard/css/',
                 'output/standard/eslint/',
                 'output/standard/stylelint/',
                 'output/standard/git/',
@@ -446,7 +446,7 @@ const sidebar = {
 }
 
 module.exports = {
-    title: ' ',
+    title: 'Heshiyu\'s Blog',
     description: ' ',
     head, // 注入到当前页面的 HTML <head> 中的标签
 

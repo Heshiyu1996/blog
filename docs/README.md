@@ -6,10 +6,10 @@ actionText: Start
 actionLink: /overview/
 features:
 - title: 前端积累
-  details: JS、React、Web等学习/实践笔记。
-- title: 工程产出
-  details: 工程规范、模板、组件库。
-- title: 实用工具
-  details: 提升平日工作效率的工具。
-footer: MIT Licensed | Copyright © 2020-present heshiyu
+  details: JS、Web、React...
+- title: 实践
+  details: H5、PC、RN...
+- title: 工具
+  details: 日常提效...
+footer: MIT Licensed | Copyright © 2021-present heshiyu
 ---
