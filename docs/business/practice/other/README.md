@@ -251,18 +251,6 @@ onInput = (ev) => {
     }
 }
 ```
-
-## git rebase
-场景：当 `dev分支` 开发过程中，`master`也发生了其他commit。需要把这些同步到到 `dev` 上
-
-操作：
- - 切换到`dev分支`
- - 右键`master` - “将当前变更变基到 master”
- - 逐步变基，解决冲突
- - `dev分支`上即可获得最新的`master`
-
-![alt](./img/img-2.png)
-
  
 ## 在vue-cli中引入Prettier
 [查看](./prettier-vue-cli)

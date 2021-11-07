@@ -1,5 +1,5 @@
 
-# Animation动画
+# 动画
 [[toc]]
 
 ## APNG和WEBP

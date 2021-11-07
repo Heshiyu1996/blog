@@ -21,7 +21,7 @@ const nav = [
             {
                 text: '其它', items: [
                     { text: '计算机', link: '/skill/computeracy/' },
-                    { text: '编程', link: '/skill/algorithm/' }
+                    { text: '算法', link: '/skill/algorithm/' }
                 ]
             },
         ]
@@ -179,7 +179,7 @@ const sidebar = {
             collapsable: false
         },
         {
-            title: '基础部分',
+            title: '基础',
             collapsable: false,
             children: [
                 'react/basic/',
@@ -197,7 +197,7 @@ const sidebar = {
             ]
         },
         {
-            title: '源码部分',
+            title: '源码解读',
             collapsable: false,
             children: [
                 'react/set-state/',
@@ -214,20 +214,20 @@ const sidebar = {
             collapsable: false
         },
         {
-            title: '基础部分',
+            title: '基础',
             collapsable: false,
             children: [
                 'vue/basic/',
                 'vue/life-cycle/',
                 'vue/feature-v3/',
-                'vue/question/',
                 'vue/keep-alive/',
-                'vue/component-lib/',
                 'vue/optimize/',
+                'vue/question/',
+                'vue/component-lib/',
             ]
         },
         {
-            title: '源码部分',
+            title: '源码解读',
             collapsable: false,
             children: [
                 'vue/build/',
@@ -250,20 +250,26 @@ const sidebar = {
         }
     ],
 
-    // 基础-编程
+    // 基础-算法
     '/skill/algorithm': [
         {
-            title: '《编程》',
+            title: '基础',
             collapsable: false,
             children: [
-                // 'algorithm/basic/',
+                'algorithm/basic/',
                 'algorithm/sort/',
+                'algorithm/search/',
+                'algorithm/dp/',
+                'algorithm/time-complexity/',
+            ]
+        },
+        {
+            title: '进阶',
+            collapsable: false,
+            children: [
                 'algorithm/compose/',
                 'algorithm/request/',
-                // 'algorithm/search/',
-                // 'algorithm/dp/',
                 'algorithm/leetcode/',
-                // 'algorithm/time-complexity/',
             ]
         }
     ],
