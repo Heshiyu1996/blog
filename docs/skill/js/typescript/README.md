@@ -152,3 +152,25 @@ let foo = identity<string>('TS');
 // 由于 TS 会自动推断类型，可省略类型传参
 let bar = identity('TS');
 ```
+
+## propTypes和TS的区别
+- 都是可以用来**进行类型检查**
+- 对于propTypes，通过`defaultProps` 来定义默认值
+
+`propTypes` 通过 `defaultProps` 定义默认值。
+```js
+import PropTypes from 'prop-types';
+
+// 将属性声明为 JS 原生类型
+MyComponent.propTypes = {
+  name: PropTypes.string,
+  visible: PropTypes.bool,
+  // ...
+}
+
+// 指定 props 的默认值：
+MyComponent.defaultProps = {
+  name: 'Heshiyu',
+  visible: true,
+};
+```

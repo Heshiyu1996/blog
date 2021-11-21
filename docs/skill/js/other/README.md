@@ -1563,3 +1563,19 @@ document.getElementById('mcnDetail').addEventListener("click", function(e) {
     window.open('https://music.163.com/m/at/604721b6e9c3acc4f5eb4a9f')
 });
 ```
+
+## for vs forEach vs map
+### 本质
+- for：js刚提出时就有的循环方法
+- forEach：ES5提出的、挂载在 **可迭代对象原型** 上的方法（如：Array、Set、Map、String）
+
+### 功能性
+- for：可以使用`break`、`continue`、`return`
+- forEach：
+
+### 性能
+for > forEach > map
+- 声明callback：forEach、map
+- 生成新的数组：map
+
+> 参考：https://juejin.cn/post/7018097650687803422#comment

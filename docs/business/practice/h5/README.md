@@ -236,7 +236,14 @@ div {
  - 方案2：父容器声明为Flex容器，并`align-items: center`
 
 
+## iOS唤起数字键盘
+```html
+<input pattern="[0-9]*">
+```
+> 另外，iOS会出现两次减号，会默认合并成一个字符。可改成数字键盘
+
 ## 参考
  - [使用Flexible实现手淘H5页面的终端适配](https://github.com/amfe/article/issues/17)
  - [深入理解 CSS：字体度量、line-height 和 vertical-align](https://zhuanlan.zhihu.com/p/25808995)
+
 
